@@ -11,7 +11,7 @@ def index(request, id=None):
     if request.method == 'GET':
         if id is None:
             # get all
-            name_all_list = list([1,2,3,4,5])
+            name_all_list = list(Name.objects.all().values())
             return JsonResponse(name_all_list, safe=False)
         else:
             try:

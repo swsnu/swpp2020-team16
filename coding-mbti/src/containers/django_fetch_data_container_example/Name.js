@@ -12,7 +12,7 @@ class Name extends Component {
   }
 
   render() {
-    const names = this.props.names.map((name, index) =>  <div key={index}>{name}</div>)
+    const names = this.props.names.map((name, index) =>  <div key={index}>{name.name}</div>)
   return (<div>{names}</div>)
   }
 }

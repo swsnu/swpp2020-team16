@@ -9,6 +9,19 @@ class Migration(migrations.Migration):
         ('codingmbti', '0001_initial'),
     ]
 
+    def insertData(apps, schema_editor):
+     Login = apps.get_model('codingmbti', 'Name')
+     user = Login(name = "Adam")
+     user.save()
+     user = Login(name = "Britney")
+     user.save()
+     user = Login(name = "Cavin")
+     user.save()
+     user = Login(name = "Druid")
+     user.save()
+     user = Login(name = "Esther")
+     user.save()
+
     operations = [
         migrations.RenameField(
             model_name='name',
@@ -23,4 +36,5 @@ class Migration(migrations.Migration):
             model_name='name',
             name='done',
         ),
+        migrations.RunPython(insertData),
     ]

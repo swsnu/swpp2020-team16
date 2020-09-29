@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 import { withRouter } from 'react-router';
 
 import * as actionTypes from '../../store/actions/actionTypes';
-import * as actionCreators from '../../store/actions/example_data';
+import * as actionCreators from '../../store/actions/exampleData';
 
 class Name extends Component {
   componentDidMount() {

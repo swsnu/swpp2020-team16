@@ -22,12 +22,12 @@ def index(request, id=None):
                         }
                 return JsonResponse(response_dict, safe=False)
             except KeyError as e:
-                return HttpResponseBadRequest('NameID does not exist: {}'.format(id))
+                return HttpResponseBadRequest(f'NameID does not exist: {id}')
     if request.method == 'POST':
         try:
             body = request.body.decode()
             name = json.loads(body)['name']
-        except (KeyError, JSONDecodeError) as e:
+        except (KeyError, json.JSONDecodeError) as e:
             return HttpResponseBadRequest()
         name_obj = Name(name=name, done=False)
         name_obj.save()
@@ -43,7 +43,7 @@ def index(request, id=None):
             name = Name.objects.get(id=id)
             name.delete()
         except KeyError as e:
-            return HttpResponseBadRequest('NameID does not exist: {}'.format(id))
+            return HttpResponseBadRequest(f'NameID does not exist: {id}')
         return HttpResponse(status=204)
     else:
         return HttpResponseNotAllowed(['GET', 'POST', 'DELETE'])

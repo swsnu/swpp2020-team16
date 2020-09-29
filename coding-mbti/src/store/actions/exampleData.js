@@ -2,7 +2,7 @@ import * as actionTypes from './actionTypes';
 import axios from 'axios';
 
 export const getNames_ = (names) => {
-     return { type: actionTypes.GET_ALL, names: names };
+     return { type: actionTypes.GET_ALL, payload: names };
 };
 export const getNames = () => {
      return dispatch => {

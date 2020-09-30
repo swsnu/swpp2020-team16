@@ -1,8 +1,11 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
 
-function App() {
+import Name from './containers/django_fetch_data_container_example/Name'
+
+function Home() {
   return (
     <div className="App">
       <header className="App-header">
@@ -20,6 +23,19 @@ function App() {
         </a>
       </header>
     </div>
+  );
+}
+
+function App() {
+  return (
+    <BrowserRouter>
+      <div className="App" >
+        <Switch>
+          <Route path='/' exact component={Home}/>
+          <Route path='/name' exact component={Name}/>
+        </Switch>
+      </div >
+    </BrowserRouter>
   );
 }
 

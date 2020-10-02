@@ -1,9 +1,9 @@
 # swpp2020-team16 
 
-status/branch| Coveralls | Sonarcloud | 비고
+status/branch| Coveralls | Sonarcloud | Travis |
 ------------ | ---- | ---- | ----
-Master       | [![Coverage Status](https://coveralls.io/repos/github/swsnu/swpp2020-team16/badge.svg?branch=dev_prd_settings)](https://coveralls.io/github/swsnu/swpp2020-team16?branch=master) | 소나클라우드 마스터 뱃지 위치 | -
-Development  | [![Coverage Status](https://coveralls.io/repos/github/swsnu/swpp2020-team16/badge.svg?branch=dev_prd_settings)](https://coveralls.io/github/swsnu/swpp2020-team16?branch=development) |  소나클라우드 디벨롭 뱃지 위치 | -
+Master       | [![Coverage Status](https://coveralls.io/repos/github/swsnu/swpp2020-team16/badge.svg?branch=dev_prd_settings)](https://coveralls.io/github/swsnu/swpp2020-team16?branch=master) | 소나클라우드 마스터 뱃지 위치 | [![Build Status](https://travis-ci.com/swsnu/swpp2020-team16.svg?branch=master)](https://travis-ci.com/swsnu/swpp2020-team16)
+Development  | [![Coverage Status](https://coveralls.io/repos/github/swsnu/swpp2020-team16/badge.svg?branch=dev_prd_settings)](https://coveralls.io/github/swsnu/swpp2020-team16?branch=development) |  소나클라우드 디벨롭 뱃지 위치 | [![Build Status](https://travis-ci.com/swsnu/swpp2020-team16.svg?branch=development)](https://travis-ci.com/swsnu/swpp2020-team16)
 
 # 즐거운 개발을 위한 설정사항
 (1) 커밋 메시지 템플릿 설정하기.

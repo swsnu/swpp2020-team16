@@ -10,8 +10,8 @@ matrix:
         directories:
           - node_modules
       script:
-        - yarn test --coverage
-      after_script: # Upload coverage reports 
+        - yarn test -- --coverage
+      after_success:
         - COVERALLS_REPO_TOKEN=$coveralls_repo_token yarn run coveralls
       notifications:
         slack: coding-mbti:mpufjN3PylzT8q8HgpXJDdun

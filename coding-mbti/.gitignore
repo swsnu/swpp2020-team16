@@ -4,6 +4,7 @@
 /node_modules
 /.pnp
 .pnp.js
+/coverage
 
 # pycache
 /backend/codingmbti_backend/__pycache__

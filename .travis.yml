@@ -3,13 +3,15 @@ matrix:
     - language: node_js
       node_js: "12.18.3"
       before_script:
-        - cd frontend
+        - cd coding-mbti
         - yarn global add create-react-app
-        - yarn
+        - yarn install
       cache:
         directories:
           - node_modules
       script:
-        - yarn test
+        - yarn test --coverage
+      after_script: # Upload coverage reports 
+        - COVERALLS_REPO_TOKEN=$coveralls_repo_token yarn run coveralls
       notifications:
         slack: coding-mbti:mpufjN3PylzT8q8HgpXJDdun

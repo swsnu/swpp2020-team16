@@ -11,6 +11,23 @@ matrix:
           - node_modules
       script:
         - yarn test -- --coverage
+      before_deploy:
+        - zip -r coding-mbti-webservice *
+        - mkdir -p deploy
+        - mv coding-mbti-webservice.zip deploy/coding-mbti-webservice.zip
+      deploy:
+        - provider: s3
+          access_key_id: $AWS_ACCESS_KEY
+          secret_access_key: $AWS_SECRET_KEY
+          bucket: coding-mbti-deploy # 6-3-3에서 생성한 S3 버킷
+          local_dir: deploy
+          region: us-east-1
+          skip_cleanup: true
+          acl: public_read
+          wait-until-deployed: true
+          on:
+            repo: swsnu/swpp2020-team16
+            branch: dev_prd_settings
       after_success:
         - COVERALLS_REPO_TOKEN=$coveralls_repo_token yarn run coveralls
 

@@ -1,0 +1,15 @@
+matrix:
+  include:
+    - language: node_js
+      node_js: "12.18.3"
+      before_script:
+        - cd frontend
+        - yarn global add create-react-app
+        - yarn
+      cache:
+        directories:
+          - node_modules
+      script:
+        - yarn test
+      notifications:
+        slack: coding-mbti:mpufjN3PylzT8q8HgpXJDdun

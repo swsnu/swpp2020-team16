@@ -6,7 +6,8 @@
 .pnp.js
 
 # pycache
-/backend/codingmbti_backend/__pycache__
+*.py[co]
+__pycache__
 
 # testing
 /coverage

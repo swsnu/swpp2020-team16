@@ -50,10 +50,10 @@ It provides private message service, so that our users can easily get in touch w
 
 ### Scenario
 
-**GIVEN** signed up User,
-**WHEN** the User fills up the id/password input 
-**AND** the User clicks `sign in` button 
-**THEN** the User can be signed in
+- **GIVEN** signed up User,
+- **WHEN** the User fills up the id/password input 
+  - **AND** the User clicks `sign in` button 
+- **THEN** the User can be signed in
 
 
 ### Acceptance test
@@ -95,10 +95,11 @@ THEN message showing 'wrong password' should be popped up and erase id and passw
 
 ### Scenario
 
-**GIVEN** not registered User,
-**WHEN** the User fills up the registration form
-**AND** the User clicks `sign up` button 
-**THEN** the User can be signed up
+
+- **GIVEN** not registered User,
+- **WHEN** the User fills up the registration form
+  - **AND** the User clicks `sign up` button 
+- **THEN** the User can be signed up
 
 
 ### Acceptance test
@@ -157,9 +158,10 @@ THEN message showing 'Invalid argument' should be popped up and show specificati
 
 ### Scenario
 
-**GIVEN** the Coder is on `Home` page 
-**WHEN** the Coder clicks `run` button 
-**THEN** the Coder gets result of their code 
+
+- **GIVEN** the Coder is on `Home` page 
+- **WHEN** the Coder clicks `run` button 
+- **THEN** the Coder gets result of their code 
 
 
 ### Acceptance test
@@ -194,10 +196,10 @@ THEN the Coder can check error of their code in web
 ### Scenario
 
 
-**GIVEN** the coder signed in
-**AND**  the coder have solved the problem correctly
-**WHEN** the coder clicks 'see other solutions' button
-**THEN** coder can see other solutions
+- **GIVEN** the coder signed in
+  - **AND**  the coder have solved the problem correctly
+- **WHEN** the coder clicks 'see other solutions' button
+- **THEN** coder can see other solutions
 
 
 ### Acceptance test
@@ -241,10 +243,10 @@ THEN the coder gets an alert saying "you should solve the problem first
 
 ### Scenario
 
-**GIVEN** the Coder writes correct code
-**AND** the Coder signed in 
-**WHEN** the Coder clicks `submit` button 
-**THEN** the Coder can submit their code 
+- **GIVEN** the Coder writes correct code
+  - **AND** the Coder signed in 
+- **WHEN** the Coder clicks `submit` button 
+- **THEN** the Coder can submit their code 
 
 ### Acceptance test
 
@@ -284,10 +286,10 @@ THEN the Coder should be redirected to `sign-in` page
 
 ### Scenario
 
-**GIVEN** the Coder signed in
-**AND** the Coder has solved over threshold(maybe  5? 7?) number of problems
-**WHEN** the Coder clicks `my page` button
-**THEN** the Coder can check own coding style statistically according to 4 index
+- **GIVEN** the Coder signed in
+  - **AND** the Coder has solved over threshold(maybe  5? 7?) number of problems
+- **WHEN** the Coder clicks `my page` button
+- **THEN** the Coder can check own coding style statistically according to 4 index
 
 * 4 index includes coding style, space complexity, time complexity, carefulness.
 
@@ -330,10 +332,10 @@ THEN link 'You should solve more problems for accurate statistics' should be sho
 
 ### Scenario
 
-**GIVEN** Coder signed in
-**AND** Coder is on `find teammates` page
-**WHEN** Coder clicks a `find my teammates' button
-**THEN** Coder can see list of coders with same coding style of him
+- **GIVEN** Coder signed in
+  - **AND** Coder is on `find teammates` page
+- **WHEN** Coder clicks a `find my teammates' button
+- **THEN** Coder can see list of coders with same coding style of him
 
 ### Acceptance test
 
@@ -366,12 +368,12 @@ THEN Coder should be request to solve problems and find own coding style first
 
 ### Scenario
 
-**GIVEN** the User signed in
-**AND** the User is on `message` page
-**WHEN** the User should write message in input form
-**AND** the User should choose other user to receive message(ex. other user be `Receiving User`)
-**AND** the User clicks on the `send message` button 
-**THEN** the `Receiving User` receives message
+- **GIVEN** the User signed in
+  - **AND** the User is on `message` page
+- **WHEN** the User should write message in input form
+  - **AND** the User should choose other user to receive message(ex. other user be `Receiving User`)
+  - **AND** the User clicks on the `send message` button 
+- **THEN** the `Receiving User` receives message
 
 ### Acceptance test
 
@@ -416,10 +418,10 @@ THEN the `send message` button should  be disabled.
 
 ### Scenario
 
-**GIVEN** the User signed in
-**AND** the User is on `message` page
-**WHEN** the User clicks a message on message board
-**THEN** the User can see message
+- **GIVEN** the User signed in
+  - **AND** the User is on `message` page
+- **WHEN** the User clicks a message on message board
+- **THEN** the User can see message
 
 ### Acceptance test
 
@@ -456,12 +458,12 @@ THEN the User should be redirected to sign-in page.
 
 ### Scenario
 
-**GIVEN** the User signed in
-**AND** the User was not authenticated as Manager before
-**WHEN** the User clicks `get authenticated as Manager` button
-**THEN** the User goes to authentication page 
-**THEN** the User fills out form
-**THEN** the User gets authenticated as Manager
+- **GIVEN** the User signed in
+  - **AND** the User was not authenticated as Manager before
+- **WHEN** the User clicks `get authenticated as Manager` button
+- **THEN** the User goes to authentication page 
+  - **AND** the User fills out form
+  - **AND** the User gets authenticated as Manager
 
 
 ### Acceptance test
@@ -509,12 +511,12 @@ THEN the User[Manager] should be redirected to show statistical information page
 
 ### Scenario
 
-**GIVEN** the Manager signed in
-**AND** the Manager is authenticated
-**WHEN** the Manager  `create group` button
-**AND** the Manager writes unique group name
-**AND** the Manager clicks `confirm` button
-**THEN** the Manager can create group
+- **GIVEN** the Manager signed in
+  - **AND** the Manager is authenticated
+- **WHEN** the Manager  `create group` button
+  - **AND** the Manager writes unique group name
+  - **AND** the Manager clicks `confirm` button
+- **THEN** the Manager can create group
 
 
 ### Acceptance test
@@ -567,15 +569,15 @@ THEN `confirm` button is disabled with message `please write unique group name`
 
 ### Scenario
 
-**GIVEN** the Manager signed in
-**AND** the Manager is authenticated
-**AND** the Manager created at least one group(ex, `group G`)
-**AND** the Manager is in `group G`'s 'Invite Coders To Group' page
-**WHEN** the Manager clicks `invite coders` button
-**AND** the Manager writes the `Coder's name`( ex, `coder C`)
-**AND** the Manager click `confirm` button
-**THEN** the Manager can invite the `Coder C` to a group
-**THEN** the Manager sends an invitation message to the `Coder C`
+- **GIVEN** the Manager signed in
+  - **AND** the Manager is authenticated
+  - **AND** the Manager created at least one group(ex, `group G`)
+  - **AND** the Manager is in `group G`'s 'Invite Coders To Group' page
+- **WHEN** the Manager clicks `invite coders` button
+  - **AND** the Manager writes the `Coder's name`( ex, `coder C`)
+  - **AND** the Manager click `confirm` button
+- **THEN** the Manager can invite the `Coder C` to a group
+  - **AND** the Manager sends an invitation message to the `Coder C`
 
 
 ### Acceptance test
@@ -642,13 +644,13 @@ THEN the Manager can see message saying `the coder does not exist`.
 
 ### Scenario
 
-**GIVEN** the Manager  signed in
-**AND** the Manager is authenticated
-**AND** the Manager has at least one group(ex, `group G`)
-**AND** the `group G` has member coders
-**AND** each coder of the `group G` solved over threshold(maybe 5? 7?) problems
-**WHEN** the Manager clicks `group stats` button
-**THEN** the Manager can check member coders' coding style statistically
+- **GIVEN** the Manager  signed in
+  - **AND** the Manager is authenticated
+  - **AND** the Manager has at least one group(ex, `group G`)
+  - **AND** the `group G` has member coders
+  - **AND** each coder of the `group G` solved over threshold(maybe 5? 7?) problems
+- **WHEN** the Manager clicks `group stats` button
+- **THEN** the Manager can check member coders' coding style statistically
 
 
 ### Acceptance test
@@ -733,13 +735,13 @@ THEN the Manager can check G_1's member coders' coding style statistically
 
 ### Scenario
 
-**GIVEN** the Manager signed in
-**AND** the Manager is authenticated
-**AND** the Manager created at least one group(ex, group G)
-**AND** the group G has member coders
-**AND** each coder of the `group G` solved over threshold(maybe 5? 7?) problems
-**WHEN** the Manager clicks `coder C relations` button
-**THEN** the Manager can see possible relations between member coders in group
+- **GIVEN** the Manager signed in
+  - **AND** the Manager is authenticated
+  - **AND** the Manager created at least one group(ex, group G)
+  - **AND** the group G has member coders
+  - **AND** each coder of the `group G` solved over threshold(maybe 5? 7?) problems
+- **WHEN** the Manager clicks `coder C relations` button
+- **THEN** the Manager can see possible relations between member coders in group
 
 
 ### Acceptance test
@@ -805,12 +807,12 @@ THEN there is no `coder C relations` button
 
 ### Scenario
 
-**GIVEN** the User signed in
-**AND** the User was not authenticated as Researcher before
-**WHEN** the User clicks `get authenticated as Researcher` button
-**THEN** the User goes to authentication page 
-**THEN** the User fills out form
-**THEN** the User gets authenticated as Researcher
+- **GIVEN** the User signed in
+  - **AND** the User was not authenticated as Researcher before
+- **WHEN** the User clicks `get authenticated as Researcher` button
+- **THEN** the User goes to authentication page 
+  - **AND** the User fills out form
+  - **AND** the User gets authenticated as Researcher
 
 
 ### Acceptance test
@@ -856,10 +858,10 @@ THEN the User[Researcher] should be redirected to show statistical information p
 
 ### Scenario
 
-**GIVEN** the Researcher signed in
-**AND** the Researcher was authenticated
-**WHEN** the Researcher clicks `show statistical information` button
-**THEN** the Researcher can see statistical information
+- **GIVEN** the Researcher signed in
+  - **AND** the Researcher was authenticated
+- **WHEN** the Researcher clicks `show statistical information` button
+- **THEN** the Researcher can see statistical information
 
 
 ### Acceptance test

@@ -287,7 +287,9 @@ THEN the Coder should be redirected to `sign-in` page
 **GIVEN** the Coder signed in
 **AND** the Coder has solved over threshold(maybe  5? 7?) number of problems
 **WHEN** the Coder clicks `my page` button
-**THEN** the Coder can check own coding style statistically
+**THEN** the Coder can check own coding style statistically according to 4 index
+
+* 4 index includes coding style, space complexity, time complexity, carefulness.
 
 
 ### Acceptance test
@@ -296,7 +298,7 @@ THEN the Coder should be redirected to `sign-in` page
 GIVEN the Coder is signed in
 AND the Coder has solved over threshold number of problems
 WHEN the Coder clicks `my page` button
-THEN the Coder should see his code style statistics.
+THEN the Coder should see his code style statistics according to 4 index.
 ```
 
     

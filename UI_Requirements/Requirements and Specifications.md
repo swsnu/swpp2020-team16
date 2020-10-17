@@ -889,7 +889,7 @@ THEN there is no `coder C relations` button
 | FeatureName                        |User can get authenticated as Researcher                            |
 | Actors                                   |User                                                                                                               |
 | Preconditions                       | 1. User should be signed in <br> 2. User was not authenticated as Researcher before                               |
-| Trigger                                  | User clicks on the `"get authenticated as Researcher` button                                                                               |
+| Trigger                                  | User clicks on the `get authenticated as Researcher` button                                                                               |
 
 ### Scenario
 
@@ -940,7 +940,7 @@ THEN the User[Researcher] should be redirected to show statistical information p
 | FeatureName                        |Researcher can get statistical information about general people's coding style                             |
 | Actors                                   |Researchers                                                                                                                                  |
 | Preconditions                       |1. Researcher should be logged in <br> 2. Researcher should be authenticated                                   |
-| Trigger                                  | Researcher clicks on the `"see statistical information` button                                                                               |
+| Trigger                                  | Researcher clicks on the `'see statistical information'` button                                                                               |
 
 ### Scenario
 

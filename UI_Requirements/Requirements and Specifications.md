@@ -1,7 +1,7 @@
 # Coding MBTI
 ### Requirements and Specification Document
 ### 09/21/2020, version 1.0.
-### 10/17/2020, version 1.1. Add user stories, Update UI Requirements
+### 10/17/2020, version 1.1. Add user stories, Update UI Requirements, Add TOC
 
 # Project Abstract
 

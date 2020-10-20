@@ -11,9 +11,9 @@ matrix:
           - node_modules
       script:
         - yarn test -- --coverage
-        - yarn build
       before_deploy:
-        - zip -r coding-mbti-webservice *
+        - yarn build
+        - zip -r coding-mbti-webservice build/*
         - mkdir -p deploy
         - mv coding-mbti-webservice.zip deploy/coding-mbti-webservice.zip
       deploy:

@@ -1,0 +1,35 @@
+matrix:
+  include:
+    - language: node_js
+      node_js: "12.18.3"
+      before_script:
+        - cd coding-mbti
+        - yarn global add create-react-app
+        - yarn install
+      cache:
+        directories:
+          - node_modules
+      script:
+        - yarn test -- --coverage
+        - yarn build
+      before_deploy:
+        - zip -r coding-mbti-webservice *
+        - mkdir -p deploy
+        - mv coding-mbti-webservice.zip deploy/coding-mbti-webservice.zip
+      deploy:
+        - provider: s3
+          access_key_id: $AWS_ACCESS_KEY
+          secret_access_key: $AWS_SECRET_KEY
+          bucket: coding-mbti-1-deploy      # bucket name in S3
+          local_dir: deploy
+          region: us-east-1
+          skip_cleanup: true                # prevent travis from removing built files 
+          wait-until-deployed: true
+          on:
+            repo: swsnu/swpp2020-team16
+            branch: dev
+      after_success:
+        - COVERALLS_REPO_TOKEN=$coveralls_repo_token yarn run coveralls
+
+notifications:
+  slack: coding-mbti:mpufjN3PylzT8q8HgpXJDdun

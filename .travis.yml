@@ -20,15 +20,14 @@ matrix:
         - provider: s3
           access_key_id: $AWS_ACCESS_KEY
           secret_access_key: $AWS_SECRET_KEY
-          bucket: coding-mbti-deploy # 6-3-3에서 생성한 S3 버킷
+          bucket: coding-mbti-1-deploy      # bucket name in S3
           local_dir: deploy
           region: us-east-1
-          skip_cleanup: true
-          acl: public_read
+          skip_cleanup: true                # prevent travis from removing built files 
           wait-until-deployed: true
           on:
             repo: swsnu/swpp2020-team16
-            branch: dev_prd_settings
+            branch: dev
       after_success:
         - COVERALLS_REPO_TOKEN=$coveralls_repo_token yarn run coveralls
 

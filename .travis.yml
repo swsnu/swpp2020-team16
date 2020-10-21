@@ -1,4 +1,4 @@
-matrix:
+jobs:
   include:
     - language: node_js
       node_js: "13.12.0"
@@ -25,7 +25,7 @@ matrix:
           local_dir: deploy
           region: us-east-1
           skip_cleanup: true                
-          wait-until-deployed: true
+          wait_until_deployed: true
           on:
             repo: swsnu/swpp2020-team16
             branch: dev
@@ -38,7 +38,7 @@ matrix:
           application: coding-mbti-1-deploy
           deployment_group: coding-mbti-1-deploy-group
           region: us-east-1
-          wait-until-deployed: true
+          wait_until_deployed: true
           on:
             repo: swsnu/swpp2020-team16
             branch: dev
@@ -49,7 +49,7 @@ matrix:
           local_dir: deploy
           region: us-east-1
           skip_cleanup: true                
-          wait-until-deployed: true
+          wait_until_deployed: true
           on:
             repo: swsnu/swpp2020-team16
             branch: master
@@ -62,7 +62,7 @@ matrix:
           application: coding-mbti-2-deploy
           deployment_group: coding-mbti-2-deploy-group
           region: us-east-1
-          wait-until-deployed: true
+          wait_until_deployed: true
           on:
             repo: swsnu/swpp2020-team16
             branch: master

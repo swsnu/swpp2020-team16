@@ -1,0 +1,73 @@
+matrix:
+  include:
+    - language: node_js
+      node_js: "13.12.0"
+      before_script:
+        - cd coding-mbti
+        - yarn global add create-react-app
+        - yarn install
+      cache:
+        directories:
+          - node_modules
+      script:
+        - yarn test -- --coverage
+      before_deploy:
+        - yarn build
+        - cp ../aws-codedeploy-scripts/frontend/* ./build
+        - zip -r coding-mbti-webservice build/*
+        - mkdir -p deploy
+        - mv coding-mbti-webservice.zip deploy/coding-mbti-webservice.zip
+      deploy:
+        - provider: s3                      # frontend dev s3
+          access_key_id: $AWS_ACCESS_KEY
+          secret_access_key: $AWS_SECRET_KEY
+          bucket: coding-mbti-1-deploy
+          local_dir: deploy
+          region: us-east-1
+          skip_cleanup: true                
+          wait-until-deployed: true
+          on:
+            repo: swsnu/swpp2020-team16
+            branch: dev
+        - provider: codedeploy              # frontend dev codedeploy
+          access_key_id: $AWS_ACCESS_KEY
+          secret_access_key: $AWS_SECRET_KEY
+          bucket: coding-mbti-1-deploy
+          key: coding-mbti-webservice.zip
+          bundle_type: zip
+          application: coding-mbti-1-deploy
+          deployment_group: coding-mbti-1-deploy-group
+          region: us-east-1
+          wait-until-deployed: true
+          on:
+            repo: swsnu/swpp2020-team16
+            branch: dev
+        - provider: s3                      # frontend master s3
+          access_key_id: $AWS_ACCESS_KEY_2
+          secret_access_key: $AWS_SECRET_KEY_2
+          bucket: coding-mbti-2-deploy      
+          local_dir: deploy
+          region: us-east-1
+          skip_cleanup: true                
+          wait-until-deployed: true
+          on:
+            repo: swsnu/swpp2020-team16
+            branch: master
+        - provider: codedeploy              # frontend master codedeploy
+          access_key_id: $AWS_ACCESS_KEY_2
+          secret_access_key: $AWS_SECRET_KEY_2
+          bucket: coding-mbti-2-deploy
+          key: coding-mbti-webservice.zip
+          bundle_type: zip
+          application: coding-mbti-2-deploy
+          deployment_group: coding-mbti-2-deploy-group
+          region: us-east-1
+          wait-until-deployed: true
+          on:
+            repo: swsnu/swpp2020-team16
+            branch: master
+      after_success:
+        - COVERALLS_REPO_TOKEN=$coveralls_repo_token yarn run coveralls
+
+notifications:
+  slack: coding-mbti:mpufjN3PylzT8q8HgpXJDdun

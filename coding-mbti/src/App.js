@@ -1,14 +1,17 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
-function App() {
+import Name from './containers/django_fetch_data_container_example/Name'
+
+function Home() {
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-          Edit <code>src/App.js</code> and save to reload.
+          Edit <code>src/App.js</code> and save to reload. hihi change updated? again? and again?
         </p>
         <a
           className="App-link"
@@ -20,6 +23,19 @@ function App() {
         </a>
       </header>
     </div>
+  );
+}
+
+function App() {
+  return (
+    <BrowserRouter>
+      <div className="App" >
+        <Switch>
+          <Route path='/' exact component={Home}/>
+          <Route path='/name' exact component={Name}/>
+        </Switch>
+      </div >
+    </BrowserRouter>
   );
 }
 

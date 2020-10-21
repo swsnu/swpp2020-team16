@@ -7,11 +7,17 @@ matrix:
         - cd coding-mbti
         - yarn global add create-react-app
         - yarn install
+      addons:
+        sonarcloud:
+          organization: "swsnu"
+          token:
+            secure: "aNH10RBx7wmUBjF5UwW24TeM/IcOocgK9NxLh8DpH6mFVyVrdbwEpG2tHRqr7swmvmgC3/X/kCRaVOBIyU1K/aOvyLcOshyi3gpLwSs1Va9M0j1JlU3vHaq39lX3jxG7W8o4qYhcqWvRbgbFEnPuaBEG2gxhytPIIedml/gdAHAQHWkjGbtRlT2MTxHpygnMM6JZJNIx9NMkDWnFwGxrU4WRts6RsbLvRaPhpVTWyA3QVg/IlSyHOcF/mWF4vbZuClklE5Y3CfVhU4d9sKsIke8nCJhDe4pmzmuxZXYDUptfVyloBbAmHhUobU3kj5VMJuNWQ9vDeWSh+K4b3/ivK7e3XDO47wom7Oy1JhNAA9Kc1LdWYNvGu9QRx+7QYm36h6GyR9Hse8YEA7qpu30XyevXHGyRy2F/NWUWOa7VB9fMDAqPoCnVSfKgBt0xU2Gcrj1La97Mndvfp6MSnc3RQr0TRcC/bgC6DR0F9lq8GBtPi5paElDcJuKtj/lJ0P7RICJ3i0jBeM4O43SxBJxKeDAxgopFxJwMu1lC+YA5VV4KBK1pYXUo2aqpDN70LqHc/AFc6xFfOmD9pa7QI3mgZQFJSe5aNUNbFXjNVJpC7JuYxiG/mwtBOWM3mLvLEpYbNDl4XuhFCprl9qz2hQ2xhT3l8JixNTOXCTWe9nwMmpc="
       cache:
         directories:
           - node_modules
       script:
-        - yarn test -- --coverage
+       - ./node_modules/.bin/eslint src/
+       - yarn test -- --coverage
       before_deploy:
         - yarn build
         - cp ../aws-codedeploy-scripts/frontend/* ./build
@@ -67,56 +73,9 @@ matrix:
           on:
             repo: swsnu/swpp2020-team16
             branch: master
-        - provider: s3                      # backend dev s3
-          access_key_id: $AWS_ACCESS_KEY_3
-          secret_access_key: $AWS_SECRET_KEY_3
-          bucket: coding-mbti-3-deploy
-          local_dir: deploy
-          region: us-east-1
-          skip_cleanup: true                
-          wait_until_deployed: true
-          on:
-            repo: swsnu/swpp2020-team16
-            branch: dev
-        - provider: codedeploy              # backend dev codedeploy
-          access_key_id: $AWS_ACCESS_KEY_3
-          secret_access_key: $AWS_SECRET_KEY_3
-          bucket: coding-mbti-3-deploy
-          key: coding-mbti-webservice.zip
-          bundle_type: zip
-          application: coding-mbti-3-deploy
-          deployment_group: coding-mbti-3-deploy-group
-          region: us-east-1
-          wait_until_deployed: true
-          on:
-            repo: swsnu/swpp2020-team16
-            branch: dev
-        - provider: s3                      # backend master s3
-          access_key_id: $AWS_ACCESS_KEY_4
-          secret_access_key: $AWS_SECRET_KEY_4
-          bucket: coding-mbti-4-deploy      
-          local_dir: deploy
-          region: us-east-1
-          skip_cleanup: true                
-          wait_until_deployed: true
-          on:
-            repo: swsnu/swpp2020-team16
-            branch: master
-        - provider: codedeploy              # backend master codedeploy
-          access_key_id: $AWS_ACCESS_KEY_4
-          secret_access_key: $AWS_SECRET_KEY_4
-          bucket: coding-mbti-4-deploy
-          key: coding-mbti-webservice.zip
-          bundle_type: zip
-          application: coding-mbti-4-deploy
-          deployment_group: coding-mbti-4-deploy-group
-          region: us-east-1
-          wait_until_deployed: true
-          on:
-            repo: swsnu/swpp2020-team16
-            branch: master
       after_success:
         - COVERALLS_REPO_TOKEN=$coveralls_repo_token yarn run coveralls
+        - sonar-scanner
     - language: python
       python:
         - "3.7"
@@ -125,8 +84,15 @@ matrix:
         - pip install -r requirements.txt
         - pip install coverage
         - pip install coveralls
+      addons:
+        sonarcloud:
+          organization: "swsnu"
+          token:
+            secure: "aNH10RBx7wmUBjF5UwW24TeM/IcOocgK9NxLh8DpH6mFVyVrdbwEpG2tHRqr7swmvmgC3/X/kCRaVOBIyU1K/aOvyLcOshyi3gpLwSs1Va9M0j1JlU3vHaq39lX3jxG7W8o4qYhcqWvRbgbFEnPuaBEG2gxhytPIIedml/gdAHAQHWkjGbtRlT2MTxHpygnMM6JZJNIx9NMkDWnFwGxrU4WRts6RsbLvRaPhpVTWyA3QVg/IlSyHOcF/mWF4vbZuClklE5Y3CfVhU4d9sKsIke8nCJhDe4pmzmuxZXYDUptfVyloBbAmHhUobU3kj5VMJuNWQ9vDeWSh+K4b3/ivK7e3XDO47wom7Oy1JhNAA9Kc1LdWYNvGu9QRx+7QYm36h6GyR9Hse8YEA7qpu30XyevXHGyRy2F/NWUWOa7VB9fMDAqPoCnVSfKgBt0xU2Gcrj1La97Mndvfp6MSnc3RQr0TRcC/bgC6DR0F9lq8GBtPi5paElDcJuKtj/lJ0P7RICJ3i0jBeM4O43SxBJxKeDAxgopFxJwMu1lC+YA5VV4KBK1pYXUo2aqpDN70LqHc/AFc6xFfOmD9pa7QI3mgZQFJSe5aNUNbFXjNVJpC7JuYxiG/mwtBOWM3mLvLEpYbNDl4XuhFCprl9qz2hQ2xhT3l8JixNTOXCTWe9nwMmpc="
       script:
-        - coverage run -m unittest
+        - pylint **/*.py --load-plugins pylint_django
+        - coverage run --source="." manage.py test
+        - coverage xml
       before_deploy:
         - mkdir -p ../backend-build
         - cp -r ./* ../backend-build
@@ -185,6 +151,7 @@ matrix:
             branch: master
       after_success:
         - coveralls
+        - sonar-scanner
 
 notifications:
   slack: coding-mbti:mpufjN3PylzT8q8HgpXJDdun

@@ -45,7 +45,7 @@ matrix:
         - provider: s3                      # frontend master s3
           access_key_id: $AWS_ACCESS_KEY_2
           secret_access_key: $AWS_SECRET_KEY_2
-          bucket: coding-mbti-1-deploy      
+          bucket: coding-mbti-2-deploy      
           local_dir: deploy
           region: us-east-1
           skip_cleanup: true                
@@ -56,11 +56,11 @@ matrix:
         - provider: codedeploy              # frontend master codedeploy
           access_key_id: $AWS_ACCESS_KEY_2
           secret_access_key: $AWS_SECRET_KEY_2
-          bucket: coding-mbti-1-deploy
+          bucket: coding-mbti-2-deploy
           key: coding-mbti-webservice.zip
           bundle_type: zip
-          application: coding-mbti-1-deploy
-          deployment_group: coding-mbti-1-deploy-group
+          application: coding-mbti-2-deploy
+          deployment_group: coding-mbti-2-deploy-group
           region: us-east-1
           wait-until-deployed: true
           on:

@@ -13,7 +13,7 @@ matrix:
         - yarn test -- --coverage
       before_deploy:
         - yarn build
-        - zip -r coding-mbti-webservice build/* ../appspec.yml ../execute-deploy.sh ../execute-before-install.sh
+        - zip -r coding-mbti-webservice build/* ../aws-scripts/frontend/*
         - mkdir -p deploy
         - mv coding-mbti-webservice.zip deploy/coding-mbti-webservice.zip
       deploy:

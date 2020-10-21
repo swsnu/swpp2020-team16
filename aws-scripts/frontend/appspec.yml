@@ -2,7 +2,7 @@ version: 0.0
 os: linux
 files:
   - source:  /
-    destination: /home/ec2-user/deploy/swpp2020-team16/coding-mbti # S3에서 가지고온 파일을 저장할 디렉터리 지정
+    destination: /home/ec2-user/deploy/swpp2020-team16/coding-mbti/build # S3에서 가지고온 파일을 저장할 디렉터리 지정
 hooks:
   BeforeInstall:
     - location: execute-before-install.sh

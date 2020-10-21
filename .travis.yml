@@ -67,6 +67,30 @@ matrix:
           on:
             repo: swsnu/swpp2020-team16
             branch: master
+        - provider: s3                      # backend dev s3
+          access_key_id: $AWS_ACCESS_KEY_3
+          secret_access_key: $AWS_SECRET_KEY_3
+          bucket: coding-mbti-3-deploy
+          local_dir: deploy
+          region: us-east-1
+          skip_cleanup: true                
+          wait_until_deployed: true
+          on:
+            repo: swsnu/swpp2020-team16
+            branch: dev
+        - provider: codedeploy              # backend dev codedeploy
+          access_key_id: $AWS_ACCESS_KEY_3
+          secret_access_key: $AWS_SECRET_KEY_3
+          bucket: coding-mbti-3-deploy
+          key: coding-mbti-webservice.zip
+          bundle_type: zip
+          application: coding-mbti-3-deploy
+          deployment_group: coding-mbti-3-deploy-group
+          region: us-east-1
+          wait_until_deployed: true
+          on:
+            repo: swsnu/swpp2020-team16
+            branch: dev
       after_success:
         - COVERALLS_REPO_TOKEN=$coveralls_repo_token yarn run coveralls
 

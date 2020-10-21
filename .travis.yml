@@ -1,7 +1,7 @@
 matrix:
   include:
     - language: node_js
-      node_js: "12.18.3"
+      node_js: "13.12.0"
       before_script:
         - cd coding-mbti
         - yarn global add create-react-app
@@ -13,7 +13,7 @@ matrix:
         - yarn test -- --coverage
       before_deploy:
         - yarn build
-        - cp ../aws-scripts/frontend/* ./build
+        - cp ../aws-codedeploy-scripts/frontend/* ./build
         - zip -r coding-mbti-webservice build/*
         - mkdir -p deploy
         - mv coding-mbti-webservice.zip deploy/coding-mbti-webservice.zip

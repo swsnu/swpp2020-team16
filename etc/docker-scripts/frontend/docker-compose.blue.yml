@@ -1,0 +1,9 @@
+version: '2'
+  
+services:
+  node-frontend-server:
+    image: node-frontend-server
+    volumes:
+      - /home/ec2-user/deploy/swpp2020-team16/coding-mbti:/deploy/swpp2020-team16/coding-mbti
+    ports:
+      - "3001:3000"

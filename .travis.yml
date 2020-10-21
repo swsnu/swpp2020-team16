@@ -17,7 +17,7 @@ matrix:
         - mkdir -p deploy
         - mv coding-mbti-webservice.zip deploy/coding-mbti-webservice.zip
       deploy:
-        - provider: s3                      # frontend dev
+        - provider: s3                      # frontend dev s3
           access_key_id: $AWS_ACCESS_KEY
           secret_access_key: $AWS_SECRET_KEY
           bucket: coding-mbti-1-deploy
@@ -28,7 +28,7 @@ matrix:
           on:
             repo: swsnu/swpp2020-team16
             branch: dev
-        - provider: codedeploy
+        - provider: codedeploy              # frontend dev codedeploy
           access_key_id: $AWS_ACCESS_KEY
           secret_access_key: $AWS_SECRET_KEY
           bucket: coding-mbti-1-deploy
@@ -41,18 +41,18 @@ matrix:
           on:
             repo: swsnu/swpp2020-team16
             branch: dev
-        - provider: s3                      # frontend master
+        - provider: s3                      # frontend master s3
           access_key_id: $AWS_ACCESS_KEY_2
           secret_access_key: $AWS_SECRET_KEY_2
-          bucket: coding-mbti-1-deploy      # bucket name in S3
+          bucket: coding-mbti-1-deploy      
           local_dir: deploy
           region: us-east-1
-          skip_cleanup: true                # prevent travis from removing built files 
+          skip_cleanup: true                
           wait-until-deployed: true
           on:
             repo: swsnu/swpp2020-team16
             branch: master
-        - provider: codedeploy
+        - provider: codedeploy              # frontend master codedeploy
           access_key_id: $AWS_ACCESS_KEY_2
           secret_access_key: $AWS_SECRET_KEY_2
           bucket: coding-mbti-1-deploy

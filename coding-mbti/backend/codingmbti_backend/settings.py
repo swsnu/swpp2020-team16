@@ -85,8 +85,6 @@ DATABASES = {
     }
 }
 
-출처: https://fenderist.tistory.com/388 [Devman]
-
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
 

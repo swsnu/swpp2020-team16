@@ -91,8 +91,99 @@ matrix:
           on:
             repo: swsnu/swpp2020-team16
             branch: dev
+        - provider: s3                      # backend master s3
+          access_key_id: $AWS_ACCESS_KEY_4
+          secret_access_key: $AWS_SECRET_KEY_4
+          bucket: coding-mbti-4-deploy      
+          local_dir: deploy
+          region: us-east-1
+          skip_cleanup: true                
+          wait_until_deployed: true
+          on:
+            repo: swsnu/swpp2020-team16
+            branch: master
+        - provider: codedeploy              # backend master codedeploy
+          access_key_id: $AWS_ACCESS_KEY_4
+          secret_access_key: $AWS_SECRET_KEY_4
+          bucket: coding-mbti-4-deploy
+          key: coding-mbti-webservice.zip
+          bundle_type: zip
+          application: coding-mbti-4-deploy
+          deployment_group: coding-mbti-4-deploy-group
+          region: us-east-1
+          wait_until_deployed: true
+          on:
+            repo: swsnu/swpp2020-team16
+            branch: master
       after_success:
         - COVERALLS_REPO_TOKEN=$coveralls_repo_token yarn run coveralls
+    - language: python
+      python:
+        - "3.7"
+      before_script:
+        - cd coding-mbti/backend
+        - pip install -r requirements.txt
+        - pip install coverage
+        - pip install coveralls
+      script:
+        - coverage run -m unittest
+      before_deploy:
+        - mkdir build
+        - cp ../aws-codedeploy-scripts/backend/* ./build
+        - zip -r coding-mbti-backend build/*
+        - mkdir -p deploy
+        - mv coding-mbti-backend.zip deploy/coding-mbti-backend.zip
+      deploy:
+        - provider: s3                      # backend dev s3
+          access_key_id: $AWS_ACCESS_KEY_3
+          secret_access_key: $AWS_SECRET_KEY_3
+          bucket: coding-mbti-3-deploy
+          local_dir: deploy
+          region: us-east-1
+          skip_cleanup: true                
+          wait_until_deployed: true
+          on:
+            repo: swsnu/swpp2020-team16
+            branch: dev
+        - provider: codedeploy              # backend dev codedeploy
+          access_key_id: $AWS_ACCESS_KEY_3
+          secret_access_key: $AWS_SECRET_KEY_3
+          bucket: coding-mbti-3-deploy
+          key: coding-mbti-backend.zip
+          bundle_type: zip
+          application: coding-mbti-3-deploy
+          deployment_group: coding-mbti-3-deploy-group
+          region: us-east-1
+          wait_until_deployed: true
+          on:
+            repo: swsnu/swpp2020-team16
+            branch: dev
+        - provider: s3                      # backend master s3
+          access_key_id: $AWS_ACCESS_KEY_4
+          secret_access_key: $AWS_SECRET_KEY_4
+          bucket: coding-mbti-4-deploy      
+          local_dir: deploy
+          region: us-east-1
+          skip_cleanup: true                
+          wait_until_deployed: true
+          on:
+            repo: swsnu/swpp2020-team16
+            branch: master
+        - provider: codedeploy              # backend master codedeploy
+          access_key_id: $AWS_ACCESS_KEY_4
+          secret_access_key: $AWS_SECRET_KEY_4
+          bucket: coding-mbti-4-deploy
+          key: coding-mbti-backend.zip
+          bundle_type: zip
+          application: coding-mbti-4-deploy
+          deployment_group: coding-mbti-4-deploy-group
+          region: us-east-1
+          wait_until_deployed: true
+          on:
+            repo: swsnu/swpp2020-team16
+            branch: master
+      after_success:
+        - coveralls
 
 notifications:
   slack: coding-mbti:mpufjN3PylzT8q8HgpXJDdun

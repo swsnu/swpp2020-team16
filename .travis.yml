@@ -28,6 +28,19 @@ matrix:
           on:
             repo: swsnu/swpp2020-team16
             branch: dev
+        - provider: codedeploy
+          access_key_id: $AWS_ACCESS_KEY
+          secret_access_key: $AWS_SECRET_KEY
+          bucket: coding-mbti-1-deploy
+          key: coding-mbti-webservice.zip
+          bundle_type: zip
+          application: coding-mbti-1-deploy
+          deployment_group: coding-mbti-1-deploy-group
+          region: us-east-1
+          wait-until-deployed: true
+          on:
+            repo: swsnu/swpp2020-team16
+            branch: dev
       after_success:
         - COVERALLS_REPO_TOKEN=$coveralls_repo_token yarn run coveralls
 

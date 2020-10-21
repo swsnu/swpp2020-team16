@@ -41,6 +41,8 @@ sudo cp -r ../docker-scripts/backend/* /home/ec2-user/docker-image
 sudo chmod +x /home/ec2-user/docker-image/start-server.sh
 sudo chmod +x /home/ec2-user/docker-image/deploy.sh
 sudo chmod +x /home/ec2-user/docker-image/init-backend.sh
+sudo chmod +x /home/ec2-user/docker-image/docker-init.sh
+sudo chmod +x /home/ec2-user/docker-image/wait-for-it.sh
 
 echo "please connect again after exit"
 echo "  docker build -t django-backend-server ."

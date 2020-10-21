@@ -19,8 +19,8 @@ echo "initialize nginx"
 sudo cp ../nginx-scripts/nginx.conf /etc/nginx/nginx.conf
 sudo mkdir /etc/nginx/sites-available
 sudo mkdir /etc/nginx/sites-enabled
-sudo cp ../nginx-scripts/swpp2020-team16.conf /etc/nginx/sites-available/swpp2020-team16.conf
-sudo ln -fs /etc/nginx/sites-available/swpp2020-team16.conf /etc/nginx/sites-enabled/
+sudo cp ../nginx-scripts/frontend/swpp2020-team16-frontend.conf /etc/nginx/sites-available/swpp2020-team16-frontend.conf
+sudo ln -fs /etc/nginx/sites-available/swpp2020-team16-frontend.conf /etc/nginx/sites-enabled/
 sudo nginx -t
 sudo systemctl start nginx
 sudo systemctl status nginx

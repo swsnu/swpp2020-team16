@@ -1,5 +1,6 @@
 #!/bin/bash
 
+:'
 echo "allow execute mode ..."
 
 sudo chmod +x ./install-aws-cli.sh
@@ -13,6 +14,7 @@ echo "install aws-cli, aws-codedeploy, docker, nginx .."
 ./install-aws-codedeploy.sh
 ./install-docker.sh
 ./install-nginx.sh
+'
 
 echo "initialize nginx"
 
@@ -25,11 +27,19 @@ sudo nginx -t
 sudo systemctl start nginx
 sudo systemctl status nginx
 
+:'
 echo "create deploy dir"
 
 sudo mkdir /home/ec2-user/deploy
 sudo mkdir /home/ec2-user/deploy/swpp2020-team16
 sudo mkdir /home/ec2-user/deploy/swpp2020-team16/coding-mbti
 sudo mkdir /home/ec2-user/deploy/swpp2020-team16/coding-mbti/backend
+'
 
+echo "create docker-image dir"
+
+sudo mkdir /home/ec2-user/docker-image
+sudo cp -r ../docker-scripts/backend/* /home/ec2-user/docker-image
+sudo chmod +x /home/ec2-user/docker-image/start-server.sh
+sudo chmod +x /home/ec2-user/docker-image/deploy.sh
 

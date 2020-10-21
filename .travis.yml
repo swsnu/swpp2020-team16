@@ -129,7 +129,7 @@ matrix:
         - coverage run -m unittest
       before_deploy:
         - mkdir ../backend-build
-        - cp ./* ../backend-build
+        - cp -r ./* ../backend-build
         - cp ../../aws-codedeploy-scripts/backend/* ../backend-build
         - zip -r coding-mbti-backend ../backend-build/*
         - mkdir -p backend-deploy

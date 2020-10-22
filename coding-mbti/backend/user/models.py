@@ -2,8 +2,6 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from group.models import Group
 
-# Create your models here.
-
 
 class CodingStyle(models.Model):
     class Style(models.IntegerChoices):

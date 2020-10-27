@@ -4,30 +4,34 @@ on: gollum
 
 jobs:
   updateWikiRevision:
-    if: github.actor != 'GitHub Action'
+    if: github.actor != 'actions-user'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
         with:
           repository: ${{github.repository}}.wiki
 
-      - name: Dump GitHub context
+      - name: dump github context
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
         run: |
           echo "$GITHUB_CONTEXT"
-          echo "${{github.actor}}"
           
       - name: check wiki repo content
         run: |
           ls -al
           
-      - name: update wiki
+      - name: write new revision history
         run: |
           git log -1 --stat > log.txt
           cat log.txt |  awk '{if(NR==2) print "author-["$2"]"; else if (NR==3) print "date-["$6" "$2" "$3" "$4" "$5"]"}' | awk 'NR%2{printf "%s ",$0;next;}1' > string.txt
           awk 'NR>2{while((getline a < "string.txt") > 0){print a}}1' Design-and-Planning.md > Design-and-Planning-revised.md
-          mv Design-and-Planning-revised.md Design-and-Planning.md
+          rm string.txt
+          
+      - name: conditional update
+          cat log.txt | awk '{if(NR>=7) print $1}' | grep "Design-and-Planning.md" > condition.txt
+          if [[ $(wc -l <condition.txt) -ge 1 ]]; then mv Design-and-Planning-revised.md Design-and-Planning.md; else rm Design-and-Planning-revised.md;fi
+          rm condition.txt
           
       - name: commit changes
         run: |

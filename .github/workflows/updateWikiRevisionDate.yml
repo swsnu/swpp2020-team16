@@ -25,7 +25,6 @@ jobs:
       - name: check the most rescent wiki git logs
         run: |
           git log -1 --stat
-          git log --name-status HEAD^..HEAD
           
       - name: write new revision history
         run: |

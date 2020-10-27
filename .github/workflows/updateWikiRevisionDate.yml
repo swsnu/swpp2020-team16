@@ -11,9 +11,12 @@ jobs:
         with:
           repository: ${{github.repository}}.wiki
 
-      - name: echo github context
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
         run: |
           echo "$GITHUB_CONTEXT"
+          echo "${{github.actor}}"
           
       - name: check wiki repo content
         run: |

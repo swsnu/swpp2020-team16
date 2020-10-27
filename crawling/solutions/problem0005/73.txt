@@ -1,0 +1,14 @@
+def GCD(a, b):
+	while b!=0:
+		tmp=b
+		b=a%b
+		a=tmp
+	return a
+while True:
+	try:
+		a, b = map(int, input().split())
+	except EOFError:
+		break
+	a, b = (a, b) if a>=b else (b, a)
+	gcd=GCD(a,b)
+	print(gcd, a*b//gcd)

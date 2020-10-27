@@ -6,11 +6,13 @@ jobs:
   updateWikiRevision:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
+        with:
+          repository: ${{github.repository}}.wiki
         
-      - name: get wiki
+      - name: check wiki repo content
         run: |
-          git clone https://github.com/swsnu/swpp2020-team16.wiki.git
+          ls -al
           
       - name: update wiki
         run: |
@@ -18,6 +20,7 @@ jobs:
           git log -1 --stat > log.txt
           cat log.txt |  awk '{if(NR==2) print "author-["$2"]"; else if (NR==3) print "date-["$6" "$2" "$3" "$4" "$5"]"}' | awk 'NR%2{printf "%s ",$0;next;}1' > string.txt
           awk 'NR>2{while((getline a < "string.txt") > 0){print a}}1' Design-and-Planning.md > Design-and-Planning-revised.md
+          mv Design-and-Planning-revised.md Design-and-Planning.md
           
       - name: commit changes
         run: |
@@ -27,9 +30,7 @@ jobs:
           git commit -m "update revision history"
           
       - name: Push to wiki repo
-        run: |
-          git push
-#         uses: ad-m/github-push-action@master
-#         with:
-#           repository: ${{github.repository}}.wiki    # specify the wiki repo and push the update.
-#           github_token: ${{ secrets.GITHUB_TOKEN }}
+        uses: ad-m/github-push-action@master
+        with:
+          repository: ${{github.repository}}.wiki    # specify the wiki repo and push the update.
+          github_token: ${{ secrets.GITHUB_TOKEN }}

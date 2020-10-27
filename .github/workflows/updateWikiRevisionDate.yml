@@ -7,20 +7,29 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      # Additional steps to generate documentation in "Documentation" directory
+        
       - name: get wiki
         run: |
           git clone https://github.com/swsnu/swpp2020-team16.wiki.git
+          
+      - name: update wiki
+        run: |
           cd swpp2020-team16.wiki
           git log -1 --stat > log.txt
           cat log.txt |  awk '{if(NR==2) print "author-["$2"]"; else if (NR==3) print "date-["$6" "$2" "$3" "$4" "$5"]"}' | awk 'NR%2{printf "%s ",$0;next;}1' > string.txt
           awk 'NR>2{while((getline a < "string.txt") > 0){print a}}1' Design-and-Planning.md > Design-and-Planning-revised.md
-          cat Design-and-Planning.md
-          echo revised-one
-          cat Design-and-Planning-revised.md
-
           
-        
-#       - uses: actions/checkout@
-#       - name: Run a one-line script
-#         run: echo Hello, world!
+      - name: commit changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add .
+          git commit -m "update revision history"
+          
+      - name: Push to wiki repo
+        run: |
+          git push
+#         uses: ad-m/github-push-action@master
+#         with:
+#           repository: ${{github.repository}}.wiki    # specify the wiki repo and push the update.
+#           github_token: ${{ secrets.GITHUB_TOKEN }}

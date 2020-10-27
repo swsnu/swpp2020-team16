@@ -16,7 +16,6 @@ jobs:
           
       - name: update wiki
         run: |
-          cd swpp2020-team16.wiki
           git log -1 --stat > log.txt
           cat log.txt |  awk '{if(NR==2) print "author-["$2"]"; else if (NR==3) print "date-["$6" "$2" "$3" "$4" "$5"]"}' | awk 'NR%2{printf "%s ",$0;next;}1' > string.txt
           awk 'NR>2{while((getline a < "string.txt") > 0){print a}}1' Design-and-Planning.md > Design-and-Planning-revised.md

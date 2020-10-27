@@ -4,12 +4,17 @@ on: gollum
 
 jobs:
   updateWikiRevision:
+    if: github.actor != 'GitHub Action'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
         with:
           repository: ${{github.repository}}.wiki
-        
+
+      - name: echo github context
+        run: |
+          echo "$GITHUB_CONTEXT"
+          
       - name: check wiki repo content
         run: |
           ls -al

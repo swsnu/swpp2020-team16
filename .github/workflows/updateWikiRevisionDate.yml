@@ -27,27 +27,32 @@ jobs:
           git log -1 --stat
           git log --name-status HEAD^..HEAD
           
-      - name: write new revision history  { printf "%s\\n",$1 }
+      - name: write new revision history
         run: |
           git log -1 --stat > log.txt
           cat log.txt |  awk '{if(NR==2) print "author-["$2"]"; else if (NR==3) print "date-["$6" "$2" "$3" "$4" "$5"]<br/>"}' | awk 'NR%2{printf "%s ",$0;next;}1' > string.txt
           awk 'NR>2{while((getline a < "string.txt") > 0){print a}}1' Design-and-Planning.md > Design-and-Planning-revised.md
-          rm string.txt
+          awk 'NR>2{while((getline a < "string.txt") > 0){print a}}1' Requirements-and-Specification.md > Requirements-and-Specification-revised.md
           
-      - name: if log inlcudes Design-and-Planning.md change, then update.
-        if: github.pages.page_name == "Design-and-Planning"
+      - if: github.event.pages[0].page_name == 'Design-and-Planning'
+        name: if log inlcudes Design-and-Planning.md change, then update.
         run: |
           cat log.txt | awk '{if(NR>=7) print $1}' | grep "Design-and-Planning.md" > condition.txt
-          if [[ $(wc -l <condition.txt) -ge 1 ]]; then mv Design-and-Planning-revised.md Design-and-Planning.md; else rm Design-and-Planning-revised.md;fi
-          rm condition.txt
-          rm log.txt
+          if [[ $(wc -l <condition.txt) -ge 1 ]]; then mv Design-and-Planning-revised.md Design-and-Planning.md;fi
       
-      - name: if log inlcudes Requirements-and-Specification.md change, then update.
-        if: github.pages.page_name == "Requirements-and-Specification"
+      - if: github.event.pages[0].page_name == 'Requirements-and-Specification'
+        name: if log inlcudes Requirements-and-Specification.md change, then update.
         run: |
           cat log.txt | awk '{if(NR>=7) print $1}' | grep "Requirements-and-Specification.md" > condition.txt
-          if [[ $(wc -l <condition.txt) -ge 1 ]]; then mv Requirements-and-Specification-revised.md Requirements-and-Specification.md; else rm Requirements-and-Specification-revised.md;fi
+          if [[ $(wc -l <condition.txt) -ge 1 ]]; then mv Requirements-and-Specification-revised.md Requirements-and-Specification.md;fi
+          
+      - name : cleanup
+        run: |
+          rm log.txt
+          rm string.txt
           rm condition.txt
+          rm Design-and-Planning-revised.md
+          rm Requirements-and-Specification-revised.md
           
       - name: commit changes
         run: |
@@ -61,52 +66,3 @@ jobs:
         with:
           repository: ${{github.repository}}.wiki    # specify the wiki repo and push the update.
           github_token: ${{ secrets.GITHUB_TOKEN }}
-
-#   updateWikiRevision__RequirementsAndSpecification__:
-#     if: github.actor != 'actions-user' && github.pages.page_name == "Requirements-and-Specification"
-
-#     runs-on: ubuntu-latest
-#     steps:
-#       - uses: actions/checkout@v2
-#         with:
-#           repository: ${{github.repository}}.wiki
-
-#       - name: dump github context
-#         env:
-#           GITHUB_CONTEXT: ${{ toJson(github) }}
-#         run: |
-#           echo "$GITHUB_CONTEXT"
-          
-#       - name: check wiki repo content
-#         run: |
-#           ls -al
-          
-#       - name: check the most rescent wiki git logs
-#         run: |
-#           git log -1 --stat
-          
-#       - name: write new revision history  { printf "%s\\n",$1 }
-#         run: |
-#           git log -1 --stat > log.txt
-#           cat log.txt |  awk '{if(NR==2) print "author-["$2"]"; else if (NR==3) print "date-["$6" "$2" "$3" "$4" "$5"]<br/>"}' | awk 'NR%2{printf "%s ",$0;next;}1' > string.txt
-#           awk 'NR>2{while((getline a < "string.txt") > 0){print a}}1' Requirements-and-Specification.md > Requirements-and-Specification-revised.md
-#           rm string.txt
-      
-#       - name: if log inlcudes Requirements-and-Specification.md change, then update.
-#         run: |
-#           cat log.txt | awk '{if(NR>=7) print $1}' | grep "Requirements-and-Specification.md" > condition.txt
-#           if [[ $(wc -l <condition.txt) -ge 1 ]]; then mv Requirements-and-Specification-revised.md Requirements-and-Specification.md; else rm Requirements-and-Specification-revised.md;fi
-#           rm condition.txt
-          
-#       - name: commit changes
-#         run: |
-#           git config --local user.email "action@github.com"
-#           git config --local user.name "GitHub Action"
-#           git add .
-#           git commit -m "update revision history"
-          
-#       - name: Push to wiki repo
-#         uses: ad-m/github-push-action@master
-#         with:
-#           repository: ${{github.repository}}.wiki    # specify the wiki repo and push the update.
-#           github_token: ${{ secrets.GITHUB_TOKEN }}

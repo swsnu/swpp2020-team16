@@ -50,8 +50,8 @@ jobs:
           rm log.txt
           rm string.txt
           rm condition.txt
-          [[-f Design-and-Planning-revised.md ]] && rm Design-and-Planning-revised.md
-          [[-f Requirements-and-Specification-revised.md ]] && rm Requirements-and-Specification-revised.md
+          rm -f Design-and-Planning-revised.md
+          rm -f Requirements-and-Specification-revised.md
           
       - name: commit changes
         run: |

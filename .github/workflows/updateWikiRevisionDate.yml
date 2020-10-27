@@ -11,9 +11,11 @@ jobs:
       - name: getWiki
         run: |
           git clone https://github.com/swsnu/swpp2020-team16.wiki.git
-          ls
-          cd  swpp2020-team16.wiki
-          ls
+          cd swpp2020-team16.wiki
+          vi Design-and-Planning.md
+          git log
+          echo get wiki.
+          git log -1 --stat
           echo get wiki.
           
         

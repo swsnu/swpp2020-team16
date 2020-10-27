@@ -26,7 +26,7 @@ jobs:
           git log -1 --stat > log.txt
           cat log.txt |  awk '{if(NR==2) print "author-["$2"]"; else if (NR==3) print "date-["$6" "$2" "$3" "$4" "$5"]<br/>"}' | awk 'NR%2{printf "%s ",$0;next;}1' > string.txt
           awk 'NR>2{while((getline a < "string.txt") > 0){print a}}1' Design-and-Planning.md > Design-and-Planning-revised.md
-          awk 'NR>2{while((getline a < "string.txt") > 0){print a}}1' Requirement-and-Specification.md > Requirement-and-Specification-revised.md
+          awk 'NR>2{while((getline a < "string.txt") > 0){print a}}1' Requirements-and-Specification.md > Requirements-and-Specification-revised.md
           awk 'NR>2{while((getline a < "string.txt") > 0){print a}}1' Proposal.md > Proposal-revised.md
           rm string.txt
           
@@ -36,10 +36,10 @@ jobs:
           if [[ $(wc -l <condition.txt) -ge 1 ]]; then mv Design-and-Planning-revised.md Design-and-Planning.md; else rm Design-and-Planning-revised.md;fi
           rm condition.txt
       
-      - name: if log inlcudes Requirement-and-Specification.md change, then update.
+      - name: if log inlcudes Requirements-and-Specification.md change, then update.
         run: |
-          cat log.txt | awk '{if(NR>=7) print $1}' | grep "Requirement-and-Specification.md" > condition.txt
-          if [[ $(wc -l <condition.txt) -ge 1 ]]; then mv Requirement-and-Specification-revised.md Requirement-and-Specification.md; else rm Requirement-and-Specification-revised.md;fi
+          cat log.txt | awk '{if(NR>=7) print $1}' | grep "Requirements-and-Specification.md" > condition.txt
+          if [[ $(wc -l <condition.txt) -ge 1 ]]; then mv Requirements-and-Specification-revised.md Requirements-and-Specification.md; else rm Requirements-and-Specification-revised.md;fi
           rm condition.txt
           
       - name: if log inlcudes Proposal.md change, then update.

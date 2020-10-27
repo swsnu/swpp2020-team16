@@ -25,14 +25,22 @@ jobs:
       - name: check the most rescent wiki git logs
         run: |
           git log -1 --stat
+      
+      - name : create revision history markdown string
+        env:
+          REPO: ${{github.repository}}
+        run: |
+          git log -1 --stat > log.txt
+          cat log.txt | grep "Author" | awk '{print "(author["$2"] updated wiki at "}' > author.txt
+          cat log.txt | grep "Date"   | awk '{print "date["$6" "$2" "$3" "$4" "$5"])"}' > date.txt
+          cat log.txt | grep "commit" | awk -v repo="$REPO" '{print "[https://github.com/"repo"/wiki/Requirements-and-Specification/"$2"]<br/>"}' > link.txt
+          paste -d'\0' author.txt date.txt link.txt > mdstring.txt
           
       - name: write new revision history
         run: |
-          git log -1 --stat > log.txt
-          cat log.txt |  awk '{if(NR==2) print "author-["$2"]"; else if (NR==3) print "date-["$6" "$2" "$3" "$4" "$5"]<br/>"}' | awk 'NR%2{printf "%s ",$0;next;}1' > string.txt
-          awk 'NR>2{while((getline a < "string.txt") > 0){print a}}1' Design-and-Planning.md > Design-and-Planning-revised.md
-          awk 'NR>2{while((getline a < "string.txt") > 0){print a}}1' Requirements-and-Specification.md > Requirements-and-Specification-revised.md
-          
+          awk 'NR>2{while((getline a < "mdstring.txt") > 0){print a}}1' Design-and-Planning.md > Design-and-Planning-revised.md
+          awk 'NR>2{while((getline a < "mdstring.txt") > 0){print a}}1' Requirements-and-Specification.md > Requirements-and-Specification-revised.md
+
       - if: github.event.pages[0].page_name == 'Design-and-Planning'
         name: if log inlcudes Design-and-Planning.md change, then update.
         run: |
@@ -48,8 +56,11 @@ jobs:
       - name : cleanup temporary file
         run: |
           rm log.txt
-          rm string.txt
-          rm condition.txt
+          rm author.txt
+          rm date.txt
+          rm link.txt
+          rm mdstring.txt
+          rm -f rm condition.txt
           rm -f Design-and-Planning-revised.md
           rm -f Requirements-and-Specification-revised.md
           

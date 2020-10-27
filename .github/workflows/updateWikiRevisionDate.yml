@@ -29,11 +29,12 @@ jobs:
       - name : create revision history markdown string
         env:
           REPO: ${{github.repository}}
+          PAGENAME: ${{github.event.pages[0].page_name}}
         run: |
           git log -1 --stat > log.txt
           cat log.txt | grep "Author" | awk '{print "[author["$2"] updated wiki at "}' > author.txt
           cat log.txt | grep "Date"   | awk '{print "date["$6" "$2" "$3" "$4" "$5"]]"}' > date.txt
-          cat log.txt | grep "commit" | awk -v repo="$REPO" '{print "(https://github.com/"repo"/wiki/Requirements-and-Specification/"$2")<br/>"}' > link.txt
+          cat log.txt | grep "commit" | awk -v repo="$REPO" -v pagename="$PAGENAME" '{print "(https://github.com/"repo"/wiki/"pagename"/"$2")<br/>"}' > link.txt
           paste -d'\0' author.txt date.txt link.txt > mdstring.txt
           
       - name: write new revision history

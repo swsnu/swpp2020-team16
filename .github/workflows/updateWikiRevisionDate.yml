@@ -21,6 +21,10 @@ jobs:
         run: |
           ls -al
           
+      - name: check the most rescent wiki git logs
+        run: |
+          git log -1 --stat
+          
       - name: write new revision history  { printf "%s\\n",$1 }
         run: |
           git log -1 --stat > log.txt

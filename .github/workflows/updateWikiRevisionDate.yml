@@ -45,13 +45,13 @@ jobs:
           cat log.txt | awk '{if(NR>=7) print $1}' | grep "Requirements-and-Specification.md" > condition.txt
           if [[ $(wc -l <condition.txt) -ge 1 ]]; then mv Requirements-and-Specification-revised.md Requirements-and-Specification.md;fi
           
-      - name : cleanup
+      - name : cleanup temporary file
         run: |
           rm log.txt
           rm string.txt
           rm condition.txt
-          rm Design-and-Planning-revised.md
-          rm Requirements-and-Specification-revised.md
+          [-f Design-and-Planning-revised.md] && rm Design-and-Planning-revised.md
+          [-f Requirements-and-Specification-revised.md] && rm Requirements-and-Specification-revised.md
           
       - name: commit changes
         run: |

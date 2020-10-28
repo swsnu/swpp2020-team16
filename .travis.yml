@@ -72,13 +72,13 @@ matrix:
     - language: python
       python:
         - "3.7"
+      services:
+        - docker
       before_script:
         - cd coding-mbti/backend
-        - pip install -r requirements.txt
-        - pip install coverage
-        - pip install coveralls
+        - ./local-docker/local-docker-starter-back/init.sh
       script:
-        - coverage run -m unittest
+        - ./local-docker/local-docker-tester-back/init-test.sh
       before_deploy:
         - mkdir -p ../backend-build
         - cp -r ./* ../backend-build

@@ -11,7 +11,8 @@ matrix:
         directories:
           - node_modules
       script:
-        - yarn test -- --coverage
+       - ./node_modules/.bin/eslint src/
+       - yarn test -- --coverage
       before_deploy:
         - yarn build
         - cp ../aws-codedeploy-scripts/frontend/* ./build
@@ -78,7 +79,9 @@ matrix:
         - pip install coverage
         - pip install coveralls
       script:
-        - coverage run -m unittest
+        - pylint **/*.py --load-plugins pylint_django
+        - coverage run --source="." manage.py test
+        - coverage xml
       before_deploy:
         - mkdir -p ../backend-build
         - cp -r ./* ../backend-build

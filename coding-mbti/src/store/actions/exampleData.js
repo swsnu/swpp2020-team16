@@ -1,12 +1,7 @@
-import * as actionTypes from './actionTypes';
+/* eslint-disable no-underscore-dangle */
 import axios from 'axios';
+import * as actionTypes from './actionTypes';
 
-export const getNames_ = (names) => {
-     return { type: actionTypes.GET_ALL, payload: names };
-};
-export const getNames = () => {
-     return dispatch => {
-          return axios.get('/api/name/')
-               .then(res => dispatch(getNames_(res.data)));
-           }
-      }
+export const getNames_ = (names) => ({ type: actionTypes.GET_ALL, payload: names });
+export const getNames = () => (dispatch) => axios.get('/api/name/')
+  .then((res) => dispatch(getNames_(res.data)));

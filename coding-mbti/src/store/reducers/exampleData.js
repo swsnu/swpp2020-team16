@@ -1,4 +1,4 @@
-import * as actionTypes from '../actions/actionTypes'
+import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
   names: [],
@@ -7,13 +7,13 @@ const initialState = {
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.GET_ALL:
-      return {...state, names: action.payload}
+      return { ...state, names: action.payload };
 
     default:
-      break
+      break;
   }
-  
-  return state
+
+  return state;
 };
 
-export default reducer
+export default reducer;

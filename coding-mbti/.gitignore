@@ -7,10 +7,11 @@
 
 # pycache
 *.py[co]
-__pycache__
+__pycache__/
 
 # testing
 /coverage
+**/.coverage
 
 # production
 /build

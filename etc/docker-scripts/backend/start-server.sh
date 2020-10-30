@@ -1,11 +1,13 @@
 #!/bin/bash
-  
-cd /deploy/swpp2020-team16/coding-mbti/backend
+set -e
 
-pip3 install pip==20.0.2
-pip3 install django==3.1.1
-pip3 install gunicorn==20.0.2
-pip3 install psycopg2-binary==2.8.6
+#install requirements
+pip install -r /deploy/swpp2020-team16/coding-mbti/backend/requirements.txt
 
-/init-backend.sh
-/wait-for-it.sh db:5432 -t 10 -- python manage.py runserver 0.0.0.0:8000
+#makemigrations
+python /deploy/swpp2020-team16/coding-mbti/backend/manage.py makemigrations
+
+#migrate
+python /deploy/swpp2020-team16/coding-mbti/backend/manage.py migrate
+
+/wait-for-it.sh db:5432 -t 10 -- echo "db is ready!" && python /deploy/swpp2020-team16/coding-mbti/backend/manage.py runserver 0.0.0.0:8000

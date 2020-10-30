@@ -1,9 +1,8 @@
 import React from 'react';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import logo from './logo.svg';
 import './App.css';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
-
-import Name from './containers/django_fetch_data_container_example/Name'
+import Name from './containers/django_fetch_data_container_example/Name';
 
 function Home() {
   return (
@@ -11,7 +10,11 @@ function Home() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-          Edit <code>src/App.js</code> and save to reload. hihi change updated? again? and again? and really again?
+          Edit
+          <code>
+            src/App.js
+          </code>
+          and save to reload.
         </p>
         <a
           className="App-link"
@@ -29,12 +32,12 @@ function Home() {
 function App() {
   return (
     <BrowserRouter>
-      <div className="App" >
+      <div className="App">
         <Switch>
-          <Route path='/' exact component={Home}/>
-          <Route path='/name' exact component={Name}/>
+          <Route path="/" exact component={Home} />
+          <Route path="/name" exact component={Name} />
         </Switch>
-      </div >
+      </div>
     </BrowserRouter>
   );
 }

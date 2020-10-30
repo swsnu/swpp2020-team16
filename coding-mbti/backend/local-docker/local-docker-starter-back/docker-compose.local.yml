@@ -12,6 +12,7 @@ services:
     links:
       - db:db
     environment:
+      - DJANGO_SETTINGS_MODULE=codingmbti_backend.settings
       - DJANGO_DEBUG=True
       - DJANGO_DB_HOST=db
       - DJANGO_DB_PORT=5432

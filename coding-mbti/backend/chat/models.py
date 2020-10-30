@@ -1,7 +1,7 @@
 from django.db import models
+from django_extensions.db.models import TimeStampedModel
 from user.models import User
 from group.models import Group
-from django_extensions.db.models import TimeStampedModel
 
 # Create your models here.
 

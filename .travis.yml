@@ -82,9 +82,9 @@ matrix:
       services:
         - docker
       before_script:
-        - cd /coding-mbti/backend/local-docker/local-docker-starter-back
+        - cd ${TRAVIS_BUILD_DIR}/coding-mbti/backend/local-docker/local-docker-starter-back
         - ./install-after-remove.sh
-        - cd /coding-mbti/backend/
+        - cd ${TRAVIS_BUILD_DIR}/coding-mbti/backend/
       addons:
         sonarcloud:
           organization: "swsnu"

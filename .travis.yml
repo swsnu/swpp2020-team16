@@ -93,7 +93,6 @@ matrix:
       script:
         - ./local-docker/local-docker-tester-back/init-pylint.sh
         - ./local-docker/local-docker-tester-back/init-test.sh
-        - coverage xml
       before_deploy:
         - mkdir -p ../backend-build
         - cp -r ./* ../backend-build

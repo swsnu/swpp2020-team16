@@ -8,7 +8,7 @@ from .models import Name
 
 
 @csrf_exempt
-def index(request, name_id=None):
+def name(request, name_id=None):
     '''이름을 GET, POST, DELETE 할 수 있는 view.
 
     :param `wsgiRequests` request: a request from frontend
@@ -29,7 +29,7 @@ def index(request, name_id=None):
                     'name': name.name,
                 }
                 return JsonResponse(response_dict, safe=False)
-            except KeyError:
+            except Exception:
                 return HttpResponseBadRequest(f'NameID does not exist: {name_id}')
     if request.method == 'POST':
         try:
@@ -37,20 +37,20 @@ def index(request, name_id=None):
             name = json.loads(body)['name']
         except (KeyError, json.JSONDecodeError):
             return HttpResponseBadRequest()
-        name_obj = Name(name=name, done=False)
+        name_obj = Name(name=name)
         name_obj.save()
         response_dict = {
             'id': name_obj.id,
             'name': name_obj.name,
         }
-        return JsonResponse(response_dict)
+        return HttpResponse(json.dumps(response_dict), status=204)
     elif request.method == 'DELETE':
         if name_id is None:
             return HttpResponseBadRequest('name_id is not specified.')
         try:
             name = Name.objects.get(id=name_id)
             name.delete()
-        except KeyError:
+        except Exception:
             return HttpResponseBadRequest(f'name_id does not exist: {name_id}')
         return HttpResponse(status=204)
     else:

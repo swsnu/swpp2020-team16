@@ -43,7 +43,7 @@ def index(request, name_id=None):
             'id': name_obj.id,
             'name': name_obj.name,
         }
-        return HttpResponse(json.dumps(response_dict), status=201)
+        return JsonResponse(response_dict)
     elif request.method == 'DELETE':
         if name_id is None:
             return HttpResponseBadRequest('name_id is not specified.')

@@ -1,6 +1,6 @@
 #bin/bash
 
-echo "[Sanity Check]Checks if docker, docker-compose, docker-machine is properly installed."
+echo "[Sanity Check]Checks if docker, docker-compose is properly installed."
 
 if [ -x "$(command -v docker)" ]; then
     echo "[(1/3) docker is installed.]"
@@ -31,4 +31,4 @@ containerId=`docker ps | grep django-backend-server | awk '{print $1}'`
 
 echo "Container[ID=$containerId] is the django-backend-server. Testing..."
 
-docker  exec -it "$containerId" /bin/bash -c "cd /deploy/swpp2020-team16/coding-mbti/backend; coverage run --source='.' manage.py test"
+docker  exec -it "$containerId" /bin/bash -c "cd /deploy/swpp2020-team16/coding-mbti/backend; pylint **/*.py --load-plugins pylint_django"

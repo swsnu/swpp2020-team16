@@ -82,7 +82,7 @@ elif [ "$answer" != "${answer#[Nn]}" ] ;then
         echo "[Container creation passed] : Container with name 'local-docker-starter-front_node-frontend-server_1' already exists."
     else
         echo "[Container creation started] : creating docker container ..."
-        docker-compose -f docker-compose.local.yml up -d
+        docker-compose -f docker-compose.local.yml up
         echo "[Container creation ended]"
     fi
     correctlyDone=1

@@ -82,10 +82,9 @@ matrix:
       services:
         - docker
       before_script:
-        - cd coding-mbti/backend
-        - ls
-        - ls ./local-docker/local-docker-starter-back
-        - ./local-docker/local-docker-starter-back/install-after-remove.sh
+        - cd /coding-mbti/backend/local-docker/local-docker-starter-back
+        - ./install-after-remove.sh
+        - cd /coding-mbti/backend/
       addons:
         sonarcloud:
           organization: "swsnu"

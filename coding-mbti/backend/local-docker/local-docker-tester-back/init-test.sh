@@ -52,4 +52,4 @@ test "$currentInstallation" = "$havetoInstallation" && echo "[installation check
 
 echo "test & coverage check..."
 
-docker  exec -it "$containerId" /bin/bash -c "cd /deploy/swpp2020-team16/coding-mbti/backend; coverage run --source='.' manage.py test"
+docker  exec -it "$containerId" /bin/bash -c "cd /deploy/swpp2020-team16/coding-mbti/backend; coverage run --source='.' manage.py test; coverage xml"

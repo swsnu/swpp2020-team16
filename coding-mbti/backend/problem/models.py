@@ -9,11 +9,7 @@ class TextModel(models.Model):
 
 class Problem(TextModel):
     class ProblemStyle(models.IntegerChoices):
-<<<<<<< HEAD
         UM = 1
-=======
-        EI = 1
->>>>>>> 017d4a65474014b6d3199ea2a5cd410dbd3d6fc7
         NS = 2
         FT = 3
         PJ = 4

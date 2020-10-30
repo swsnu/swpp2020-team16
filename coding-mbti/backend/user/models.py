@@ -5,30 +5,37 @@ from group.models import Group
 # Create your models here.
 class CodingStyle(models.Model):
     class Style(models.IntegerChoices):
-        ISTJ = 1
-        ISTP = 2
-        ISFJ = 3
-        ISFP = 4
-        INTF = 5
-        INTP = 6
-        INFJ = 7
-        INFP = 8
-        ESTJ = 9
-        ESTP = 10
-        ESFJ = 11
-        ESFP = 12
-        ENTJ = 13
-        ENTP = 14
-        ENFJ = 15
-        ENFP = 16
+        # User Frienly - Machine Efficiency
+        # Time Complexity - Intutive Code
+        # Easy style - Formatted Style 
+        # Just type - Carefully type
+        UTEJ = 1
+        UTEC = 2
+        UTFJ = 3
+        UTFC = 4
+        UIEJ = 5
+        UIEC = 6
+        UIFJ = 7
+        UIFC = 8
+        MTEJ = 9
+        MTEC = 10
+        MTFJ = 11
+        MTFC = 12
+        MIEJ = 13
+        EIEC = 14
+        MIFJ = 15
+        MIFC = 16
     style = models.IntegerField(choices=Style.choices)
+    UM_value = models.FloatField()
+    TI_value = models.FloatField()
+    EF_value = models.FloatField()
+    JC_value = models.FloatField()
+
 
 class UserManager(BaseUserManager):
     use_in_migrations = True
 
     def create_user(self, username, password, email, salt, role):
-        if not email :            
-            raise ValueError('must have user email')
         user = self.model(username=username,
             password=password,
             email=self.normalize_email(email),
@@ -45,9 +52,11 @@ class User(AbstractBaseUser):
 
     username = models.CharField(max_length=21, unique=True, default=None)
     email = models.CharField(max_length=190, unique=True, null=True, default=None)
+    nickname = models.CharField(max_length=21, unique=True)
     password = models.TextField(null=True, default=None)
     salt = models.TextField(null=True, default=None)
     role = models.IntegerField(choices=Role.choices)
+    profile_img = models.ImageField()
 
     objects = UserManager()
 

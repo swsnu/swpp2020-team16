@@ -91,7 +91,7 @@ matrix:
           token:
             secure: "aNH10RBx7wmUBjF5UwW24TeM/IcOocgK9NxLh8DpH6mFVyVrdbwEpG2tHRqr7swmvmgC3/X/kCRaVOBIyU1K/aOvyLcOshyi3gpLwSs1Va9M0j1JlU3vHaq39lX3jxG7W8o4qYhcqWvRbgbFEnPuaBEG2gxhytPIIedml/gdAHAQHWkjGbtRlT2MTxHpygnMM6JZJNIx9NMkDWnFwGxrU4WRts6RsbLvRaPhpVTWyA3QVg/IlSyHOcF/mWF4vbZuClklE5Y3CfVhU4d9sKsIke8nCJhDe4pmzmuxZXYDUptfVyloBbAmHhUobU3kj5VMJuNWQ9vDeWSh+K4b3/ivK7e3XDO47wom7Oy1JhNAA9Kc1LdWYNvGu9QRx+7QYm36h6GyR9Hse8YEA7qpu30XyevXHGyRy2F/NWUWOa7VB9fMDAqPoCnVSfKgBt0xU2Gcrj1La97Mndvfp6MSnc3RQr0TRcC/bgC6DR0F9lq8GBtPi5paElDcJuKtj/lJ0P7RICJ3i0jBeM4O43SxBJxKeDAxgopFxJwMu1lC+YA5VV4KBK1pYXUo2aqpDN70LqHc/AFc6xFfOmD9pa7QI3mgZQFJSe5aNUNbFXjNVJpC7JuYxiG/mwtBOWM3mLvLEpYbNDl4XuhFCprl9qz2hQ2xhT3l8JixNTOXCTWe9nwMmpc="
       script:
-        - pylint **/*.py --load-plugins pylint_django
+        - ./local-docker/local-docker-tester-back/init-pylint.sh
         - ./local-docker/local-docker-tester-back/init-test.sh
         - coverage xml
       before_deploy:

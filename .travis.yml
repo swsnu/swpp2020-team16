@@ -84,6 +84,7 @@ matrix:
       before_script:
         - cd coding-mbti/backend
         - ls
+        - ls ./local-docker/local-docker-starter-back
         - ./local-docker/local-docker-starter-back/install-after-remove.sh
       addons:
         sonarcloud:

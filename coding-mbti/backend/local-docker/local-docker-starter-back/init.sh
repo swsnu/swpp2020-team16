@@ -10,6 +10,10 @@ echo -n "Is it okay to remove all your images and containers before installing s
 
 read answer
 
+DIR=$(dirname "$0")
+echo "$DIR"
+cd "$DIR"
+
 ./sanity-check.sh
 
 allok=0

@@ -13,6 +13,12 @@ __pycache__/
 /coverage
 **/.coverage
 
+/.coverage
+/backend/.coverage
+
+/htmlcov
+/backend/htmlcov
+
 # production
 /build
 

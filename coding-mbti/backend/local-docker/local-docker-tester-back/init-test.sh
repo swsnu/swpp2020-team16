@@ -18,15 +18,6 @@ else
     exit 1
 fi
 
-if [ -x "$(command -v docker-machine)" ]; then
-    echo "[(3/3) docker-compose is installed.]"
-else
-    echo "[(3/3) docker-compose is not installed. please install.]"
-    echo "aborting..."
-    exit 1
-fi
-
-
 echo "Checks if docker is running..."
 if docker info | grep -Fq "Cannot connect to the Docker daemon"; then
     echo "Docker is not running. please run it before you start this script."

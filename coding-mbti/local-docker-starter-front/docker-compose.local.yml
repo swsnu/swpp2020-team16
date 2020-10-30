@@ -1,0 +1,10 @@
+version: '2'
+  
+services:
+  node-frontend-server:
+    image: node-frontend-server
+    tty: true
+    volumes:
+      - ../:/deploy/swpp2020-team16/coding-mbti
+    ports:
+      - "3000:3000"

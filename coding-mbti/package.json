@@ -1,21 +1,35 @@
 {
   "name": "coding-mbti",
+  "jest": {
+    "coveragePathIgnorePatterns": [
+      "src/serviceWorker.js",
+      "src/index.js",
+      "src/store/actions/actionTypes.js"
+    ]
+  },
   "version": "0.1.0",
   "private": true,
   "proxy": "http://localhost:8000",
   "dependencies": {
+    "@material-ui/core": "^4.11.0",
+    "@material-ui/icons": "^4.9.1",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "axios": "^0.20.0",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.5",
+    "history": "^5.0.0",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-markdown": "^5.0.2",
     "react-redux": "^7.2.1",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.0.1",
     "react-scripts": "3.4.3",
     "redux": "^4.0.5",
+    "redux-mock-store": "^1.5.4",
     "redux-thunk": "^2.3.0",
     "serve": "^11.3.2"
   },
@@ -45,6 +59,9 @@
   },
   "devDependencies": {
     "coveralls": "^3.1.0",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.5",
+    "enzyme-to-json": "^3.4.0",
     "eslint": "^6.6.0",
     "eslint-config-airbnb": "^18.2.0",
     "eslint-plugin-import": "^2.22.1",

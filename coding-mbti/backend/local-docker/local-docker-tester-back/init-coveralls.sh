@@ -50,6 +50,6 @@ done
 
 test "$currentCNT" -ge "$havetoCNT" && echo "[installation check completed.]"
 
-echo "test & coverage check..."
+echo "send data to coveralls..."
 
-docker  exec -it "$containerId" /bin/bash -c "cd /deploy/swpp2020-team16/coding-mbti/backend; coverage run --source='.' manage.py test; coverage html"
+docker exec -it "$containerId" /bin/bash -c "cd /deploy/swpp2020-team16/coding-mbti/backend; COVERALLS_PARALLEL=true COVERALLS_REPO_TOKEN=$1 coveralls"

@@ -39,7 +39,7 @@ currentCNT=`echo "$currentInstallation" |wc -l`
 havetoInstallation=`cat requirements.txt| awk '{print $1}' | sed 's/==*[0-9].*[0-9]//g' | sort`
 havetoCNT=`echo "$havetoInstallation"   |wc -l`
 
-until test "$currentInstallation" = "$havetoInstallation"; do
+until test "$currentCNT" -ge "$havetoCNT"; do
     printf "%d out of %d installed.\n" "$currentCNT" "$havetoCNT"
     currentInstallation=`docker exec "$containerId" pip list | grep -v "pip" | grep -v "setuptools" | grep -v "wheel" |awk 'NR>2{print $1}' | sort`
     currentCNT=`echo "$currentInstallation" |wc -l`
@@ -48,7 +48,7 @@ until test "$currentInstallation" = "$havetoInstallation"; do
     sleep 10
 done
 
-test "$currentInstallation" = "$havetoInstallation" && echo "[installation check completed.]"
+test "$currentCNT" -ge "$havetoCNT" && echo "[installation check completed.]"
 
 echo "pylint check..."
 

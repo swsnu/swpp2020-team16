@@ -14,6 +14,6 @@ RUN ln -s /usr/local/bin/start-server.sh /start-server.sh
 COPY ./wait-for-it.sh /usr/local/bin
 RUN ln -s /usr/local/bin/wait-for-it.sh /wait-for-it.sh
 RUN apt update
-RUN apt install -y libpq-dev python3-dev build-essential graphviz libgraphviz-dev pkg-config
+RUN apt install -y libpq-dev python3-dev build-essential graphviz libgraphviz-dev pkg-config git
 
 CMD ["start-server.sh"]

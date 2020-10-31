@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -78,7 +78,7 @@ export default function NavbarOMG() {
               </ListItemIcon>
               <ListItemText primary={text} />
             </ListItem>
-          ),
+          )
         )}
       </List>
       <Divider />

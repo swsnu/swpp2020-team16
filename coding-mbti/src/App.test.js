@@ -25,6 +25,6 @@ describe('App', () => {
 
   it('should render without error', () => {
     const wrapper = mount(app);
-    expect(wrapper.find('.App-Home').length).toBe(1);
+    expect(wrapper.find('App').length).toBe(1);
   });
 });

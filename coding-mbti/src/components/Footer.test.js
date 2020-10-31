@@ -1,10 +1,9 @@
 import React from 'react';
-import Footer from './Footer';
 import { createMount } from '@material-ui/core/test-utils';
-import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import Footer from './Footer';
 
-describe('<Footerr/>', () => {
-  let footer = <Footer />;
+describe('<Footer/>', () => {
+  const footer = <Footer />;
   let mount;
 
   beforeAll(() => {

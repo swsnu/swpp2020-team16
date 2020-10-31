@@ -1,6 +1,6 @@
 import React from 'react';
-import Showprob from './Showproblem';
 import { shallow } from 'enzyme';
+import Showprob from './Showproblem';
 
 describe('<ShowProb/>', () => {
   let showprob;

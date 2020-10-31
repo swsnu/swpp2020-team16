@@ -1,8 +1,7 @@
 import React from 'react';
-import Navbar from './Navbar';
 import { createMount } from '@material-ui/core/test-utils';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import { shallow } from 'enzyme';
+import Navbar from './Navbar';
 
 describe('<Navbar/>', () => {
   let navbar;
@@ -31,7 +30,7 @@ describe('<Navbar/>', () => {
 
   it('should have good drawer button', () => {
     const component = mount(navbar);
-    let wrapper = component.find('#drawerButton').at(1);
+    const wrapper = component.find('#drawerButton').at(1);
     wrapper.simulate('click');
   });
 });

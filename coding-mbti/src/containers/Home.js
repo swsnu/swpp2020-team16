@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import Button from '@material-ui/core/Button';
-import Footer from '../components/Footer';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import Showprob from '../components/Showproblem';
+
 const useStyles = makeStyles((theme) => ({
   icon: {
     marginRight: theme.spacing(2),
@@ -46,7 +47,7 @@ export default function HomeOMG() {
   const classes = useStyles();
 
   return (
-    <React.Fragment>
+    <Fragment>
       <Navbar />
       <main>
         {/* Hero unit */}
@@ -92,7 +93,7 @@ export default function HomeOMG() {
           </Container>
         </div>
         <Container className={classes.cardGrid} maxWidth="md">
-          <Grid container spacing={4}></Grid>
+          <Grid container spacing={4} />
         </Container>
         <Container maxWidth="md">
           <Showprob />
@@ -107,6 +108,6 @@ export default function HomeOMG() {
       </main>
       {/* Footer */}
       <Footer />
-    </React.Fragment>
+    </Fragment>
   );
 }

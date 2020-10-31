@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -18,7 +18,7 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   list: {
     width: 300,
   },
@@ -34,7 +34,7 @@ export default function NavbarOMG() {
     right: false,
   });
 
-  const toggleDrawer = (anchor, open) => (event) => {
+  const toggleDrawer = (anchor, open) => () => {
     setState({ ...state, [anchor]: open });
   };
 
@@ -86,12 +86,12 @@ export default function NavbarOMG() {
   );
 
   return (
-    <React.Fragment>
+    <Fragment>
       <CssBaseline />
 
       <SwipeableDrawer
         anchor="left"
-        open={state['left']}
+        open={state.left}
         onClose={toggleDrawer('left', false)}
         onOpen={toggleDrawer('left', true)}
       >
@@ -99,8 +99,8 @@ export default function NavbarOMG() {
       </SwipeableDrawer>
 
       <SwipeableDrawer
-        anchor={'right'}
-        open={state['right']}
+        anchor="right"
+        open={state.right}
         onClose={toggleDrawer('right', false)}
         onOpen={toggleDrawer('right', true)}
       >
@@ -130,6 +130,6 @@ export default function NavbarOMG() {
           </IconButton>
         </Toolbar>
       </AppBar>
-    </React.Fragment>
+    </Fragment>
   );
 }

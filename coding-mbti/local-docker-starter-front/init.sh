@@ -32,9 +32,9 @@ else
 fi
 
 if [ -x "$(command -v docker-machine)" ]; then
-    echo "[(3/3) docker-compose is installed.]"
+    echo "[(3/3) docker-machine is installed.]"
 else
-    echo "[(3/3) docker-compose is not installed. please install.]"
+    echo "[(3/3) docker-machine is not installed. please install.]"
     echo "aborting..."
     exit 1
 fi

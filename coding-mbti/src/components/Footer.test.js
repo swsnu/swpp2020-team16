@@ -1,5 +1,5 @@
 import React from 'react';
-import Footer from './Footer';
+import Footer from './Footer.js';
 import { createMount } from '@material-ui/core/test-utils';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 

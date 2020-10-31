@@ -1,12 +1,12 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
-import Footer from '../components/Footer';
+import Footer from '../components/Footer.js';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import Navbar from '../components/Navbar';
-import Showprob from '../components/Showprob';
+import Navbar from '../components/Navbar.js';
+import Showprob from '../components/Showprob.js';
 const useStyles = makeStyles((theme) => ({
   icon: {
     marginRight: theme.spacing(2),

@@ -15,6 +15,10 @@ class Report(TimeStampedModel):
 
 
 class Distribution(models.Model):
+    # User Frienly - Machine Efficiency
+    # Time Complexity - Intutive Code
+    # Easy style - Formatted Style
+    # Just type - Carefully type
     UM = models.FloatField()
     TI = models.FloatField()
     EF = models.FloatField()

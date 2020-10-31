@@ -1,7 +1,5 @@
 from django.db import models
 
-# Create your models here.
-
 
 class TextModel(models.Model):
     content = models.TextField()
@@ -12,10 +10,14 @@ class TextModel(models.Model):
 
 class Problem(TextModel):
     class ProblemStyle(models.IntegerChoices):
+        # User Frienly - Machine Efficiency
+        # Time Complexity - Intutive Code
+        # Easy style - Formatted Style
+        # Just type - Carefully type
         UM = 1
-        NS = 2
-        FT = 3
-        PJ = 4
+        TI = 2
+        EF = 3
+        JC = 4
     problem_style = models.IntegerField(choices=ProblemStyle.choices)
 
 

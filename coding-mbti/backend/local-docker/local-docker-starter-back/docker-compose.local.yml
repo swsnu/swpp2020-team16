@@ -1,0 +1,33 @@
+version: '2'
+  
+services:
+  django-backend-server:
+    image: django-backend-server
+    volumes:
+      - ../../:/deploy/swpp2020-team16/coding-mbti/backend
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    links:
+      - db:db
+    environment:
+      - DJANGO_SETTINGS_MODULE=codingmbti_backend.settings
+      - DJANGO_DEBUG=True
+      - DJANGO_DB_HOST=db
+      - DJANGO_DB_PORT=5432
+      - DJANGO_DB_NAME=postgres
+      - DJANGO_DB_USERNAME=postgres
+      - DJANGO_DB_PASSWORD=postgres
+
+  db:
+    image: postgres
+    #volumes:
+    #      - ../../../docker-local-db-volume/data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_INITDB_ARGS=--encoding=UTF-8
+    ports:
+      - "5432:5432"

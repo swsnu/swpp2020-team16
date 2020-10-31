@@ -10,6 +10,7 @@
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "axios": "^0.20.0",
+    "enzyme-adapter-react-14": "^1.4.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-markdown": "^5.0.2",
@@ -46,6 +47,9 @@
     ]
   },
   "devDependencies": {
-    "coveralls": "^3.1.0"
+    "coveralls": "^3.1.0",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.5",
+    "enzyme-to-json": "^3.4.0"
   }
 }

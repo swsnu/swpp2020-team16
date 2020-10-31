@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Home() {
+export default function NavbarOMG() {
   const classes = useStyles();
   const [state, setState] = React.useState({
     left: false,
@@ -35,14 +35,6 @@ export default function Home() {
   });
 
   const toggleDrawer = (anchor, open) => (event) => {
-    if (
-      event &&
-      event.type === 'keydown' &&
-      (event.key === 'Tab' || event.key === 'Shift')
-    ) {
-      return;
-    }
-
     setState({ ...state, [anchor]: open });
   };
 
@@ -53,7 +45,6 @@ export default function Home() {
       })}
       role="presentation"
       onClick={toggleDrawer(anchor, false)}
-      onKeyDown={toggleDrawer(anchor, false)}
     >
       <List>
         {['Find People', 'Research', 'API'].map((text, index) => (
@@ -115,11 +106,12 @@ export default function Home() {
       >
         {listRight('right')}
       </SwipeableDrawer>
-      <AppBar position="relative">
+      <AppBar position="relative" className="navbar">
         <Toolbar>
           <IconButton
             edge="start"
             className={classes.menuButton}
+            id="drawerButton"
             color="inherit"
             aria-label="menu"
             onClick={toggleDrawer('left', true)}

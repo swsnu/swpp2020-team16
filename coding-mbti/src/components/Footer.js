@@ -30,14 +30,11 @@ const useStyles = makeStyles((theme) => ({
   footer: {
     padding: theme.spacing(3, 2),
     marginTop: 'auto',
-    backgroundColor:
-      theme.palette.type === 'light'
-        ? theme.palette.grey[200]
-        : theme.palette.grey[800],
+    backgroundColor: theme.palette.grey[200],
   },
 }));
 
-export default function StickyFooter() {
+export default function FooterOMG() {
   const classes = useStyles();
 
   return (

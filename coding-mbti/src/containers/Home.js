@@ -6,7 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Navbar from '../components/Navbar';
-import ShowProb from '../components/ShowProb';
+import Showprob from '../components/Showprob';
 const useStyles = makeStyles((theme) => ({
   icon: {
     marginRight: theme.spacing(2),
@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Home() {
+export default function HomeOMG() {
   const classes = useStyles();
 
   return (
@@ -66,6 +66,7 @@ export default function Home() {
               align="center"
               color="textSecondary"
               paragraph
+              className="phrase"
             >
               Get thorough insight on your coding habit
             </Typography>
@@ -94,7 +95,7 @@ export default function Home() {
           <Grid container spacing={4}></Grid>
         </Container>
         <Container maxWidth="md">
-          <ShowProb />
+          <Showprob />
         </Container>
         <Container maxWidth="md">
           <div

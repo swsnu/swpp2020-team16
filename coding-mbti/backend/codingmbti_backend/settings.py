@@ -38,7 +38,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'codingmbti',
+    'django_extensions',
+    'analysis.apps.AnalysisConfig',
+    'chat.apps.ChatConfig',
+    'group.apps.GroupConfig',
+    'problem.apps.ProblemConfig',
+    'user.apps.UserConfig'
 ]
 
 MIDDLEWARE = [
@@ -107,6 +112,11 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+GRAPH_MODELS = {
+  'all_applications': True,
+  'group_models': True,
+}
 
 
 # Internationalization

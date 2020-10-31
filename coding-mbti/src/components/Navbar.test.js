@@ -1,5 +1,5 @@
 import React from 'react';
-import Navbar from './Navbar.js';
+import Navbar from './Navbar';
 import { createMount } from '@material-ui/core/test-utils';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { shallow } from 'enzyme';

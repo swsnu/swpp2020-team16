@@ -1,7 +1,7 @@
 import ReactMarkdown from 'react-markdown';
 import React from 'react';
 
-export default function ShowprobOMG() {
+export default function ShowproblemOMG() {
   const prob = `
 # Swapping Two Numbers
 Write a program which reads two integers x and y, and prints them in ascending order.

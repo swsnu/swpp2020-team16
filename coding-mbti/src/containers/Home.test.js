@@ -1,5 +1,5 @@
 import React from 'react';
-import Home from './Home.js';
+import Home from './Home';
 import { shallow } from 'enzyme';
 
 describe('<Home/>', () => {

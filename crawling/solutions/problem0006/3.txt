@@ -1,1 +1,0 @@
-print(*reversed(input()), sep='')

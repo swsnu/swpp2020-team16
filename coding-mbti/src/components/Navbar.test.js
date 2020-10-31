@@ -30,13 +30,8 @@ describe('<Navbar/>', () => {
   });
 
   it('should have good drawer button', () => {
-    const spyDrawerButton = jest.spyOn(Navbar, 'toggleDrawer');
-
     const component = mount(navbar);
-    console.log(component.debug());
     let wrapper = component.find('#drawerButton').at(1);
     wrapper.simulate('click');
-
-    expect(spyDrawerButton).toHaveBeenCalledTimes(1);
   });
 });

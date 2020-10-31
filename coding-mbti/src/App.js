@@ -2,11 +2,10 @@ import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import logo from './logo.svg';
 import './App.css';
-import Name from './containers/django_fetch_data_container_example/Name';
 
 function Home() {
   return (
-    <div className="App">
+    <div className="App-Home">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
@@ -35,7 +34,6 @@ function App() {
       <div className="App">
         <Switch>
           <Route path="/" exact component={Home} />
-          <Route path="/name" exact component={Name} />
         </Switch>
       </div>
     </BrowserRouter>

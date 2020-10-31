@@ -1,8 +1,30 @@
-// import React from 'react';
-// import { render } from '@testing-library/react';
-// import App from './App';
+import React from 'react';
+import { Provider } from 'react-redux';
 
-test('basic test', () => {
-  const foo = 1;
-  expect(foo).toBe(1);
+import { mount, configure } from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16';
+
+import { createBrowserHistory } from 'history';
+import App from './App';
+import store from './store/store';
+
+configure({ adapter: new Adapter() });
+
+const history = createBrowserHistory();
+
+describe('App', () => {
+  let app;
+
+  beforeEach(() => {
+    app = (
+      <Provider store={store}>
+        <App history={history} />
+      </Provider>
+    );
+  });
+
+  it('should render without error', () => {
+    const wrapper = mount(app);
+    expect(wrapper.find('.App-Home').length).toBe(1);
+  });
 });

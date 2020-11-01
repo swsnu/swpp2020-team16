@@ -1,9 +1,0 @@
-import sys
-import math
-def lcm(x, y):
-    return (x * y) // math.gcd(x, y)
-for line in sys.stdin:
-    a, b = [int(x) for x in line.split()]
-    c = math.gcd(a, b)
-    d = lcm(a, b)
-    print("%d %d" % (c, d) )

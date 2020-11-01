@@ -5,17 +5,8 @@ STAGED_JS_FILES=$(git diff --cached --name-only --diff-filter=ACM | grep "src" |
 
 
 
-# get staged .py files in /coding-mbti/backend
-STAGED_PY_FILES=$(git diff --cached --name-only --diff-filter=ACM | grep "backend" | grep ".py$" | cut -d'/' -f2-)
-
-
-
 # if no changes, exit.
-STAGED_ALL=""
-STAGED_ALL+=$STAGED_JS_FILES
-STAGED_ALL+=$STAGED_PY_FILES
-echo $STAGED_ALL
-if [[ "$STAGED_ALL" = "" ]]; then
+if [[ "$STAGED_JS_FILES" = "" ]]; then
     exit 0
 fi
 
@@ -28,17 +19,11 @@ cd $REPOBASE
 
 
 
-# Check for eslint / pylint command
+# Check for eslint command exists
 # eslint
 eslintCMD=node_modules/.bin/eslint
 if ! test -e "$eslintCMD"; then
     echo "\t\033[41mPlease install ESlint\033[0m"
-    exit 1
-fi
-# pylint
-which pylint &> /dev/null
-if [ "$?" == 1 ] ; then
-    echo "\t\033[41mPlease install pylint\033[0m"
     exit 1
 fi
 
@@ -46,47 +31,23 @@ fi
 
 # execute eslint if .js file is staged
 PASS_ES_LINT=true
-if [[ "$STAGED_JS_FILES" != "" ]]; then
-    for FILE in $STAGED_JS_FILES
-    do
-        $eslintCMD -c $REPOBASE/.eslintrc.js "$FILE" 
+for FILE in $STAGED_JS_FILES
+do
+    $eslintCMD -c $REPOBASE/.eslintrc.js "$FILE" 
 
-        if [[ "$?" != 0 ]]; then
-            echo "\t\033[41mESLint Failed: $FILE\033[0m"
-            PASS_ES_LINT=false
-        fi
-    done
-fi
-
-
-
-# execute pylint if .py file is staged
-PASS_PY_LINT=true
-if [[ "$STAGED_PY_FILES" != "" ]]; then
-    for FILE in $STAGED_PY_FILES
-    do
-        pylint $FILE --load-plugins pylint_django
-
-        if [[ "$?" != 0 ]]; then
-            echo "\t\033[41mPYLint Failed: $FILE\033[0m"
-            PASS_PY_LINT=false
-        fi
-    done
-fi
+    if [[ "$?" != 0 ]]; then
+        echo "\t\033[41mESLint Failed: $FILE\033[0m"
+        PASS_ES_LINT=false
+    fi
+done
 
 
 
 # show result of eslint
-if $PASS_ES_LINT && $PASS_PY_LINT; then
+if $PASS_ES_LINT; then
     echo "COMMIT SUCCEEDED\n"
-elif (! $PASS_ES_LINT) && $PASS_PY_LINT ; then
+else
     echo "COMMIT FAILED: correct your eslint error.\n"
-    exit 1
-elif $PASS_ES_LINT && (! $PASS_PY_LINT) ; then
-    echo "COMMIT FAILED: correct your pylint error.\n"
-    exit 1
-else 
-    echo "COMMIT FAILED: correct your eslint and pylint error.\n"
     exit 1
 fi
 

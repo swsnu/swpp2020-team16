@@ -3,17 +3,17 @@
 echo "[Sanity Check]Checks if docker, docker-compose is properly installed."
 
 if [ -x "$(command -v docker)" ]; then
-    echo "[(1/3) docker is installed.]"
+    echo "[(1/2) docker is installed.]"
 else
-    echo "[(1/3) docker is not installed. please install.]"
+    echo "[(1/2) docker is not installed. please install.]"
     echo "aborting..."
     exit 1
 fi
 
 if [ -x "$(command -v docker-compose)" ]; then
-    echo "[(2/3) docker-compose is installed.]"
+    echo "[(2/2) docker-compose is installed.]"
 else
-    echo "[(2/3) docker-compose is not installed. please install.]"
+    echo "[(2/2) docker-compose is not installed. please install.]"
     echo "aborting..."
     exit 1
 fi

@@ -7,7 +7,7 @@ import Home from './containers/Home';
 function App() {
   return (
     <BrowserRouter>
-      <div className="App">
+      <div className="Appp">
         <Switch>
           <Route path="/" exact component={Home} />
         </Switch>

@@ -1,0 +1,93 @@
+#!/bin/sh
+
+# get staged .js(x) files in /coding-mbti/src
+STAGED_JS_FILES=$(git diff --cached --name-only --diff-filter=ACM | grep "src" | grep ".jsx\{0,1\}$" | cut -d'/' -f2-)
+
+
+
+# get staged .py files in /coding-mbti/backend
+STAGED_PY_FILES=$(git diff --cached --name-only --diff-filter=ACM | grep "backend" | grep ".py$" | cut -d'/' -f2-)
+
+
+
+# if no changes, exit.
+STAGED_ALL=""
+STAGED_ALL+=$STAGED_JS_FILES
+STAGED_ALL+=$STAGED_PY_FILES
+echo $STAGED_ALL
+if [[ "$STAGED_ALL" = "" ]]; then
+    exit 0
+fi
+
+
+
+# set repobase as repo-root/coding-mbti
+REPOBASE=`git rev-parse --show-toplevel`
+REPOBASE+="/coding-mbti"
+cd $REPOBASE
+
+
+
+# Check for eslint / pylint command
+# eslint
+eslintCMD=node_modules/.bin/eslint
+if ! test -e "$eslintCMD"; then
+    echo "\t\033[41mPlease install ESlint\033[0m"
+    exit 1
+fi
+# pylint
+which pylint &> /dev/null
+if [ "$?" == 1 ] ; then
+    echo "\t\033[41mPlease install pylint\033[0m"
+    exit 1
+fi
+
+
+
+# execute eslint if .js file is staged
+PASS_ES_LINT=true
+if [[ "$STAGED_JS_FILES" != "" ]]; then
+    for FILE in $STAGED_JS_FILES
+    do
+        $eslintCMD -c $REPOBASE/.eslintrc.js "$FILE" 
+
+        if [[ "$?" != 0 ]]; then
+            echo "\t\033[41mESLint Failed: $FILE\033[0m"
+            PASS_ES_LINT=false
+        fi
+    done
+fi
+
+
+
+# execute pylint if .py file is staged
+PASS_PY_LINT=true
+if [[ "$STAGED_PY_FILES" != "" ]]; then
+    for FILE in $STAGED_PY_FILES
+    do
+        pylint $FILE --load-plugins pylint_django
+
+        if [[ "$?" != 0 ]]; then
+            echo "\t\033[41mPYLint Failed: $FILE\033[0m"
+            PASS_PY_LINT=false
+        fi
+    done
+fi
+
+
+
+# show result of eslint
+if $PASS_ES_LINT && $PASS_PY_LINT; then
+    echo "COMMIT SUCCEEDED\n"
+elif (! $PASS_ES_LINT) && $PASS_PY_LINT ; then
+    echo "COMMIT FAILED: correct your eslint error.\n"
+    exit 1
+elif $PASS_ES_LINT && (! $PASS_PY_LINT) ; then
+    echo "COMMIT FAILED: correct your pylint error.\n"
+    exit 1
+else 
+    echo "COMMIT FAILED: correct your eslint and pylint error.\n"
+    exit 1
+fi
+
+exit $?

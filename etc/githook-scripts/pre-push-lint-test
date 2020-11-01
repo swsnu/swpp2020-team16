@@ -1,13 +1,23 @@
 #!/bin/sh
 
-# Check for eslint / pylint command exist
-# eslint
+
+# set repobase as repo-root/coding-mbti
+REPOBASE=`git rev-parse --show-toplevel`
+REPOBASE+="/coding-mbti"
+cd $REPOBASE
+
+
+
+# eslint command exist check
 eslintCMD=node_modules/.bin/eslint
 if ! test -e "$eslintCMD"; then
     echo "\t\033[41mPlease install ESlint\033[0m"
     exit 1
 fi
-# pylint
+
+
+
+# pylint command exist check
 which pylint &> /dev/null
 if [ "$?" == 1 ] ; then
     echo "\t\033[41mPlease install pylint\033[0m"
@@ -26,7 +36,7 @@ fi
 
 
 # execute pylint
-cd backend
+cd backend/
 pylint **/*.py --load-plugins pylint_django
 if [[ "$?" != 0 ]]; then
     echo "\t\033[41mPYLint Failed\033[0m"

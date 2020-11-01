@@ -30,12 +30,12 @@ fi
 
 # execute pylint
 echo "(3/5) execute pylint"
-./backend/local-docker/local-docker-tester-back/init-pylint.sh
+#./backend/local-docker/local-docker-tester-back/init-pylint.sh
+
 if [[ "$?" != 0 ]]; then
     echo "\t\033[41m[ PUSH FAILED ] PYLint Failed\033[0m"
     exit 1
 fi
-
 
 
 

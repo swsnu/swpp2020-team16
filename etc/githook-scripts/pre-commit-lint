@@ -1,0 +1,54 @@
+#!/bin/sh
+
+# get staged .js(x) files in /coding-mbti/src
+STAGED_JS_FILES=$(git diff --cached --name-only --diff-filter=ACM | grep "src" | grep ".jsx\{0,1\}$" | cut -d'/' -f2-)
+
+
+
+# if no changes, exit.
+if [[ "$STAGED_JS_FILES" = "" ]]; then
+    exit 0
+fi
+
+
+
+# set repobase as repo-root/coding-mbti
+REPOBASE=`git rev-parse --show-toplevel`
+REPOBASE+="/coding-mbti"
+cd $REPOBASE
+
+
+
+# Check for eslint command exists
+# eslint
+eslintCMD=node_modules/.bin/eslint
+if ! test -e "$eslintCMD"; then
+    echo "\t\033[41mPlease install ESlint\033[0m"
+    exit 1
+fi
+
+
+
+# execute eslint if .js file is staged
+PASS_ES_LINT=true
+for FILE in $STAGED_JS_FILES
+do
+    $eslintCMD -c $REPOBASE/.eslintrc.js "$FILE" 
+
+    if [[ "$?" != 0 ]]; then
+        echo "\t\033[41mESLint Failed: $FILE\033[0m"
+        PASS_ES_LINT=false
+    fi
+done
+
+
+
+# show result of eslint
+if $PASS_ES_LINT; then
+    echo "COMMIT SUCCEEDED\n"
+else
+    echo "COMMIT FAILED: correct your eslint error.\n"
+    exit 1
+fi
+
+exit $?

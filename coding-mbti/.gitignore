@@ -19,6 +19,7 @@ __pycache__/
 
 /.coverage
 /backend/.coverage
+/backend/coverage.xml
 
 /htmlcov
 /backend/htmlcov

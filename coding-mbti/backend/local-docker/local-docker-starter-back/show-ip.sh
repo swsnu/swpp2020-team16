@@ -19,7 +19,7 @@ if echo "$1" | grep -Fq "1"; then
     echo "It might take 2~4 more seconds to successfully access to URL."
     echo "Please be patient."
     echo ""
-    docker-machine ip default | awk '{print "please connect to http://"$1":8000"}'
+    docker-machine ip default | awk '{print "please connect to http://"$1":8000 or http://0.0.0.0:8000"}'
     echo ""
 else
     echo "please refer to the error log."

@@ -52,4 +52,4 @@ test "$currentCNT" -ge "$havetoCNT" && echo "[installation check completed.]"
 
 echo "test & coverage check..."
 
-docker  exec -i "$containerId" /bin/bash -c "cd /deploy/swpp2020-team16/coding-mbti/backend; coverage run --source='.' manage.py test; coverage html"
+docker  exec -i "$containerId" /bin/bash -c "cd /deploy/swpp2020-team16/coding-mbti/backend; coverage run --source='.' manage.py test; coverage xml; coverage html"

@@ -11,7 +11,7 @@ function App() {
       <div className="App">
         <Switch>
           <Route path="/" exact component={Home} />
-          <Route path="/signin/" exact component={SignIn} is_signedin={true} />
+          <Route path="/signin/" exact component={SignIn} />
           <Route path="/signup/" exact component={SignUp} />
         </Switch>
       </div>

@@ -1,0 +1,63 @@
+#!/bin/sh
+
+
+# set repobase as repo-root/coding-mbti
+REPOBASE=`git rev-parse --show-toplevel`
+REPOBASE+="/coding-mbti"
+cd $REPOBASE
+
+
+
+# eslint command exist check
+echo "(1/5) eslint command exist test"
+eslintCMD=node_modules/.bin/eslint
+if ! test -e "$eslintCMD"; then
+    echo "\t\033[41m[ PUSH FAILED ] Please install ESlint\033[0m"
+    exit 1
+fi
+
+
+
+# execute eslint
+echo "(2/5) execute eslint"
+$eslintCMD -c $REPOBASE/.eslintrc.js src/
+if [[ "$?" != 0 ]]; then
+    echo "\t\033[41m[ PUSH FAILED ] ESLint Failed\033[0m"
+    exit 1
+fi
+
+
+
+# execute pylint
+echo "(3/5) execute pylint"
+#./backend/local-docker/local-docker-tester-back/init-pylint.sh
+
+if [[ "$?" != 0 ]]; then
+    echo "\t\033[41m[ PUSH FAILED ] PYLint Failed\033[0m"
+    exit 1
+fi
+
+
+
+# execute frontend test
+echo "(4/5) execute frontend test"
+yarn test --coverage --watchAll=false
+if [[ "$?" != 0 ]]; then
+    echo "\t\033[41m[ PUSH FAILED ] REACT TEST Failed\033[0m"
+    exit 1
+fi
+
+
+
+# execute backend test
+echo "(5/5) execute backend test"
+./backend/local-docker/local-docker-tester-back/init-test.sh
+if [[ "$?" != 0 ]]; then
+    echo "\t\033[41m[ PUSH FAILED ] DJANGO TEST Failed\033[0m"
+    exit 1
+fi
+
+
+echo "PUSH SUCCESSED!"
+
+exit $?

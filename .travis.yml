@@ -1,17 +1,25 @@
-matrix:
+dist: xenial
+
+jobs:
   include:
-    - language: node_js
+    - stage: lint_test_then_deploy
+      name: "frontend lint, test, and deploy"
+      language: node_js
       node_js:
         - "13.12.0"
       before_script:
         - cd coding-mbti
         - yarn global add create-react-app
         - yarn install
-      cache:
-        directories:
-          - node_modules
       script:
+        - ./node_modules/.bin/eslint src/
         - yarn test -- --coverage
+        - COVERALLS_PARALLEL=true COVERALLS_REPO_TOKEN=$coveralls_repo_token yarn run coveralls
+      workspaces:
+        create:
+          name: workspace-front
+          paths:
+            - coverage/lcov.info
       before_deploy:
         - yarn build
         - cp ../aws-codedeploy-scripts/frontend/* ./build
@@ -67,18 +75,28 @@ matrix:
           on:
             repo: swsnu/swpp2020-team16
             branch: master
-      after_success:
-        - COVERALLS_REPO_TOKEN=$coveralls_repo_token yarn run coveralls
-    - language: python
+
+    - name: "backend lint, test, and deploy"
+      language: python
       python:
         - "3.7"
+      services:
+        - docker
       before_script:
-        - cd coding-mbti/backend
-        - pip install -r requirements.txt
-        - pip install coverage
-        - pip install coveralls
+        - cd ${TRAVIS_BUILD_DIR}/coding-mbti/backend/local-docker/local-docker-starter-back
+        - ./install-after-remove.sh
+        - cd ${TRAVIS_BUILD_DIR}/coding-mbti/backend/
       script:
-        - coverage run -m unittest
+        - ./local-docker/local-docker-tester-back/init-pylint.sh
+        - ./local-docker/local-docker-tester-back/init-test.sh
+        - ./local-docker/local-docker-tester-back/init-coveralls.sh $coveralls_repo_token
+      workspaces:
+        create:
+          name: workspace-back
+          paths:
+            - coverage.xml
+            - .coverage
+            - .coveragerc
       before_deploy:
         - mkdir -p ../backend-build
         - cp -r ./* ../backend-build
@@ -135,8 +153,29 @@ matrix:
           on:
             repo: swsnu/swpp2020-team16
             branch: master
-      after_success:
-        - coveralls
+
+    - stage: send_coverage_to_sonarcloud
+      name: "send coverage to sonarcloud"
+      language: node_js
+      node_js:
+        - "13.12.0"
+      addons:
+        sonarcloud:
+          organization: "swpp-2020-mbti"
+          token:
+            secure: "dh+0tu9v0HMRu2TK/hx4tY3e4fx3pKs63fbjboeNseqc/e46VV6rL0blw1IjJ5V3CQn/GW7UBF5u3yBP9NVvwJPk6xMj9QkK/x+19vNB7Yp9oUVzN6fQybt0keHxf3yMBrLLTQdSqxB1pMZJB4TUfjz77YeOLMOvp9tjv506LrsWCXsh7jz2/44pHP48WWbCO9df34/vsRDfKd97MmHj5A3q2Zd0Wl0qCGB+fcyKK2CeXdU3PnwCsm16Kuzb/c8rt3Kv0zDk811Sdvoau5Gs0c9beMLE8P7Nslc/TrenXsUotaCYtN2/1XIn0uhywyxiRgNwpO6hw9k98RDsZJKNQ5T8EndMFTi9V8moUZrEjMNjIbjlWapxCVHuoebHV5zW3B1B0hchtJlUO5RUx93DGLYZhrId00d2P9o0KdQOcoRo3KcMQzQFRwzGkMnL/CjUj2ASLq0XsU6mV88So/c8CtAL3aImFYvbvDsHCLyuZxrqEA11Sx5Th5MD84x3Dj8DbIAUr1NqywKxdEwN+NTpPRCtbO7MFC7IjE4OwxuSI7HdLZFJNtkMOJnQ+1HWUHiSRjUndkazAhvFG5vllRTubZSkJFdxS0iz6JsfXZiaB8eRbg8ul3lWG3hv//yMDKYu4mh5cHNZ3LSE+PTtDnOTCwWWkc4luCChKONJiZS8CYo="
+      workspaces:
+        use: 
+          - workspace-front
+          - workspace-back
+      before_script:
+        - cd coding-mbti
+        - awk 'NR==6 {$0="        <source>/home/travis/build/swsnu/swpp2020-team16/coding-mbti/backend/</source>"} 1' backend/coverage.xml > backend/new_coverage.xml
+        - rm backend/coverage.xml
+        - mv backend/new_coverage.xml backend/coverage.xml
+      script:
+        - sonar-scanner
 
 notifications:
+  webhooks: https://coveralls.io/webhook
   slack: coding-mbti:mpufjN3PylzT8q8HgpXJDdun

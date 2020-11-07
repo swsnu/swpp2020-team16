@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'jh2x#17e#s9n*di%#dc%iqjmme8f+92bae58o2%#y$)eal8jh-'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DJANGO_DEBUG')
+DEBUG = os.environ.get('DJANGO_DEBUG', True)
 
 ALLOWED_HOSTS = ['*']
 
@@ -38,7 +38,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'codingmbti',
+    'django_extensions',
+    'analysis.apps.AnalysisConfig',
+    'chat.apps.ChatConfig',
+    'group.apps.GroupConfig',
+    'problem.apps.ProblemConfig',
+    'user.apps.UserConfig'
 ]
 
 MIDDLEWARE = [
@@ -76,7 +81,11 @@ WSGI_APPLICATION = 'codingmbti_backend.wsgi.application'
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
+#    'default': {
+#        'ENGINE': 'django.db.backends.sqlite3',
+#        'NAME': BASE_DIR / 'db.sqlite3',
+#    }
+   'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'HOST': os.environ.get('DJANGO_DB_HOST'),
         'NAME': os.environ.get('DJANGO_DB_NAME'),
@@ -103,6 +112,11 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+GRAPH_MODELS = {
+  'all_applications': True,
+  'group_models': True,
+}
 
 
 # Internationalization

@@ -23,8 +23,11 @@ git config commit.template ./.gitmessage.txt
 (3) install docker, docker-compose, docker-machine, virtualbox.
 
 [install docker according to your environment](https://docs.docker.com/get-docker/)
+
 [install docker-compose according to your environment](https://docs.docker.com/compose/install/)
+
 [install docker-machine according to your environment](https://docs.docker.com/machine/install-machine/)
+
 [install virtualbox according to your environment](https://www.virtualbox.org/wiki/Downloads)
 
 (4) create default docker-machine in your terminal.

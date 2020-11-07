@@ -1,5 +1,9 @@
 dist: xenial
 
+env:
+  global:
+    - COVERALLS_PARALLEL=true
+
 jobs:
   include:
     - stage: lint_test_then_deploy
@@ -86,10 +90,13 @@ jobs:
         - cd ${TRAVIS_BUILD_DIR}/coding-mbti/backend/local-docker/local-docker-starter-back
         - ./install-after-remove.sh
         - cd ${TRAVIS_BUILD_DIR}/coding-mbti/backend/
+        - pip install -r requirements.txt
       script:
         - ./local-docker/local-docker-tester-back/init-pylint.sh
-        - ./local-docker/local-docker-tester-back/init-test.sh
-        - ./local-docker/local-docker-tester-back/init-coveralls.sh $coveralls_repo_token
+        - coverage run --source='.' manage.py test
+        - coverage xml
+        - coverage html
+        - COVERALLS_PARALLEL=true COVERALLS_REPO_TOKEN=$coveralls_repo_token coveralls
       workspaces:
         create:
           name: workspace-back
@@ -177,5 +184,5 @@ jobs:
         - sonar-scanner
 
 notifications:
-  webhooks: https://coveralls.io/webhook
+  webhooks: https://coveralls.io/webhook?repo_token=$coveralls_repo_token
   slack: coding-mbti:mpufjN3PylzT8q8HgpXJDdun

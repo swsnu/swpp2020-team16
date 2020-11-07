@@ -1,64 +1,88 @@
 # swpp2020-team16 
 
-status/branch| Coveralls | Sonarcloud | Travis |
+branch       | Coveralls | Sonarcloud | Travis |
 ------------ | ---- | ---- | ----
-Master       | [![Coverage Status](https://coveralls.io/repos/github/swsnu/swpp2020-team16/badge.svg?branch=master)](https://coveralls.io/github/swsnu/swpp2020-team16?branch=master) | 소나클라우드 마스터 뱃지 위치 | [![Build Status](https://travis-ci.org/swsnu/swpp2020-team16.svg?branch=master)](https://travis-ci.org/swsnu/swpp2020-team16)
-Development  | [![Coverage Status](https://coveralls.io/repos/github/swsnu/swpp2020-team16/badge.svg?branch=dev)](https://coveralls.io/github/swsnu/swpp2020-team16?branch=dev) |  소나클라우드 디벨롭 뱃지 위치 | [![Build Status](https://travis-ci.org/swsnu/swpp2020-team16.svg?branch=dev)](https://travis-ci.org/swsnu/swpp2020-team16)
+master       | [![Coverage Status](https://coveralls.io/repos/github/swsnu/swpp2020-team16/badge.svg?branch=master)](https://coveralls.io/github/swsnu/swpp2020-team16?branch=master) | [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=chullino_swpp2020-team16&metric=alert_status)](https://sonarcloud.io/dashboard?id=chullino_swpp2020-team16) | [![Build Status](https://travis-ci.org/swsnu/swpp2020-team16.svg?branch=master)](https://travis-ci.org/swsnu/swpp2020-team16)
+dev  | [![Coverage Status](https://coveralls.io/repos/github/swsnu/swpp2020-team16/badge.svg?branch=dev)](https://coveralls.io/github/swsnu/swpp2020-team16?branch=dev) |  [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=chullino_swpp2020-team16&metric=alert_status)](https://sonarcloud.io/dashboard?id=chullino_swpp2020-team16) | [![Build Status](https://travis-ci.org/swsnu/swpp2020-team16.svg?branch=dev)](https://travis-ci.org/swsnu/swpp2020-team16)
 
-# 즐거운 개발을 위한 설정사항
-(1) 커밋 메시지 템플릿 설정하기.
-repo root에 .gitmessage.txt 커밋 메시지 템플릿 파일이 있습니다.
-이를 활용하기 위해서는 다음의 명령어를 repo root에서 실행하셔야 합니다.
+## Are you the developer of this project?
+If you are a developer of this project, please complete the following 4 settings. Especially, settings for docker is compulsory, so that we can have unified enviroment for development.
+
+(1) setting commit message template.
+
 ```
 git config commit.template ./.gitmessage.txt
 ```
 
-# How to run
+(2) setting pre-commit / pre-push hooks. 
+
+```
+./etc/githook-scripts/init-hook.sh
+```
+
+(3) install docker, docker-compose, docker-machine, virtualbox.
+
+[install docker according to your environment](https://docs.docker.com/get-docker/)
+[install docker-compose according to your environment](https://docs.docker.com/compose/install/)
+[install docker-machine according to your environment](https://docs.docker.com/machine/install-machine/)
+[install virtualbox according to your environment](https://www.virtualbox.org/wiki/Downloads)
+
+(4) create default docker-machine in your terminal.
+
+```
+docker-machine create default
+```
 
 
-### [Prerequisites]
 
-> (1) download docker
-> (2) download docker-compose
-> (3) download docker-machine
-> (4) run docker-machine
+## How to run
+
+### [Prerequisites For Running In Local Environment]
+
+You need to install docker, docker-compose, docker-machine, virtualbox as explained above.
+This project's backend is based on docker, so please remind that it will not run unless you install all required docker services.
 
 ### [How to run backend]
 
-move to coding-mbti/backend
+move to coding-mbti/backend, 
 
-run the next command
-
-> ./local-docker/local-docker-starter-back/init.sh
-
+then run the next command.
+```
+./local-docker/local-docker-starter-back/init.sh
+```
 ### [How to test/lint backend]
 
-move to coding-mbti/backend
+move to coding-mbti/backend, 
 
-run the next command to test
-
-> ./local-docker/local-docker-tester-back/init-test.sh
+then run the next command to test.
+```
+./local-docker/local-docker-tester-back/init-test.sh
+```
 
 run the next command to check pylint
-
-> ./local-docker/local-docker-tester-back/init-pylint.sh
+```
+./local-docker/local-docker-tester-back/init-pylint.sh
+```
 
 ### [How to run frontend]
 
 move to coding-mbti/
 
 run the next command
-
-> yarn start
+```
+yarn start
+```
 
 ### [How to test/lint frontend]
 
 move to coding-mbti/
 
 run the next command to test
-
-> yarn test
+```
+yarn test
+```
 
 run the next command to check eslint
-
-> ./node_modules/.bin/eslint src/
+```
+./node_modules/.bin/eslint src/
+```

@@ -52,4 +52,4 @@ test "$currentCNT" -ge "$havetoCNT" && echo "[installation check completed.]"
 
 echo "send data to coveralls..."
 
-docker exec -it "$containerId" /bin/bash -c "cd /deploy/swpp2020-team16/coding-mbti/backend; COVERALLS_PARALLEL=true COVERALLS_REPO_TOKEN=$1 coveralls"
+docker exec -e TRAVIS_JOB_ID="$TRAVIS_JOB_ID" -e TRAVIS_BRANCH="$TRAVIS_BRANCH" -it "$containerId" /bin/bash -c "cd /deploy/swpp2020-team16/coding-mbti/backend; COVERALLS_PARALLEL=true COVERALLS_REPO_TOKEN=$1 coveralls"

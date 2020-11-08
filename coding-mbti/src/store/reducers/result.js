@@ -1,4 +1,3 @@
-/* eslint-disable no-case-declarations */
 import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {};

@@ -12,35 +12,33 @@ from django.conf import settings
 
 def predict_readability(data, pid):
     vectorizer = pickle.load(
-        open(str(settings.BASE_DIR) + '/analysis/ML/problem{}/tf-idf_vectorizer.pickle'
-             .format(pid), 'rb'))
+        open(f'{settings.BASE_DIR}/analysis/ML/problem{pid}/tf-idf_vectorizer.pickle', 'rb'))
 
     clf_from_joblib = joblib.load(
-        str(settings.BASE_DIR)+'/analysis/ML/problem{}/model_read.pkl'.format(pid))
+        f'{settings.BASE_DIR}/analysis/ML/problem{pid}/model_read.pkl')
 
-    predict = int(clf_from_joblib.predict(
+    prediction = int(clf_from_joblib.predict(
         vectorizer.transform([data]).toarray()))
 
     probability = float(np.max(clf_from_joblib.predict_proba(
         vectorizer.transform([data]).toarray())))
-    return (predict, probability)
+    return (prediction, probability)
 
 
 def predict_style(data, pid):
 
     vectorizer = pickle.load(
-        open(str(settings.BASE_DIR)+'/analysis/ML/problem{}/tf-idf_vectorizer.pickle'.format(pid), 'rb')) # pylint: disable=line-too-long
-
+        open(f'{setttings.ML_DIR}/problem{pid}/tf-idf_vectorizer.pickle', 'rb'))
 
     clf_from_joblib = joblib.load(
-        str(settings.BASE_DIR)+'/analysis/ML/problem{}/model_style.pkl'.format(pid))
+        f'{settings.BASE_DIR}/analysis/ML/problem{pid}/model_style.pkl')
 
-    predict = int(clf_from_joblib.predict(
+    prediction = int(clf_from_joblib.predict(
         vectorizer.transform([data]).toarray()))
 
     probability = float(np.max(clf_from_joblib.predict_proba(
         vectorizer.transform([data]).toarray())))
-    return (predict, probability)
+    return (prediction, probability)
 
 
 @ csrf_exempt
@@ -49,7 +47,6 @@ def provide_analysis_result(request):
         try:
             body = request.body.decode()
             source_code = json.loads(body)['source_code']
-            # elapsed_time = json.loads(body)['elapsed_time']
         except (KeyError, JSONDecodeError) as error:
             return HttpResponseBadRequest(error)
         predict_read, prob_read = predict_readability(source_code, "ITP1_6_B")

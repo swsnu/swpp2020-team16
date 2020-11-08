@@ -10,7 +10,7 @@ class Report(TimeStampedModel):
     title = models.TextField()
     content = models.TextField()
 
-    class Meta:  # pylint: disable=too-few-public-methods  
+    class Meta:
         abstract = True
 
 
@@ -28,7 +28,7 @@ class Distribution(models.Model):
 class DistributionReport(Report):
     distribution = models.ForeignKey(Distribution, on_delete=models.CASCADE)
 
-    class Meta:  # pylint: disable=too-few-public-methods  
+    class Meta:
         abstract = True
 
 

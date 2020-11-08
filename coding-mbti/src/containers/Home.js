@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
 function Home() {
   const classes = useStyles();
   const onClickGetTested = () => {
-    window.location.replace('/test/1');
+    window.location.replace('/check/1');
   };
   return (
     <>

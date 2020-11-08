@@ -1,5 +1,3 @@
-/* eslint-disable react/jsx-props-no-spreading */
-/* eslint-disable react/destructuring-assignment */
 import React from 'react';
 import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
@@ -32,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Test(props) {
+export default function Check(props) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { pid } = props.match.params;
@@ -62,11 +60,11 @@ export default function Test(props) {
   );
 }
 
-Test.propTypes = {
+Check.propTypes = {
   history: PropTypes.instanceOf(Object),
   match: PropTypes.instanceOf(Object),
 };
-Test.defaultProps = {
+Check.defaultProps = {
   history: {},
   match: {},
 };

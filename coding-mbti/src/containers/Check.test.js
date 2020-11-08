@@ -2,10 +2,10 @@ import React from 'react';
 import { createMount } from '@material-ui/core/test-utils';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
-import Test from './Test';
+import Check from './Check';
 import { store, history } from '../store/store';
 
-describe('<Test/>', () => {
+describe('<Check/>', () => {
   let mount;
 
   beforeAll(() => {
@@ -19,7 +19,7 @@ describe('<Test/>', () => {
     const component = mount(
       <Provider store={store}>
         <ConnectedRouter history={history}>
-          <Test match={{ params: { pid: '1' } }} />
+          <Check match={{ params: { pid: '1' } }} />
         </ConnectedRouter>
       </Provider>,
     );

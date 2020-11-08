@@ -1,4 +1,3 @@
-/* eslint max-len: ["error", { "code": 130 }] */
 import React, { useEffect, useState } from 'react';
 import AceEditor from 'react-ace';
 import raw from 'raw.macro';

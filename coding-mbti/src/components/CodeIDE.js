@@ -1,6 +1,3 @@
-/* eslint-disable operator-linebreak */
-/* eslint-disable comma-dangle */
-/* eslint max-len: ["error", { "code": 130 }] */
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import AceEditor from 'react-ace';
@@ -51,7 +48,7 @@ function CodeIDE(props) {
     });
     props.onPutTestResult(response.data);
     if (props.pid === '5') {
-      props.history.push('/test/result');
+      props.history.push('/check/result');
     } else {
       props.history.replace(`${parseInt(props.pid, 10) + 1}`);
     }

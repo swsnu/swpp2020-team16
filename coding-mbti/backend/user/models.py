@@ -65,7 +65,7 @@ class User(AbstractBaseUser):
     USERNAME_FIELD = 'username'
     REQUIRED_FIELD = []
 
-    class Meta:  # pylint: disable=too-few-public-methods  
+    class Meta:
         db_table = 'user'
         ordering = ['-pk']
 

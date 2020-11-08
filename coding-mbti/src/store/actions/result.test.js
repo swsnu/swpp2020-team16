@@ -1,5 +1,5 @@
 import { createMount } from '@material-ui/core/test-utils';
-import * as actionCreators from './test';
+import * as actionCreators from './result';
 import { store } from '../store';
 
 describe('test ActionCreators', () => {

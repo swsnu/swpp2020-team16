@@ -6,7 +6,7 @@ import axios from 'axios';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
 import CodeIDE from './CodeIDE';
-import * as testActionCreators from '../store/actions/test';
+import * as testActionCreators from '../store/actions/result';
 import { store, history } from '../store/store';
 
 describe('<CodeIDE/>', () => {

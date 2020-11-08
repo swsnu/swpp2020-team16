@@ -47,7 +47,7 @@ describe('App', () => {
     expect(wrapper.find('App').length).toBe(1);
   });
 
-  it('should route to test page with correct props', () => {
+  it('should route to check page with correct props', () => {
     const options = {
       // you can also just use 'bottom center'
       position: positions.BOTTOM_CENTER,

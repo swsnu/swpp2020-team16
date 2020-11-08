@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import { createMount } from '@material-ui/core/test-utils';
 import { transitions, positions, Provider as AlertProvider } from 'react-alert';

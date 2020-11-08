@@ -3,11 +3,13 @@
 import React, { useState } from 'react';
 
 import ReactApexCharts from 'react-apexcharts';
+import PropTypes from 'prop-types';
 
-export default function RadarDiagram() {
+export default function RadarDiagram(props) {
+  const { analysisData } = props;
   const [series, setSeries] = useState([{
     name: 'User Analysis',
-    data: [80, 50, 30, 40, 100, 10, 30, 40],
+    data: analysisData,
   }]);
 
   const [options, setOptions] = useState({
@@ -41,3 +43,7 @@ export default function RadarDiagram() {
     </>
   );
 }
+
+RadarDiagram.propTypes = {
+  analysisData: PropTypes.arrayOf(PropTypes.number.isRequired).isRequired,
+};

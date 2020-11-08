@@ -16,11 +16,11 @@ const colorPalette = [
 export default function BarSingleDiagram(props) {
   const { measures, color } = props;
   const [series, setSeries] = useState([{
-    name: measures.one,
-    data: [44, 55, 41, 37, 22, 43, 21],
+    name: measures.one.name,
+    data: measures.one.data,
   }, {
-    name: measures.another,
-    data: [53, 32, 33, 52, 13, 43, 32],
+    name: measures.another.name,
+    data: measures.another.data,
   }]);
 
   const [options, setOptions] = useState({
@@ -49,13 +49,6 @@ export default function BarSingleDiagram(props) {
     xaxis: {
       categories: ['Q1', 'Q2', 'Q3', 'Q4', 'Q5', 'Q6', 'Q7'],
     },
-    tooltip: {
-      y: {
-        formatter(val) {
-          return `${val}K`;
-        },
-      },
-    },
     fill: {
       opacity: 1,
 
@@ -82,6 +75,11 @@ export default function BarSingleDiagram(props) {
 }
 
 BarSingleDiagram.propTypes = {
-  measures: PropTypes.objectOf(PropTypes.string).isRequired,
+  measures: PropTypes.objectOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      data: PropTypes.arrayOf(PropTypes.number).isRequired,
+    }),
+  ).isRequired,
   color: PropTypes.number.isRequired,
 };

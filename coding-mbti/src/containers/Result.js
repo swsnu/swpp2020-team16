@@ -11,9 +11,6 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
 const useStyles = makeStyles((theme) => ({
-  title: {
-    flexGrow: 1,
-  },
   heroContent: {
     backgroundColor: theme.palette.background.paper,
     padding: theme.spacing(8, 7, 6),
@@ -45,10 +42,10 @@ export default function Result() {
           </Typography>
           <Grid container spacing={4} justify="center">
             <Grid item xl={12} md={5}>
-              <RadarDiagram />
+              <RadarDiagram analysisData={[10, 20, 30, 40, 50, 60, 70, 80]} />
             </Grid>
             <Grid item xl={12} md={5}>
-              <RadarDiagram />
+              <RadarDiagram analysisData={[10, 20, 30, 40, 50, 60, 70, 80]} />
             </Grid>
           </Grid>
           <Typography
@@ -74,8 +71,14 @@ export default function Result() {
             <Grid item xl={12} md={5}>
               <BarSingleDiagram
                 measures={{
-                  one: 'User Friendly',
-                  another: 'Machine Efficiency',
+                  one: {
+                    name: 'User Friendly',
+                    data: [10, 20, 30, 40, 50, 60, 70],
+                  },
+                  another: {
+                    name: 'Machine Efficiency',
+                    data: [50, 20, 30, 60, 90, 160, 30],
+                  },
                 }}
                 color={0}
               />
@@ -95,8 +98,14 @@ export default function Result() {
             <Grid item xl={12} md={5}>
               <BarSingleDiagram
                 measures={{
-                  one: 'Carefully Typed',
-                  another: 'Just Typed',
+                  one: {
+                    name: 'Carefully Typed',
+                    data: [10, 20, 30, 40, 50, 60, 70],
+                  },
+                  another: {
+                    name: 'Just Typed',
+                    data: [50, 20, 30, 60, 90, 160, 30],
+                  },
                 }}
                 color={1}
               />
@@ -116,8 +125,14 @@ export default function Result() {
             <Grid item xl={12} md={5}>
               <BarSingleDiagram
                 measures={{
-                  one: 'Time Complexity',
-                  another: 'Intuitive Code',
+                  one: {
+                    name: 'Time Complexity',
+                    data: [10, 20, 30, 40, 50, 60, 70],
+                  },
+                  another: {
+                    name: 'Intuitive Code',
+                    data: [50, 20, 30, 60, 90, 160, 30],
+                  },
                 }}
                 color={2}
               />
@@ -137,8 +152,14 @@ export default function Result() {
             <Grid item xl={12} md={5}>
               <BarSingleDiagram
                 measures={{
-                  one: 'Formatted Style',
-                  another: 'Easy Style',
+                  one: {
+                    name: 'Formatted Style',
+                    data: [10, 20, 30, 40, 50, 60, 70],
+                  },
+                  another: {
+                    name: 'Easy Style',
+                    data: [50, 20, 30, 60, 90, 160, 30],
+                  },
                 }}
                 color={3}
               />

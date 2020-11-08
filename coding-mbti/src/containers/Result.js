@@ -4,7 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-// import MbtiType from '../components/MbtiType';
+import TypeInfo from '../components/TypeInfo';
 import RadarDiagram from '../components/RadarDiagram';
 import BarSingleDiagram from '../components/BarSingleDiagram';
 import Navbar from '../components/Navbar';
@@ -21,6 +21,13 @@ const useStyles = makeStyles((theme) => ({
   footer: {
     backgroundColor: theme.palette.background.paper,
     padding: theme.spacing(6),
+  },
+  imageIcon: {
+    height: '24px',
+    width: '24px',
+  },
+  iconRoot: {
+    textAlign: 'center',
   },
 }));
 
@@ -41,8 +48,9 @@ export default function Result() {
             Analysis Result
           </Typography>
           <Grid container spacing={4} justify="center">
+
             <Grid item xl={12} md={5}>
-              <RadarDiagram analysisData={[10, 20, 30, 40, 50, 60, 70, 80]} />
+              <TypeInfo type="INTJ" />
             </Grid>
             <Grid item xl={12} md={5}>
               <RadarDiagram analysisData={[10, 20, 30, 40, 50, 60, 70, 80]} />

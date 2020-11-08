@@ -1,7 +1,6 @@
 import json
 from json import JSONDecodeError
 import pickle
-import os
 import numpy as np
 import joblib
 
@@ -30,10 +29,11 @@ def predict_readability(data, pid):
 def predict_style(data, pid):
 
     vectorizer = pickle.load(
-        open(os.getcwd()+'/analysis/ML/problem{}/tf-idf_vectorizer.pickle'.format(pid), 'rb'))
+        open(str(settings.BASE_DIR)+'/analysis/ML/problem{}/tf-idf_vectorizer.pickle'.format(pid), 'rb')) # pylint: disable=line-too-long
+
 
     clf_from_joblib = joblib.load(
-        os.getcwd()+'/analysis/ML/problem{}/model_style.pkl'.format(pid))
+        str(settings.BASE_DIR)+'/analysis/ML/problem{}/model_style.pkl'.format(pid))
 
     predict = int(clf_from_joblib.predict(
         vectorizer.transform([data]).toarray()))
@@ -49,9 +49,9 @@ def provide_analysis_result(request):
         try:
             body = request.body.decode()
             source_code = json.loads(body)['source_code']
-            elapsed_time = json.loads(body)['elapsed_time']
+            # elapsed_time = json.loads(body)['elapsed_time']
         except (KeyError, JSONDecodeError) as error:
-            return HttpResponseBadRequest()
+            return HttpResponseBadRequest(error)
         predict_read, prob_read = predict_readability(source_code, "ITP1_6_B")
         predict_st, prob_st = predict_style(source_code, "ITP1_6_B")
         response_dict = {'readability': predict_read, 'readability_prob': prob_read,

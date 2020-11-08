@@ -4,7 +4,7 @@ from django.db import models
 class TextModel(models.Model):
     content = models.TextField()
 
-    class Meta:
+    class Meta:  # pylint: disable=too-few-public-methods  
         abstract = True
 
 

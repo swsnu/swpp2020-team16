@@ -6,17 +6,25 @@ import React, { useState } from 'react';
 import ReactApexCharts from 'react-apexcharts';
 import PropTypes from 'prop-types';
 
+const colorPalette = [
+  ['#81B622', '#3D550C'],
+  ['#3D5B59', '#FCB5AC'],
+  ['#189AB4', '#75E6DA'],
+  ['#21B6A8', '#A3EBB1'],
+];
+
 export default function BarSingleDiagram(props) {
-  const { one, another } = props;
+  const { measures, color } = props;
   const [series, setSeries] = useState([{
-    name: one,
+    name: measures.one,
     data: [44, 55, 41, 37, 22, 43, 21],
   }, {
-    name: another,
+    name: measures.another,
     data: [53, 32, 33, 52, 13, 43, 32],
   }]);
 
   const [options, setOptions] = useState({
+    colors: colorPalette[color],
     chart: {
       type: 'bar',
       height: 350,
@@ -74,6 +82,6 @@ export default function BarSingleDiagram(props) {
 }
 
 BarSingleDiagram.propTypes = {
-  one: PropTypes.string.isRequired,
-  another: PropTypes.string.isRequired,
+  measures: PropTypes.objectOf(PropTypes.string).isRequired,
+  color: PropTypes.number.isRequired,
 };

@@ -72,10 +72,12 @@ export default function Result() {
           </Typography>
           <Grid container spacing={4} justify="center">
             <Grid item xl={12} md={5}>
-              <BarSingleDiagram measures={{
-                one: 'User Friendly',
-                another: 'Machine Efficiency',
-              }}
+              <BarSingleDiagram
+                measures={{
+                  one: 'User Friendly',
+                  another: 'Machine Efficiency',
+                }}
+                color={0}
               />
             </Grid>
           </Grid>
@@ -91,10 +93,12 @@ export default function Result() {
           </Typography>
           <Grid container spacing={4} justify="center">
             <Grid item xl={12} md={5}>
-              <BarSingleDiagram measures={{
-                one: 'Carefully Typed',
-                another: 'Just Typed',
-              }}
+              <BarSingleDiagram
+                measures={{
+                  one: 'Carefully Typed',
+                  another: 'Just Typed',
+                }}
+                color={1}
               />
             </Grid>
           </Grid>
@@ -110,10 +114,12 @@ export default function Result() {
           </Typography>
           <Grid container spacing={4} justify="center">
             <Grid item xl={12} md={5}>
-              <BarSingleDiagram measures={{
-                one: 'Time Complexity',
-                another: 'Intuitive Code',
-              }}
+              <BarSingleDiagram
+                measures={{
+                  one: 'Time Complexity',
+                  another: 'Intuitive Code',
+                }}
+                color={2}
               />
             </Grid>
           </Grid>
@@ -129,10 +135,12 @@ export default function Result() {
           </Typography>
           <Grid container spacing={4} justify="center">
             <Grid item xl={12} md={5}>
-              <BarSingleDiagram measures={{
-                one: 'Formatted Style',
-                another: 'Easy Style',
-              }}
+              <BarSingleDiagram
+                measures={{
+                  one: 'Formatted Style',
+                  another: 'Easy Style',
+                }}
+                color={3}
               />
             </Grid>
           </Grid>

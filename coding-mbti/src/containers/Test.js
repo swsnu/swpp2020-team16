@@ -1,13 +1,16 @@
+/* eslint-disable react/jsx-props-no-spreading */
+/* eslint-disable react/destructuring-assignment */
 import React from 'react';
-import Button from '@material-ui/core/Button';
+import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import { useDispatch } from 'react-redux';
+import * as actionCreators from '../store/actions/index';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import Showprob from '../components/Showprob';
-import CodeIDEforHome from '../components/CodeIDEforHome';
+import CodeIDE from '../components/CodeIDE';
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -29,62 +32,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Home() {
+export default function Test(props) {
   const classes = useStyles();
-  const onClickGetTested = () => {
-    window.location.replace('/test/1');
-  };
+  const dispatch = useDispatch();
+  const { pid } = props.match.params;
+
+  const onPutTestResult = (data) => dispatch(actionCreators.putTestResult(data));
   return (
     <>
       <Navbar />
       <main>
-        {/* Hero unit */}
-        <div className={classes.heroContent}>
-          <Container maxWidth="lg">
-            <Typography
-              component="h1"
-              variant="h2"
-              align="center"
-              color="textPrimary"
-              gutterBottom
-            >
-              Coding MBTI
-            </Typography>
-            <Typography
-              variant="h5"
-              align="center"
-              color="textSecondary"
-              paragraph
-              className="phrase"
-            >
-              Get thorough insight on your coding habit
-            </Typography>
-            <div className={classes.heroButtons}>
-              <Grid container spacing={2} justify="center">
-                <Grid item>
-                  <Button variant="contained" color="primary">
-                    Sign in
-                  </Button>
-                </Grid>
-                <Grid item>
-                  <Button variant="outlined" color="primary">
-                    Sign up
-                  </Button>
-                </Grid>
-                <Grid item>
-                  <Button
-                    variant="outlined"
-                    color="secondary"
-                    id="getTested"
-                    onClick={onClickGetTested}
-                  >
-                    Get tested
-                  </Button>
-                </Grid>
-              </Grid>
-            </div>
-          </Container>
-        </div>
         <Container className={classes.cardGrid} maxWidth="lg">
           <Grid container spacing={4} />
         </Container>
@@ -97,13 +54,19 @@ function Home() {
           />
         </Container>
         <Container maxWidth="lg">
-          <CodeIDEforHome />
+          <CodeIDE {...props} onPutTestResult={onPutTestResult} pid={pid} />
         </Container>
       </main>
-      {/* Footer */}
       <Footer />
     </>
   );
 }
 
-export default Home;
+Test.propTypes = {
+  history: PropTypes.instanceOf(Object),
+  match: PropTypes.instanceOf(Object),
+};
+Test.defaultProps = {
+  history: {},
+  match: {},
+};

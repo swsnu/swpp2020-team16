@@ -9,7 +9,7 @@ describe('<Home/>', () => {
     home = <Home />;
   });
 
-  it('should render withour any error', () => {
+  it('should render without any error', () => {
     const component = shallow(home);
 
     const wrapper = component.find('.phrase');

@@ -5,6 +5,8 @@ import './App.css';
 import PropTypes from 'prop-types';
 
 import Home from './containers/Home';
+import SignIn from './containers/SignIn';
+import SignUp from './containers/SignUp';
 import Check from './containers/Check';
 import Result from './containers/Result';
 
@@ -14,6 +16,8 @@ function App(props) {
     <Router history={history}>
       <Switch>
         <Route path="/" exact component={Home} />
+        <Route path="/signin/" exact component={SignIn} />
+        <Route path="/signup/" exact component={SignUp} />
         <Route path="/check/result" exact component={Result} />
         <Route
           path="/check/:pid"

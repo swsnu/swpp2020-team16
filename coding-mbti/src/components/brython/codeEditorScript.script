@@ -42,7 +42,7 @@ def run(event):
     src = document['code-pipe'].value
 
     # add test code
-    src = src + "\n\nassert(fixedFunctionName(0) == 3)"
+    # src = src + "\n\nassert(fixedFunctionName(0) == 3)"
 
     # set timer
     t0 = time.perf_counter()

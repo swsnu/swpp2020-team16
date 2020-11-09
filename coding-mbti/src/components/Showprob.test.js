@@ -1,11 +1,15 @@
 import React from 'react';
 import { shallow } from 'enzyme';
+import { Provider } from 'react-redux';
+import { configureStore } from '@reduxjs/toolkit';
 import Showprob from './Showprob';
+
+const { store } = configureStore();
 
 describe('<ShowProb/>', () => {
   let showprob;
   beforeEach(() => {
-    showprob = <Showprob />;
+    showprob = <Provider store={store}><Showprob /></Provider>;
   });
 
   it('should render withour any error', () => {

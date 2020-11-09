@@ -75,12 +75,12 @@ export default function HomeOMG() {
             <div className={classes.heroButtons}>
               <Grid container spacing={2} justify="center">
                 <Grid item>
-                  <Button variant="contained" color="primary">
+                  <Button variant="contained" color="primary" href="/signin/">
                     Sign in
                   </Button>
                 </Grid>
                 <Grid item>
-                  <Button variant="outlined" color="primary">
+                  <Button variant="outlined" color="primary" href="/signup/">
                     Sign up
                   </Button>
                 </Grid>

@@ -2,10 +2,9 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from group.models import Group
 
-
 class CodingStyle(models.Model):
     class Style(models.IntegerChoices):
-        # User Frienly - Machine Efficiency
+        # User Friendly - Machine Efficiency
         # Time Complexity - Intutive Code
         # Easy style - Formatted Style
         # Just type - Carefully type

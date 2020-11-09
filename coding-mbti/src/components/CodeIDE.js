@@ -22,7 +22,7 @@ function initBrython() {
 
 function setBrythonEditorInputHandler() {
   // set editor input handler
-  const parser = raw('./brython/codeEditorScript.py');
+  const parser = raw('./brython/codeEditorScript.script');
   const script = document.createElement('script');
   script.type = 'text/python3';
   script.text = parser;

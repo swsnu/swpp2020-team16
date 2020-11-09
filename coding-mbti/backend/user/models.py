@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from group.models import Group
 
+
 class CodingStyle(models.Model):
     class Style(models.IntegerChoices):
         # User Friendly - Machine Efficiency
@@ -36,10 +37,10 @@ class UserManager(BaseUserManager):
 
     def create_user(self, username, password, email, salt, role):
         user = self.model(username=username,
-                          password=password,
                           email=self.normalize_email(email),
                           salt=salt,
                           role=role)
+        user.set_password(password)
         user.save(using=self._db)
         return user
 

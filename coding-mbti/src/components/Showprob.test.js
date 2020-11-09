@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { Provider } from 'react-redux';
-import { configureStore } from '@reduxjs/toolkit';
+import configureStore from '../configureStore';
 import Showprob from './Showprob';
 
 const { store } = configureStore();

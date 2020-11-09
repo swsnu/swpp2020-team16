@@ -1,10 +1,11 @@
-import React from "react";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import React from 'react';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
-import "./App.css";
-import Home from "./containers/Home";
-import SignIn from "./containers/SignIn";
-import SignUp from "./containers/SignUp";
+import './App.css';
+import Home from './containers/Home';
+import SignIn from './containers/SignIn';
+import SignUp from './containers/SignUp';
+
 function App() {
   return (
     <BrowserRouter>

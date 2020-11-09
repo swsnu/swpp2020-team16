@@ -1,60 +1,58 @@
-import React from "react";
-import { shallow } from "enzyme";
-import SignUp from "./SignUp";
+import React from 'react';
+import { shallow } from 'enzyme';
+import SignUp from './SignUp';
 
-describe("<SignUp/>", () => {
+describe('<SignUp/>', () => {
   let signup;
 
   beforeEach(() => {
     signup = <SignUp />;
   });
 
-  it("should render without any error", () => {
+  it('should render without any error', () => {
     const component = shallow(signup);
 
-    const wrapper = component.find(".signup");
+    const wrapper = component.find('.signup');
     expect(wrapper.length).toBe(1);
   });
 
-  it("should email input good", () => {
+  it('should email input good', () => {
     const component = shallow(signup);
-    const email = "TEST_EMAIL";
-    component
-      .find("#email")
-      .simulate("change", { target: { value: "TEST_EMAIL" } });
+    const email = 'TEST_EMAIL';
+    component.find('#email').simulate('change', { target: { value: email } });
   });
 
-  it("should nickname input good", () => {
+  it('should nickname input good', () => {
     const component = shallow(signup);
-    const username = "TEST_NICKNAME";
+    const userName = 'TEST_NICKNAME';
 
-    const usernameWrapper = component.find("#user_name");
-    usernameWrapper.simulate("change", { target: { value: username } });
+    const usernameWrapper = component.find('#userName');
+    usernameWrapper.simulate('change', { target: { value: userName } });
   });
 
-  it("should password input good", () => {
+  it('should password input good', () => {
     const component = shallow(signup);
-    const password = "TEST_PASSWORD";
+    const password = 'TEST_PASSWORD';
 
-    const passwordWrapper = component.find("#password");
-    passwordWrapper.simulate("change", { target: { value: password } });
+    const passwordWrapper = component.find('#password');
+    passwordWrapper.simulate('change', { target: { value: password } });
   });
 
-  it("should password_check input good", () => {
+  it('should password_check input good', () => {
     const component = shallow(signup);
-    const password_check = "TEST_PASSWORD_CHECK";
+    const passwordCheck = 'TEST_PASSWORD_CHECK';
 
-    const passwordCheckWrapper = component.find("#password_check");
-    passwordCheckWrapper.simulate("change", {
-      target: { value: password_check },
+    const passwordCheckWrapper = component.find('#passwordCheck');
+    passwordCheckWrapper.simulate('change', {
+      target: { value: passwordCheck },
     });
   });
 
-  it("should user_type select good", () => {
+  it('should user_type select good', () => {
     const component = shallow(signup);
-    const user_type = "MANAGER";
+    const userType = 'MANAGER';
 
-    const userTypeWrapper = component.find("#user_type");
-    userTypeWrapper.simulate("change", { target: { value: "MANAGER" } });
+    const userTypeWrapper = component.find('#userType');
+    userTypeWrapper.simulate('change', { target: { value: userType } });
   });
 });

@@ -1,44 +1,44 @@
-import React, { useState } from "react";
-import Avatar from "@material-ui/core/Avatar";
-import Button from "@material-ui/core/Button";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import TextField from "@material-ui/core/TextField";
-import Link from "@material-ui/core/Link";
-import Grid from "@material-ui/core/Grid";
-import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import Typography from "@material-ui/core/Typography";
-import { makeStyles } from "@material-ui/core/styles";
-import Container from "@material-ui/core/Container";
-import MenuItem from "@material-ui/core/MenuItem";
-import Navbar from "../components/Navbar";
+import React, { useState } from 'react';
+import Avatar from '@material-ui/core/Avatar';
+import Button from '@material-ui/core/Button';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import TextField from '@material-ui/core/TextField';
+import Link from '@material-ui/core/Link';
+import Grid from '@material-ui/core/Grid';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
+import Container from '@material-ui/core/Container';
+import MenuItem from '@material-ui/core/MenuItem';
+import Navbar from '../components/Navbar';
 
 const usertypes = [
   {
-    value: "CODER",
-    label: "Coder",
+    value: 'CODER',
+    label: 'Coder',
   },
   {
-    value: "REASERCHER",
-    label: "Researcher",
+    value: 'REASERCHER',
+    label: 'Researcher',
   },
   {
-    value: "MANAGER",
-    label: "Manager",
+    value: 'MANAGER',
+    label: 'Manager',
   },
 ];
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
   },
   avatar: {
     margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
-    width: "100%", // Fix IE 11 issue.
+    width: '100%', // Fix IE 11 issue.
     marginTop: theme.spacing(3),
   },
   submit: {
@@ -48,11 +48,11 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignUp() {
   const classes = useStyles();
-  const [email, setEmail] = useState("");
-  const [user_name, setUserName] = useState("");
-  const [password, setPassword] = useState("");
-  const [password_check, setPasswordCheck] = useState("");
-  const [user_type, setUsertype] = useState("CODER");
+  const [email, setEmail] = useState('');
+  const [userName, setUserName] = useState('');
+  const [password, setPassword] = useState('');
+  const [passwordCheck, setPasswordCheck] = useState('');
+  const [userType, setUsertype] = useState('CODER');
   const handleEmailChange = (event) => {
     setEmail(event.target.value.trim());
   };
@@ -94,7 +94,7 @@ export default function SignUp() {
       );
       alert("submitted!");
     }
-  };*/
+  }; */
 
   return (
     <>
@@ -115,9 +115,9 @@ export default function SignUp() {
                   variant="outlined"
                   required
                   fullWidth
-                  id="user_name"
+                  id="userName"
                   label="UserName"
-                  value={user_name}
+                  value={userName}
                   onChange={handleUserNameChange}
                 />
               </Grid>
@@ -151,18 +151,18 @@ export default function SignUp() {
                   fullWidth
                   label="Password Check"
                   type="password"
-                  id="password_check"
-                  value={password_check}
+                  id="passwordCheck"
+                  value={passwordCheck}
                   onChange={handlePasswordCheckChange}
                 />
               </Grid>
               <Grid item xs={12}>
                 <TextField
-                  id="user_type"
+                  id="userType"
                   select
                   fullWidth
                   label="user type"
-                  value={user_type}
+                  value={userType}
                   onChange={handleUserTypeChange}
                   helperText="Please select your user type"
                 >
@@ -180,7 +180,7 @@ export default function SignUp() {
               variant="contained"
               color="primary"
               className={classes.submit}
-              //onClick={clickSignupButtonHandler}
+              // onClick={clickSignupButtonHandler}
             >
               Sign Up
             </Button>

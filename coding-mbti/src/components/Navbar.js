@@ -1,5 +1,4 @@
 import React from 'react';
-
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -79,14 +78,12 @@ export default function NavbarOMG() {
               </ListItemIcon>
               <ListItemText primary={text} />
             </ListItem>
-
           ),
         )}
       </List>
       <Divider />
     </div>
   );
-
   return (
     <>
       <CssBaseline />
@@ -121,7 +118,10 @@ export default function NavbarOMG() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title} />
-          <Button color="inherit">Login</Button>
+          <Button color="inherit" href="/">Home</Button>
+          <Button color="inherit" href="/signin/">
+            Login
+          </Button>
           <Button color="inherit">Logout</Button>
           <IconButton
             edge="end"

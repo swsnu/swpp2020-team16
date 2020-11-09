@@ -9,10 +9,20 @@ describe('<Home/>', () => {
     home = <Home />;
   });
 
-  it('should render withour any error', () => {
+  it('should render without any error', () => {
     const component = shallow(home);
 
     const wrapper = component.find('.phrase');
     expect(wrapper.length).toBe(1);
+  });
+
+  it('should be directed to test page when user click Gettest button', () => {
+    delete window.location;
+    window.location = { replace: jest.fn() };
+
+    const component = shallow(home);
+    const wrapper = component.find('#getTested');
+    wrapper.simulate('click');
+    expect(window.location.replace).toHaveBeenCalledTimes(1);
   });
 });

@@ -1,19 +1,19 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+
+import { createShallow } from '@material-ui/core/test-utils';
 import Result from './Result';
 
 describe('<Result/>', () => {
-  let result;
+  const result = <Result />;
+  let shallow;
 
-  beforeEach(() => {
-    result = <Result />;
+  beforeAll(() => {
+    shallow = createShallow();
   });
 
   it('should render withour any error', () => {
     const component = shallow(result);
-
-    const wrapper = component.find('main');
-
+    const wrapper = component.find('h1');
     expect(wrapper.length).toBe(1);
   });
 });

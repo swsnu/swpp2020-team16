@@ -49,7 +49,6 @@ def run(event):
     try:
         # run user's code
         ns = {'__name__': '__main__'}
-        print(src)
         exec(src, ns)
         state = 1
     except Exception:

@@ -87,6 +87,7 @@ function CodeIDE(props) {
       <Grid item xs={12}>
         <textarea
           id="console"
+          readOnly
           style={{
             display: 'inline',
             backgroundColor: '#272822',
@@ -117,7 +118,7 @@ function CodeIDE(props) {
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           </Button>
         </Grid>
-        <textarea hidden id="code-pipe" />
+        <textarea hidden id="code-pipe" value={code} />
       </Grid>
     </Container>
   );
@@ -131,7 +132,7 @@ CodeIDE.propTypes = {
 CodeIDE.defaultProps = {
   history: {},
   pid: '0',
-  onPutTestResult: () => {},
+  onPutTestResult: () => { },
 };
 
 export default CodeIDE;

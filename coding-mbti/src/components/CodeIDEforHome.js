@@ -78,6 +78,7 @@ function CodeIDEforHome() {
       <Grid item xs={12}>
         <textarea
           id="console"
+          readOnly
           style={{
             display: 'inline',
             backgroundColor: '#272822',
@@ -106,7 +107,7 @@ function CodeIDEforHome() {
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SUBMIT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           </Button>
         </Grid>
-        <textarea hidden id="code-pipe" />
+        <textarea hidden id="code-pipe" value={code} />
       </Grid>
     </Container>
   );

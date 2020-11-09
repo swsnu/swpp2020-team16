@@ -33,6 +33,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Result() {
   const classes = useStyles();
+
   return (
     <>
       <Navbar />

@@ -7,7 +7,8 @@ const solutionSlice = createSlice({
     reducers: {
         solutionCreate: {
             reducer(state, action) {
-                state.push(action.payload);
+                state = [];
+                action.payload.forEach(solution => state.push(solution));
             }
         },
         solutionRead: {

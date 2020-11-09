@@ -17,6 +17,7 @@ const usertypes = [
     value: 'CODER',
     label: 'Coder',
   },
+
   {
     value: 'REASERCHER',
     label: 'Researcher',
@@ -68,33 +69,6 @@ export default function SignUp() {
   const handleUserTypeChange = (event) => {
     setUsertype(event.target.value);
   };
-
-  /*  const clickSignUpButtonHandler = () => {
-    if (
-      email === "" ||
-      user_name === "" ||
-      password === "" ||
-      password_check === ""
-    )
-      alert("fill all!");
-    else if (password !== password_check) alert("check password!");
-    else {
-      setSignedUp("true");
-      const data = {
-        email: this.state.email,
-        user_name: this.state.user_name,
-        password: this.state.password,
-        user_type: this.state.user_type,
-      };
-      this.props.onStoreUser(
-        data.email,
-        data.user_name,
-        data.password,
-        data.user_type
-      );
-      alert("submitted!");
-    }
-  }; */
 
   return (
     <>
@@ -180,7 +154,6 @@ export default function SignUp() {
               variant="contained"
               color="primary"
               className={classes.submit}
-              // onClick={clickSignupButtonHandler}
             >
               Sign Up
             </Button>

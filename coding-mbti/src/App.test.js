@@ -1,22 +1,23 @@
 /* eslint-disable react/jsx-props-no-spreading */
-/*  테스트들 제대로 안 되어 있음  */
-
 import React from 'react';
 
 import { Provider } from 'react-redux';
-import { ConnectedRouter } from 'connected-react-router';
 import { createMount } from '@material-ui/core/test-utils';
 import { transitions, positions, Provider as AlertProvider } from 'react-alert';
 import AlertTemplate from 'react-alert-template-basic';
-import { store, history } from './store/store';
 import App from './App';
+import configureStore from './configureStore';
+
+const { store } = configureStore();
 
 describe('App', () => {
   let app;
   let mount;
+
   beforeAll(() => {
     mount = createMount();
   });
+
   afterAll(() => {
     mount.cleanUp();
   });
@@ -33,11 +34,9 @@ describe('App', () => {
 
     app = (
       <Provider store={store}>
-        <ConnectedRouter history={history}>
-          <AlertProvider template={AlertTemplate} {...options}>
-            <App />
-          </AlertProvider>
-        </ConnectedRouter>
+        <AlertProvider template={AlertTemplate} {...options}>
+          <App />
+        </AlertProvider>
       </Provider>
     );
   });
@@ -58,11 +57,9 @@ describe('App', () => {
     };
     const wrapper = mount(
       <Provider store={store}>
-        <ConnectedRouter history={history}>
-          <AlertProvider template={AlertTemplate} {...options}>
-            <App />
-          </AlertProvider>
-        </ConnectedRouter>
+        <AlertProvider template={AlertTemplate} {...options}>
+          <App />
+        </AlertProvider>
       </Provider>,
     );
     expect(wrapper.find('#console').length).toBe(1);

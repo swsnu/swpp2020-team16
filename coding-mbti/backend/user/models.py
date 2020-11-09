@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from group.models import Group
 
 
@@ -44,8 +44,19 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
+    def create_superuser(self, username, password):
+        if password is None:
+            raise TypeError('Superusers must have a password.')
 
-class User(AbstractBaseUser):
+        user = self.create_user(username, password, 'admin@admin', '', 1)
+        user.is_superuser = True
+        user.is_staff = True
+        user.save()
+
+        return user
+
+
+class User(AbstractBaseUser, PermissionsMixin):
     class Role(models.IntegerChoices):
         Coder = 1
         Manager = 2
@@ -58,6 +69,8 @@ class User(AbstractBaseUser):
     password = models.TextField(null=True, default=None)
     salt = models.TextField(null=True, default=None)
     role = models.IntegerField(choices=Role.choices)
+    is_staff = models.BooleanField(default=False)
+    is_superuser = models.BooleanField(default=False)
     profile_img = models.ImageField()
 
     objects = UserManager()

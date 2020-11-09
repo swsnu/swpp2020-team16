@@ -57,6 +57,9 @@ class Problem(TextModel):
     def predict_erase(self, erase_cnt):
         return get_erase_inference(erase_cnt, self.name)
 
+    def to_dict(self):
+        return {'name': self.name, 'content': self.content, 'style': self.style}
+
 
 class ProblemInput(TextModel):
     problem = models.ForeignKey(Problem, on_delete=models.CASCADE)

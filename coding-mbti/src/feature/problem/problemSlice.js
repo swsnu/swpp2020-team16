@@ -1,5 +1,5 @@
-import request from '../../utils/request';
 import { createSlice } from '@reduxjs/toolkit';
+import request from '../../utils/request';
 
 const problemSlice = createSlice({
     name: 'problem',

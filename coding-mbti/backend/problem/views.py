@@ -2,9 +2,17 @@ import json
 from json import JSONDecodeError
 
 from django.core.exceptions import ObjectDoesNotExist
-from django.http import HttpResponseBadRequest, HttpResponseNotAllowed, HttpResponse
+from django.http import HttpResponseBadRequest, HttpResponseNotAllowed, HttpResponse, JsonResponse
 from analysis.models import SolutionReport
 from problem.models import Solution, Problem
+
+
+def problem_view(request):
+    if request.method == 'GET':
+        return JsonResponse(list(map(lambda problem: problem.to_dict(),
+                                     Problem.objects.all())), status=200, safe=False)
+    else:
+        return HttpResponseNotAllowed(['POST', 'UPDATE', 'DELETE'])
 
 
 def solution_view(request, problem_id):

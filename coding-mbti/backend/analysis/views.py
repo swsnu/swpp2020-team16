@@ -28,7 +28,7 @@ def predict_readability(data, pid):
 def predict_style(data, pid):
 
     vectorizer = pickle.load(
-        open(f'{setttings.ML_DIR}/problem{pid}/tf-idf_vectorizer.pickle', 'rb'))
+        open(f'{settings.ML_DIR}/problem{pid}/tf-idf_vectorizer.pickle', 'rb'))
 
     clf_from_joblib = joblib.load(
         f'{settings.BASE_DIR}/analysis/ML/problem{pid}/model_style.pkl')

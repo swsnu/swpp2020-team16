@@ -14,6 +14,10 @@
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
+    <script id="brython_sdk" src="https://raw.githack.com/brython-dev/brython/master/www/src/brython.js">
+    </script>
+    <script id="brython_stdlib" src="https://raw.githack.com/brython-dev/brython/master/www/src/brython_stdlib.js">
+    </script>
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
@@ -27,24 +31,6 @@
     <title>React App</title>
   </head>
   <body>
-    <script>
-      SEC_HTTPS = true;
-      SEC_BASE = 'compilers.widgets.sphere-engine.com';
-      (function (d, s, id) {
-        SEC = window.SEC || (window.SEC = []);
-        var js,
-          fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) return;
-        js = d.createElement(s);
-        js.id = id;
-        js.src =
-          (SEC_HTTPS ? 'https' : 'http') +
-          '://' +
-          SEC_BASE +
-          '/static/sdk/sdk.js';
-        fjs.parentNode.insertBefore(js, fjs);
-      })(document, 'script', 'sphere-engine-compilers-jssdk');
-    </script>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
     <!--

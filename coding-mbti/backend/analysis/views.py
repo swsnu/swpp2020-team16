@@ -12,10 +12,10 @@ from django.conf import settings
 
 def predict_readability(data, pid):
     vectorizer = pickle.load(
-        open(f'{settings.BASE_DIR}/analysis/ML/problem{pid}/tf-idf_vectorizer.pickle', 'rb'))
+        open(f'{settings.ML_DIR}/problem{pid}/tf-idf_vectorizer.pickle', 'rb'))
 
     clf_from_joblib = joblib.load(
-        f'{settings.BASE_DIR}/analysis/ML/problem{pid}/model_read.pkl')
+        f'{settings.ML_DIR}/problem{pid}/model_read.pkl')
 
     prediction = int(clf_from_joblib.predict(
         vectorizer.transform([data]).toarray()))
@@ -31,7 +31,7 @@ def predict_style(data, pid):
         open(f'{settings.ML_DIR}/problem{pid}/tf-idf_vectorizer.pickle', 'rb'))
 
     clf_from_joblib = joblib.load(
-        f'{settings.BASE_DIR}/analysis/ML/problem{pid}/model_style.pkl')
+        f'{settings.ML_DIR}/problem{pid}/model_style.pkl')
 
     prediction = int(clf_from_joblib.predict(
         vectorizer.transform([data]).toarray()))

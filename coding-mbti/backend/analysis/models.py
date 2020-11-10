@@ -10,11 +10,13 @@ class Report(TimeStampedModel):
         READY = 1
         RUNNING = 2
         ERROR = 3
+
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.TextField()
     content = models.TextField()
     status = models.IntegerField(
-        choices=ReportStatus.choices, default=ReportStatus.RUNNING)
+        choices=ReportStatus.choices, default=ReportStatus.RUNNING
+    )
 
     class Meta:
         abstract = True
@@ -47,21 +49,45 @@ class GroupReport(DistributionReport):
 
 
 class ProblemReport(DistributionReport):
-    problem = models.ForeignKey('problem.Problem', on_delete=models.CASCADE)
+    problem = models.ForeignKey("problem.Problem", on_delete=models.CASCADE)
 
 
 class SolutionReport(Report):
-    solution = models.ForeignKey('problem.Solution', on_delete=models.CASCADE)
+    solution = models.ForeignKey("problem.Solution", on_delete=models.CASCADE)
+
+    def is_available(self):
+        return self.status == Report.ReportStatus.READY
+
+    def to_dict(self):
+        if not self.is_available():
+            self.status = Report.ReportStatus.READY
+            self.save()
+
+        return {
+            "author:": self.author.id,
+            "title": self.title,
+            "content": self.content,
+            "status": self.solution.status,
+            "style-type": self.solution.problem.style,
+        }
+
+
+class UserReport(Report):
+    solution1 = models.TextField()
+    solution2 = models.TextField()
+
     ml_prediction = models.IntegerField(
         choices=Problem.ProblemStyle.choices, null=True)
     ml_probability = models.FloatField(default=0)
 
     style_prediction = models.IntegerField(
-        choices=Problem.ProblemStyle.choices, null=True)
+        choices=Problem.ProblemStyle.choices, null=True
+    )
     style_probability = models.FloatField(default=0)
 
     erase_prediction = models.IntegerField(
-        choices=Problem.ProblemStyle.choices, null=True)
+        choices=Problem.ProblemStyle.choices, null=True
+    )
     erase_probability = models.FloatField(default=0)
 
     def is_available(self):
@@ -69,26 +95,26 @@ class SolutionReport(Report):
 
     def to_dict(self):
         if not self.is_available():
+
+            (
+                self.style_prediction,
+                self.style_probability,
+            ) = self.solution.problem.predict_style(self.solution1)
+
             self.ml_prediction, self.ml_probability = self.solution.problem.predict_ml(
-                self.solution.content)
-
-            self.style_prediction, self.style_probability = self.solution.problem.predict_style(
-                self.solution.content)
-
-            # self.erase_prediction, self.erase_probability = self.solution.problem.predict_erase(
-            #    self.solution.content)
+                self.solution2
+            )
 
             self.status = Report.ReportStatus.READY
             self.save()
+
         return {
-            'id': self.pk,
-            'author:': self.author.id,
-            'title': self.title,
-            'status': self.solution.status,
-            'style-type': self.solution.problem.style,
-            'ml_prediction': self.ml_prediction,
-            'ml_probability': self.ml_probability,
-            'style_prediction': self.style_prediction,
-            'style_probability': self.style_probability,
-            'erase_prediction': self.erase_probability,
-            'erase_probability': self.erase_probability}
+            "id": self.pk,
+            "title": self.title,
+            "author:": self.author.id,
+            "status": self.solution.status,
+            "ml_prediction": self.ml_prediction,
+            "ml_probability": self.ml_probability,
+            "style_prediction": self.style_prediction,
+            "style_probability": self.style_probability,
+        }

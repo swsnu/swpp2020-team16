@@ -80,13 +80,15 @@ class SolutionReport(Report):
 
             self.status = Report.ReportStatus.READY
             self.save()
-        return {'author:': self.author.id,
-                'title': self.title,
-                'status': self.solution.status,
-                'style-type': self.solution.problem.style,
-                'ml_prediction': self.ml_prediction,
-                'ml_probability': self.ml_probability,
-                'style_prediction': self.style_prediction,
-                'style_probability': self.style_probability,
-                'erase_prediction': self.erase_probability,
-                'erase_probability': self.erase_probability}
+        return {
+            'id': self.pk,
+            'author:': self.author.id,
+            'title': self.title,
+            'status': self.solution.status,
+            'style-type': self.solution.problem.style,
+            'ml_prediction': self.ml_prediction,
+            'ml_probability': self.ml_probability,
+            'style_prediction': self.style_prediction,
+            'style_probability': self.style_probability,
+            'erase_prediction': self.erase_probability,
+            'erase_probability': self.erase_probability}

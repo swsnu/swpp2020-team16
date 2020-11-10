@@ -47,7 +47,7 @@ export default function NavbarOMG() {
       onClick={toggleDrawer(anchor, false)}
     >
       <List>
-        {['Find People', 'Research', 'API'].map((text, index) => (
+        {['NotYetImplemented'].map((text, index) => (
           <ListItem button key={text}>
             <ListItemIcon>
               {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}

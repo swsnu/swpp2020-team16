@@ -31,7 +31,8 @@ class ProblemTest(TestCase):
         problem_input = ProblemInput(problem=problem, content="test")
         problem_input.save()
 
-        problem_output = ProblemOutput(problem_input=problem_input, content="test")
+        problem_output = ProblemOutput(
+            problem_input=problem_input, content="test")
         problem_output.save()
 
     def test_problem_create(self):

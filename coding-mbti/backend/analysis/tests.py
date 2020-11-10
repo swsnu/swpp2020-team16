@@ -30,7 +30,7 @@ class AnalysisTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
         self.assertEqual(
-            response.content, b'{"author:": 1, "title": "ITP1_6_B_report", "status": 2, "style-type": 1, "ml_prediction": 1, "ml_probability": 0.6042886058179022, "style_prediction": 1, "style_probability": 0.5526936177284864, "erase_prediction": 0.0, "erase_probability": 0.0}')
+            response.content, b'{"id": 1, "author:": 1, "title": "ITP1_6_B_report", "status": 2, "style-type": 1, "ml_prediction": 1, "ml_probability": 0.6042886058179022, "style_prediction": 1, "style_probability": 0.5526936177284864, "erase_prediction": 0.0, "erase_probability": 0.0}')
 
     def test_analysis_exception(self):
         client = Client()

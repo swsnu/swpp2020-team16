@@ -53,6 +53,7 @@ class CodeIDE extends Component {
       content: this.state.code,
       erase_cnt: 20,
     };
+    window.location.replace('/check/result');
     await this.props.createSolution(this.props.pid, solution);
   }
 

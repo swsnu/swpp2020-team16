@@ -131,18 +131,15 @@ Home.propTypes = {
   problem: PropTypes.object,
   problemInput: PropTypes.object,
   problemOutput: PropTypes.object,
-  readProblem: PropTypes.func,
-  readProblemInput: PropTypes.func,
-  readProblemOutput: PropTypes.func,
+  readProblem: PropTypes.func.isRequired,
+  readProblemInput: PropTypes.func.isRequired,
+  readProblemOutput: PropTypes.func.isRequired,
 };
 
 Home.defaultProps = {
   problem: { title: '', content: '' },
   problemInput: { content: '' },
   problemOutput: { content: '' },
-  readProblem: () => { },
-  readProblemInput: () => { },
-  readProblemOutput: () => { },
 };
 
 const mapDispatchToProps = state => ({

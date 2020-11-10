@@ -39,7 +39,7 @@ describe('<Home/>', () => {
     const component = mount(home);
 
     const wrapper = component.find('.phrase');
-    expect(wrapper.length).toBe(1);
+    expect(wrapper.length).toBe(3);
   });
 
   it('should be directed to test page when user click Gettest button', () => {
@@ -47,7 +47,7 @@ describe('<Home/>', () => {
     window.location = { replace: jest.fn() };
 
     const component = mount(home);
-    const wrapper = component.find('#getTested');
+    const wrapper = component.find('#getTested').first();
     wrapper.simulate('click');
     expect(window.location.replace).toHaveBeenCalledTimes(1);
   });

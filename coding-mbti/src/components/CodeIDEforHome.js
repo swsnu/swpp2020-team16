@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import AceEditor from 'react-ace';
 import raw from 'raw.macro';
-import { useAlert } from 'react-alert';
+import { withAlert } from 'react-alert';
 import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
@@ -47,8 +48,7 @@ class CodeIDEforHome extends Component {
   }
 
   onSubmit = async () => {
-    const alert = useAlert();
-    alert.show('You need to Login!');
+    this.props.alert.show('You need to Login!');
   }
 
   render() {
@@ -113,4 +113,8 @@ class CodeIDEforHome extends Component {
   }
 }
 
-export default CodeIDEforHome;
+CodeIDEforHome.propTypes = {
+  alert: PropTypes.object.isRequired,
+};
+
+export default withAlert()(CodeIDEforHome);

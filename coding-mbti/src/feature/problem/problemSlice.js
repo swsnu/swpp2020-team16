@@ -3,12 +3,13 @@ import request from '../../utils/request';
 
 const problemSlice = createSlice({
     name: 'problem',
-    initialState: [],
+    initialState: {},
     reducers: {
         problemRead: {
             reducer(state, action) {
-                state = [];
-                action.payload.forEach(x => state.push(x));
+                action.payload.forEach(element => {
+                    state[element.id] = element;
+                });
             }
         }
     }

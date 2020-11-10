@@ -11,19 +11,23 @@ def get_inference(code, pid, model_name):
         open(f"{settings.ML_DIR}/problem{pid}/vectorizer.pkl", "rb")
     )
 
-    clf_from_joblib = joblib.load(f"{settings.ML_DIR}/problem{pid}/{model_name}.pkl")
+    clf_from_joblib = joblib.load(
+        f"{settings.ML_DIR}/problem{pid}/{model_name}.pkl")
 
-    prediction = int(clf_from_joblib.predict(vectorizer.transform([code]).toarray()))
+    prediction = int(clf_from_joblib.predict(
+        vectorizer.transform([code]).toarray()))
 
     probability = float(
-        np.max(clf_from_joblib.predict_proba(vectorizer.transform([code]).toarray()))
+        np.max(clf_from_joblib.predict_proba(
+            vectorizer.transform([code]).toarray()))
     )
 
     return prediction, probability
 
 
 def get_erase_inference(erase_cnt, pid):
-    clf_from_joblib = joblib.load(f"{settings.ML_DIR}/problem{pid}/model_erase.pkl")
+    clf_from_joblib = joblib.load(
+        f"{settings.ML_DIR}/problem{pid}/model_erase.pkl")
 
     prediction = int(clf_from_joblib.predict(erase_cnt))
     probability = float(np.max(clf_from_joblib.predict_proba(erase_cnt)))
@@ -59,10 +63,11 @@ class Problem(TextModel):
 
     def to_dict(self):
         return {
+            "title": self.name,
             "name": self.name,
             "content": self.content,
             "style": self.style,
-            "id": self.id,
+            "id": self.pk,
         }
 
 
@@ -70,14 +75,15 @@ class ProblemInput(TextModel):
     problem = models.ForeignKey(Problem, on_delete=models.CASCADE)
 
     def to_dict(self):
-        return {"content": self.content}
+        return {"id": self.pk, "content": self.content}
 
 
 class ProblemOutput(TextModel):
-    problem_input = models.OneToOneField(ProblemInput, on_delete=models.CASCADE)
+    problem_input = models.OneToOneField(
+        ProblemInput, on_delete=models.CASCADE)
 
     def to_dict(self):
-        return {"content": self.content}
+        return {"id": self.pk, "content": self.content}
 
 
 class Solution(TextModel):

@@ -33,7 +33,7 @@ export const readSolution = () => async dispatch => {
 };
 
 export const createSolution = (problemId, solution) => async dispatch => {
-    const res = await request.post(`problem/${problemId}/solution/`);
+    const res = await request.post(`problem/${problemId}/solution/`, solution);
     dispatch(solutionCreate(solution));
     return res.data.id;
 };

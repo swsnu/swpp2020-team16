@@ -36,6 +36,8 @@ module.exports = {
         'import/prefer-default-export': 0,
         'no-case-declarations': 0,
         'no-shadow': 0,
+        'react/forbid-prop-types': 0,
+        'import/no-extraneous-dependencies': 0,
     },
     "parser": "babel-eslint",
 };

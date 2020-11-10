@@ -57,11 +57,9 @@ export default function Check(props) {
 }
 
 Check.propTypes = {
-  history: PropTypes.instanceOf(Object),
   match: PropTypes.instanceOf(Object),
 };
 
 Check.defaultProps = {
-  history: {},
   match: {},
 };

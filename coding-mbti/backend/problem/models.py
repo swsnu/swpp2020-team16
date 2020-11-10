@@ -8,23 +8,22 @@ from django.conf import settings
 
 def get_inference(code, pid, model_name):
     vectorizer = pickle.load(
-        open(f'{settings.ML_DIR}/problem{pid}/vectorizer.pkl', 'rb'))
+        open(f"{settings.ML_DIR}/problem{pid}/vectorizer.pkl", "rb")
+    )
 
-    clf_from_joblib = joblib.load(
-        f'{settings.ML_DIR}/problem{pid}/{model_name}.pkl')
+    clf_from_joblib = joblib.load(f"{settings.ML_DIR}/problem{pid}/{model_name}.pkl")
 
-    prediction = int(clf_from_joblib.predict(
-        vectorizer.transform([code]).toarray()))
+    prediction = int(clf_from_joblib.predict(vectorizer.transform([code]).toarray()))
 
-    probability = float(np.max(clf_from_joblib.predict_proba(
-        vectorizer.transform([code]).toarray())))
+    probability = float(
+        np.max(clf_from_joblib.predict_proba(vectorizer.transform([code]).toarray()))
+    )
 
     return prediction, probability
 
 
 def get_erase_inference(erase_cnt, pid):
-    clf_from_joblib = joblib.load(
-        f'{settings.ML_DIR}/problem{pid}/model_erase.pkl')
+    clf_from_joblib = joblib.load(f"{settings.ML_DIR}/problem{pid}/model_erase.pkl")
 
     prediction = int(clf_from_joblib.predict(erase_cnt))
     probability = float(np.max(clf_from_joblib.predict_proba(erase_cnt)))
@@ -45,29 +44,40 @@ class Problem(TextModel):
         # Time Complexity - Intutive Code
         UM = 1
         TI = 2
+
     style = models.IntegerField(choices=ProblemStyle.choices)
-    name = models.CharField(max_length=31, default='')
+    name = models.CharField(max_length=31, default="")
 
     def predict_ml(self, code):
-        return get_inference(code, self.name, 'model')
+        return get_inference(code, self.name, "model")
 
     def predict_style(self, code):
-        return get_inference(code, self.name, 'model_style')
+        return get_inference(code, self.name, "model_style")
 
     def predict_erase(self, erase_cnt):
         return get_erase_inference(erase_cnt, self.name)
 
     def to_dict(self):
-        return {'name': self.name, 'content': self.content, 'style': self.style}
+        return {
+            "name": self.name,
+            "content": self.content,
+            "style": self.style,
+            "id": self.id,
+        }
 
 
 class ProblemInput(TextModel):
     problem = models.ForeignKey(Problem, on_delete=models.CASCADE)
 
+    def to_dict(self):
+        return {"content": self.content}
+
 
 class ProblemOutput(TextModel):
-    problem_input = models.OneToOneField(
-        ProblemInput, on_delete=models.CASCADE)
+    problem_input = models.OneToOneField(ProblemInput, on_delete=models.CASCADE)
+
+    def to_dict(self):
+        return {"content": self.content}
 
 
 class Solution(TextModel):
@@ -85,4 +95,5 @@ class Solution(TextModel):
     erase_cnt = models.IntegerField(null=False, default=0)
 
     status = models.IntegerField(
-        choices=SolutionStatus.choices, default=SolutionStatus.RUNNING)
+        choices=SolutionStatus.choices, default=SolutionStatus.RUNNING
+    )

@@ -19,37 +19,47 @@ def problem_view(request):
             status=200,
             safe=False,
         )
+
     else:
         return HttpResponseNotAllowed(["POST", "UPDATE", "DELETE"])
 
 
 def problem_by_style_id_view(request, style_id=""):
     if request.method == "GET":
-        problem = Problem.objects.filter(style=style_id).first().to_dict()
-        return JsonResponse(problem, status=200, safe=False)
+        try:
+            problem = Problem.objects.filter(style=style_id).first().to_dict()
+            return JsonResponse(problem, status=200, safe=False)
+        except:
+            return HttpResponseBadRequest()
     else:
         return HttpResponseNotAllowed(["POST", "UPDATE", "DELETE"])
 
 
 def problem_input_view(request, problem_id=""):
     if request.method == "GET":
-        problem_input = (
-            ProblemInput.objects.filter(problem__id=problem_id).first().to_dict()
-        )
-        print(ProblemInput.objects.filter(problem__id=problem_id).first())
-        return JsonResponse(problem_input, status=200, safe=False)
+        try:
+            problem_input = (
+                ProblemInput.objects.filter(problem__id=problem_id).first().to_dict()
+            )
+            print(ProblemInput.objects.filter(problem__id=problem_id).first())
+            return JsonResponse(problem_input, status=200, safe=False)
+        except:
+            return HttpResponseBadRequest()
     else:
         return HttpResponseNotAllowed(["POST", "UPDATE", "DELETE"])
 
 
 def problem_output_view(request, problem_input_id=""):
     if request.method == "GET":
-        problem_output = (
-            ProblemOutput.objects.filter(problem_input__id=problem_input_id)
-            .first()
-            .to_dict()
-        )
-        return JsonResponse(problem_output, status=200, safe=False)
+        try:
+            problem_output = (
+                ProblemOutput.objects.filter(problem_input__id=problem_input_id)
+                .first()
+                .to_dict()
+            )
+            return JsonResponse(problem_output, status=200, safe=False)
+        except:
+            return HttpResponseBadRequest()
     else:
         return HttpResponseNotAllowed(["POST", "UPDATE", "DELETE"])
 

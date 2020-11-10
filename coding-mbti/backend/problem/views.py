@@ -20,14 +20,18 @@ def problem_view(request):
             status=200,
             safe=False,
         )
+
     else:
         return HttpResponseNotAllowed(["POST", "UPDATE", "DELETE"])
 
 
 def problem_by_style_id_view(request, style_id=""):
     if request.method == "GET":
-        problem = Problem.objects.filter(style=style_id).first().to_dict()
-        return JsonResponse(problem, status=200, safe=False)
+        try:
+            problem = Problem.objects.filter(style=style_id).first().to_dict()
+            return JsonResponse(problem, status=200, safe=False)
+        except:
+            return HttpResponseBadRequest()
     else:
         return HttpResponseNotAllowed(["POST", "UPDATE", "DELETE"])
 

@@ -6,6 +6,7 @@ from django.db import models
 from django.conf import settings
 
 
+
 class TextModel(models.Model):
     content = models.TextField()
 
@@ -25,10 +26,12 @@ class Problem(TextModel):
 
     def to_dict(self):
         return {
+            "title": self.name,
             "name": self.name,
             "content": self.content,
             "objective": self.objective,
             "id": self.id,
+
         }
 
 
@@ -36,14 +39,15 @@ class ProblemInput(TextModel):
     problem = models.ForeignKey(Problem, on_delete=models.CASCADE)
 
     def to_dict(self):
-        return {"content": self.content}
+        return {"id": self.pk, "content": self.content}
 
 
 class ProblemOutput(TextModel):
-    problem_input = models.OneToOneField(ProblemInput, on_delete=models.CASCADE)
+    problem_input = models.OneToOneField(
+        ProblemInput, on_delete=models.CASCADE)
 
     def to_dict(self):
-        return {"content": self.content}
+        return {"id": self.pk, "content": self.content}
 
 
 class Solution(TextModel):

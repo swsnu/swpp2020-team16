@@ -49,7 +49,11 @@ class CodeIDE extends Component {
   }
 
   onSubmit = async () => {
-    await this.props.createSolution(this.props.pid, this.state.code);
+    const solution = {
+      content: this.state.code,
+      erase_cnt: 20,
+    };
+    await this.props.createSolution(this.props.pid, solution);
   }
 
   render() {

@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import { transitions, positions, Provider as AlertProvider } from 'react-alert';
 import AlertTemplate from 'react-alert-template-basic';
 import { PersistGate } from 'redux-persist/integration/react';
+import { createMuiTheme, ThemeProvider } from '@material-ui/core';
 import App from './App';
 import configureStore from './configureStore';
 
@@ -18,11 +19,15 @@ const options = {
   transition: transitions.SCALE,
 };
 
+const theme = createMuiTheme();
+
 ReactDOM.render(
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
       <AlertProvider template={AlertTemplate} {...options}>
-        <App />
+        <ThemeProvider theme={theme}>
+          <App />
+        </ThemeProvider>
       </AlertProvider>
     </PersistGate>
   </Provider>,

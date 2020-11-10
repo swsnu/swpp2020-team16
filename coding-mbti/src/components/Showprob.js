@@ -30,7 +30,7 @@ const Showprob = (props) => {
           }}
         >
           input
-          </h1>
+        </h1>
       </Grid>
       <Grid>
         <p>{input}</p>
@@ -42,7 +42,7 @@ const Showprob = (props) => {
           }}
         >
           output
-          </h1>
+        </h1>
       </Grid>
       <Grid>
         <p>{output}</p>

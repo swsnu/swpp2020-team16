@@ -4,11 +4,13 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { createMount } from '@material-ui/core/test-utils';
 import { transitions, positions, Provider as AlertProvider } from 'react-alert';
+import { ThemeProvider, createMuiTheme } from '@material-ui/core';
 import AlertTemplate from 'react-alert-template-basic';
 import App from './App';
 import configureStore from './configureStore';
 
 const { store } = configureStore();
+const theme = createMuiTheme();
 
 describe('App', () => {
   let app;
@@ -34,9 +36,11 @@ describe('App', () => {
 
     app = (
       <Provider store={store}>
-        <AlertProvider template={AlertTemplate} {...options}>
-          <App />
-        </AlertProvider>
+        <ThemeProvider theme={theme}>
+          <AlertProvider template={AlertTemplate} {...options}>
+            <App />
+          </AlertProvider>
+        </ThemeProvider>
       </Provider>
     );
   });
@@ -57,9 +61,11 @@ describe('App', () => {
     };
     const wrapper = mount(
       <Provider store={store}>
-        <AlertProvider template={AlertTemplate} {...options}>
-          <App />
-        </AlertProvider>
+        <ThemeProvider theme={theme}>
+          <AlertProvider template={AlertTemplate} {...options}>
+            <App />
+          </AlertProvider>
+        </ThemeProvider>
       </Provider>,
     );
     expect(wrapper.find('#console').length).toBe(1);

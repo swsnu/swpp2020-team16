@@ -6,31 +6,6 @@ from django.db import models
 from django.conf import settings
 
 
-def get_inference(code, pid, model_name):
-    vectorizer = pickle.load(
-        open(f"{settings.ML_DIR}/problem{pid}/vectorizer.pkl", "rb")
-    )
-
-    clf_from_joblib = joblib.load(f"{settings.ML_DIR}/problem{pid}/{model_name}.pkl")
-
-    prediction = int(clf_from_joblib.predict(vectorizer.transform([code]).toarray()))
-
-    probability = float(
-        np.max(clf_from_joblib.predict_proba(vectorizer.transform([code]).toarray()))
-    )
-
-    return prediction, probability
-
-
-def get_erase_inference(erase_cnt, pid):
-    clf_from_joblib = joblib.load(f"{settings.ML_DIR}/problem{pid}/model_erase.pkl")
-
-    prediction = int(clf_from_joblib.predict(erase_cnt))
-    probability = float(np.max(clf_from_joblib.predict_proba(erase_cnt)))
-
-    return prediction, probability
-
-
 class TextModel(models.Model):
     content = models.TextField()
 
@@ -39,29 +14,20 @@ class TextModel(models.Model):
 
 
 class Problem(TextModel):
-    class ProblemStyle(models.IntegerChoices):
+    class ProblemObjective(models.IntegerChoices):
         # User Frienly - Machine Efficiency
         # Time Complexity - Intutive Code
         UM = 1
         TI = 2
 
-    style = models.IntegerField(choices=ProblemStyle.choices)
+    objective = models.IntegerField(choices=ProblemObjective.choices)
     name = models.CharField(max_length=31, default="")
-
-    def predict_ml(self, code):
-        return get_inference(code, self.name, "model")
-
-    def predict_style(self, code):
-        return get_inference(code, self.name, "model_style")
-
-    def predict_erase(self, erase_cnt):
-        return get_erase_inference(erase_cnt, self.name)
 
     def to_dict(self):
         return {
             "name": self.name,
             "content": self.content,
-            "style": self.style,
+            "objective": self.objective,
             "id": self.id,
         }
 

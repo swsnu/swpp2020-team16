@@ -4,11 +4,7 @@ from . import views
 
 urlpatterns = [
     path(
-        "/",
-        views.user_report,
-    ),
-    path(
-        "<int:report_id>/",
-        views.single_report,
+        "",
+        views.user_report_view,
     ),
 ]

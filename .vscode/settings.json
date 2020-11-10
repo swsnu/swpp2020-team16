@@ -9,6 +9,5 @@
         {
             "mode": "auto"
         }
-    ],
-    "python.formatting.provider": "black",
+    ]
 }

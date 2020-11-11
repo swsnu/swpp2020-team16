@@ -24,7 +24,7 @@ class ProblemTest(TestCase):
         self.client.login(username="test", password="123")
 
         problem = Problem(
-            content="For test", name="ITP1_6_B", style=Problem.ProblemStyle.UM
+            content="For test", name="ITP1_6_B", objective=Problem.ProblemObjective.UM
         )
         problem.save()
 
@@ -39,7 +39,7 @@ class ProblemTest(TestCase):
 
         self.assertEqual(len(Problem.objects.all()), 1)
 
-    def test_get_problem_by_style(self):
+    def test_get_problem_by_objective(self):
         response = self.client.get("/api/problem/1/")
         self.assertEqual(response.status_code, 200)
 
@@ -70,16 +70,6 @@ class ProblemTest(TestCase):
         self.assertEqual(response.status_code, 405)
 
 
-class ProblemByStyleIdTest(TestCase):
-    def test_problem_create(self):
-        # Do not implement with REST API
-
-        Problem(
-            content="For test", name="ITP1_6_B", style=Problem.ProblemStyle.UM
-        ).save()
-        self.assertEqual(len(Problem.objects.all()), 1)
-
-
 class SolutionTest(TestCase):
     def setUp(self):
         self.client = Client()
@@ -90,7 +80,7 @@ class SolutionTest(TestCase):
         self.client.login(username="test", password="123")
 
         Problem(
-            content="For test", name="ITP1_6_B", style=Problem.ProblemStyle.UM
+            content="For test", name="ITP1_6_B", objective=Problem.ProblemObjective.UM
         ).save()
 
     def test_soltuion_create(self):

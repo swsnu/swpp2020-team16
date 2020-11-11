@@ -26,10 +26,10 @@ def problem_view(request):
         return HttpResponseNotAllowed(["POST", "UPDATE", "DELETE"])
 
 
-def problem_by_style_id_view(request, style_id=""):
+def problem_by_objective_view(request, objective=""):
     if request.method == "GET":
         try:
-            problem = Problem.objects.filter(style=style_id).first().to_dict()
+            problem = Problem.objects.filter(objective=objective).first().to_dict()
             return JsonResponse(problem, status=200, safe=False)
         except:
             return HttpResponseBadRequest()

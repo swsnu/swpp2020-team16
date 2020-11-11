@@ -9726,14 +9726,6 @@ rc@^1.0.1, rc@^1.1.6:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
-<<<<<<< HEAD
-react-apexcharts@^1.3.7:
-  version "1.3.7"
-  resolved "https://registry.yarnpkg.com/react-apexcharts/-/react-apexcharts-1.3.7.tgz#42c8785e260535a4f8db1aadbe7b66552770944d"
-  integrity sha512-2OFhEHd70/WHN0kmrJtVx37UfaL71ZogVkwezmDqwQWgwhK6upuhlnEEX7tEq4xvjA+RFDn6hiUTNIuC/Q7Zqw==
-  dependencies:
-    prop-types "^15.5.7"
-=======
 react-ace@^9.2.0:
   version "9.2.0"
   resolved "https://registry.yarnpkg.com/react-ace/-/react-ace-9.2.0.tgz#204873cafc2540b9e7580a483ffaccb6acda5edd"
@@ -9757,7 +9749,13 @@ react-alert@^7.0.2:
   dependencies:
     prop-types "^15.7.2"
     react-transition-group "^4.4.1"
->>>>>>> 25405626edb73a577ec2fcb51036e633506605ec
+
+react-apexcharts@^1.3.7:
+  version "1.3.7"
+  resolved "https://registry.yarnpkg.com/react-apexcharts/-/react-apexcharts-1.3.7.tgz#42c8785e260535a4f8db1aadbe7b66552770944d"
+  integrity sha512-2OFhEHd70/WHN0kmrJtVx37UfaL71ZogVkwezmDqwQWgwhK6upuhlnEEX7tEq4xvjA+RFDn6hiUTNIuC/Q7Zqw==
+  dependencies:
+    prop-types "^15.5.7"
 
 react-app-polyfill@^1.0.6:
   version "1.0.6"

@@ -1,6 +1,7 @@
 import React from 'react';
 import { createMount } from '@material-ui/core/test-utils';
 import { Provider } from 'react-redux';
+
 import Result from './Result';
 import configureStore from '../configureStore';
 

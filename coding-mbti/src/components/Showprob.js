@@ -5,9 +5,7 @@ import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
 
 const Showprob = (props) => {
-  const {
-    title, content, input, output,
-  } = props;
+  const { title, content, input, output } = props;
 
   return (
     <Container className="showprob">
@@ -89,7 +87,7 @@ Showprob.propTypes = {
 };
 
 Showprob.defaultProps = {
-  title: '',
+  title: 'hi',
   content: '',
   input: '',
   output: '',

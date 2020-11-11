@@ -37,12 +37,14 @@ def user_report_view(request):
 def single_report_view(request, report_id):
     if request.method == 'GET':
         try:
-            report = SolutionReport.objects.get(pk=report_id)
-
-        except ObjectDoesNotExist:
-            return HttpResponseBadRequest()
-
-        return JsonResponse(report.to_dict(), status=200, safe=False)
+            return JsonResponse(
+                UserReport.objects.filter(
+                    author__id=request.user.id).first().to_dict(),
+                status=200,
+                safe=False,
+            )
+        except ObjectDoesNotExist as error:
+            return HttpResponseBadRequest(error)
     else:
         return HttpResponseNotAllowed(['POST', 'UPDATE', 'DELETE'])
 

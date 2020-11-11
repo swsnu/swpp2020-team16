@@ -1,59 +1,65 @@
-import json
 from json import JSONDecodeError
-import pickle
-import numpy as np
-import joblib
-
-from django.http import HttpResponseBadRequest, HttpResponseNotAllowed, JsonResponse
-from django.views.decorators.csrf import csrf_exempt
-
-from django.conf import settings
+from django.core.exceptions import ObjectDoesNotExist
+from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseNotAllowed, JsonResponse
+from user.models import User
+from analysis.models import SolutionReport, UserReport
 
 
-def predict_readability(data, pid):
-    vectorizer = pickle.load(
-        open(f'{settings.ML_DIR}/problem{pid}/tf-idf_vectorizer.pickle', 'rb'))
-
-    clf_from_joblib = joblib.load(
-        f'{settings.ML_DIR}/problem{pid}/model_read.pkl')
-
-    prediction = int(clf_from_joblib.predict(
-        vectorizer.transform([data]).toarray()))
-
-    probability = float(np.max(clf_from_joblib.predict_proba(
-        vectorizer.transform([data]).toarray())))
-    return (prediction, probability)
-
-
-def predict_style(data, pid):
-
-    vectorizer = pickle.load(
-        open(f'{settings.ML_DIR}/problem{pid}/tf-idf_vectorizer.pickle', 'rb'))
-
-    clf_from_joblib = joblib.load(
-        f'{settings.ML_DIR}/problem{pid}/model_style.pkl')
-
-    prediction = int(clf_from_joblib.predict(
-        vectorizer.transform([data]).toarray()))
-
-    probability = float(np.max(clf_from_joblib.predict_proba(
-        vectorizer.transform([data]).toarray())))
-    return (prediction, probability)
-
-
-@ csrf_exempt
-def provide_analysis_result(request):
+def user_report_view(request):
     if request.method == 'POST':
         try:
-            body = request.body.decode()
-            source_code = json.loads(body)['source_code']
+            if request.user.is_anonymous:
+                request.user = User.objects.get(pk=1)
+            solution1 = SolutionReport.objects.filter(
+                author__id=request.user.id, title="ITP1_6_B_report").first().content
+            solution2 = SolutionReport.objects.filter(
+                author__id=request.user.id, title="ITP2_3_B_report").first().content
+        except ObjectDoesNotExist as error:
+            return HttpResponseBadRequest(error)
+        try:
+            user_report = UserReport(
+                author=request.user, solution1=solution1, solution2=solution2)
+            user_report.save()
         except (KeyError, JSONDecodeError) as error:
             return HttpResponseBadRequest(error)
-        predict_read, prob_read = predict_readability(source_code, "ITP1_6_B")
-        predict_st, prob_st = predict_style(source_code, "ITP1_6_B")
-        response_dict = {'readability': predict_read, 'readability_prob': prob_read,
-                         'style': predict_st, 'style_prob': prob_st}
-        return JsonResponse(response_dict, status=200, safe=False)
+        return HttpResponse(status=204)
 
+    elif request.method == 'GET':
+        try:
+            return JsonResponse(UserReport.objects.filter(request.user.id)
+                                .first().to_dict(), status=200, safe=False)
+        except:
+            return HttpResponseBadRequest()
     else:
-        return HttpResponseNotAllowed(['GET', 'UPDATE', 'DELETE'])
+        return HttpResponseNotAllowed(['UPDATE', 'DELETE'])
+
+
+def single_report_view(request):
+    if request.method == 'GET':
+        try:
+            return JsonResponse(
+                UserReport.objects.filter(
+                    author__id=request.user.id).first().to_dict(),
+                status=200,
+                safe=False,
+            )
+        except ObjectDoesNotExist as error:
+            return HttpResponseBadRequest(error)
+    else:
+        return HttpResponseNotAllowed(['POST', 'UPDATE', 'DELETE'])
+
+
+def problem_report_view(request):
+    if request.method == 'GET':
+        try:
+            if request.user.is_anonymous:
+                request.user = User.objects.get(pk=1)
+            reports = list(map(lambda report: report.to_dict(),
+                               SolutionReport.objects.filter(author=request.user)))
+
+        except ObjectDoesNotExist:
+            return HttpResponseBadRequest()
+
+        return JsonResponse(reports, status=200, safe=False)
+    else:
+        return HttpResponseNotAllowed(['POST', 'UPDATE', 'DELETE'])

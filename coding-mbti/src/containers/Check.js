@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { useDispatch } from 'react-redux';
-import * as actionCreators from '../store/actions/index';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import Showprob from '../components/Showprob';
@@ -32,10 +30,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Check(props) {
   const classes = useStyles();
-  const dispatch = useDispatch();
   const { pid } = props.match.params;
 
-  const onPutTestResult = (data) => dispatch(actionCreators.putTestResult(data));
   return (
     <>
       <Navbar />
@@ -52,7 +48,7 @@ export default function Check(props) {
           />
         </Container>
         <Container maxWidth="lg">
-          <CodeIDE {...props} onPutTestResult={onPutTestResult} pid={pid} />
+          <CodeIDE {...props} pid={pid} />
         </Container>
       </main>
       <Footer />
@@ -61,10 +57,9 @@ export default function Check(props) {
 }
 
 Check.propTypes = {
-  history: PropTypes.instanceOf(Object),
   match: PropTypes.instanceOf(Object),
 };
+
 Check.defaultProps = {
-  history: {},
   match: {},
 };

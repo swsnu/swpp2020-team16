@@ -1,9 +1,5 @@
-import pickle
-import joblib
-import numpy as np
-
 from django.db import models
-from django.conf import settings
+
 
 
 

@@ -34,7 +34,7 @@ def user_report_view(request):
         return HttpResponseNotAllowed(['UPDATE', 'DELETE'])
 
 
-def single_report_view(request, report_id):
+def single_report_view(request):
     if request.method == 'GET':
         try:
             return JsonResponse(

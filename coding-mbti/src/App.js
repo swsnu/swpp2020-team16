@@ -9,6 +9,7 @@ import SignIn from './containers/SignIn';
 import SignUp from './containers/SignUp';
 import Check from './containers/Check';
 import Result from './containers/Result';
+import MyTestResult from './containers/MyTestResult';
 
 function App(props) {
   const { history } = props;
@@ -19,6 +20,7 @@ function App(props) {
         <Route path="/signin/" exact component={SignIn} />
         <Route path="/signup/" exact component={SignUp} />
         <Route path="/check/result" exact component={Result} />
+        <Route path="/my/tests/results" exact component={MyTestResult} />
         <Route
           path="/check/:pid"
           exact

@@ -15,19 +15,23 @@ def get_inference(code, pid, model_name):
         open(f"{settings.ML_DIR}/problem{pid}/vectorizer.pkl", "rb")
     )
 
-    clf_from_joblib = joblib.load(f"{settings.ML_DIR}/problem{pid}/{model_name}.pkl")
+    clf_from_joblib = joblib.load(
+        f"{settings.ML_DIR}/problem{pid}/{model_name}.pkl")
 
-    prediction = int(clf_from_joblib.predict(vectorizer.transform([code]).toarray()))
+    prediction = int(clf_from_joblib.predict(
+        vectorizer.transform([code]).toarray()))
 
     probability = float(
-        np.max(clf_from_joblib.predict_proba(vectorizer.transform([code]).toarray()))
+        np.max(clf_from_joblib.predict_proba(
+            vectorizer.transform([code]).toarray()))
     )
 
     return prediction, probability
 
 
 def get_erase_inference(erase_cnt, pid):
-    clf_from_joblib = joblib.load(f"{settings.ML_DIR}/problem{pid}/model_erase.pkl")
+    clf_from_joblib = joblib.load(
+        f"{settings.ML_DIR}/problem{pid}/model_erase.pkl")
 
     prediction = int(clf_from_joblib.predict(erase_cnt))
     probability = float(np.max(clf_from_joblib.predict_proba(erase_cnt)))
@@ -116,12 +120,8 @@ class UserReport(Report):
     solution2 = models.TextField()
 
     ml_prediction = models.IntegerField(
-<<<<<<< HEAD
-        choices=Problem.ProblemStyle.choices, null=True)
-=======
         choices=Problem.ProblemObjective.choices, null=True
     )
->>>>>>> 6011b4b3eb31aff2acc1c27e9719031ab6385770
     ml_probability = models.FloatField(default=0)
 
     style_prediction = models.IntegerField(
@@ -139,13 +139,11 @@ class UserReport(Report):
 
     def to_dict(self):
         if not self.is_available():
+            self.style_prediction, self.style_probability = self.predict_style(
+                self.solution1)
 
-            (
-                self.style_prediction,
-                self.style_probability,
-            ) = self.predict_style(self.solution1)
-
-            self.ml_prediction, self.ml_probability = self.predict_ml(self.solution2)
+            self.ml_prediction, self.ml_probability = self.predict_ml(
+                self.solution2)
 
             self.status = Report.ReportStatus.READY
             self.save()

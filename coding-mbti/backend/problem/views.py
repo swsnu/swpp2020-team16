@@ -16,11 +16,29 @@ from problem.models import Solution, Problem, ProblemInput, ProblemOutput
 
 def problem_view(request):
     if request.method == "GET":
-        return JsonResponse(
-            list(map(lambda problem: problem.to_dict(), Problem.objects.all())),
-            status=200,
-            safe=False,
-        )
+        try :
+            return JsonResponse(
+                list(map(lambda problem: problem.to_dict(), Problem.objects.all())),
+                status=200,
+                safe=False,
+            )
+        except : return HttpResponseBadRequest()
+
+
+    else:
+        return HttpResponseNotAllowed(["POST", "UPDATE", "DELETE"])
+
+
+def problem_by_id_view(request, problem_id=""):
+    if request.method == "GET":
+        try :
+            problem = Problem.objects.get(pk=problem_id).to_dict()
+            return JsonResponse(
+                problem,
+                status=200,
+                safe=False,
+            )
+        except: return HttpResponseBadRequest()
 
     else:
         return HttpResponseNotAllowed(["POST", "UPDATE", "DELETE"])
@@ -39,8 +57,7 @@ def problem_by_objective_view(request, objective=""):
 
 def problem_input_view(request, problem_id=""):
     if request.method == "GET":
-        problem_inputs = list(map(lambda x: x.to_dict(), ProblemInput.objects.filter(
-            problem__id=problem_id)))
+        problem_inputs =  ProblemInput.objects.filter(problem__id=problem_id).first().to_dict()
         if len(problem_inputs) == 0:
             return HttpResponse(status=400)
         return JsonResponse(problem_inputs, status=200, safe=False)
@@ -50,8 +67,7 @@ def problem_input_view(request, problem_id=""):
 
 def problem_output_view(request, problem_input_id=""):
     if request.method == "GET":
-        problem_outputs = list(map(lambda x: x.to_dict(), ProblemOutput.objects.filter(
-            problem_input__id=problem_input_id)))
+        problem_outputs = ProblemOutput.objects.filter(problem_input__id=problem_input_id).first().to_dict()
         if len(problem_outputs) == 0:
             return HttpResponse(status=400)
         return JsonResponse(problem_outputs, status=200, safe=False)
@@ -71,17 +87,18 @@ def solution_view(request, problem_id):
 
         try:
             body = request.body.decode()
-            content = json.loads(body)["content"]
+            code = json.loads(body)["code"]
             erase_cnt = json.loads(body)["erase_cnt"]
+            elapsed_time = json.loads(body)["elapsed_time"]
         except (KeyError, JSONDecodeError) as error:
             return HttpResponseBadRequest(error)
 
         solution = Solution(
-            problem=problem, content=content, erase_cnt=erase_cnt)
+            problem=problem, code=code, erase_cnt=erase_cnt, elapsed_time=elapsed_time)
         solution.save()
 
         SolutionReport(
-            solution=solution, author=request.user, title=f"{problem.name}_report"
+            solution=solution, author=request.user, title=f"{problem.pid}_report", code=code
         ).save()
 
         return HttpResponse(status=204)

@@ -97,6 +97,7 @@ class ProblemReport(DistributionReport):
 
 class SolutionReport(Report):
     solution = models.ForeignKey("problem.Solution", on_delete=models.CASCADE)
+    code = models.TextField(default="")
 
     def is_available(self):
         return self.status == Report.ReportStatus.READY
@@ -109,7 +110,7 @@ class SolutionReport(Report):
         return {
             "author:": self.author.id,
             "title": self.title,
-            "content": self.content,
+            "code": self.code,
             "status": self.solution.status,
             "objective-type": self.solution.problem.objective,
         }

@@ -3,31 +3,37 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseNotAllowed, JsonResponse
 from user.models import User
 from analysis.models import SolutionReport, UserReport
+from django.views.decorators.csrf import csrf_exempt
 
 
+@csrf_exempt
 def user_report_view(request):
     if request.method == 'POST':
         try:
-            if request.user.is_anonymous:
-                request.user = User.objects.get(pk=1)
             solution1 = SolutionReport.objects.filter(
-                author__id=request.user.id, title="ITP1_6_B_report").first().content
+                title="ITP1_6_B_report").last().code
+            
             solution2 = SolutionReport.objects.filter(
-                author__id=request.user.id, title="ITP2_3_B_report").first().content
+                title="ITP2_3_B_report").last().code
+            
         except ObjectDoesNotExist as error:
             return HttpResponseBadRequest(error)
         try:
+            if request.user.is_anonymous:
+                request.user = User.objects.filter(username="admin").first()
             user_report = UserReport(
-                author=request.user, solution1=solution1, solution2=solution2)
+                author=request.user, solution1=solution1, solution2=solution2, title=f"user{request.user.id}'s report")
             user_report.save()
         except (KeyError, JSONDecodeError) as error:
             return HttpResponseBadRequest(error)
-        return HttpResponse(status=204)
+        return HttpResponse( status=204)
 
     elif request.method == 'GET':
         try:
-            return JsonResponse(UserReport.objects.filter(request.user.id)
-                                .first().to_dict(), status=200, safe=False)
+            if request.user.is_anonymous:
+                request.user = User.objects.filter(username="admin").first()
+            return JsonResponse(UserReport.objects.filter(author__id=request.user.id)
+                                .last().to_dict(), status=200, safe=False)
         except:
             return HttpResponseBadRequest()
     else:

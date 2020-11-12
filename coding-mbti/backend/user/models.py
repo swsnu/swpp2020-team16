@@ -65,7 +65,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(max_length=21, unique=True, default=None)
     email = models.CharField(
         max_length=190, unique=True, null=True, default=None)
-    nickname = models.CharField(max_length=21, unique=True)
+    nickname = models.CharField(max_length=21)
     password = models.TextField(null=True, default=None)
     salt = models.TextField(null=True, default=None)
     role = models.IntegerField(choices=Role.choices)

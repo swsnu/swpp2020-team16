@@ -11,11 +11,11 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
 const useStyles = makeStyles((theme) => ({
-  heroContent: {
+  Content: {
     backgroundColor: theme.palette.background.paper,
     padding: theme.spacing(8, 7, 6),
   },
-  heroButtons: {
+  Buttons: {
     marginTop: theme.spacing(4),
   },
   footer: {
@@ -38,7 +38,7 @@ export default function Result() {
     <>
       <Navbar />
       <main>
-        <div className={classes.heroContent}>
+        <div className={classes.Content}>
           <Typography
             component="h2"
             variant="h3"
@@ -49,7 +49,6 @@ export default function Result() {
             Analysis Result
           </Typography>
           <Grid container spacing={4} justify="center">
-
             <Grid item xl={12} md={5}>
               <TypeInfo type="INTJ" />
             </Grid>
@@ -174,7 +173,7 @@ export default function Result() {
               />
             </Grid>
           </Grid>
-          <div className={classes.heroButtons}>
+          <div className={classes.Buttons}>
             <Grid container spacing={2} justify="center">
               <Grid item>
                 <Button variant="contained" color="secondary">

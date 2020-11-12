@@ -8,13 +8,15 @@ import Button from '@material-ui/core/Button';
 import { connect } from 'react-redux';
 import 'ace-builds/src-noconflict/mode-python';
 import 'ace-builds/src-noconflict/theme-monokai';
+import { withAlert } from 'react-alert';
 
 import { createSolution } from '../feature/problem/solutionSlice';
 
-const isBrythonScriptLoaded = () => !!(
-  document.getElementById('brython_sdk') &&
-  document.getElementById('brython_stdlib')
-);
+const isBrythonScriptLoaded = () =>
+  !!(
+    document.getElementById('brython_sdk') &&
+    document.getElementById('brython_stdlib')
+  );
 
 const initBrython = () => window.brython();
 
@@ -31,7 +33,7 @@ const setBrythonEditorInputHandler = () => {
   };
 };
 
-const onLoad = editor => editor;
+const onLoad = (editor) => editor;
 
 class CodeIDE extends Component {
   constructor(props) {
@@ -50,12 +52,22 @@ class CodeIDE extends Component {
 
   onSubmit = async () => {
     const solution = {
-      content: this.state.code,
+      code: this.state.code,
       erase_cnt: 20,
+      elapsed_time: 20,
     };
-    window.location.replace('/check/result');
-    await this.props.createSolution(this.props.pid, solution);
-  }
+    if (parseInt(this.props.pid) + 1 === 30) {
+      await this.props.createSolution(this.props.pid, solution);
+      window.location.replace(`/check/result`);
+    } else {
+      await this.props.createSolution(this.props.pid, solution);
+      window.location.replace(`/check/${parseInt(this.props.pid) + 1}`);
+    }
+  };
+
+  onSubmitHome = () => {
+    this.props.alert.show('You need to Login!');
+  };
 
   render() {
     return (
@@ -68,7 +80,7 @@ class CodeIDE extends Component {
             height="500px"
             width="100%"
             onLoad={onLoad}
-            onChange={newCode => this.setState({ code: newCode })}
+            onChange={(newCode) => this.setState({ code: newCode })}
             fontSize={14}
             showPrintMargin
             showGutter
@@ -97,8 +109,7 @@ class CodeIDE extends Component {
         <Grid container item xs={12}>
           <Grid item xs={6} align="center">
             <Button id="run" variant="outlined" size="large" color="secondary">
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RUN&nbsp;&nbsp;&nbsp;&nbsp;
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              RUN
             </Button>
           </Grid>
 
@@ -108,13 +119,19 @@ class CodeIDE extends Component {
               variant="outlined"
               size="large"
               color="primary"
-              onClick={this.onSubmit}
+              onClick={
+                this.props.pid === '-1' ? this.onSubmitHome : this.onSubmit
+              }
             >
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SUBMIT&nbsp;&nbsp;&nbsp;&nbsp;
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              SUBMIT
             </Button>
           </Grid>
-          <textarea hidden id="code-pipe" value={this.state.code} onChange={() => { }} />
+          <textarea
+            hidden
+            id="code-pipe"
+            value={this.state.code}
+            onChange={() => {}}
+          />
         </Grid>
       </Container>
     );
@@ -124,11 +141,12 @@ class CodeIDE extends Component {
 CodeIDE.propTypes = {
   pid: PropTypes.string,
   createSolution: PropTypes.func,
+  alert: PropTypes.object.isRequired,
 };
 
 CodeIDE.defaultProps = {
   pid: '0',
-  createSolution: () => { },
+  createSolution: () => {},
 };
 
-export default connect(null, { createSolution })(CodeIDE);
+export default connect(null, { createSolution })(withAlert()(CodeIDE));

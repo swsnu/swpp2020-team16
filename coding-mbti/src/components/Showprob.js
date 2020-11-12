@@ -45,36 +45,6 @@ const Showprob = (props) => {
       <Grid>
         <p>{output}</p>
       </Grid>
-      <Grid item container xs={12}>
-        <Grid item xs={6}>
-          <h1>input sample</h1>
-        </Grid>
-        <Grid item xs={6}>
-          <h1>output sample</h1>
-        </Grid>
-        <Grid item xs={6}>
-          <pre
-            style={{
-              backgroundColor: '#f5f6f7',
-              padding: '1vw',
-            }}
-          >
-            {}
-          </pre>
-        </Grid>
-        <Grid item xs={6}>
-          <pre
-            style={{
-              backgroundColor: '#f5f6f7',
-              padding: '1vw',
-              marginLeft: '0.1vw',
-              height: '100%',
-            }}
-          >
-            {}
-          </pre>
-        </Grid>
-      </Grid>
     </Container>
   );
 };

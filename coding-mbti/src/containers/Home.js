@@ -11,26 +11,18 @@ import Container from '@material-ui/core/Container';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import Showprob from '../components/Showprob';
-import CodeIDEforHome from '../components/CodeIDEforHome';
+import CodeIDE from '../components/CodeIDE';
 import { readProblem } from '../feature/problem/problemSlice';
-import { readProblemInput } from '../feature/problem/problemInputSlice';
-import { readProblemOutput } from '../feature/problem/problemOutputSlice';
 
-const styles = theme => ({
-  icon: {
-    marginRight: theme.spacing(2),
-  },
-  title: {
-    flexGrow: 1,
-  },
-  heroContent: {
+const styles = (theme) => ({
+  Content: {
     backgroundColor: theme.palette.background.paper,
     padding: theme.spacing(8, 0, 6),
   },
-  heroButtons: {
+  Buttons: {
     marginTop: theme.spacing(4),
   },
-  cardGrid: {
+  Grid: {
     paddingTop: theme.spacing(8),
     paddingBottom: theme.spacing(8),
   },
@@ -38,28 +30,22 @@ const styles = theme => ({
 
 class Home extends Component {
   async componentDidMount() {
-    await this.props.readProblem();
-    const problemId = 1;
-    await this.props.readProblemInput(problemId);
-    const problemInputId = 1;
-    await this.props.readProblemOutput(problemInputId);
+    await this.props.readProblem(28);
   }
 
   onClickGetTested = () => {
-    window.location.replace('/check/1');
+    window.location.replace('/check/28');
   };
 
   render() {
-    const {
-      classes, problem, problemInput, problemOutput
-    } = this.props;
+    const { problem, classes } = this.props;
+    console.log(this.props);
 
     return (
       <>
         <Navbar />
         <main>
-          {/* Hero unit */}
-          <div className={classes.heroContent}>
+          <div className={classes.Content}>
             <Container maxWidth="lg">
               <Typography
                 component="h1"
@@ -79,7 +65,7 @@ class Home extends Component {
               >
                 Get thorough insight on your coding habit
               </Typography>
-              <div className={classes.heroButtons}>
+              <div className={classes.Buttons}>
                 <Grid container spacing={2} justify="center">
                   <Grid item>
                     <Button variant="contained" color="primary" href="/signin/">
@@ -105,19 +91,19 @@ class Home extends Component {
               </div>
             </Container>
           </div>
-          <Container className={classes.cardGrid} maxWidth="lg">
+          <Container className={classes.Grid} maxWidth="lg">
             <Grid container spacing={4} />
           </Container>
           <Container maxWidth="lg">
             <Showprob
               title={problem.title}
-              content={problem.content}
-              input={problemInput.content}
-              output={problemOutput.content}
+              content={problem.desc}
+              input={problem.input_desc}
+              output={problem.output_desc}
             />
           </Container>
           <Container maxWidth="lg">
-            <CodeIDEforHome />
+            <CodeIDE pid="-1" />
           </Container>
         </main>
         <Footer />
@@ -132,20 +118,23 @@ Home.propTypes = {
   problemInput: PropTypes.object,
   problemOutput: PropTypes.object,
   readProblem: PropTypes.func.isRequired,
-  readProblemInput: PropTypes.func.isRequired,
-  readProblemOutput: PropTypes.func.isRequired,
 };
 
 Home.defaultProps = {
-  problem: { title: '', content: '' },
-  problemInput: { content: '' },
-  problemOutput: { content: '' },
+  problem: {
+    title: '',
+    desc: '',
+    input_desc: '',
+    output_desc: '',
+    pid: '',
+    objective: '',
+  },
 };
 
-const mapDispatchToProps = state => ({
-  problem: state.problem.problemReducer[1],
-  problemInput: state.problem.problemInputReducer[1],
-  problemOutput: state.problem.problemOutputReducer[1],
+const mapDispatchToProps = (state) => ({
+  problem: state.problem.problemReducer,
 });
 
-export default connect(mapDispatchToProps, { readProblem, readProblemInput, readProblemOutput })(withStyles(styles)(withAlert()(Home)));
+export default connect(mapDispatchToProps, {
+  readProblem,
+})(withStyles(styles)(withAlert()(Home)));

@@ -2,14 +2,19 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { readProblemReport } from '../feature/report/problemReportSlice';
+import {
+  createUserReport,
+  readUserReport,
+} from '../feature/report/userReportSlice';
 
 class Result extends Component {
   async componentDidMount() {
-    await this.props.readProblemReport();
+    await this.props.createUserReport();
+    await this.props.readUserReport();
   }
 
   render() {
+    console.log(this.props);
     const { reports } = this.props;
     return (
       <div>
@@ -25,16 +30,17 @@ class Result extends Component {
 }
 
 Result.propTypes = {
-  readProblemReport: PropTypes.func.isRequired,
   reports: PropTypes.object,
 };
 
 Result.defaultProps = {
-  reports: []
+  reports: [],
 };
 
-const mapStateToProps = state => ({
-  reports: state.report.problemReportReducer,
+const mapStateToProps = (state) => ({
+  reports: state.report.userReportReducer,
 });
 
-export default connect(mapStateToProps, { readProblemReport })(Result);
+export default connect(mapStateToProps, { createUserReport, readUserReport })(
+  Result
+);

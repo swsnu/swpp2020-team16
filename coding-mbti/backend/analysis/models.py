@@ -98,6 +98,8 @@ class ProblemReport(DistributionReport):
 class SolutionReport(Report):
     solution = models.ForeignKey("problem.Solution", on_delete=models.CASCADE)
     code = models.TextField(default="")
+    elapsed_time = models.FloatField(default=11.0)
+    erase_cnt = models.IntegerField(default=4)
 
     def is_available(self):
         return self.status == Report.ReportStatus.READY

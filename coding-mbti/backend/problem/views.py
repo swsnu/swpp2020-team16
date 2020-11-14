@@ -47,9 +47,9 @@ def problem_by_id_view(request, problem_id=""):
 def problem_by_objective_view(request, objective=""):
     if request.method == "GET":
         try:
-            problem = Problem.objects.filter(objective=objective).first().to_dict()
+            problem = Problem.objects.filter(objective=int(objective)).first().to_dict()
             return JsonResponse(problem, status=200, safe=False)
-        except:
+        except: 
             return HttpResponseBadRequest()
     else:
         return HttpResponseNotAllowed(["POST", "UPDATE", "DELETE"])
@@ -57,9 +57,10 @@ def problem_by_objective_view(request, objective=""):
 
 def problem_input_view(request, problem_id=""):
     if request.method == "GET":
-        problem_inputs =  ProblemInput.objects.filter(problem__id=problem_id).first().to_dict()
-        if len(problem_inputs) == 0:
-            return HttpResponse(status=400)
+        try :
+            problem_inputs =  ProblemInput.objects.filter(problem__id=problem_id).first().to_dict()
+        except :
+            return HttpResponseBadRequest()
         return JsonResponse(problem_inputs, status=200, safe=False)
     else:
         return HttpResponseNotAllowed(["POST", "UPDATE", "DELETE"])

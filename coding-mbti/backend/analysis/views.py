@@ -1,7 +1,6 @@
 from json import JSONDecodeError
 from django.views.decorators.csrf import csrf_exempt
 from django.core.exceptions import ObjectDoesNotExist
-from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseNotAllowed, JsonResponse
 from user.models import User
 from analysis.models import SolutionReport, UserReport
@@ -11,8 +10,6 @@ from analysis.models import SolutionReport, UserReport
 def user_report_view(request):
     if request.method == 'POST':
         try:
-            print(SolutionReport.objects.filter(
-                title="ITP1_6_B_report").last().to_dict())
             solution1 = SolutionReport.objects.filter(
                 title="ITP1_6_B_report").last().code
             solution2 = SolutionReport.objects.filter(

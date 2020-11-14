@@ -34,7 +34,7 @@ class AnalysisTestCase(TestCase):
             content_type="application/json",
         )
 
-        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, 204)
 
         solution2_body = {
             "erase_cnt": 12,
@@ -48,10 +48,10 @@ class AnalysisTestCase(TestCase):
             content_type="application/json",
         )
 
-        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, 204)
 
         client.post("/api/analysis/")
-        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, 204)
 
     def test_user_report_analysis_exception(self):
         client = Client()

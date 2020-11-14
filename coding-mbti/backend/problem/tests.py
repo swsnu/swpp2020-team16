@@ -24,6 +24,7 @@ class ProblemTest(TestCase):
         self.client.login(username="test", password="123")
 
     def test_problem_create(self):
+
         problem = Problem(desc="For test", input_desc="For test",
                           output_desc="Fore test", pid="ITP1_6_B", objective=1)
         problem.save()
@@ -31,6 +32,7 @@ class ProblemTest(TestCase):
         self.assertEqual(len(Problem.objects.all()), 1)
 
     def test_get_problem_by_objective(self):
+
         problem = Problem(desc="For test", input_desc="For test",
                           output_desc="Fore test", pid="ITP1_6_B", objective=1)
         problem.save()
@@ -139,11 +141,11 @@ class SolutionTest(TestCase):
             content_type="application/json",
         )
 
-        self.assertEqual(response.status_code, 400)
-        self.assertEqual(len(Solution.objects.all()), 0)
+        self.assertEqual(response.status_code, 204)
+        self.assertEqual(len(Solution.objects.all()), 1)
 
     def test_solution_create_exception(self):
-
+    
         response = self.client.post("/api/problem/2/solution/", {})
 
         self.assertEqual(response.status_code, 400)

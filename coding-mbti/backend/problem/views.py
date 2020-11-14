@@ -22,8 +22,8 @@ def problem_view(request):
                 status=200,
                 safe=False,
             )
-        except:
-            return HttpResponseBadRequest()
+        except ObjectDoesNotExist as error:
+            return HttpResponseBadRequest(error)
 
     else:
         return HttpResponseNotAllowed(["POST", "UPDATE", "DELETE"])
@@ -38,8 +38,8 @@ def problem_by_id_view(request, problem_id=""):
                 status=200,
                 safe=False,
             )
-        except:
-            return HttpResponseBadRequest()
+        except ObjectDoesNotExist as error:
+            return HttpResponseBadRequest(error)
 
     else:
         return HttpResponseNotAllowed(["POST", "UPDATE", "DELETE"])
@@ -49,21 +49,21 @@ def problem_by_objective_view(request, objective=""):
     if request.method == "GET":
         try:
             problem = Problem.objects.filter(
-                objective=objective).first().to_dict()
+                objective=int(objective)).first().to_dict()
             return JsonResponse(problem, status=200, safe=False)
-        except:
-            return HttpResponseBadRequest()
+        except (ObjectDoesNotExist, AttributeError) as error:
+            return HttpResponseBadRequest(error)
     else:
         return HttpResponseNotAllowed(["POST", "UPDATE", "DELETE"])
 
 
 def problem_input_view(request, problem_id=""):
     if request.method == "GET":
-        print(ProblemInput.objects.all().values('problem__id'))
-        problem_inputs = ProblemInput.objects.filter(
-            problem__id=problem_id).first().to_dict()
-        if len(problem_inputs) == 0:
-            return HttpResponse(status=400)
+        try:
+            problem_inputs = ProblemInput.objects.filter(
+                problem__id=problem_id).first().to_dict()
+        except (ObjectDoesNotExist, AttributeError) as error:
+            return HttpResponseBadRequest(error)
         return JsonResponse(problem_inputs, status=200, safe=False)
     else:
         return HttpResponseNotAllowed(["POST", "UPDATE", "DELETE"])
@@ -71,10 +71,11 @@ def problem_input_view(request, problem_id=""):
 
 def problem_output_view(request, problem_input_id=""):
     if request.method == "GET":
-        problem_outputs = ProblemOutput.objects.filter(
-            problem_input__id=problem_input_id).first().to_dict()
-        if len(problem_outputs) == 0:
-            return HttpResponse(status=400)
+        try:
+            problem_outputs = ProblemOutput.objects.filter(
+                problem_input__id=problem_input_id).first().to_dict()
+        except ObjectDoesNotExist as error:
+            return HttpResponseBadRequest(error)
         return JsonResponse(problem_outputs, status=200, safe=False)
     else:
         return HttpResponseNotAllowed(["POST", "UPDATE", "DELETE"])
@@ -99,7 +100,7 @@ def solution_view(request, problem_id):
             return HttpResponseBadRequest(error)
 
         solution = Solution(
-            problem=problem, code=code, erase_cnt=erase_cnt, elapsed_time=elapsed_time)
+            problem=problem, code=code, erase_cnt=erase_cnt, elapsed_time=elapsed_time, author_id=request.user.id)
         solution.save()
 
         SolutionReport(
@@ -107,5 +108,14 @@ def solution_view(request, problem_id):
         ).save()
 
         return HttpResponse(status=204)
+    elif request.method == "GET":
+        if request.user.is_anonymous:
+            request.user = User.objects.all().first()
+        try:
+            solution = Solution.objects.filter(
+                problem__id=problem_id, author_id=request.user.id).last().to_dict()
+        except ObjectDoesNotExist as error:
+            return HttpResponseBadRequest(error)
+        return JsonResponse(solution, status=200, safe=False)
     else:
-        return HttpResponseNotAllowed(["GET", "UPDATE", "DELETE"])
+        return HttpResponseNotAllowed(["UPDATE", "DELETE"])

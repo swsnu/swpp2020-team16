@@ -1,4 +1,5 @@
 from json import JSONDecodeError
+from django.views.decorators.csrf import csrf_exempt
 from django.core.exceptions import ObjectDoesNotExist
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseNotAllowed, JsonResponse
@@ -14,7 +15,6 @@ def user_report_view(request):
                 title="ITP1_6_B_report").last().to_dict())
             solution1 = SolutionReport.objects.filter(
                 title="ITP1_6_B_report").last().code
-
             solution2 = SolutionReport.objects.filter(
                 title="ITP2_3_B_report").last().code
 
@@ -24,9 +24,7 @@ def user_report_view(request):
             if request.user.is_anonymous:
                 request.user = User.objects.filter(username="admin").first()
             user_report = UserReport(
-                author=request.user,
-                solution1=solution1,
-                solution2=solution2,
+                author=request.user, solution1=solution1, solution2=solution2,
                 title=f"user{request.user.id}'s report")
             user_report.save()
         except (KeyError, JSONDecodeError) as error:
@@ -39,8 +37,8 @@ def user_report_view(request):
                 request.user = User.objects.filter(username="admin").first()
             return JsonResponse(UserReport.objects.filter(author__id=request.user.id)
                                 .last().to_dict(), status=200, safe=False)
-        except:
-            return HttpResponseBadRequest()
+        except ObjectDoesNotExist as error:
+            return HttpResponseBadRequest(error)
     else:
         return HttpResponseNotAllowed(['UPDATE', 'DELETE'])
 

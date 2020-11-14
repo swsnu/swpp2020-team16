@@ -1,8 +1,7 @@
-from django.core.management.base import BaseCommand
-from problem.models import Solution, Problem, ProblemInput, ProblemOutput
-from django.conf import settings
 import logging
-
+from django.core.management.base import BaseCommand
+from django.conf import settings
+from problem.models import Problem, ProblemInput, ProblemOutput
 
 def read_test_cases(option, pid):
     with open(f"{settings.PROB_DIR}/test_cases/{pid}_{option}.txt", "r") as f :
@@ -89,7 +88,7 @@ def create_data():
     logger.info("problems created.")
 
 
-def run_seed(self, mode):
+def run_seed(_self, mode):
     clear_data()
     if mode == MODE_CLEAR:
         return

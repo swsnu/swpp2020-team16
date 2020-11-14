@@ -52,13 +52,16 @@ class Report(TimeStampedModel):
         choices=ReportStatus.choices, default=ReportStatus.RUNNING
     )
 
-    def predict_ml(self, code):
+    def predict_UM(self, code):
         return get_inference(code, "ITP2_3_B", "model")
 
-    def predict_style(self, code):
+    def predict_EF(self, code):
         return get_inference(code, "ITP1_6_B", "model_style")
 
-    def predict_erase(self, erase_cnt):
+    def predict_JC(self, erase_cnt):
+        return get_erase_inference(erase_cnt, self.name)
+
+    def predict_TI(self, erase_cnt):
         return get_erase_inference(erase_cnt, self.name)
 
     class Meta:
@@ -98,6 +101,8 @@ class ProblemReport(DistributionReport):
 class SolutionReport(Report):
     solution = models.ForeignKey("problem.Solution", on_delete=models.CASCADE)
     code = models.TextField(default="")
+    elapsed_time = models.FloatField(default=11.0)
+    erase_cnt = models.IntegerField(default=4)
 
     def is_available(self):
         return self.status == Report.ReportStatus.READY
@@ -120,30 +125,41 @@ class UserReport(Report):
     solution1 = models.TextField()
     solution2 = models.TextField()
 
-    ml_prediction = models.IntegerField(
-        choices=Problem.ProblemObjective.choices, null=True
+    UM_prediction = models.IntegerField(
+        choices=Problem.ProblemObjective.choices, default=0
     )
-    ml_probability = models.FloatField(default=0)
+    UM_probability = models.FloatField(default=0)
 
-    style_prediction = models.IntegerField(
-        choices=Problem.ProblemObjective.choices, null=True
+    EF_prediction = models.IntegerField(
+        choices=Problem.ProblemObjective.choices, default=0
     )
-    style_probability = models.FloatField(default=0)
+    EF_probability = models.FloatField(default=0)
 
-    erase_prediction = models.IntegerField(
-        choices=Problem.ProblemObjective.choices, null=True
+    TI_prediction = models.IntegerField(
+        choices=Problem.ProblemObjective.choices, default=0
     )
-    erase_probability = models.FloatField(default=0)
+    TI_probability = models.FloatField(default=0)
+
+    JC_prediction = models.IntegerField(
+        choices=Problem.ProblemObjective.choices, default=0
+    )
+    JC_probability = models.FloatField(default=0)
 
     def is_available(self):
         return self.status == Report.ReportStatus.READY
 
     def to_dict(self):
         if not self.is_available():
-            self.style_prediction, self.style_probability = self.predict_style(
+            self.EF_prediction, self.EF_probability = self.predict_EF(
                 self.solution1)
 
-            self.ml_prediction, self.ml_probability = self.predict_ml(
+            self.UM_prediction, self.UM_probability = self.predict_UM(
+                self.solution2)
+
+            self.TI_prediction, self.TI_probability = self.predict_TI(
+                self.solution2)
+
+            self.JC_prediction, self.JC_probability = self.predict_JC(
                 self.solution2)
 
             self.status = Report.ReportStatus.READY
@@ -153,8 +169,12 @@ class UserReport(Report):
             "id": self.pk,
             "title": self.title,
             "author:": self.author.id,
-            "ml_prediction": self.ml_prediction,
-            "ml_probability": self.ml_probability,
-            "style_prediction": self.style_prediction,
-            "style_probability": self.style_probability,
+            "UM_prediction": self.UM_prediction,
+            "UM_probability": self.UM_probability,
+            "EF_prediction": self.EF_prediction,
+            "EF_probability": self.EF_probability,
+            "TI_prediction": self.TI_prediction,
+            "TI_probability": self.TI_probability,
+            "JC_prediction": self.JC_prediction,
+            "JC_probability": self.JC_probability,
         }

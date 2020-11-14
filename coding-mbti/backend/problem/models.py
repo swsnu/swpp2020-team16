@@ -32,7 +32,7 @@ class Problem(models.Model):
 
 
 class TestCase(models.Model):
-    test_cases = ArrayField(models.TextField(), default=get_array_default)
+    content = ArrayField(models.TextField(), default=get_array_default)
 
     class Meta:
         abstract = True
@@ -42,7 +42,7 @@ class ProblemInput(TestCase):
     problem = models.ForeignKey(Problem, on_delete=models.CASCADE)
 
     def to_dict(self):
-        return {"id": self.pk, "test_cases": self.test_cases}
+        return {"id": self.pk, "content": self.content}
 
 
 class ProblemOutput(TestCase):
@@ -50,7 +50,7 @@ class ProblemOutput(TestCase):
         ProblemInput, on_delete=models.CASCADE)
 
     def to_dict(self):
-        return {"id": self.pk, "test_cases": self.test_cases}
+        return {"id": self.pk, "content": self.content}
 
 
 class Solution(models.Model):
@@ -63,11 +63,17 @@ class Solution(models.Model):
         TIME_LIMIT_EXCEED = 6
         OUT_OF_MEMORY = 7
     code = models.TextField()
+    author_id = models.IntegerField(default=0)
     problem = models.ForeignKey(Problem, on_delete=models.CASCADE)
     evalutaion = models.IntegerField(default=0)
     erase_cnt = models.IntegerField(null=False, default=0)
     elapsed_time = models.IntegerField(null=False, default=0)
-
     status = models.IntegerField(
         choices=SolutionStatus.choices, default=SolutionStatus.RUNNING
     )
+
+    def to_dict(self):
+        return {"id": self.pk, "evaluation": self.evalutaion, "problem_id": self.problem.pk,
+                "code": self.code, "erase_cnt": self.erase_cnt, "elapsed_time": self.elapsed_time,
+                "status": self.status,
+                }

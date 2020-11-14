@@ -1,152 +1,195 @@
-import React, { Component } from 'react';
+/* eslint-disable no-unused-vars */
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import AceEditor from 'react-ace';
 import raw from 'raw.macro';
+
+/* M-UIs */
 import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
-import { connect } from 'react-redux';
+
+/* ACE Editor */
+import AceEditor from 'react-ace';
 import 'ace-builds/src-noconflict/mode-python';
 import 'ace-builds/src-noconflict/theme-monokai';
-import { withAlert } from 'react-alert';
 
-import { createSolution } from '../feature/problem/solutionSlice';
+/* react-alert HOOK */
+import { useAlert } from 'react-alert';
 
-const isBrythonScriptLoaded = () =>
-  !!(
-    document.getElementById('brython_sdk') &&
-    document.getElementById('brython_stdlib')
-  );
+//                                          //
+//          initiators for brython          //
+//                                          //
 
+const isBrythonScriptLoaded = () => !!(
+  document.getElementById('brython_sdk') &&
+  document.getElementById('brython_stdlib')
+);
 const initBrython = () => window.brython();
-
 const setBrythonEditorInputHandler = () => {
-  // set editor input handler
   const parser = raw('./brython/codeEditorScript.script');
   const script = document.createElement('script');
   script.type = 'text/python3';
   script.text = parser;
-
   document.body.appendChild(script);
-  return () => {
-    document.body.removeChild(script);
-  };
 };
 
-const onLoad = (editor) => editor;
+//                                          //
+//          event handlers for IDE          //
+//                                          //
 
-class CodeIDE extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      code: '#happy coding! fixedFunctionName required.',
-    };
+/*
+    onCodeChange: handle user's code change
+
+      - Basically, this function updates state for user's code.
+      - Meanwhile, it also handles erase-counts.
+          It checks the length of (prev) code and (updated) newCode,
+          and if (updated) newCode is shorter, it adds eraseCount by 1.
+*/
+const onCodeChange = (newCode, code, eraseCount, setEraseCount, setCode) => {
+  const deleted = newCode.length - code.length < 0;
+  if (deleted) {
+    setEraseCount(eraseCount + 1);
   }
+  setCode(newCode);
+};
 
-  componentDidMount() {
+/*
+    onClickSubmit: handle user's click submit button
+
+      - validates if the user is logged in.
+        [TODO: must not validate with pid! use login cookie or whatever based on login data. ]s
+      - aggregates solution data, then call props' handleSubmit function to save it to DB.
+*/
+const onClickSubmit = (loggedIn, code, eraseCount, elapsedTime, props, alert) => {
+  if (loggedIn === false) {
+    alert.show('You need to Login!');
+  } else {
+    const solution = {
+      code,
+      erase_cnt: eraseCount,
+      elapsed_time: elapsedTime,
+    };
+    props.handleSubmit(props.pid, solution);
+  }
+};
+
+export default function CodeIDE(props) {
+  const alert = useAlert();
+
+  const [code, setCode] = useState('#happy coding! fixedFunctionName required.');
+  const [eraseCount, setEraseCount] = useState(0);
+
+  useEffect(() => {
     if (isBrythonScriptLoaded()) {
       window.addEventListener('load', initBrython);
     }
     setBrythonEditorInputHandler();
-  }
+  }, []);
 
-  onSubmit = async () => {
-    const solution = {
-      code: this.state.code,
-      erase_cnt: 20,
-      elapsed_time: 20,
-    };
-    if (parseInt(this.props.pid) + 1 === 30) {
-      await this.props.createSolution(this.props.pid, solution);
-      window.location.replace(`/check/result`);
-    } else {
-      await this.props.createSolution(this.props.pid, solution);
-      window.location.replace(`/check/${parseInt(this.props.pid) + 1}`);
-    }
-  };
-
-  onSubmitHome = () => {
-    this.props.alert.show('You need to Login!');
-  };
-
-  render() {
-    return (
-      <Container>
-        <Grid item xs={12}>
-          <AceEditor
-            name="ace-editor"
-            mode="python"
-            theme="monokai"
-            height="500px"
-            width="100%"
-            onLoad={onLoad}
-            onChange={(newCode) => this.setState({ code: newCode })}
-            fontSize={14}
-            showPrintMargin
-            showGutter
-            highlightActiveLine
-            value={this.state.code}
-            setOptions={{
-              showLineNumbers: true,
-              tabSize: 4,
-            }}
-          />
+  return (
+    <Container>
+      <Grid item xs={12}>
+        <AceEditor
+          name="ace-editor"
+          mode="python"
+          theme="monokai"
+          height="500px"
+          width="100%"
+          onChange={(newCode) => onCodeChange(
+            newCode, code, eraseCount, setEraseCount, setCode
+          )}
+          fontSize={14}
+          showPrintMargin
+          showGutter
+          highlightActiveLine
+          value={code}
+          setOptions={{
+            showLineNumbers: true,
+            tabSize: 4,
+          }}
+        />
+      </Grid>
+      <Grid item xs={12}>
+        <textarea
+          id="console"
+          readOnly
+          style={{
+            display: 'inline',
+            backgroundColor: '#272822',
+            color: 'white',
+            width: `${100}%`,
+            height: `${300}px`,
+            padding: '1vw',
+          }}
+        />
+      </Grid>
+      <Grid container item xs={12}>
+        <Grid item xs={4} align="center">
+          <Button
+            id="run"
+            variant="outlined"
+            size="large"
+            color="secondary"
+          >
+            RUN
+          </Button>
         </Grid>
-        <Grid item xs={12}>
-          <textarea
-            id="console"
-            readOnly
-            style={{
-              display: 'inline',
-              backgroundColor: '#272822',
-              color: 'white',
-              width: `${100}%`,
-              height: `${300}px`,
-              padding: '1vw',
-            }}
-          />
+        <Grid item xs={4} align="center">
+          <Button
+            id="test"
+            variant="outlined"
+            size="large"
+            color="secondary"
+          >
+            Test
+          </Button>
         </Grid>
-        <Grid container item xs={12}>
-          <Grid item xs={6} align="center">
-            <Button id="run" variant="outlined" size="large" color="secondary">
-              RUN
-            </Button>
-          </Grid>
+        <Grid item xs={4} align="center">
+          <Button
+            id="submit"
+            variant="outlined"
+            size="large"
+            color="primary"
+            onClick={() => {
+              let elapsedTime;
 
-          <Grid item xs={6} align="center">
-            <Button
-              id="submit"
-              variant="outlined"
-              size="large"
-              color="primary"
-              onClick={
-                this.props.pid === '-1' ? this.onSubmitHome : this.onSubmit
+              if (document.getElementById('elapsed-time') === null) {
+                elapsedTime = 0;
+              } else {
+                elapsedTime = document.getElementById('elapsed-time').value;
               }
-            >
-              SUBMIT
-            </Button>
-          </Grid>
-          <textarea
-            hidden
-            id="code-pipe"
-            value={this.state.code}
-            onChange={() => {}}
-          />
+
+              onClickSubmit(
+                props.loggedIn,
+                code,
+                eraseCount,
+                elapsedTime,
+                props,
+                alert
+              );
+            }}
+          >
+            SUBMIT
+          </Button>
         </Grid>
-      </Container>
-    );
-  }
+        <textarea
+          hidden
+          id="code-pipe"
+          value={code}
+          readOnly
+        />
+        <textarea
+          id="elapsed-time"
+        />
+      </Grid>
+    </Container>
+  );
 }
 
 CodeIDE.propTypes = {
-  pid: PropTypes.string,
-  createSolution: PropTypes.func,
-  alert: PropTypes.object.isRequired,
+  loggedIn: PropTypes.bool.isRequired,
+  pid: PropTypes.number.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
+  problemInput: PropTypes.object.isRequired,
+  problemOutput: PropTypes.object.isRequired
 };
-
-CodeIDE.defaultProps = {
-  pid: '0',
-  createSolution: () => {},
-};
-
-export default connect(null, { createSolution })(withAlert()(CodeIDE));

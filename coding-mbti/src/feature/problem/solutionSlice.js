@@ -28,6 +28,7 @@ export const {
   solutionRead,
   solutionDelete,
 } = solutionSlice.actions;
+
 export default solutionSlice.reducer;
 
 export const readSolution = () => async (dispatch) => {
@@ -37,7 +38,6 @@ export const readSolution = () => async (dispatch) => {
 
 export const createSolution = (problemId, solution) => async (dispatch) => {
   const res = await request.post(`problem/${problemId}/solution/`, solution);
-  console.log(solution);
   dispatch(solutionCreate(solution));
   return res.data.id;
 };

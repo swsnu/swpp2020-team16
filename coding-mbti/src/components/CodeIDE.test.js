@@ -1,84 +1,227 @@
 /* 아래 submit버튼에 대한 테스트들 제대로 안 되어 있음  */
-import React from 'react';
 import { createMount } from '@material-ui/core/test-utils';
-import { Provider } from 'react-redux';
 import CodeIDE from './CodeIDE';
-import request from '../utils/request';
-import configureStore from '../configureStore';
-
-const { store } = configureStore();
+// import request from '../utils/request';
+import appWrappers from '../appWrappers';
 
 describe('<CodeIDE/>', () => {
-  const codeIDE = (
-    <Provider store={store}>
-      <CodeIDE />
-    </Provider>
-  );
-  let mount;
+  describe('should render without any error for the following each props cases', () => {
+    let mount;
+    let testingComponent;
+    let wrappedComponent;
+    let mountedComponent;
+    let target;
 
-  beforeAll(() => {
-    mount = createMount();
+    const testCases = [
+      {
+        loggedIn: true,
+        pid: 1,
+        handleSubmit: () => { },
+        problemInput: { test_cases: ['input string'] },
+        problemOutput: { test_cases: ['output string'] },
+      },
+      {
+        loggedIn: true,
+        pid: 2,
+        handleSubmit: () => { },
+        problemInput: { test_cases: ['input string'] },
+        problemOutput: { test_cases: ['output string'] },
+      },
+      {
+        loggedIn: false,
+        pid: 1,
+        handleSubmit: () => { },
+        problemInput: { test_cases: ['input string'] },
+        problemOutput: { test_cases: ['output string'] },
+      },
+      {
+        loggedIn: false,
+        pid: 2,
+        handleSubmit: () => { },
+        problemInput: { test_cases: ['input string'] },
+        problemOutput: { test_cases: ['output string'] },
+      },
+    ];
+
+    beforeAll(() => {
+      mount = createMount();
+    });
+
+    testCases.forEach(caseProps => {
+      beforeEach(() => {
+        /* GIVEN - general */
+        testingComponent = CodeIDE;
+        wrappedComponent = appWrappers(testingComponent, caseProps);
+      });
+
+      it(`if props are login[${caseProps.loggedIn}], pid[${caseProps.pid}] with valid handleSubmit function`, () => {
+        /* GIVEN - specific */
+        mountedComponent = mount(wrappedComponent);
+
+        /* WHEN */
+        target = mountedComponent.find('ReactAce').exists();
+
+        /* THEN */
+        expect(target).toBeTruthy();
+      });
+    });
   });
 
-  it('should render without any error', () => {
-    const component = mount(codeIDE);
-    const wrapper = component.find('#console');
-    expect(wrapper.length).toBe(1);
+  describe('should handle onCodeChange, onTest, and onSubmit for logged-in user', () => {
+    let mount;
+    let testingComponent;
+    let wrappedComponent;
+    let mountedComponent;
+
+    const mockHandleSubmit = jest.fn();
+    const testCases = [
+      {
+        loggedIn: true,
+        pid: 1,
+        handleSubmit: mockHandleSubmit,
+        problemInput: { test_cases: ['input string'] },
+        problemOutput: { test_cases: ['output string'] },
+      },
+      {
+        loggedIn: true,
+        pid: 2,
+        handleSubmit: mockHandleSubmit,
+        problemInput: { test_cases: ['input string'] },
+        problemOutput: { test_cases: ['output string'] },
+      },
+      {
+        loggedIn: false,
+        pid: 1,
+        handleSubmit: mockHandleSubmit,
+        problemInput: { test_cases: ['input string'] },
+        problemOutput: { test_cases: ['output string'] },
+      },
+      {
+        loggedIn: false,
+        pid: 2,
+        handleSubmit: mockHandleSubmit,
+        problemInput: { test_cases: ['input string'] },
+        problemOutput: { test_cases: ['output string'] },
+      },
+    ];
+
+    beforeAll(() => {
+      mount = createMount();
+    });
+
+    testCases.forEach(caseProps => {
+      beforeEach(() => {
+        /* GIVEN - general */
+        mockHandleSubmit.mockClear();
+        testingComponent = CodeIDE;
+        wrappedComponent = appWrappers(testingComponent, caseProps);
+      });
+
+      it('onSubmit function with `elapsed-time` value equals null.', () => {
+        /* GIVEN */
+        mountedComponent = mount(wrappedComponent);
+
+        /* WHEN */
+        document.getElementById('elapsed-time').value = null;
+        mountedComponent.find('button').find('#submit').simulate('click');
+
+        /* THEN */
+        //
+      });
+
+      it('onSubmit function with `elapsed-time` value equals not null.', () => {
+        /* GIVEN */
+        mountedComponent = mount(wrappedComponent);
+
+        /* WHEN */
+        document.getElementById('elapsed-time').value = 100;
+        mountedComponent.find('button').find('#submit').simulate('click');
+
+        /* THEN */
+        //
+      });
+
+      // it('onCodeChange function.', () => {
+      //   /* GIVEN */
+      //   mountedComponent = mount(wrappedComponent);
+
+      //   /* WHEN */
+      //   document.getElementById('elapsed-time').value = 100;
+      //   mountedComponent.find('button').find('#submit').simulate('click');
+
+      //   /* THEN */
+      //   if (caseProps.loggedIn === true) {
+      //     expect(mockHandleSubmit).toHaveBeenCalledTimes(1);
+      //   } else {
+      //     expect(global.alert).toHaveBeenCalledTimes(1);
+      //   }
+      // });
+    });
   });
 
-  it('should be directed correct test page before 5 submit', () => {
-    const mockOnPutTestResult = jest.fn().mockImplementation(() => () => { });
+  // describe('should handle onCodeChange, onTest, and onSubmit for logged-in user', () => {
+  //   const mockHandleSubmit = jest.fn().mockImplementation(() => () => { });
+  //   let mount;
+  //   let testingProps;
+  //   let testingComponent;
+  //   let wrappedComponent;
+  //   let mountedComponent;
+  //   let target;
 
-    const spyAxios = jest.spyOn(request, 'post').mockImplementation(
-      () => new Promise((resolve) => {
-        const result = {
-          status: 200,
-          data: 'mock',
-        };
-        resolve(result);
-      }),
-    );
+  //   beforeAll(() => {
+  //     mount = createMount();
+  //   });
 
-    const component = mount(
-      <Provider store={store}>
-        <CodeIDE pid="2" onPutTestResult={mockOnPutTestResult} />
-      </Provider>,
-    );
+  //   beforeEach(() => {
+  //     testingProps = {
+  //       loggedIn: true,
+  //       pid: 1,
+  //       handleSubmit: mockHandleSubmit,
+  //       problemInput: { test_cases: ['input string'] },
+  //       problemOutput: { test_cases: ['output string'] },
+  //     };
+  //     testingComponent = CodeIDE;
+  //     wrappedComponent = appWrappers(testingComponent, testingProps);
+  //   });
 
-    let wrapper = component.find('button').at(1);
+  //   it('onSubmit function.', () => {
+  //     /* GIVEN */
+  //     mountedComponent = mount(wrappedComponent);
 
-    wrapper.simulate('click');
-    wrapper = component.find('#console');
+  //     /* WHEN */
+  //     mountedComponent.find('#submit').simulate('click');
+  //     // target = mountedComponent.find('CodeIDE').state();
+  //     // console.log(target);
 
-    expect(wrapper.length).toBe(1);
-    expect(spyAxios).toHaveBeenCalledTimes(1);
-    expect(mockOnPutTestResult).toHaveBeenCalledTimes(0);
-  });
+  //     /* THEN */
+  //     expect(mockOnPutTestResult).toHaveBeenCalledTimes(0);
+  //   });
+  // });
 
-  it('should be redirected result page after 5 submit', () => {
-    const mockPush = jest.fn();
-    const historyMock = { push: mockPush, replace: jest.fn() };
+  // it('should be directed correct test page before 5 submit', () => {
+  //   const mockOnPutTestResult = jest.fn().mockImplementation(() => () => { });
+  //   const spyAxios = jest.spyOn(request, 'post').mockImplementation(
+  //     () => new Promise((resolve) => {
+  //       const result = {
+  //         status: 200,
+  //         data: 'mock',
+  //       };
+  //       resolve(result);
+  //     }),
+  //   );
+  //   const component = mount(
+  //     <Provider store={store}>
+  //       <CodeIDE pid="2" onPutTestResult={mockOnPutTestResult} />
+  //     </Provider>,
+  //   );
 
-    const spyAxios = jest.spyOn(request, 'post').mockImplementation(
-      () => new Promise((resolve) => {
-        const result = {
-          status: 200,
-          data: 'mock',
-        };
-        resolve(result);
-      }),
-    );
+  //   let wrapper = component.find('button').at(1);
 
-    const component = mount(
-      <Provider store={store}>
-        <CodeIDE pid="5" history={historyMock} />
-      </Provider>,
-    );
+  //   wrapper.simulate('click');
+  //   wrapper = component.find('#console');
 
-    const wrapper = component.find('button[id="submit"]');
-    wrapper.simulate('click');
-
-    expect(mockPush).toHaveBeenCalledTimes(0);
-    expect(spyAxios).toHaveBeenCalledTimes(2);
-  });
+  //   expect(wrapper.length).toBe(1);
+  //   expect(spyAxios).toHaveBeenCalledTimes(1);
+  //   expect(mockOnPutTestResult).toHaveBeenCalledTimes(0);
+  // });
 });

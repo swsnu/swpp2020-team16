@@ -1,42 +1,91 @@
-import React from 'react';
-// import { shallow } from 'enzyme';
-
 import { createShallow } from '@material-ui/core/test-utils';
-import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import TypeInfo from './TypeInfo';
+import appWrappers from '../appWrappers';
 
 describe('<TypeInfo/>', () => {
-  let typeInfo;
-  let shallow;
-  const type = 'INTJ';
+  describe('should handle valid user types.', () => {
+    let shallow;
+    let testingProps;
+    let testingComponent;
+    let wrappedComponent;
+    let shallowComponent;
+    let target;
 
-  beforeAll(() => {
-    shallow = createShallow();
+    const testCases = [
+      'UTEJ', 'MTEJ', 'UTEC', 'MTEC',
+      'UTFJ', 'MTFJ', 'UTFC', 'MTFC',
+      'UIEJ', 'MIEJ', 'UIEC', 'MIEC',
+      'UIFJ', 'MIFJ', 'UIFC', 'MIFC'
+    ];
+
+    testCases.forEach(userType => {
+      beforeAll(() => {
+        shallow = createShallow();
+      });
+
+      it(`if type is [${userType}] and it is proper, it should render component without error.`, () => {
+        /* GIVEN - specific */
+        testingComponent = TypeInfo;
+        testingProps = { type: userType };
+        wrappedComponent = appWrappers(testingComponent, testingProps);
+        shallowComponent = shallow(wrappedComponent);
+
+        /* WHEN */
+        target = shallowComponent.find('TypeInfo').props().type;
+
+        /* THEN */
+        expect(target).toBe(userType);
+      });
+
+      it(`if type is [${userType}] and it is proper, it should render inner-component without error.`, () => {
+        /* GIVEN - specific */
+        testingComponent = TypeInfo;
+        testingProps = { type: userType };
+        wrappedComponent = appWrappers(testingComponent, testingProps);
+        shallowComponent = shallow(wrappedComponent);
+
+        /* WHEN */
+        target = shallowComponent.find('TypeInfo').dive().find('Styled(MuiBox)').exists();
+
+        /* THEN */
+        expect(target).toBeTruthy();
+      });
+    });
   });
 
-  afterAll(() => {
-    shallow.cleanUp();
-  });
+  describe('should throw error on invalid user types.', () => {
+    let shallow;
+    let testingProps;
+    let testingComponent;
+    let wrappedComponent;
+    let shallowComponent;
+    let target;
 
-  beforeEach(() => {
-    typeInfo = <TypeInfo type={type} />;
-  });
+    const testCases = [
+      'invalid user type', 'aaaa', 'bbbb', 'cccc'
+    ];
 
-  it('should render without any error', () => {
-    const theme = createMuiTheme();
-    const component = shallow(
-      <ThemeProvider theme={theme}>{typeInfo}</ThemeProvider>,
-    );
-    const wrapper = component.find('TypeInfo').dive().find('Box');
-    expect(wrapper.length).toBe(0); // todo
-  });
+    testCases.forEach(userType => {
+      beforeAll(() => {
+        shallow = createShallow();
+      });
 
-  // it('should receive props data without any error', () => {
-  //   const theme = createMuiTheme();
-  //   const component = shallow(
-  //     <ThemeProvider theme={theme}>{typeInfo}</ThemeProvider>,
-  //   );
-  //   const wrapper = component.find('TypeInfo');
-  //   expect(wrapper.props().type).toEqual(type);
-  // });
+      it(`if type is [${userType}]`, () => {
+        /* GIVEN - specific */
+        testingComponent = TypeInfo;
+        testingProps = { type: userType };
+        wrappedComponent = appWrappers(testingComponent, testingProps);
+        shallowComponent = shallow(wrappedComponent);
+
+        /* WHEN */
+        try {
+          shallowComponent.find('TypeInfo').dive();
+        } catch (e) {
+          target = e;
+        }
+        /* THEN */
+        expect(target).toBeInstanceOf(Error);
+      });
+    });
+  });
 });

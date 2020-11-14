@@ -1,17 +1,24 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+
+/* M-UIs */
 import Grid from '@material-ui/core/Grid';
 import { withAlert } from 'react-alert';
 import Container from '@material-ui/core/Container';
+import { withStyles } from '@material-ui/styles';
+
+/* Components */
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import Showprob from '../components/Showprob';
 import CodeIDE from '../components/CodeIDE';
+
+/* REDUXs */
 import { readProblem } from '../feature/problem/problemSlice';
 import { readProblemInput } from '../feature/problem/problemInputSlice';
 import { readProblemOutput } from '../feature/problem/problemOutputSlice';
-import { withStyles } from '@material-ui/styles';
-import { connect } from 'react-redux';
+import { createSolution } from '../feature/problem/solutionSlice';
 
 const styles = (theme) => ({
   Content: {
@@ -31,8 +38,14 @@ class Check extends Component {
     await this.props.readProblemOutput(this.props.match.params.pid - 3);
   }
 
+  handleSubmit = async (pid, solution) => {
+    await createSolution(pid, solution);
+  }
+
   render() {
-    const { problem, classes, problemInput, problemOutput } = this.props;
+    const {
+      problem, classes, problemInput, problemOutput
+    } = this.props;
     const { pid } = this.props.match.params;
 
     return (
@@ -51,7 +64,13 @@ class Check extends Component {
             />
           </Container>
           <Container maxWidth="lg">
-            <CodeIDE {...this.props} pid={pid} />
+            <CodeIDE
+              loggedIn={false}
+              pid={parseInt(pid, 10)}
+              handleSubmit={this.handleSubmit}
+              problemInput={problemInput}
+              problemOutput={problemOutput}
+            />
           </Container>
         </main>
         <Footer />
@@ -61,28 +80,15 @@ class Check extends Component {
 }
 
 Check.propTypes = {
-  match: PropTypes.instanceOf(Object),
+  match: PropTypes.instanceOf(Object).isRequired,
   classes: PropTypes.object.isRequired,
-  problem: PropTypes.object,
-  problemInput: PropTypes.object,
-  problemOutput: PropTypes.object,
+  problem: PropTypes.object.isRequired,
+  problemInput: PropTypes.object.isRequired,
+  problemOutput: PropTypes.object.isRequired,
   readProblem: PropTypes.func.isRequired,
   readProblemInput: PropTypes.func.isRequired,
   readProblemOutput: PropTypes.func.isRequired,
-};
-
-Check.defaultProps = {
-  problem: {
-    title: '',
-    desc: '',
-    input_desc: '',
-    output_desc: '',
-    pid: '',
-    objective: '',
-  },
-  problemInput: { test_cases: '' },
-  problemOutput: { test_cases: '' },
-  match: {},
+  createSolution: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = (state) => ({
@@ -95,4 +101,5 @@ export default connect(mapDispatchToProps, {
   readProblem,
   readProblemInput,
   readProblemOutput,
+  createSolution,
 })(withStyles(styles)(withAlert()(Check)));

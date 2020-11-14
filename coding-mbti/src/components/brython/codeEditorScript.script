@@ -60,8 +60,15 @@ def run(event):
     sys.stdout.flush()
     output = document["console"].value
 
-    # add completion time
-    print('<completed in %6.2f ms>' % ((time.perf_counter() - t0) * 1000.0))
+    # add completion time into console & textarea
+    elapsed_time = (time.perf_counter() - t0) * 1000.0
+    print('<completed in %6.2f ms>' % (elapsed_time))
+    document["elapsed-time"].value = elapsed_time
+
+    # trigger change event in the textarea for react to catch
+    # event = window.InputEvent.new("input")
+    # document["elapsed-time"].dispatchEvent(event)
+
     return state
 
 

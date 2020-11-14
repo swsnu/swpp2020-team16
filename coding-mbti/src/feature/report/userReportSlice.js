@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import { createSlice } from '@reduxjs/toolkit';
 import request from '../../utils/request';
 
@@ -33,7 +34,6 @@ export default userReportSlice.reducer;
 
 export const readUserReport = () => async (dispatch) => {
   const res = await request.get('analysis/');
-  console.log(res.data);
   dispatch(userReportRead(res.data));
 };
 

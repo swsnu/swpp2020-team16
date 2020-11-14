@@ -1,18 +1,25 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { withAlert } from 'react-alert';
+/* M-UIs */
 import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/styles';
 import Container from '@material-ui/core/Container';
+
+/* Components */
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import Showprob from '../components/Showprob';
 import CodeIDE from '../components/CodeIDE';
+
+/* REDUXs */
 import { readProblem } from '../feature/problem/problemSlice';
+import { readProblemInput } from '../feature/problem/problemInputSlice';
+import { readProblemOutput } from '../feature/problem/problemOutputSlice';
+import { createSolution } from '../feature/problem/solutionSlice';
 
 const styles = (theme) => ({
   Content: {
@@ -28,19 +35,28 @@ const styles = (theme) => ({
   },
 });
 
+// Home's default Problem ID
+const HOME_PROBLEM_ID = 1;
+
 class Home extends Component {
   async componentDidMount() {
-    await this.props.readProblem(28);
+    await this.props.readProblem(HOME_PROBLEM_ID);
+    await this.props.readProblemInput(HOME_PROBLEM_ID);
+    await this.props.readProblemOutput(HOME_PROBLEM_ID);
   }
 
   onClickGetTested = () => {
-    window.location.replace('/check/28');
+    window.location.replace(`/check/${HOME_PROBLEM_ID}`);
   };
 
-  render() {
-    const { problem, classes } = this.props;
-    console.log(this.props);
+  handleSubmit = async (pid, solution) => {
+    await createSolution(pid, solution);
+  }
 
+  render() {
+    const {
+      problem, classes, problemInput, problemOutput
+    } = this.props;
     return (
       <>
         <Navbar />
@@ -103,7 +119,13 @@ class Home extends Component {
             />
           </Container>
           <Container maxWidth="lg">
-            <CodeIDE pid="-1" />
+            <CodeIDE
+              loggedIn={false}
+              pid={HOME_PROBLEM_ID}
+              handleSubmit={this.handleSubmit}
+              problemInput={problemInput}
+              problemOutput={problemOutput}
+            />
           </Container>
         </main>
         <Footer />
@@ -114,27 +136,24 @@ class Home extends Component {
 
 Home.propTypes = {
   classes: PropTypes.object.isRequired,
-  problem: PropTypes.object,
-  problemInput: PropTypes.object,
-  problemOutput: PropTypes.object,
+  problem: PropTypes.object.isRequired,
+  problemInput: PropTypes.object.isRequired,
+  problemOutput: PropTypes.object.isRequired,
   readProblem: PropTypes.func.isRequired,
-};
-
-Home.defaultProps = {
-  problem: {
-    title: '',
-    desc: '',
-    input_desc: '',
-    output_desc: '',
-    pid: '',
-    objective: '',
-  },
+  readProblemInput: PropTypes.func.isRequired,
+  readProblemOutput: PropTypes.func.isRequired,
+  createSolution: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = (state) => ({
   problem: state.problem.problemReducer,
+  problemInput: state.problem.problemInputReducer,
+  problemOutput: state.problem.problemOutputReducer,
 });
 
 export default connect(mapDispatchToProps, {
   readProblem,
-})(withStyles(styles)(withAlert()(Home)));
+  readProblemInput,
+  readProblemOutput,
+  createSolution,
+})(withStyles(styles)(Home));

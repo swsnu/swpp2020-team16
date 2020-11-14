@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import { createSlice } from '@reduxjs/toolkit';
 import request from '../../utils/request';
 
@@ -17,8 +18,8 @@ const problemOutputSlice = createSlice({
 export const { problemOutputRead } = problemOutputSlice.actions;
 export default problemOutputSlice.reducer;
 
-export const readProblemOutput = (problemInputId) => async (dispatch) => {
-  const res = await request.get(`problem/${problemInputId}/output/`);
+export const readProblemOutput = (problemOutputId) => async (dispatch) => {
+  const res = await request.get(`problem/${problemOutputId}/output/`);
 
   dispatch(problemOutputRead(res.data));
 };

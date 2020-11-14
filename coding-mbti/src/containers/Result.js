@@ -14,7 +14,6 @@ class Result extends Component {
   }
 
   render() {
-    console.log(this.props);
     const { reports } = this.props;
     return (
       <div>
@@ -31,6 +30,8 @@ class Result extends Component {
 
 Result.propTypes = {
   reports: PropTypes.object,
+  createUserReport: PropTypes.func.isRequired,
+  readUserReport: PropTypes.func.isRequired
 };
 
 Result.defaultProps = {

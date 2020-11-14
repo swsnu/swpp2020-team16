@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import { createSlice } from '@reduxjs/toolkit';
 import request from '../../utils/request';
 

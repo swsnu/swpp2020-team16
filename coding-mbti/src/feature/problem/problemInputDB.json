@@ -1,0 +1,19 @@
+{
+    "data": [
+        {
+            "id": 1,
+            "problem_id": 1,
+            "content": "Test content 1"
+        },
+        {
+            "id": 2,
+            "problem_id": 1,
+            "content": "Test content 2"
+        },
+        {
+            "id": 3,
+            "problem_id": 1,
+            "content": "Test content 3"
+        }
+    ]
+}

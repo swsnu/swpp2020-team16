@@ -7,7 +7,7 @@ import Container from '@material-ui/core/Container';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import Showprob from '../components/Showprob';
-import CodeIDEforHome from '../components/CodeIDEforHome';
+import CodeIDE from '../components/CodeIDE';
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -97,7 +97,7 @@ function Home() {
           />
         </Container>
         <Container maxWidth="lg">
-          <CodeIDEforHome />
+          <CodeIDE />
         </Container>
       </main>
       {/* Footer */}

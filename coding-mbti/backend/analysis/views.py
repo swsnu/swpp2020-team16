@@ -10,6 +10,8 @@ from analysis.models import SolutionReport, UserReport
 def user_report_view(request):
     if request.method == 'POST':
         try:
+            print(SolutionReport.objects.filter(
+                title="ITP1_6_B_report").last().to_dict())
             solution1 = SolutionReport.objects.filter(
                 title="ITP1_6_B_report").last().code
 

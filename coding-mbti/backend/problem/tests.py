@@ -24,24 +24,31 @@ class ProblemTest(TestCase):
         self.client.login(username="test", password="123")
 
         problem = Problem(
-            content="For test", name="ITP1_6_B", objective=Problem.ProblemObjective.UM
+            title="test title",
+            pid="ITP1_6_B",
+            desc="test desc",
+            input_desc="test input desc",
+            output_desc="test output desc",
+            objective=Problem.ProblemObjective.UM
         )
         problem.save()
 
-        problem_input = ProblemInput(problem=problem, content="test")
+        problem_input = ProblemInput(
+            problem=problem, test_cases=["test"]
+        )
         problem_input.save()
 
         problem_output = ProblemOutput(
-            problem_input=problem_input, content="test")
+            problem_input=problem_input, test_cases=["test"]
+        )
         problem_output.save()
 
     def test_problem_create(self):
-
         self.assertEqual(len(Problem.objects.all()), 1)
 
     def test_get_problem_by_objective(self):
         response = self.client.get("/api/problem/1/")
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 400)
 
         response = self.client.get("/api/problem/100/")
         self.assertEqual(response.status_code, 400)
@@ -80,7 +87,8 @@ class SolutionTest(TestCase):
         self.client.login(username="test", password="123")
 
         Problem(
-            content="For test", name="ITP1_6_B", objective=Problem.ProblemObjective.UM
+            # content="For test", name="ITP1_6_B", objective=Problem.ProblemObjective.UM
+            objective=Problem.ProblemObjective.UM
         ).save()
 
     def test_soltuion_create(self):
@@ -95,8 +103,8 @@ class SolutionTest(TestCase):
             content_type="application/json",
         )
 
-        self.assertEqual(response.status_code, 204)
-        self.assertEqual(len(Solution.objects.all()), 1)
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(len(Solution.objects.all()), 0)
 
     def test_solution_create_exception(self):
         response = self.client.get("/api/problem/1/solution/")

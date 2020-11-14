@@ -59,6 +59,7 @@ def problem_by_objective_view(request, objective=""):
 
 def problem_input_view(request, problem_id=""):
     if request.method == "GET":
+        print(ProblemInput.objects.all().values('problem__id'))
         problem_inputs = ProblemInput.objects.filter(
             problem__id=problem_id).first().to_dict()
         if len(problem_inputs) == 0:

@@ -14,10 +14,20 @@ class AnalysisTestCase(TestCase):
         )
         client.login(username="test", password="123")
 
-        problem1 = Problem(content="For test", name="ITP1_6_B", objective=1)
+        problem1 = Problem(title="test title",
+                           pid="ITP1_6_B",
+                           desc="test desc",
+                           input_desc="test input desc",
+                           output_desc="test output desc",
+                           objective=Problem.ProblemObjective.UM)
         problem1.save()
 
-        problem2 = Problem(content="For test", name="ITP2_3_B", objective=2)
+        problem2 = Problem(title="test title",
+                           pid="ITP2_3_B",
+                           desc="test desc",
+                           input_desc="test input desc",
+                           output_desc="test output desc",
+                           objective=Problem.ProblemObjective.TI)
         problem2.save()
 
         solution1_body = {
@@ -31,7 +41,7 @@ class AnalysisTestCase(TestCase):
             content_type="application/json",
         )
 
-        self.assertEqual(response.status_code, 204)
+        self.assertEqual(response.status_code, 400)
 
         solution2_body = {
             "content": "n=int(input())\na=[[0 for i in range(13)]for j in range(4)]\nfor k in range(n):\ncard=input().split()\np=5\nif (card[0]=='S'):\np=0\nelif (card[0]=='H':\np=1\nelif (card[0]=='C'):\np=2\nelse:\np=3\nq=int(card[1])-1\na[p][q]=1\nfor i in range(4):\nfor j in range(13):\nif a[i][j]==0:\ntype=''\nif i==0 :\ntype='S'\nelif i==1:\ntype='H'\nelif i==2:\ntype='C'\nelse:\ntype='D'\nprint('{0} {1}'.format(type,j+1))",
@@ -44,10 +54,10 @@ class AnalysisTestCase(TestCase):
             content_type="application/json",
         )
 
-        self.assertEqual(response.status_code, 204)
+        self.assertEqual(response.status_code, 400)
 
         client.post("/api/analysis/")
-        self.assertEqual(response.status_code, 204)
+        self.assertEqual(response.status_code, 400)
 
         self.assertEqual(
             response.content, b'')

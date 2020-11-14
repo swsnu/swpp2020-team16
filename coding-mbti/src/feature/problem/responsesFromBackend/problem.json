@@ -1,0 +1,11 @@
+{
+    "data": {
+        "title": "problem title",
+        "pid": "AIZU pid",
+        "desc": "description",
+        "input_desc": "input description",
+        "output_desc": "output description",
+        "objective": 1,
+        "id": 1
+    }
+}

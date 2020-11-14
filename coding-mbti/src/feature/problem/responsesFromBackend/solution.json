@@ -1,0 +1,23 @@
+{
+    "readSolution": {
+        "data": {
+            "id": 1,
+            "evaluation": 100,
+            "status": 1,
+            "problem_id": 22,
+            "code": "a=input() b=input() print(a+b)",
+            "elapsed_time": 33,
+            "erase_count": 33
+        }
+    },
+    "createSolution": {
+        "data": {
+            "id": 1
+        }
+    },
+    "deleteSolution": {
+        "data": {
+            "id": 1
+        }
+    }
+}

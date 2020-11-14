@@ -1,128 +1,454 @@
 import reducer, {
     solutionCreate,
-    // solutionRead,
-    // solutionDelete,
+    solutionRead,
+    solutionDelete,
     readSolution,
     createSolution,
     deleteSolution
 } from './solutionSlice';
 import request from '../../utils/request';
 import configureStore from '../../configureStore';
-import dbdata from './solutionDB.json';
-
-const { store } = configureStore();
+import dbdata from './responsesFromBackend/solution.json';
+import { cloneObj } from '../../utils/testingUtils';
 
 describe('solutionSlice', () => {
     describe('reducers', () => {
         const initialState = [];
-
-        // it('sets the solutionRead payload', () => {
-        //     const action = {
-        //         type: solutionRead,
-        //         payload: [{
-        //             id: 1,
-        //             evaluation: 100,
-        //             status: 1,
-        //             content: 'a=input() b=input() print(a+b)'
-        //         }]
-        //     };
-
-        //     const state = reducer(initialState, action);
-
-        //     expect(state).toEqual({
-        //         id: 1,
-        //         evaluation: 100,
-        //         status: 1,
-        //         content: 'a=input() b=input() print(a+b)'
-        //     });
-        // });
-
-        // it('sets the solutionDelete payload', () => {
-        //     const action = {
-        //         type: solutionDelete,
-        //         payload: {
-        //             id: '1'
-        //         }
-        //     };
-        //     const state = reducer(initialState, action);
-        //     expect(state).toEqual({
-        //         id: 1,
-        //     });
-        // });
-
+        const payloadValue = {
+            id: 1,
+            evaluation: 100,
+            status: 1,
+            problem_id: 22,
+            code: 'a=input() b=input() print(a+b)',
+            elapsed_time: 33,
+            erase_count: 33
+        };
+        it('sets the solutionRead payload', () => {
+            const action = {
+                type: solutionRead,
+                payload: payloadValue
+            };
+            const state = reducer(initialState, action);
+            expect(state).toEqual([]);
+        });
         it('sets the solutionCreate payload', () => {
             const action = {
                 type: solutionCreate,
-                payload: {
+                payload: payloadValue
+            };
+            const state = reducer(initialState, action);
+            expect(state).toEqual([payloadValue]);
+        });
+        it('sets the solutionDelete payload', () => {
+            const action = {
+                type: solutionDelete,
+                payload: payloadValue
+            };
+            const state = reducer(initialState, action);
+            expect(state).toEqual([]);
+        });
+    });
+    describe('actions', () => {
+        describe('readSolution', () => {
+            describe('should handle response validity', () => {
+                let invalidDataResponse;
+                let store;
+
+                beforeEach(async () => {
+                    /* GIVEN */
+                    request.get = jest.fn();
+                    request.post = jest.fn();
+                    request.put = jest.fn();
+                    request.delete = jest.fn();
+                    invalidDataResponse = cloneObj(dbdata.readSolution);
+                    store = configureStore().store;
+                });
+
+                it('key `data` does not exist.', async () => {
+                    /* WHEN */
+                    delete invalidDataResponse.data;
+                    request.get.mockResolvedValue({
+                        ...invalidDataResponse
+                    });
+
+                    /* THEN */
+                    try {
+                        await store.dispatch(readSolution());
+                    } catch (e) {
+                        expect(e.message).toBe('Key `data` does not exist.');
+                    }
+                });
+
+                it('key `id` does not exist.', async () => {
+                    /* WHEN */
+                    delete invalidDataResponse.data.id;
+                    request.get.mockResolvedValue({
+                        ...invalidDataResponse
+                    });
+
+                    /* THEN */
+                    try {
+                        await store.dispatch(readSolution());
+                    } catch (e) {
+                        expect(e.message).toBe('Key `id` does not exist.');
+                    }
+                });
+
+                it('key `evaluation` does not exist.', async () => {
+                    /* WHEN */
+                    delete invalidDataResponse.data.evaluation;
+                    request.get.mockResolvedValue({
+                        ...invalidDataResponse
+                    });
+
+                    /* THEN */
+                    try {
+                        await store.dispatch(readSolution());
+                    } catch (e) {
+                        expect(e.message).toBe('Key `evaluation` does not exist.');
+                    }
+                });
+
+                it('key `problem_id` does not exist.', async () => {
+                    /* WHEN */
+                    delete invalidDataResponse.data.problem_id;
+                    request.get.mockResolvedValue({
+                        ...invalidDataResponse
+                    });
+
+                    /* THEN */
+                    try {
+                        await store.dispatch(readSolution());
+                    } catch (e) {
+                        expect(e.message).toBe('Key `problem_id` does not exist.');
+                    }
+                });
+
+                it('key `code` does not exist.', async () => {
+                    /* WHEN */
+                    delete invalidDataResponse.data.code;
+                    request.get.mockResolvedValue({
+                        ...invalidDataResponse
+                    });
+
+                    /* THEN */
+                    try {
+                        await store.dispatch(readSolution());
+                    } catch (e) {
+                        expect(e.message).toBe('Key `code` does not exist.');
+                    }
+                });
+
+                it('key `elapsed_time` does not exist.', async () => {
+                    /* WHEN */
+                    delete invalidDataResponse.data.elapsed_time;
+                    request.get.mockResolvedValue({
+                        ...invalidDataResponse
+                    });
+
+                    /* THEN */
+                    try {
+                        await store.dispatch(readSolution());
+                    } catch (e) {
+                        expect(e.message).toBe('Key `elapsed_time` does not exist.');
+                    }
+                });
+
+                it('key `erase_count` does not exist.', async () => {
+                    /* WHEN */
+                    delete invalidDataResponse.data.erase_count;
+                    request.get.mockResolvedValue({
+                        ...invalidDataResponse
+                    });
+
+                    /* THEN */
+                    try {
+                        await store.dispatch(readSolution());
+                    } catch (e) {
+                        expect(e.message).toBe('Key `erase_count` does not exist.');
+                    }
+                });
+            });
+
+            describe('should handle axios without error', () => {
+                let store;
+                beforeEach(async () => {
+                    /* GIVEN */
+                    request.get = jest.fn();
+                    request.post = jest.fn();
+                    request.put = jest.fn();
+                    request.delete = jest.fn();
+                    store = configureStore().store;
+                });
+
+                it('GET', async () => {
+                    /* WHEN */
+                    request.get.mockResolvedValue({
+                        data: dbdata.readSolution.data
+                    });
+                    await store.dispatch(readSolution());
+
+                    /* THEN */
+                    expect(request.get).toHaveBeenCalledWith('problem/solution/');
+                });
+            });
+            describe('should handle reducer without error', () => {
+                let store;
+                beforeEach(async () => {
+                    /* GIVEN */
+                    request.get = jest.fn();
+                    request.post = jest.fn();
+                    request.put = jest.fn();
+                    request.delete = jest.fn();
+                    store = configureStore().store;
+                });
+
+                it('solutionReducer', async () => {
+                    /* WHEN */
+                    request.get.mockResolvedValue({
+                        data: dbdata.readSolution.data
+                    });
+                    await store.dispatch(readSolution());
+
+                    /* THEN */
+                    const state = store.getState().problem.solutionReducer;
+                    expect(state).toEqual([]);
+                });
+            });
+        });
+        describe('createSolution', () => {
+            describe('should handle response validity', () => {
+                const problemId = 1;
+                const solution = {
                     id: 1,
                     evaluation: 100,
                     status: 1,
-                    content: 'a=input() b=input() print(a+b)'
-                }
-            };
-            const state = reducer(initialState, action);
-            expect(state).toEqual([{
-                id: 1,
-                evaluation: 100,
-                status: 1,
-                content: 'a=input() b=input() print(a+b)'
-            }]);
+                    problem_id: 22,
+                    code: 'a=input() b=input() print(a+b)',
+                    elapsed_time: 33,
+                    erase_count: 33
+                };
+
+                let invalidDataResponse;
+                let store;
+
+                beforeEach(async () => {
+                    /* GIVEN */
+                    request.get = jest.fn();
+                    request.post = jest.fn();
+                    request.put = jest.fn();
+                    request.delete = jest.fn();
+                    invalidDataResponse = cloneObj(dbdata.createSolution);
+                    store = configureStore().store;
+                });
+
+                it('key `data` does not exist.', async () => {
+                    /* WHEN */
+                    delete invalidDataResponse.data;
+                    request.post.mockResolvedValue({
+                        ...invalidDataResponse
+                    });
+
+                    /* THEN */
+                    try {
+                        await store.dispatch(createSolution(problemId, solution));
+                    } catch (e) {
+                        expect(e.message).toBe('Key `data` does not exist.');
+                    }
+                });
+
+                it('key `id` does not exist.', async () => {
+                    /* WHEN */
+                    delete invalidDataResponse.data.id;
+                    request.post.mockResolvedValue({
+                        ...invalidDataResponse
+                    });
+
+                    /* THEN */
+                    try {
+                        await store.dispatch(createSolution(problemId, solution));
+                    } catch (e) {
+                        expect(e.message).toBe('Key `id` does not exist.');
+                    }
+                });
+            });
+
+            describe('should handle axios without error', () => {
+                const problemId = 1;
+                const solution = {
+                    id: 1,
+                    evaluation: 100,
+                    status: 1,
+                    problem_id: 22,
+                    code: 'a=input() b=input() print(a+b)',
+                    elapsed_time: 33,
+                    erase_count: 33
+                };
+                let store;
+
+                beforeEach(async () => {
+                    /* GIVEN */
+                    request.get = jest.fn();
+                    request.post = jest.fn();
+                    request.put = jest.fn();
+                    request.delete = jest.fn();
+                    store = configureStore().store;
+                });
+
+                it('POST', async () => {
+                    /* WHEN */
+                    request.post.mockResolvedValue({
+                        data: dbdata.createSolution.data
+                    });
+                    await store.dispatch(createSolution(problemId, solution));
+
+                    /* THEN */
+                    expect(request.post).toHaveBeenCalledTimes(1);
+                    expect(request.post).toHaveBeenCalledWith(
+                        `problem/${problemId}/solution/`,
+                        {
+                            code: 'a=input() b=input() print(a+b)',
+                            elapsed_time: 33,
+                            erase_count: 33,
+                            evaluation: 100,
+                            id: 1,
+                            problem_id: 22,
+                            status: 1
+                        }
+                    );
+                });
+            });
+            describe('should handle reducer without error', () => {
+                const problemId = 1;
+                const solution = {
+                    id: 1,
+                    evaluation: 100,
+                    status: 1,
+                    problem_id: 22,
+                    code: 'a=input() b=input() print(a+b)',
+                    elapsed_time: 33,
+                    erase_count: 33
+                };
+                let store;
+
+                beforeEach(async () => {
+                    /* GIVEN */
+                    request.get = jest.fn();
+                    request.post = jest.fn();
+                    request.put = jest.fn();
+                    request.delete = jest.fn();
+                    store = configureStore().store;
+                });
+
+                it('solutionReducer', async () => {
+                    /* WHEN */
+                    request.post.mockResolvedValue({
+                        data: dbdata.createSolution.data
+                    });
+                    await store.dispatch(createSolution(problemId, solution));
+
+                    /* THEN */
+                    const state = store.getState().problem.solutionReducer;
+                    expect(state).toEqual([solution]);
+                });
+            });
         });
-    });
+        describe('deleteSolution', () => {
+            describe('should handle response validity', () => {
+                const solutionId = 1;
+                let invalidDataResponse;
+                let store;
+                beforeEach(async () => {
+                    /* GIVEN */
+                    request.get = jest.fn();
+                    request.post = jest.fn();
+                    request.put = jest.fn();
+                    request.delete = jest.fn();
+                    invalidDataResponse = cloneObj(dbdata.deleteSolution);
+                    store = configureStore().store;
+                });
 
-    describe('actions', () => {
-        const problemId = 1;
-        const solution = {
-            content: 'a=input() b=input() print(a+b)'
-        };
+                it('key `data` does not exist.', async () => {
+                    /* WHEN */
+                    delete invalidDataResponse.data;
+                    request.delete.mockResolvedValue({
+                        ...invalidDataResponse
+                    });
 
-        beforeEach(async () => {
-            request.get = jest.fn();
-            request.post = jest.fn();
-            request.put = jest.fn();
-            request.delete = jest.fn();
+                    /* THEN */
+                    try {
+                        await store.dispatch(deleteSolution(solutionId));
+                    } catch (e) {
+                        expect(e.message).toBe('Key `data` does not exist.');
+                    }
+                });
 
-            request.get.mockResolvedValue({ data: dbdata.data });
-            request.post.mockResolvedValue({ data: { id: 1 } });
-        });
+                it('key `id` does not exist.', async () => {
+                    /* WHEN */
+                    delete invalidDataResponse.data.id;
+                    request.delete.mockResolvedValue({
+                        ...invalidDataResponse
+                    });
 
-        it('readSolution', async () => {
-            // const state = store.getState().problem.problemInputReducer;
-            await store.dispatch(readSolution());
-            expect(request.get).toHaveBeenCalledWith('problem/solution/');
+                    /* THEN */
+                    try {
+                        await store.dispatch(deleteSolution(solutionId));
+                    } catch (e) {
+                        expect(e.message).toBe('Key `id` does not exist.');
+                    }
+                });
+            });
 
-            // const result = {};
-            // dbdata.data.forEach(input => {
-            //     result[input.id] = input;
-            // });
-            // expect(state).toEqual(result);
-        });
+            describe('should handle axios without error', () => {
+                const solutionId = 1;
+                let store;
+                beforeEach(async () => {
+                    /* GIVEN */
+                    request.get = jest.fn();
+                    request.post = jest.fn();
+                    request.put = jest.fn();
+                    request.delete = jest.fn();
+                    store = configureStore().store;
+                });
 
-        it('createSolution', async () => {
-            // const state = store.getState().problem.problemInputReducer;
-            await store.dispatch(createSolution(problemId, solution));
-            expect(request.post).toHaveBeenCalledWith(
-                `problem/${problemId}/solution/`,
-                { content: 'a=input() b=input() print(a+b)' }
-            );
+                it('POST', async () => {
+                    /* WHEN */
+                    request.delete.mockResolvedValue({
+                        data: dbdata.deleteSolution.data
+                    });
+                    await store.dispatch(deleteSolution(solutionId));
 
-            // const result = {};
-            // dbdata.data.forEach(input => {
-            //     result[input.id] = input;
-            // });
-            // expect(state).toEqual(result);
-        });
+                    /* THEN */
+                    expect(request.delete).toHaveBeenCalledTimes(1);
+                    expect(request.delete).toHaveBeenCalledWith(
+                        `problem/solution/${solutionId}`
+                    );
+                });
+            });
+            describe('should handle reducer without error', () => {
+                const solutionId = 1;
+                let store;
+                beforeEach(async () => {
+                    /* GIVEN */
+                    request.get = jest.fn();
+                    request.post = jest.fn();
+                    request.put = jest.fn();
+                    request.delete = jest.fn();
+                    store = configureStore().store;
+                });
 
-        it('deleteSolution', async () => {
-            // const state = store.getState().problem.problemInputReducer;
-            await store.dispatch(deleteSolution(problemId));
-            expect(request.delete).toHaveBeenCalledWith(`problem/solution/${problemId}`);
+                it('solutionReducer', async () => {
+                    /* WHEN */
+                    request.delete.mockResolvedValue({
+                        data: dbdata.createSolution.data
+                    });
+                    await store.dispatch(deleteSolution(solutionId));
 
-            // const result = {};
-            // dbdata.data.forEach(input => {
-            //     result[input.id] = input;
-            // });
-            // expect(state).toEqual(result);
+                    /* THEN */
+                    const state = store.getState().problem.solutionReducer;
+                    expect(state).toEqual([]);
+                });
+            });
         });
     });
 });

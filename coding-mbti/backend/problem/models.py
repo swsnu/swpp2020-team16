@@ -8,7 +8,7 @@ def get_array_default():
 
 class Problem(models.Model):
     class ProblemObjective(models.IntegerChoices):
-        # User Frienly - Machine Efficiency
+        # User Friendly - Machine Efficiency
         # Time Complexity - Intutive Code
         UM = 1
         TI = 2

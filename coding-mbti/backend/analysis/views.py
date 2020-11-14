@@ -34,8 +34,8 @@ def user_report_view(request):
                 request.user = User.objects.filter(username="admin").first()
             return JsonResponse(UserReport.objects.filter(author__id=request.user.id)
                                 .last().to_dict(), status=200, safe=False)
-        except:
-            return HttpResponseBadRequest()
+        except ObjectDoesNotExist as error:
+            return HttpResponseBadRequest(error)
     else:
         return HttpResponseNotAllowed(['UPDATE', 'DELETE'])
 

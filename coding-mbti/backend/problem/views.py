@@ -22,7 +22,8 @@ def problem_view(request):
                 status=200,
                 safe=False,
             )
-        except : return HttpResponseBadRequest()
+        except ObjectDoesNotExist as error:
+            return HttpResponseBadRequest(error)
 
 
     else:
@@ -38,7 +39,8 @@ def problem_by_id_view(request, problem_id=""):
                 status=200,
                 safe=False,
             )
-        except: return HttpResponseBadRequest()
+        except ObjectDoesNotExist as error:
+            return HttpResponseBadRequest(error)
 
     else:
         return HttpResponseNotAllowed(["POST", "UPDATE", "DELETE"])
@@ -49,8 +51,8 @@ def problem_by_objective_view(request, objective=""):
         try:
             problem = Problem.objects.filter(objective=int(objective)).first().to_dict()
             return JsonResponse(problem, status=200, safe=False)
-        except: 
-            return HttpResponseBadRequest()
+        except ( ObjectDoesNotExist, AttributeError ) as error:
+            return HttpResponseBadRequest(error)
     else:
         return HttpResponseNotAllowed(["POST", "UPDATE", "DELETE"])
 
@@ -59,8 +61,8 @@ def problem_input_view(request, problem_id=""):
     if request.method == "GET":
         try :
             problem_inputs =  ProblemInput.objects.filter(problem__id=problem_id).first().to_dict()
-        except :
-            return HttpResponseBadRequest()
+        except (ObjectDoesNotExist, AttributeError) as error:
+            return HttpResponseBadRequest(error)
         return JsonResponse(problem_inputs, status=200, safe=False)
     else:
         return HttpResponseNotAllowed(["POST", "UPDATE", "DELETE"])
@@ -68,9 +70,10 @@ def problem_input_view(request, problem_id=""):
 
 def problem_output_view(request, problem_input_id=""):
     if request.method == "GET":
-        problem_outputs = ProblemOutput.objects.filter(problem_input__id=problem_input_id).first().to_dict()
-        if len(problem_outputs) == 0:
-            return HttpResponse(status=400)
+        try :
+            problem_outputs = ProblemOutput.objects.filter(problem_input__id=problem_input_id).first().to_dict()
+        except ObjectDoesNotExist as error:
+            return HttpResponseBadRequest(error)
         return JsonResponse(problem_outputs, status=200, safe=False)
     else:
         return HttpResponseNotAllowed(["POST", "UPDATE", "DELETE"])

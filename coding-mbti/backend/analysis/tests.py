@@ -6,7 +6,7 @@ import json
 
 
 class AnalysisTestCase(TestCase):
-    def test_user_report_analysis(self):
+    def test_user_report_view(self):
         client = Client()
 
         User.objects.create_user(

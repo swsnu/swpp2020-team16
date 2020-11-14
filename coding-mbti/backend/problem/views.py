@@ -109,7 +109,7 @@ def solution_view(request, problem_id):
     elif request.method == "GET":
         if request.user.is_anonymous:
             request.user = User.objects.all().first()
-        try : 
+        try :
             solution = Solution.objects.filter(problem__id=problem_id, author_id=request.user.id).last().to_dict()
         except ObjectDoesNotExist as error:
             return HttpResponseBadRequest(error)

@@ -35,7 +35,6 @@ class TestCase(models.Model):
 
 class ProblemInput(TestCase):
     problem = models.ForeignKey(Problem, on_delete=models.CASCADE)
-    
     def to_dict(self):
         return {"id": self.pk, "content": self.content}
 
@@ -68,7 +67,7 @@ class Solution(models.Model):
     )
 
     def to_dict(self):
-        return {"id": self.pk, "evaluation": self.evalutaion, "problem_id": self.problem.pk, 
+        return {"id": self.pk, "evaluation": self.evalutaion, "problem_id": self.problem.pk,
         "code":self.code, "erase_cnt": self.erase_cnt, "elapsed_time": self.elapsed_time,
         "status" : self.status,
         }

@@ -19,4 +19,3 @@ admin.site.register(Problem, ProblemAdmin)
 admin.site.register(Solution, SolutionAdmin)
 admin.site.register(ProblemInput, ProblemInputAdmin)
 admin.site.register(ProblemOutput, ProblemOutputAdmin)
-

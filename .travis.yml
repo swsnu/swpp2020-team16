@@ -85,12 +85,16 @@ jobs:
       python:
         - "3.7"
       services:
+        - postgresql
         - docker
       before_script:
         - cd ${TRAVIS_BUILD_DIR}/coding-mbti/backend/local-docker/local-docker-starter-back
         - ./install-after-remove.sh
         - cd ${TRAVIS_BUILD_DIR}/coding-mbti/backend/
         - pip install -r requirements.txt
+        - psql -c 'create database travis_ci_test;' -U postgres
+        - python manage.py makemigrations
+        - python manage.py migrate
       script:
         - ./local-docker/local-docker-tester-back/init-pylint.sh
         - coverage run --source='.' manage.py test

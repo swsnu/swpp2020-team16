@@ -98,7 +98,7 @@ def solution_view(request, problem_id):
             return HttpResponseBadRequest(error)
 
         solution = Solution(
-            problem=problem, code=code, erase_cnt=erase_cnt, elapsed_time=elapsed_time)
+            problem=problem, code=code, erase_cnt=erase_cnt, elapsed_time=elapsed_time, author_id=request.user.id)
         solution.save()
 
         SolutionReport(
@@ -106,5 +106,13 @@ def solution_view(request, problem_id):
         ).save()
 
         return HttpResponse(status=204)
+    elif request.method == "GET":
+        if request.user.is_anonymous:
+            request.user = User.objects.all().first()
+        try : 
+            solution = Solution.objects.filter(problem__id=problem_id, author_id=request.user.id).last().to_dict()
+        except ObjectDoesNotExist as error:
+            return HttpResponseBadRequest(error)
+        return JsonResponse(solution, status=200, safe=False)
     else:
-        return HttpResponseNotAllowed(["GET", "UPDATE", "DELETE"])
+        return HttpResponseNotAllowed([ "UPDATE", "DELETE"])

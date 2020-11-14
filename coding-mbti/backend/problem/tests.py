@@ -50,11 +50,11 @@ class ProblemTest(TestCase):
         problem = Problem(desc="For test", input_desc="For test", output_desc="Fore test", pid="ITP1_6_B", objective=1)
         problem.save()
 
-        problem_input = ProblemInput(problem=problem, test_cases=["1","2","3"])
+        problem_input = ProblemInput(problem=problem, content=["1","2","3"])
         problem_input.save()
 
         problem_output = ProblemOutput(
-            problem_input=problem_input, test_cases=["1","2","3"])
+            problem_input=problem_input, content=["1","2","3"])
         problem_output.save()
 
         problem_id = problem.to_dict()['id']
@@ -73,11 +73,11 @@ class ProblemTest(TestCase):
         problem = Problem(desc="For test", input_desc="For test", output_desc="Fore test", pid="ITP1_6_B", objective=1)
         problem.save()
 
-        problem_input = ProblemInput(problem=problem, test_cases=["1","2","3"])
+        problem_input = ProblemInput(problem=problem, content=["1","2","3"])
         problem_input.save()
 
         problem_output = ProblemOutput(
-            problem_input=problem_input, test_cases=["1","2","3"])
+            problem_input=problem_input, content=["1","2","3"])
         problem_output.save()
 
         problem_input_id = problem_input.to_dict()['id']

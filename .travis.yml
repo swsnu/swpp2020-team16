@@ -97,6 +97,9 @@ jobs:
         - python manage.py migrate
       script:
         - ./local-docker/local-docker-tester-back/init-pylint.sh
+        - docker ps
+        - docker ps -a
+        - docker logs local-docker-starter-back_django-backend-server_1
         - coverage run --source='.' manage.py test
         - coverage xml
         - coverage html

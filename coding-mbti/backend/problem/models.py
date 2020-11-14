@@ -1,8 +1,10 @@
 from django.db import models
 from django.contrib.postgres.fields import ArrayField
 
+
 def get_array_default():
     return list("default")
+
 
 class Problem(models.Model):
     class ProblemObjective(models.IntegerChoices):
@@ -10,12 +12,13 @@ class Problem(models.Model):
         # Time Complexity - Intutive Code
         UM = 1
         TI = 2
-    title=models.CharField(max_length=31, default="")
-    desc=models.TextField( default="")
+    title = models.CharField(max_length=31, default="")
+    desc = models.TextField(default="")
     objective = models.IntegerField(choices=ProblemObjective.choices)
     pid = models.CharField(max_length=31, default="")
     input_desc = models.TextField(default="")
-    output_desc = models.TextField( default="")
+    output_desc = models.TextField(default="")
+
     def to_dict(self):
         return {
             "title": self.title,
@@ -27,15 +30,17 @@ class Problem(models.Model):
             "id": self.id,
         }
 
+
 class TestCase(models.Model):
     test_cases = ArrayField(models.TextField(), default=get_array_default)
 
     class Meta:
         abstract = True
 
+
 class ProblemInput(TestCase):
     problem = models.ForeignKey(Problem, on_delete=models.CASCADE)
-    
+
     def to_dict(self):
         return {"id": self.pk, "test_cases": self.test_cases}
 

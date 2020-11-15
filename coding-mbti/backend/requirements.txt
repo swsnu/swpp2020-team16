@@ -21,9 +21,10 @@ numpy==1.19.4
 packaging==20.4
 Pillow==8.0.1
 pluggy==0.13.1
-psycopg2==2.8.6
+psycopg2==2.8.6;platform_system!="Darwin"
+psycopg2-binary==2.8.6;platform_system=="Darwin"
 py==1.9.0
-pygraphviz==1.6
+pygraphviz==1.6;platform_system!="Darwin"
 pylint==2.6.0
 pylint-django==2.3.0
 pylint-plugin-utils==0.6

@@ -1,42 +1,61 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { createMount } from '@material-ui/core/test-utils';
+import { Provider } from 'react-redux';
+import { ThemeProvider, createMuiTheme } from '@material-ui/core';
+import { transitions, positions, Provider as AlertProvider } from 'react-alert';
+import AlertTemplate from 'react-alert-template-basic';
 import SignIn from './SignIn';
+import configureStore from '../configureStore';
 
+const { store } = configureStore();
+const theme = createMuiTheme();
 describe('<SignIn/>', () => {
+  let mount;
   let signin;
-
   beforeEach(() => {
-    signin = <SignIn />;
+    const options = {
+      position: positions.BOTTOM_CENTER,
+      timeout: 5000,
+      offset: '30px',
+      transition: transitions.SCALE,
+    };
+    signin = (
+      <Provider store={store}>
+        <ThemeProvider theme={theme}>
+          <AlertProvider template={AlertTemplate} {...options}>
+            <SignIn />
+          </AlertProvider>
+        </ThemeProvider>
+      </Provider>
+    );
   });
-
+  beforeAll(() => {
+    mount = createMount();
+  });
+  afterAll(() => {
+    mount.cleanUp();
+  });
   it('should render without any error', () => {
-    const component = shallow(signin);
-
-    const wrapper = component.find('.signin');
-    expect(wrapper.length).toBe(1);
+    const component = mount(signin);
+    const wrapper = component.find('div');
+    expect(wrapper.length).toBe(12);
   });
-
-  it('should email input good', () => {
-    const component = shallow(signin);
-    const email = 'TEST_EMAIL';
-
-    const emailWrapper = component.find('#email');
-    emailWrapper.simulate('change', { target: { value: email } });
-  });
-
-  it('should password input good', () => {
-    const component = shallow(signin);
-    const password = 'TEST_PASSWORD';
-
-    const passwordWrapper = component.find('#password');
-    passwordWrapper.simulate('change', { target: { value: password } });
-  });
-
   it('should signin button click good', () => {
-    const component = shallow(signin);
-
-    const buttonWrapper = component.find('#sign_in_button');
-    buttonWrapper.simulate('click');
-    // expect(spyHistoryPush).toHaveBeenCalledWith("/");
+    const component = mount(signin);
+    const wrapper = component.find('#sign_in_button').first();
+    wrapper.simulate('click');
+  });
+  it('should email input change good', () => {
+    const component = mount(signin);
+    const wrapper = component.find('#email').first();
+    wrapper.simulate('change', { target: { value: 'test@test.com' } });
+  });
+  it('should password input change good', () => {
+    const component = mount(signin);
+    const event = {
+      target: { value: '123' },
+    };
+    const wrapper = component.find('#password').first();
+    wrapper.simulate('change', event);
   });
 });

@@ -1,58 +1,50 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { createMount } from '@material-ui/core/test-utils';
+import { Provider } from 'react-redux';
+import { ThemeProvider, createMuiTheme } from '@material-ui/core';
+import { transitions, positions, Provider as AlertProvider } from 'react-alert';
+import AlertTemplate from 'react-alert-template-basic';
 import SignUp from './SignUp';
+import configureStore from '../configureStore';
 
+const { store } = configureStore();
+const theme = createMuiTheme();
 describe('<SignUp/>', () => {
+  let mount;
   let signup;
-
   beforeEach(() => {
-    signup = <SignUp />;
+    const options = {
+      // you can also just use 'bottom center'
+      position: positions.BOTTOM_CENTER,
+      timeout: 5000,
+      offset: '30px',
+      // you can also just use 'scale'
+      transition: transitions.SCALE,
+    };
+    signup = (
+      <Provider store={store}>
+        <ThemeProvider theme={theme}>
+          <AlertProvider template={AlertTemplate} {...options}>
+            <SignUp />
+          </AlertProvider>
+        </ThemeProvider>
+      </Provider>
+    );
   });
-
+  beforeAll(() => {
+    mount = createMount();
+  });
+  afterAll(() => {
+    mount.cleanUp();
+  });
   it('should render without any error', () => {
-    const component = shallow(signup);
-
-    const wrapper = component.find('.signup');
-    expect(wrapper.length).toBe(1);
+    const component = mount(signup);
+    const wrapper = component.find('div');
+    expect(wrapper.length).toBe(24);
   });
-
-  it('should email input good', () => {
-    const component = shallow(signup);
-    const email = 'TEST_EMAIL';
-    component.find('#email').simulate('change', { target: { value: email } });
-  });
-
-  it('should nickname input good', () => {
-    const component = shallow(signup);
-    const userName = 'TEST_NICKNAME';
-
-    const usernameWrapper = component.find('#userName');
-    usernameWrapper.simulate('change', { target: { value: userName } });
-  });
-
-  it('should password input good', () => {
-    const component = shallow(signup);
-    const password = 'TEST_PASSWORD';
-
-    const passwordWrapper = component.find('#password');
-    passwordWrapper.simulate('change', { target: { value: password } });
-  });
-
-  it('should password_check input good', () => {
-    const component = shallow(signup);
-    const passwordCheck = 'TEST_PASSWORD_CHECK';
-
-    const passwordCheckWrapper = component.find('#passwordCheck');
-    passwordCheckWrapper.simulate('change', {
-      target: { value: passwordCheck },
-    });
-  });
-
-  it('should user_type select good', () => {
-    const component = shallow(signup);
-    const userType = 'MANAGER';
-
-    const userTypeWrapper = component.find('#userType');
-    userTypeWrapper.simulate('change', { target: { value: userType } });
+  it('should signin button click good', () => {
+    const component = mount(signup);
+    const wrapper = component.find('#sign_up_button').first();
+    wrapper.simulate('click');
   });
 });

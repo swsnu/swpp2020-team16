@@ -62,124 +62,41 @@ describe('problemSlice', () => {
                     invalidDataResponse = cloneObj(dbdata);
                 });
 
-                it('key `data` does not exist.', async () => {
-                    /* WHEN */
-                    delete invalidDataResponse.data;
-                    request.get.mockResolvedValue({
-                        ...invalidDataResponse
-                    });
+                const necessaryKeysInResponse = ['data'];
+                necessaryKeysInResponse.forEach(key => {
+                    it(`key "${key}" does not exist.`, async () => {
+                        /* WHEN */
+                        delete invalidDataResponse[key];
+                        request.get.mockResolvedValue({
+                            ...invalidDataResponse
+                        });
 
-                    /* THEN */
-                    try {
-                        await store.dispatch(readProblem(problemId));
-                    } catch (e) {
-                        expect(e.message).toBe('Key `data` does not exist.');
-                    }
+                        /* THEN */
+                        try {
+                            await store.dispatch(readProblem(problemId));
+                        } catch (e) {
+                            expect(e.message).toBe(`Key "${key}" does not exist.`);
+                        }
+                    });
                 });
+                const necessaryKeysInResponseData = [
+                    'id', 'pid', 'desc',
+                    'input_desc', 'output_desc', 'title', 'objective'];
+                necessaryKeysInResponseData.forEach(key => {
+                    it(`key "${key}" does not exist.`, async () => {
+                        /* WHEN */
+                        delete invalidDataResponse.data[key];
+                        request.get.mockResolvedValue({
+                            ...invalidDataResponse
+                        });
 
-                it('key `id` does not exist.', async () => {
-                    /* WHEN */
-                    delete invalidDataResponse.data.id;
-                    request.get.mockResolvedValue({
-                        ...invalidDataResponse
+                        /* THEN */
+                        try {
+                            await store.dispatch(readProblem(problemId));
+                        } catch (e) {
+                            expect(e.message).toBe(`Key "${key}" does not exist.`);
+                        }
                     });
-
-                    /* THEN */
-                    try {
-                        await store.dispatch(readProblem(problemId));
-                    } catch (e) {
-                        expect(e.message).toBe('Key `id` does not exist.');
-                    }
-                });
-
-                it('key `pid` does not exist.', async () => {
-                    /* WHEN */
-                    delete invalidDataResponse.data.pid;
-                    request.get.mockResolvedValue({
-                        ...invalidDataResponse
-                    });
-
-                    /* THEN */
-                    try {
-                        await store.dispatch(readProblem(problemId));
-                    } catch (e) {
-                        expect(e.message).toBe('Key `pid` does not exist.');
-                    }
-                });
-
-                it('key `title` does not exist.', async () => {
-                    /* WHEN */
-                    delete invalidDataResponse.data.title;
-                    request.get.mockResolvedValue({
-                        ...invalidDataResponse
-                    });
-
-                    /* THEN */
-                    try {
-                        await store.dispatch(readProblem(problemId));
-                    } catch (e) {
-                        expect(e.message).toBe('Key `title` does not exist.');
-                    }
-                });
-
-                it('key `desc` does not exist.', async () => {
-                    /* WHEN */
-                    delete invalidDataResponse.data.desc;
-                    request.get.mockResolvedValue({
-                        ...invalidDataResponse
-                    });
-
-                    /* THEN */
-                    try {
-                        await store.dispatch(readProblem(problemId));
-                    } catch (e) {
-                        expect(e.message).toBe('Key `desc` does not exist.');
-                    }
-                });
-
-                it('key `input_desc` does not exist.', async () => {
-                    /* WHEN */
-                    delete invalidDataResponse.data.input_desc;
-                    request.get.mockResolvedValue({
-                        ...invalidDataResponse
-                    });
-
-                    /* THEN */
-                    try {
-                        await store.dispatch(readProblem(problemId));
-                    } catch (e) {
-                        expect(e.message).toBe('Key `input_desc` does not exist.');
-                    }
-                });
-
-                it('key `output_desc` does not exist.', async () => {
-                    /* WHEN */
-                    delete invalidDataResponse.data.output_desc;
-                    request.get.mockResolvedValue({
-                        ...invalidDataResponse
-                    });
-
-                    /* THEN */
-                    try {
-                        await store.dispatch(readProblem(problemId));
-                    } catch (e) {
-                        expect(e.message).toBe('Key `output_desc` does not exist.');
-                    }
-                });
-
-                it('key `objective` does not exist.', async () => {
-                    /* WHEN */
-                    delete invalidDataResponse.data.objective;
-                    request.get.mockResolvedValue({
-                        ...invalidDataResponse
-                    });
-
-                    /* THEN */
-                    try {
-                        await store.dispatch(readProblem(problemId));
-                    } catch (e) {
-                        expect(e.message).toBe('Key `objective` does not exist.');
-                    }
                 });
             });
 

@@ -64,109 +64,41 @@ describe('solutionSlice', () => {
                     store = configureStore().store;
                 });
 
-                it('key `data` does not exist.', async () => {
-                    /* WHEN */
-                    delete invalidDataResponse.data;
-                    request.get.mockResolvedValue({
-                        ...invalidDataResponse
-                    });
+                const necessaryKeysInResponse = ['data'];
+                necessaryKeysInResponse.forEach(key => {
+                    it(`key "${key}" does not exist.`, async () => {
+                        /* WHEN */
+                        delete invalidDataResponse[key];
+                        request.get.mockResolvedValue({
+                            ...invalidDataResponse
+                        });
 
-                    /* THEN */
-                    try {
-                        await store.dispatch(readSolution());
-                    } catch (e) {
-                        expect(e.message).toBe('Key `data` does not exist.');
-                    }
+                        /* THEN */
+                        try {
+                            await store.dispatch(readSolution());
+                        } catch (e) {
+                            expect(e.message).toBe(`Key "${key}" does not exist.`);
+                        }
+                    });
                 });
+                const necessaryKeysInResponseData = [
+                    'id', 'evaluation', 'problem_id',
+                    'code', 'elapsed_time', 'erase_count'];
+                necessaryKeysInResponseData.forEach(key => {
+                    it(`key "${key}" does not exist.`, async () => {
+                        /* WHEN */
+                        delete invalidDataResponse.data[key];
+                        request.get.mockResolvedValue({
+                            ...invalidDataResponse
+                        });
 
-                it('key `id` does not exist.', async () => {
-                    /* WHEN */
-                    delete invalidDataResponse.data.id;
-                    request.get.mockResolvedValue({
-                        ...invalidDataResponse
+                        /* THEN */
+                        try {
+                            await store.dispatch(readSolution());
+                        } catch (e) {
+                            expect(e.message).toBe(`Key "${key}" does not exist.`);
+                        }
                     });
-
-                    /* THEN */
-                    try {
-                        await store.dispatch(readSolution());
-                    } catch (e) {
-                        expect(e.message).toBe('Key `id` does not exist.');
-                    }
-                });
-
-                it('key `evaluation` does not exist.', async () => {
-                    /* WHEN */
-                    delete invalidDataResponse.data.evaluation;
-                    request.get.mockResolvedValue({
-                        ...invalidDataResponse
-                    });
-
-                    /* THEN */
-                    try {
-                        await store.dispatch(readSolution());
-                    } catch (e) {
-                        expect(e.message).toBe('Key `evaluation` does not exist.');
-                    }
-                });
-
-                it('key `problem_id` does not exist.', async () => {
-                    /* WHEN */
-                    delete invalidDataResponse.data.problem_id;
-                    request.get.mockResolvedValue({
-                        ...invalidDataResponse
-                    });
-
-                    /* THEN */
-                    try {
-                        await store.dispatch(readSolution());
-                    } catch (e) {
-                        expect(e.message).toBe('Key `problem_id` does not exist.');
-                    }
-                });
-
-                it('key `code` does not exist.', async () => {
-                    /* WHEN */
-                    delete invalidDataResponse.data.code;
-                    request.get.mockResolvedValue({
-                        ...invalidDataResponse
-                    });
-
-                    /* THEN */
-                    try {
-                        await store.dispatch(readSolution());
-                    } catch (e) {
-                        expect(e.message).toBe('Key `code` does not exist.');
-                    }
-                });
-
-                it('key `elapsed_time` does not exist.', async () => {
-                    /* WHEN */
-                    delete invalidDataResponse.data.elapsed_time;
-                    request.get.mockResolvedValue({
-                        ...invalidDataResponse
-                    });
-
-                    /* THEN */
-                    try {
-                        await store.dispatch(readSolution());
-                    } catch (e) {
-                        expect(e.message).toBe('Key `elapsed_time` does not exist.');
-                    }
-                });
-
-                it('key `erase_count` does not exist.', async () => {
-                    /* WHEN */
-                    delete invalidDataResponse.data.erase_count;
-                    request.get.mockResolvedValue({
-                        ...invalidDataResponse
-                    });
-
-                    /* THEN */
-                    try {
-                        await store.dispatch(readSolution());
-                    } catch (e) {
-                        expect(e.message).toBe('Key `erase_count` does not exist.');
-                    }
                 });
             });
 
@@ -242,34 +174,39 @@ describe('solutionSlice', () => {
                     store = configureStore().store;
                 });
 
-                it('key `data` does not exist.', async () => {
-                    /* WHEN */
-                    delete invalidDataResponse.data;
-                    request.post.mockResolvedValue({
-                        ...invalidDataResponse
-                    });
+                const necessaryKeysInResponse = ['data'];
+                necessaryKeysInResponse.forEach(key => {
+                    it(`key "${key}" does not exist.`, async () => {
+                        /* WHEN */
+                        delete invalidDataResponse[key];
+                        request.post.mockResolvedValue({
+                            ...invalidDataResponse
+                        });
 
-                    /* THEN */
-                    try {
-                        await store.dispatch(createSolution(problemId, solution));
-                    } catch (e) {
-                        expect(e.message).toBe('Key `data` does not exist.');
-                    }
+                        /* THEN */
+                        try {
+                            await store.dispatch(createSolution(problemId, solution));
+                        } catch (e) {
+                            expect(e.message).toBe(`Key "${key}" does not exist.`);
+                        }
+                    });
                 });
+                const necessaryKeysInResponseData = ['id'];
+                necessaryKeysInResponseData.forEach(key => {
+                    it(`key "${key}" does not exist.`, async () => {
+                        /* WHEN */
+                        delete invalidDataResponse.data[key];
+                        request.post.mockResolvedValue({
+                            ...invalidDataResponse
+                        });
 
-                it('key `id` does not exist.', async () => {
-                    /* WHEN */
-                    delete invalidDataResponse.data.id;
-                    request.post.mockResolvedValue({
-                        ...invalidDataResponse
+                        /* THEN */
+                        try {
+                            await store.dispatch(createSolution(problemId, solution));
+                        } catch (e) {
+                            expect(e.message).toBe(`Key "${key}" does not exist.`);
+                        }
                     });
-
-                    /* THEN */
-                    try {
-                        await store.dispatch(createSolution(problemId, solution));
-                    } catch (e) {
-                        expect(e.message).toBe('Key `id` does not exist.');
-                    }
                 });
             });
 
@@ -368,34 +305,41 @@ describe('solutionSlice', () => {
                     store = configureStore().store;
                 });
 
-                it('key `data` does not exist.', async () => {
-                    /* WHEN */
-                    delete invalidDataResponse.data;
-                    request.delete.mockResolvedValue({
-                        ...invalidDataResponse
-                    });
+                const necessaryKeysInResponse = ['data'];
+                necessaryKeysInResponse.forEach(key => {
+                    it(`key "${key}" does not exist.`, async () => {
+                        /* WHEN */
+                        delete invalidDataResponse[key];
+                        request.delete.mockResolvedValue({
+                            ...invalidDataResponse
+                        });
 
-                    /* THEN */
-                    try {
-                        await store.dispatch(deleteSolution(solutionId));
-                    } catch (e) {
-                        expect(e.message).toBe('Key `data` does not exist.');
-                    }
+                        /* THEN */
+                        try {
+                            await store.dispatch(deleteSolution(solutionId));
+                        } catch (e) {
+                            expect(e.message).toBe(`Key "${key}" does not exist.`);
+                        }
+                    });
                 });
+                const necessaryKeysInResponseData = [
+                    'id', 'evaluation', 'problem_id',
+                    'code', 'elapsed_time', 'erase_count'];
+                necessaryKeysInResponseData.forEach(key => {
+                    it(`key "${key}" does not exist.`, async () => {
+                        /* WHEN */
+                        delete invalidDataResponse.data[key];
+                        request.delete.mockResolvedValue({
+                            ...invalidDataResponse
+                        });
 
-                it('key `id` does not exist.', async () => {
-                    /* WHEN */
-                    delete invalidDataResponse.data.id;
-                    request.delete.mockResolvedValue({
-                        ...invalidDataResponse
+                        /* THEN */
+                        try {
+                            await store.dispatch(deleteSolution(solutionId));
+                        } catch (e) {
+                            expect(e.message).toBe(`Key "${key}" does not exist.`);
+                        }
                     });
-
-                    /* THEN */
-                    try {
-                        await store.dispatch(deleteSolution(solutionId));
-                    } catch (e) {
-                        expect(e.message).toBe('Key `id` does not exist.');
-                    }
                 });
             });
 

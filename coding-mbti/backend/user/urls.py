@@ -1,7 +1,9 @@
-#from django.urls import path
-#from user import views
+from django.urls import path
+from user import views
 
-#urlpatterns = [
-    #path('api/signup/', views.signup),
-    #path('api/token/', views.token),
-#]
+urlpatterns = [
+    path('login/', views.signin),
+    path('signup/', views.signup),
+    path('logout/', views.logout),
+    path('token/', views.token),
+]

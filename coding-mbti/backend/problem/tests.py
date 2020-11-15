@@ -31,17 +31,28 @@ class ProblemTest(TestCase):
 
         self.assertEqual(len(Problem.objects.all()), 1)
 
+    def test_problem_view(self):
+        response = self.client.get("/api/problem/")
+        self.assertEqual(response.status_code, 200)
+
+        response = self.client.post("/api/problem/", {})
+        self.assertEqual(response.status_code, 405)
+
+    def test_problem_by_id_view(self):
+        response = self.client.get("/api/problem/1/")
+        self.assertEqual(response.status_code, 400)
+
+        response = self.client.post("/api/problem/1/", {})
+        self.assertEqual(response.status_code, 405)
+
     def test_get_problem_by_objective(self):
 
         problem = Problem(desc="For test", input_desc="For test",
-                          output_desc="Fore test", pid="ITP1_6_B", objective=1)
+                          output_desc="Fore test", pid="ITP1_6_B", objective=Problem.ProblemObjective.UM)
         problem.save()
 
-        response = self.client.get("/api/problem/objetive/1/")
-        self.assertEqual(response.status_code, 404)  # 이거 문제 있는데 왜인지 모르겠음 ..
-
-        response = self.client.get("/api/problem/objective/100/")
-        self.assertEqual(response.status_code, 400)
+        response = self.client.get("/api/problem/objective/1/")
+        self.assertEqual(response.status_code, 200)
 
         response = self.client.post("/api/problem/objective/1/", {})
         self.assertEqual(response.status_code, 405)
@@ -145,7 +156,7 @@ class SolutionTest(TestCase):
         self.assertEqual(len(Solution.objects.all()), 1)
 
     def test_solution_create_exception(self):
-    
+
         response = self.client.post("/api/problem/2/solution/", {})
 
         self.assertEqual(response.status_code, 400)

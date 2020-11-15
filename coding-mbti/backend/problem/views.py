@@ -1,40 +1,36 @@
 import json
 from json import JSONDecodeError
-
 from django.core.exceptions import ObjectDoesNotExist
-from django.views.decorators.csrf import csrf_exempt
 from django.http import (
     HttpResponseBadRequest,
     HttpResponseNotAllowed,
     HttpResponse,
     JsonResponse,
 )
+from rest_framework.decorators import permission_classes
+from rest_framework.permissions import IsAuthenticated
 from analysis.models import SolutionReport
-from user.models import User
 from problem.models import Solution, Problem, ProblemInput, ProblemOutput
 
 
+@permission_classes((IsAuthenticated, ))
 def problem_view(request):
     if request.method == "GET":
-        try:
-            return JsonResponse(
-                list(map(lambda problem: problem.to_dict(), Problem.objects.all())),
-                status=200,
-                safe=False,
-            )
-        except ObjectDoesNotExist as error:
-            return HttpResponseBadRequest(error)
-
+        return JsonResponse(
+            list(map(lambda problem: problem.to_dict(), Problem.objects.all())),
+            status=200,
+            safe=False,
+        )
     else:
-        return HttpResponseNotAllowed(["POST", "UPDATE", "DELETE"])
+        return HttpResponseNotAllowed(["GET"])
 
 
+@permission_classes((IsAuthenticated, ))
 def problem_by_id_view(request, problem_id=""):
     if request.method == "GET":
         try:
-            problem = Problem.objects.get(pk=problem_id).to_dict()
             return JsonResponse(
-                problem,
+                Problem.objects.get(pk=problem_id).to_dict(),
                 status=200,
                 safe=False,
             )
@@ -42,21 +38,20 @@ def problem_by_id_view(request, problem_id=""):
             return HttpResponseBadRequest(error)
 
     else:
-        return HttpResponseNotAllowed(["POST", "UPDATE", "DELETE"])
+        return HttpResponseNotAllowed(["GET"])
 
 
+@permission_classes((IsAuthenticated, ))
 def problem_by_objective_view(request, objective=""):
     if request.method == "GET":
-        try:
-            problem = Problem.objects.filter(
-                objective=int(objective)).first().to_dict()
-            return JsonResponse(problem, status=200, safe=False)
-        except (ObjectDoesNotExist, AttributeError) as error:
-            return HttpResponseBadRequest(error)
+        problems = list(map(lambda problem: problem.to_dict(), Problem.objects.filter(
+            objective=int(objective))))
+        return JsonResponse(problems, status=200, safe=False)
     else:
         return HttpResponseNotAllowed(["POST", "UPDATE", "DELETE"])
 
 
+@ permission_classes((IsAuthenticated, ))
 def problem_input_view(request, problem_id=""):
     if request.method == "GET":
         try:
@@ -69,6 +64,7 @@ def problem_input_view(request, problem_id=""):
         return HttpResponseNotAllowed(["POST", "UPDATE", "DELETE"])
 
 
+@ permission_classes((IsAuthenticated, ))
 def problem_output_view(request, problem_input_id=""):
     if request.method == "GET":
         try:
@@ -81,16 +77,13 @@ def problem_output_view(request, problem_input_id=""):
         return HttpResponseNotAllowed(["POST", "UPDATE", "DELETE"])
 
 
-@csrf_exempt
+@ permission_classes((IsAuthenticated, ))
 def solution_view(request, problem_id):
     if request.method == "POST":
-        if request.user.is_anonymous:
-            request.user = User.objects.all().first()
         try:
             problem = Problem.objects.get(pk=problem_id)
         except ObjectDoesNotExist:
             return HttpResponseBadRequest()
-
         try:
             body = request.body.decode()
             code = json.loads(body)["code"]
@@ -109,8 +102,6 @@ def solution_view(request, problem_id):
 
         return HttpResponse(status=204)
     elif request.method == "GET":
-        if request.user.is_anonymous:
-            request.user = User.objects.all().first()
         try:
             solution = Solution.objects.filter(
                 problem__id=problem_id, author_id=request.user.id).last().to_dict()

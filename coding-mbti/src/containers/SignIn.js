@@ -13,7 +13,7 @@ import Container from '@material-ui/core/Container';
 import { withStyles } from '@material-ui/styles';
 import { connect } from 'react-redux';
 import Navbar from '../components/Navbar';
-import { logIn } from '../feature/user/userSigninSlice';
+import { signIn } from '../feature/user/userSigninSlice';
 
 const styles = (theme) => ({
   paper: {
@@ -38,14 +38,14 @@ class SignIn extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: '',
+      username: '',
       password: '',
     };
   }
 
   clickSignIn = () => {
-    this.props.logIn({
-      email: this.state.email,
+    this.props.signIn({
+      username: this.state.username,
       password: this.state.password,
     });
   };
@@ -70,12 +70,12 @@ class SignIn extends Component {
                 margin="normal"
                 required
                 fullWidth
-                id="email"
-                label="Email Address"
-                autoComplete="email"
+                id="username"
+                label="username"
+                autoComplete="username"
                 autoFocus
-                value={this.state.email}
-                onChange={(event) => this.setState({ email: event.target.value })}
+                value={this.state.username}
+                onChange={(event) => this.setState({ username: event.target.value })}
               />
               <TextField
                 variant="outlined"
@@ -122,12 +122,12 @@ class SignIn extends Component {
 SignIn.propTypes = {
   classes: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
-  logIn: PropTypes.func.isRequired,
+  signIn: PropTypes.func.isRequired,
 };
 const mapStateToProps = (state) => ({
   user: state.user.userReducer[1],
 });
 
-export default connect(mapStateToProps, { logIn })(
+export default connect(mapStateToProps, { signIn })(
   withStyles(styles)(withAlert()(SignIn))
 );

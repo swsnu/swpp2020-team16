@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import CryptoJS from 'crypto-js';
 import request from '../../utils/request';
 
 const userSlice = createSlice({
@@ -21,8 +22,8 @@ const userSlice = createSlice({
 export default userSlice.reducer;
 export const { signup } = userSlice.actions;
 
-export const signUp = (user) => async (dispatch) => {
-    const res = await request.post('/user/signup/', user);
-
+export const signUp = (signUpData) => async (dispatch) => {
+    signUpData.password = CryptoJS.SHA256(signUpData.password);
+    const res = await request.post('/user/signup/', signUpData);
     dispatch(signup(res.data));
 };

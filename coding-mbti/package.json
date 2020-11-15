@@ -23,6 +23,7 @@
     "babel-eslint": "^10.1.0",
     "clsx": "^1.1.1",
     "connected-react-router": "^6.8.0",
+    "crypto-js": "^4.0.0",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.5",
     "history": "^5.0.0",

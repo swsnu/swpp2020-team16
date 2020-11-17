@@ -1,9 +1,4 @@
 from django.db import models
-from django.contrib.postgres.fields import ArrayField
-
-
-def get_array_default():
-    return list("default")
 
 
 class Problem(models.Model):
@@ -32,7 +27,6 @@ class Problem(models.Model):
 
 
 class TestCase(models.Model):
-    # content = ArrayField(models.TextField(), default=get_array_default)
     content = models.TextField(default="")
 
     class Meta:

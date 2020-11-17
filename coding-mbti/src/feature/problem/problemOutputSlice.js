@@ -25,7 +25,6 @@ export const readProblemOutput = (problemId) => async (dispatch) => {
   if (!('data' in res)) {
     throw new InvalidKeyException('Key `data` does not exist.');
   }
-
   const payload = {};
   payload.problemId = problemId;
   payload.content = [];

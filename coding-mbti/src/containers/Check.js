@@ -35,7 +35,7 @@ class Check extends Component {
   async componentDidMount() {
     await this.props.readProblem(this.props.match.params.pid);
     await this.props.readProblemInput(this.props.match.params.pid);
-    await this.props.readProblemOutput(this.props.match.params.pid - 3);
+    await this.props.readProblemOutput(this.props.match.params.pid);
   }
 
   handleSubmit = async (pid, solution) => {

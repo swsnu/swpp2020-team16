@@ -32,7 +32,8 @@ class Problem(models.Model):
 
 
 class TestCase(models.Model):
-    content = ArrayField(models.TextField(), default=get_array_default)
+    # content = ArrayField(models.TextField(), default=get_array_default)
+    content = models.TextField(default="")
 
     class Meta:
         abstract = True

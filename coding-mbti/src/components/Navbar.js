@@ -1,11 +1,15 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
+import clsx from 'clsx';
+import PropTypes from 'prop-types';
+
+/* MUIs */
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import clsx from 'clsx';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
@@ -18,6 +22,10 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 
+/* REDUXs */
+import { connect } from 'react-redux';
+import { signOut } from '../feature/user/userSignSlice';
+
 const useStyles = makeStyles(() => ({
   list: {
     width: 300,
@@ -27,7 +35,8 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-export default function NavbarOMG() {
+function NavbarOMG(props) {
+  const history = useHistory();
   const classes = useStyles();
   const [state, setState] = React.useState({
     left: false,
@@ -119,10 +128,19 @@ export default function NavbarOMG() {
           </IconButton>
           <Typography variant="h6" className={classes.title} />
           <Button color="inherit" href="/">Home</Button>
-          <Button color="inherit" href="/signin/">
-            Login
-          </Button>
-          <Button color="inherit">Logout</Button>
+          {
+            props.user.username !== null ?
+              (
+                <Button color="inherit" onClick={() => { props.signOut(); history.push('/'); }}>
+                  Logout
+                </Button>
+              ) :
+              (
+                <Button color="inherit" href="/signin/">
+                  Login
+                </Button>
+              )
+          }
           <IconButton
             edge="end"
             color="inherit"
@@ -135,3 +153,15 @@ export default function NavbarOMG() {
     </>
   );
 }
+NavbarOMG.propTypes = {
+  signOut: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired,
+};
+
+const mapDispatchToProps = (state) => ({
+  user: state.user.userSignReducer,
+});
+
+export default connect(mapDispatchToProps, {
+  signOut,
+})(NavbarOMG);

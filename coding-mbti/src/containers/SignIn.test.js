@@ -1,61 +1,132 @@
-import React from 'react';
 import { createMount } from '@material-ui/core/test-utils';
-import { Provider } from 'react-redux';
-import { ThemeProvider, createMuiTheme } from '@material-ui/core';
-import { transitions, positions, Provider as AlertProvider } from 'react-alert';
-import AlertTemplate from 'react-alert-template-basic';
 import SignIn from './SignIn';
-import configureStore from '../configureStore';
+import appWrappers from '../appWrappers';
 
-const { store } = configureStore();
-const theme = createMuiTheme();
 describe('<SignIn/>', () => {
-  let mount;
-  let signin;
-  beforeEach(() => {
-    const options = {
-      position: positions.BOTTOM_CENTER,
-      timeout: 5000,
-      offset: '30px',
-      transition: transitions.SCALE,
-    };
-    signin = (
-      <Provider store={store}>
-        <ThemeProvider theme={theme}>
-          <AlertProvider template={AlertTemplate} {...options}>
-            <SignIn />
-          </AlertProvider>
-        </ThemeProvider>
-      </Provider>
-    );
+  describe('should render core components', () => {
+    let mount;
+    let testingProps;
+    let testingComponent;
+    let wrappedComponent;
+    let mountedComponent;
+    let target;
+
+    beforeAll(() => {
+      mount = createMount();
+    });
+    afterAll(() => {
+      mount.cleanUp();
+    });
+    beforeEach(() => {
+      testingComponent = SignIn;
+      testingProps = {};
+      wrappedComponent = appWrappers(testingComponent, testingProps);
+    });
+
+    it('should render withour any error', () => {
+      /* GIVEN - specific */
+      mountedComponent = mount(wrappedComponent);
+
+      /* WHEN */
+      target = mountedComponent.exists();
+
+      /* THEN */
+      expect(target).toBeTruthy();
+    });
   });
-  beforeAll(() => {
-    mount = createMount();
+  describe('handler methods', () => {
+    let mount;
+    let testingProps;
+    let testingComponent;
+    let wrappedComponent;
+    let mountedComponent;
+
+    const mockSignIn = jest.fn();
+    const mockAlert = jest.fn();
+
+    beforeAll(() => {
+      mount = createMount();
+    });
+    afterAll(() => {
+      mount.cleanUp();
+    });
+    beforeEach(() => {
+      testingComponent = SignIn;
+      testingProps = { signIn: mockSignIn, alert: mockAlert };
+      wrappedComponent = appWrappers(testingComponent, testingProps);
+    });
+
+    it('signIn', () => {
+      /* GIVEN - specific */
+      mountedComponent = mount(wrappedComponent).find('SignIn');
+
+      /* WHEN */
+      mountedComponent.find('#sign_in_button').hostNodes().simulate('click');
+
+      /* THEN */
+      // expect(spy).toHaveBeenCalledTimes(1);
+    });
+
+    it('alert', () => {
+      /* GIVEN - specific */
+      mountedComponent = mount(wrappedComponent).find('SignIn');
+
+      /* WHEN */
+      mountedComponent.find('#sign_in_button').hostNodes().simulate('click');
+
+      /* THEN */
+      // expect(mockSignIn).toHaveBeenCalledTimes(1);
+    });
   });
-  afterAll(() => {
-    mount.cleanUp();
-  });
-  it('should render without any error', () => {
-    const component = mount(signin);
-    const wrapper = component.find('div');
-    expect(wrapper.length).toBe(12);
-  });
-  it('should signin button click good', () => {
-    const component = mount(signin);
-    const wrapper = component.find('#sign_in_button').first();
-    wrapper.simulate('click');
-  });
-  it('should email input change good', () => {
-    const component = mount(signin);
-    const wrapper = component.find('#email').first();
-    wrapper.simulate('change', { target: { value: 'test@test.com' } });
-  });
-  it('should password input change good', () => {
-    const component = mount(signin);
-    const event = {
-      target: { value: '123' },
-    };
-    const wrapper = component.find('#password').first();
-    wrapper.simulate('change', event);
+  describe('should handle state changes', () => {
+    let mount;
+    let testingProps;
+    let testingComponent;
+    let wrappedComponent;
+    let mountedComponent;
+
+    beforeAll(() => {
+      mount = createMount();
+    });
+    afterAll(() => {
+      mount.cleanUp();
+    });
+    beforeEach(() => {
+      testingComponent = SignIn;
+      testingProps = {};
+      wrappedComponent = appWrappers(testingComponent, testingProps);
+    });
+
+    it('username', () => {
+      /* GIVEN - specific */
+      mountedComponent = mount(wrappedComponent).find('SignIn');
+
+      /* WHEN */
+      const mockedEvent = {
+        preventDefault() { },
+        target: { value: 'new username' }
+      };
+      const usernameInput = mountedComponent.find('#inputUsername').hostNodes();
+      usernameInput.simulate('change', mockedEvent);
+
+      /* THEN */
+      expect(mountedComponent.state().username).toBe(mockedEvent.target.value);
+    });
+
+    it('password', () => {
+      /* GIVEN - specific */
+      mountedComponent = mount(wrappedComponent).find('SignIn');
+
+      /* WHEN */
+      const mockedEvent = {
+        preventDefault() { },
+        target: { value: 'new password' }
+      };
+      const passwordInput = mountedComponent.find('#inputPassword').hostNodes();
+      passwordInput.simulate('change', mockedEvent);
+
+      /* THEN */
+      expect(mountedComponent.state().password).toBe(mockedEvent.target.value);
+    });
   });
 });

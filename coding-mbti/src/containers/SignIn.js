@@ -12,8 +12,9 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import { withStyles } from '@material-ui/styles';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import Navbar from '../components/Navbar';
-import { signIn } from '../feature/user/userSigninSlice';
+import { signIn, signOut } from '../feature/user/userSignSlice';
 
 const styles = (theme) => ({
   paper: {
@@ -44,14 +45,27 @@ class SignIn extends Component {
   }
 
   clickSignIn = () => {
-    this.props.signIn({
-      username: this.state.username,
-      password: this.state.password,
-    });
+    try {
+      this.props.signIn({
+        username: this.state.username,
+        password: this.state.password,
+      });
+    } catch (error) {
+      this.props.alert.show(error.message);
+    }
   };
+
+  clickSignOut = () => {
+    this.props.signOut();
+  }
 
   render() {
     const { classes } = this.props;
+    if (this.props.user.username !== null) {
+      return (
+        <Redirect path="*" to="/my/tests/results" />
+      );
+    }
     return (
       <>
         <Navbar />
@@ -70,7 +84,7 @@ class SignIn extends Component {
                 margin="normal"
                 required
                 fullWidth
-                id="username"
+                id="inputUsername"
                 label="username"
                 autoComplete="username"
                 autoFocus
@@ -84,13 +98,12 @@ class SignIn extends Component {
                 fullWidth
                 label="Password"
                 type="password"
-                id="password"
+                id="inputPassword"
                 autoComplete="current-password"
                 value={this.state.password}
                 onChange={(event) => this.setState({ password: event.target.value })}
               />
               <Button
-                type="submit"
                 fullWidth
                 variant="contained"
                 color="primary"
@@ -99,6 +112,16 @@ class SignIn extends Component {
                 onClick={() => this.clickSignIn()}
               >
                 Sign In
+              </Button>
+              <Button
+                fullWidth
+                variant="contained"
+                color="primary"
+                id="sign_out_button"
+                className={classes.submit}
+                onClick={() => this.clickSignOut()}
+              >
+                Sign Out
               </Button>
               <Grid container>
                 <Grid item xs>
@@ -121,13 +144,15 @@ class SignIn extends Component {
 }
 SignIn.propTypes = {
   classes: PropTypes.object.isRequired,
-  user: PropTypes.object.isRequired,
   signIn: PropTypes.func.isRequired,
+  signOut: PropTypes.func.isRequired,
+  alert: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
 };
 const mapStateToProps = (state) => ({
-  user: state.user.userReducer[1],
+  user: state.user.userSignReducer,
 });
 
-export default connect(mapStateToProps, { signIn })(
+export default connect(mapStateToProps, { signIn, signOut })(
   withStyles(styles)(withAlert()(SignIn))
 );

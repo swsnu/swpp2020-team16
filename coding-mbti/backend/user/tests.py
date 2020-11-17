@@ -55,20 +55,19 @@ class UserModelTest(TestCase):
 
     def test_signin_view(self):
         self.signUp()
+
         res = self.login()
-
         self.assertEqual(res.status_code, 200)
-
-        expected_response = {"id": User.objects.get(username='test').pk}
+        expected_response = {"token": User.objects.get(
+            username='test').auth_token.key}
         self.assertEqual(res.content.decode(), json.dumps(expected_response))
 
         res = self.client.get("/api/user/login/")
-
         self.assertEqual(res.status_code, 405)
 
         res = self.client.post("/api/user/login/", json.dumps(
-            {"username": "test", "password": "test1"}), content_type="application/json")
-
+            {"username": "invalid user", "password": "invalid password"}),
+            content_type="application/json")
         self.assertEqual(res.status_code, 401)
 
     def test_signout_view(self):

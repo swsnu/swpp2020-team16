@@ -14,22 +14,23 @@ import MenuItem from '@material-ui/core/MenuItem';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/styles';
 import Navbar from '../components/Navbar';
-import { signUp } from '../feature/user/userSignupSlice';
+import { signUp } from '../feature/user/userSignSlice';
 
-const usertypes = [
+const roles = [
   {
-    value: 'CODER',
+    value: 1,
     label: 'Coder',
   },
   {
-    value: 'REASERCHER',
-    label: 'Researcher',
-  },
-  {
-    value: 'MANAGER',
+    value: 2,
     label: 'Manager',
   },
+  {
+    value: 3,
+    label: 'Researcher',
+  },
 ];
+
 const styles = (theme) => ({
   paper: {
     marginTop: theme.spacing(8),
@@ -54,32 +55,104 @@ class SignUp extends Component {
     super(props);
     this.state = {
       email: '',
-      userName: '',
+      emailValidation: true,
+      username: '',
+      usernameValidation: true,
       password: '',
+      passwordValidation: true,
       passwordCheck: '',
-      userType: 'CODER',
+      passwordCheckValidation: true,
+      role: 1,
+      permissionCode: ''
     };
   }
 
-  clickSignUp = () => {
-    if (
-      this.state.userName === '' ||
-      this.state.email === '' ||
-      this.state.password === '' ||
-      this.state.passwordCheck === ''
-    ) {
-      alert('Empty Field Exists');
-    } else if (this.state.passwordCheck !== this.state.password) {
-      alert('Password Validation Failed.');
+  validateEmail = () => {
+    const emailRegExp = /^[\w-]+(\.[\w-]+)*@([a-z0-9-]+(\.[a-z0-9-]+)*?\.[a-z]{2,6}|(\d{1,3}\.){3}\d{1,3})(:\d{4})?$/;
+    if (this.state.email.match(emailRegExp)) {
+      this.setState({
+        emailValidation: true,
+      });
     } else {
-      this.props.signUp({
-        email: this.state.email,
-        password: this.state.password,
-        userType: this.state.userType,
-        userName: this.state.userName,
+      this.setState({
+        emailValidation: false,
       });
     }
   };
+
+  validateUsername = () => {
+    if (this.state.username.length >= 8) {
+      this.setState({
+        usernameValidation: true,
+      });
+    } else {
+      this.setState({
+        usernameValidation: false,
+      });
+    }
+  };
+
+  validatePassword = () => {
+    if (this.state.password.length >= 8) {
+      this.setState({
+        passwordValidation: true,
+      });
+    } else {
+      this.setState({
+        passwordValidation: false,
+      });
+    }
+  };
+
+  validatePasswordCheck = () => {
+    if (this.state.passwordCheck >= 8 &&
+      this.state.passwordCheck === this.state.password) {
+      this.setState({
+        passwordCheckValidation: true,
+      });
+    } else {
+      this.setState({
+        passwordCheckValidation: false,
+      });
+    }
+  };
+
+  clickSignUp = async () => {
+    await Promise.all([
+      this.validateEmail(),
+      this.validateUsername(),
+      this.validatePassword(),
+      this.validatePasswordCheck()
+    ]);
+
+    if (!(this.state.emailValidation && this.state.usernameValidation &&
+      this.state.passwordValidation && this.state.passwordCheckValidation)) {
+      this.props.alert.show('invalid inputs');
+      return;
+    }
+
+    let code = '';
+    if (this.state.role === 2) {
+      code = 'manager-permission-code';
+    } else if (this.state.role === 3) {
+      code = 'researcher-permission-code';
+    }
+    if (this.state.role !== 1 && this.state.permissionCode !== code) {
+      this.props.alert.show('invalid permission code');
+      return;
+    }
+
+    try {
+      await this.props.signUp({
+        email: this.state.email,
+        password: this.state.password,
+        role: this.state.role,
+        username: this.state.username
+      });
+    } catch (error) {
+      this.props.alert.show(error.message);
+    }
+  }
 
   render() {
     const { classes } = this.props;
@@ -102,9 +175,12 @@ class SignUp extends Component {
                     variant="outlined"
                     required
                     fullWidth
-                    id="userName"
-                    label="UserName"
-                    onChange={(event) => this.setState({ userName: event.target.value })}
+                    error={!this.state.usernameValidation}
+                    id="username"
+                    label="username"
+                    onChange={(event) => this.setState({ username: event.target.value }, this.validateUsername)}
+                    helperText={!this.state.usernameValidation ?
+                      'username length must be at least 8' : ' '}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -112,9 +188,12 @@ class SignUp extends Component {
                     variant="outlined"
                     required
                     fullWidth
+                    error={!this.state.emailValidation}
                     id="email"
-                    label="Email Address"
-                    onChange={(event) => this.setState({ email: event.target.value })}
+                    label="email address"
+                    onChange={(event) => this.setState({ email: event.target.value }, this.validateEmail)}
+                    helperText={!this.state.emailValidation ?
+                      'email is not in valid format' : ' '}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -122,10 +201,13 @@ class SignUp extends Component {
                     variant="outlined"
                     required
                     fullWidth
-                    label="Password"
+                    error={!this.state.passwordValidation}
+                    label="password"
                     type="password"
                     id="password"
-                    onChange={(event) => this.setState({ password: event.target.value })}
+                    onChange={(event) => this.setState({ password: event.target.value }, this.validatePassword)}
+                    helperText={!this.state.passwordValidation ?
+                      'password length must be at least 8' : ' '}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -133,37 +215,55 @@ class SignUp extends Component {
                     variant="outlined"
                     required
                     fullWidth
-                    label="Password Check"
+                    error={!this.state.passwordCheckValidation}
+                    label="password check"
                     type="password"
                     id="passwordCheck"
-                    onChange={(event) => this.setState({ passwordCheck: event.target.value })}
+                    onChange={(event) => this.setState({ passwordCheck: event.target.value }, this.validatePasswordCheck)}
+                    helperText={!this.state.passwordCheckValidation ?
+                      'should be the exact same password' : ' '}
                   />
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
-                    id="userType"
+                    id="role"
                     select
                     fullWidth
-                    label="user type"
-                    onChange={(event) => this.setState({ userType: event.target.value })}
-                    helperText="Please select your user type"
+                    label="role"
+                    value={this.state.role}
+                    onChange={(event) => this.setState({ role: event.target.value })}
+                    helperText="Please select your role"
                   >
-                    {usertypes.map((option) => (
-                      <MenuItem key={option.value} value={option.value}>
-                        {option.label}
+                    {roles.map((role) => (
+                      <MenuItem key={role.value} value={role.value}>
+                        {role.label}
                       </MenuItem>
                     ))}
                   </TextField>
                 </Grid>
+                {
+                  this.state.role === 1 ? '' : (
+                    <Grid item xs={12}>
+                      <TextField
+                        variant="outlined"
+                        required
+                        fullWidth
+                        label="permission code"
+                        id="permissionCode"
+                        onChange={(event) => this.setState({ permissionCode: event.target.value })}
+                      />
+                    </Grid>
+                  )
+                }
+
               </Grid>
               <Button
-                type="submit"
                 fullWidth
                 variant="contained"
                 color="primary"
                 id="sign_up_button"
                 className={classes.submit}
-                onClick={() => this.clickSignUp()}
+                onClick={this.clickSignUp}
               >
                 Sign Up
               </Button>
@@ -183,11 +283,10 @@ class SignUp extends Component {
 }
 SignUp.propTypes = {
   classes: PropTypes.object.isRequired,
-  user: PropTypes.object.isRequired,
   signUp: PropTypes.func.isRequired,
+  alert: PropTypes.object.isRequired
 };
-const mapStateToProps = (state) => ({
-  user: state.user.userReducer[1],
+const mapStateToProps = () => ({
 });
 export default connect(mapStateToProps, {
   signUp,

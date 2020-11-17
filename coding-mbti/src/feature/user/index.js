@@ -1,9 +1,7 @@
 import { combineReducers } from 'redux';
 
-import userSigninReducer from './userSigninSlice';
-import userSignupReducer from './userSignupSlice';
+import userSignReducer from './userSignSlice';
 
 export default combineReducers({
-    userSigninReducer,
-    userSignupReducer
+    userSignReducer
 });

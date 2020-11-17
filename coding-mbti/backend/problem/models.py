@@ -1,6 +1,10 @@
 from django.db import models
 
 
+def get_array_default():
+    return list("default")
+
+
 class Problem(models.Model):
     class ProblemObjective(models.IntegerChoices):
         # User Friendly - Machine Efficiency

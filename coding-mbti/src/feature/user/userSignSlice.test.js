@@ -168,7 +168,7 @@ describe('userSignSlice', () => {
         let store;
         beforeEach(async () => {
           /* GIVEN */
-          request.get = jest.fn();
+          request.get = jest.fn().mockImplementation(() => Promise.resolve());
           request.post = jest.fn();
           request.put = jest.fn();
           request.delete = jest.fn();
@@ -177,7 +177,7 @@ describe('userSignSlice', () => {
 
         it('GET', async () => {
           /* WHEN */
-          await store.dispatch(signOut({ token: 'test token' }));
+          await store.dispatch(signOut());
 
           /* THEN */
           expect(request.get).toHaveBeenCalledWith('/user/logout/');
@@ -187,7 +187,7 @@ describe('userSignSlice', () => {
         let store;
         beforeEach(async () => {
           /* GIVEN */
-          request.get = jest.fn();
+          request.get = jest.fn().mockImplementation(() => Promise.resolve());
           request.post = jest.fn();
           request.put = jest.fn();
           request.delete = jest.fn();
@@ -211,7 +211,7 @@ describe('userSignSlice', () => {
         beforeEach(async () => {
           /* GIVEN */
           request.get = jest.fn();
-          request.post = jest.fn();
+          request.post = jest.fn().mockImplementation(() => Promise.resolve());
           request.put = jest.fn();
           request.delete = jest.fn();
           store = configureStore().store;
@@ -243,7 +243,7 @@ describe('userSignSlice', () => {
         beforeEach(async () => {
           /* GIVEN */
           request.get = jest.fn();
-          request.post = jest.fn();
+          request.post = jest.fn().mockImplementation(() => Promise.resolve());
           request.put = jest.fn();
           request.delete = jest.fn();
           store = configureStore().store;

@@ -29,8 +29,27 @@ export const { signout, signin } = userSlice.actions;
 
 export const signIn = (signInData) => async (dispatch) => {
     signInData.password = CryptoJS.SHA256(signInData.password).toString();
-    const res = await request
+    await request
         .post('/user/login/', signInData)
+        .then((res) => {
+            const necessaryKeysInResponse = ['data'];
+            necessaryKeysInResponse.map((key) => {
+                if (!(key in res)) {
+                    throw new InvalidKeyException(`Key "${key}" does not exist.`);
+                }
+            });
+            const necessaryKeysInResponseData = ['token'];
+            necessaryKeysInResponseData.map(key => {
+                if (!(key in res.data)) {
+                    throw new InvalidKeyException(`Key "${key}" does not exist.`);
+                }
+            });
+
+            res.data.username = signInData.username;
+            localStorage.setItem('token', res.data.token);
+
+            dispatch(signin(res.data));
+        })
         .catch((error) => {
             if (error.response) {
                 if (error.response.status === 401) {
@@ -38,29 +57,15 @@ export const signIn = (signInData) => async (dispatch) => {
                 }
             }
         });
-
-    const necessaryKeysInResponse = ['data'];
-    necessaryKeysInResponse.map((key) => {
-        if (!(key in res)) {
-            throw new InvalidKeyException(`Key "${key}" does not exist.`);
-        }
-    });
-    const necessaryKeysInResponseData = ['token'];
-    necessaryKeysInResponseData.map(key => {
-        if (!(key in res.data)) {
-            throw new InvalidKeyException(`Key "${key}" does not exist.`);
-        }
-    });
-
-    res.data.username = signInData.username;
-    localStorage.setItem('token', res.data.token);
-
-    dispatch(signin(res.data));
 };
 
 export const signOut = () => async (dispatch) => {
     await request
         .get('/user/logout/')
+        .then(() => {
+            dispatch(signout());
+            localStorage.removeItem('token');
+        })
         .catch((error) => {
             if (error.response) {
                 if (error.response.status === 401) {
@@ -68,10 +73,6 @@ export const signOut = () => async (dispatch) => {
                 }
             }
         });
-
-    localStorage.removeItem('token');
-
-    dispatch(signout());
 };
 
 export const signUp = (signUpData) => async () => {

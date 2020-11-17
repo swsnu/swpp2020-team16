@@ -79,7 +79,7 @@ export default function CodeIDE(props) {
   const [code, setCode] = useState('#happy coding! fixedFunctionName required.');
   const [eraseCount, setEraseCount] = useState(0);
 
-  useEffect(async () => {
+  useEffect(() => {
     if (isBrythonScriptLoaded()) {
       window.addEventListener('load', initBrython);
     }

@@ -6,4 +6,5 @@ urlpatterns = [
     path('signup/', views.signup),
     path('logout/', views.logout),
     path('token/', views.token),
+    path('<int:style>/', views.get_coders_by_style),
 ]

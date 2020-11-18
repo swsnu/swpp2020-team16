@@ -6,8 +6,8 @@ import problemOutputReducer from './problemOutputSlice';
 import solutionReducer from './solutionSlice';
 
 export default combineReducers({
-    problemReducer,
-    problemInputReducer,
-    problemOutputReducer,
-    solutionReducer,
+  problemReducer,
+  problemInputReducer,
+  problemOutputReducer,
+  solutionReducer,
 });

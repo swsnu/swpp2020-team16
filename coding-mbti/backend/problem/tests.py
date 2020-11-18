@@ -174,3 +174,42 @@ class SolutionTest(TestCase):
         response = self.client.post("/api/problem/2/solution/", {})
 
         self.assertEqual(response.status_code, 400)
+
+    def test_solution_for_others_view(self):
+
+        user = User.objects.create_user(
+            username="test2", password="123", email="test2@test.com", salt="123", role=1
+        )
+        
+        client2 = Client()
+        client2.login(username="test2", password="123")
+
+        problem = Problem(desc="For test", input_desc="For test",
+                          output_desc="Fore test", pid="ITP1_6_B", objective=1)
+        problem.save()
+        problem_id = problem.to_dict()['id']
+
+        solution_body = {
+            "erase_cnt": 12,
+            "elapsed_time": 30,
+            "code": "n=int(input())\na=",
+        }
+        client2.post(
+            f"/api/problem/{problem_id}/solution/",
+            json.dumps(solution_body),
+            content_type="application/json",
+        )
+
+        sol_res = client2.get(f"/api/problem/{problem_id}/solution/")
+        sol_id = json.loads(sol_res.content.decode())["id"]
+
+        res = self.client.get(f"/api/problem/{problem_id}/solution/{user.id}")
+
+        expected_response = {"id": sol_id, "evaluation": 0, "problem_id": problem_id,
+                "code": "n=int(input())\na=", 
+                "erase_cnt": 12, "elapsed_time": 30,
+                "status": 2,
+                }
+        self.assertEqual(res.content.decode(), json.dumps(expected_response))
+        
+

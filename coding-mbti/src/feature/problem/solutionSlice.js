@@ -17,6 +17,11 @@ const solutionSlice = createSlice({
         state = action.payload;
       },
     },
+    solutionOfOthersRead: {
+      reducer(state, action) {
+        state.push(action.payload);
+      },
+    },
     solutionDelete: {
       reducer(state, action) {
         state = state.filter((solution) => solution.id !== action.payload);
@@ -28,6 +33,7 @@ const solutionSlice = createSlice({
 export const {
   solutionCreate,
   solutionRead,
+  solutionOfOthersRead,
   solutionDelete,
 } = solutionSlice.actions;
 
@@ -43,9 +49,14 @@ export const readSolution = () => async (dispatch) => {
     }
   });
   const necessaryKeysInResponseData = [
-    'id', 'evaluation', 'problem_id',
-    'code', 'elapsed_time', 'erase_count'];
-  necessaryKeysInResponseData.map(key => {
+    'id',
+    'evaluation',
+    'problem_id',
+    'code',
+    'elapsed_time',
+    'erase_count',
+  ];
+  necessaryKeysInResponseData.map((key) => {
     if (!(key in res.data)) {
       throw new InvalidKeyException(`Key "${key}" does not exist.`);
     }
@@ -63,7 +74,7 @@ export const createSolution = (problemId, solution) => async (dispatch) => {
     }
   });
   const necessaryKeysInResponseData = ['id'];
-  necessaryKeysInResponseData.map(key => {
+  necessaryKeysInResponseData.map((key) => {
     if (!(key in res.data)) {
       throw new InvalidKeyException(`Key "${key}" does not exist.`);
     }
@@ -81,10 +92,38 @@ export const deleteSolution = (solutionId) => async (dispatch) => {
     }
   });
   const necessaryKeysInResponseData = ['id'];
-  necessaryKeysInResponseData.map(key => {
+  necessaryKeysInResponseData.map((key) => {
     if (!(key in res.data)) {
       throw new InvalidKeyException(`Key "${key}" does not exist.`);
     }
   });
   dispatch(solutionDelete(solutionId));
+};
+
+export const readSolutionOfOthers = (userId, problemId) => async (dispatch) => {
+  const res = await request.get(`problem/${problemId}/solution/${userId}`);
+
+  const necessaryKeysInResponse = ['data'];
+  necessaryKeysInResponse.map((key) => {
+    if (!(key in res)) {
+      throw new InvalidKeyException(`Key "${key}" does not exist.`);
+    }
+  });
+  const necessaryKeysInResponseData = [
+    'id',
+    'evaluation',
+    'problem_id',
+    'code',
+    'elapsed_time',
+    'erase_cnt',
+    'status',
+  ];
+  necessaryKeysInResponseData.map((key) => {
+    if (!(key in res.data)) {
+      throw new InvalidKeyException(`Key "${key}" does not exist.`);
+    }
+  });
+
+  dispatch(solutionOfOthersRead(res.data));
+  return res.data;
 };

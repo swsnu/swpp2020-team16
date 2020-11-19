@@ -4,9 +4,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom';
 
 import Grid from '@material-ui/core/Grid';
-import Container from '@material-ui/core/Container';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   box: {
     alignItems: 'center',
     justifyContent: 'center',
@@ -40,8 +39,7 @@ const ButtonBox = (props) => {
   );
 };
 
-const ShowOtherCodersSolutions = (props) => {
-  const classes = useStyles();
+const StyleGrid = (props) => {
   const { pid } = props.match.params;
 
   const styleList = [
@@ -63,16 +61,38 @@ const ShowOtherCodersSolutions = (props) => {
     'MIFC',
   ];
 
-  const styleBox = styleList.map((el) => <ButtonBox pid={pid} style={el} />);
+  const styleBox = styleList.map((el) => (
+    <ButtonBox key={el} pid={pid} style={el} />
+  ));
   return (
-    <Grid container className="showothercoderssolutions">
+    <Grid container className="styleGrid">
       {styleBox}
     </Grid>
   );
 };
 
-ShowOtherCodersSolutions.propTypes = {};
+StyleGrid.propTypes = {
+  pid: PropTypes.string,
+  classes: PropTypes.object.isRequired,
+  style: PropTypes.string,
+  match: PropTypes.object.isRequired,
+};
 
-ShowOtherCodersSolutions.defaultProps = {};
+StyleGrid.defaultProps = {
+  pid: '1',
+  style: '1',
+};
 
-export default ShowOtherCodersSolutions;
+ButtonBox.propTypes = {
+  pid: PropTypes.string,
+  classes: PropTypes.object.isRequired,
+  style: PropTypes.string,
+  match: PropTypes.object.isRequired,
+};
+
+ButtonBox.defaultProps = {
+  pid: '1',
+  style: '1',
+};
+
+export default StyleGrid;

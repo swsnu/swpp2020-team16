@@ -7,13 +7,13 @@ import { InvalidKeyException } from '../../utils/exceptions';
 const userSlice = createSlice({
   name: 'user',
   initialState: {
-    userList: [],
+    selectedUsers: [],
   },
   reducers: {
     userReadByStyle: {
       reducer(state, action) {
-        state.userList = [];
-        action.payload.forEach((el) => state.userList.push(el));
+        state.selectedUsers = [];
+        action.payload.forEach((el) => state.selectedUsers.push(el));
       },
     },
   },

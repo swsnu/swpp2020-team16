@@ -5,7 +5,7 @@ import './App.css';
 import PropTypes from 'prop-types';
 
 import Home from './containers/Home';
-import ShowOtherCodersSolutions from './components/ShowOtherCodersSolutions';
+import StyleGrid from './components/StyleGrid';
 import OtherSolution from './containers/OtherSolutions';
 import SignIn from './containers/SignIn';
 import SignUp from './containers/SignUp';
@@ -35,7 +35,7 @@ function App(props) {
         <Route
           exact
           path="/check/result/:pid"
-          render={(props) => <ShowOtherCodersSolutions {...props} />}
+          render={(props) => <StyleGrid {...props} />}
         />
         <AuthRoute exact path="/check/result">
           <Result />

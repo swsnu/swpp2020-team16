@@ -83,7 +83,7 @@ def token(request):
 
 
 def fake_return(style):
-    expected_response = [{"user_id":1, "username":"hi", "style":style}, {"user_id":2, "username":"hello", "style":style},]
+    expected_response = [{"user_id":1, "username":"hi", "style":style}, {"user_id":2, "username":"hello", "style":style},{"user_id":3, "username":"hello", "style":style},{"user_id":4, "username":"hello", "style":style},{"user_id":5, "username":"hello", "style":style}]
     return expected_response
 
 @permission_classes((IsAuthenticated, ))

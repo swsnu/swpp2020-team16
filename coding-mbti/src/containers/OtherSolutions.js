@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+
 import Grid from '@material-ui/core/Grid';
 import { connect } from 'react-redux';
+import { withStyles } from '@material-ui/styles';
 import { readUsersByStyle } from '../feature/user/userSlice';
 import { readSolutionOfOthers } from '../feature/problem/solutionSlice';
 import OtherSolutionsTable from '../components/OtherSolutionsTable';
-import { withStyles } from '@material-ui/styles';
 
 const styleToIntDict = {
   UTEJ: 1,
@@ -31,57 +33,66 @@ const styles = (theme) => ({
   },
 });
 
-let style = 1;
+let styleInt = 1;
 let pid = 1;
-let users = { userList: [] };
-let solList = [];
 
 class OtherSolutions extends Component {
   async componentDidMount() {
-    await this.props.readUsersByStyle(style);
-
-    for (const user of this.props.users.userList) {
-      this.props.readSolutionOfOthers(user.user_id, pid).then((res) => {
-        solList.push(res);
-      });
-    }
+    await this.props.readUsersByStyle(styleInt);
+    await this.props.readSolutionOfOthers(this.props.users.selectedUsers, pid);
   }
 
   render() {
-    const mapStyleToInt = (style) => {
-      return styleToIntDict[style];
-    };
+    const mapStyleToInt = (style) => styleToIntDict[style];
     const { classes } = this.props;
-    const styleInt = mapStyleToInt(this.props.match.params.style);
+    styleInt = mapStyleToInt(this.props.match.params.style);
     const styleStr = this.props.match.params.style;
-    users = this.props.users;
     pid = this.props.match.params.pid;
+    const selectedUsers = this.props.users.selectedUsers
+      ? this.props.users.selectedUsers
+      : [];
+    const selectedSolutions = this.props.solutions.selectedSolutions
+      ? this.props.solutions.selectedSolutions
+      : [];
 
     return (
-      <Grid container className={classes.Page} maxWidth="lg">
+      <Grid
+        container
+        className={classes.Page}
+        id="otherSolutions"
+        maxWidth="lg"
+      >
         <Grid item align="center" xs={12}>
           <h1>{`solutions of ${styleStr} coders for problem ${pid}`}</h1>
         </Grid>
-        <Grid item xs={2}></Grid>
+        <Grid item xs={2} />
         <Grid container item xs={8}>
           <OtherSolutionsTable
-            userList={users.userList}
-            solList={solList}
+            selectedUsers={selectedUsers}
+            selectedSolutions={selectedSolutions}
             pid={pid}
           />
         </Grid>
-        <Grid item xs={2}></Grid>
+        <Grid item xs={2} />
       </Grid>
     );
   }
 }
 
-OtherSolutions.propTypes = {};
+OtherSolutions.propTypes = {
+  readUsersByStyle: PropTypes.object.isRequired,
+  readSolutionOfOthers: PropTypes.object.isRequired,
+  users: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
+  solutions: PropTypes.object.isRequired,
+};
 
 OtherSolutions.defaultProps = {};
 
 const mapDispatchToProps = (state) => ({
   users: state.user.userReducer,
+  solutions: state.problem.solutionReducer,
 });
 
 export default connect(mapDispatchToProps, {

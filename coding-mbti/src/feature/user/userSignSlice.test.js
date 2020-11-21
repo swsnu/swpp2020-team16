@@ -224,7 +224,6 @@ describe('userSignSlice', () => {
           expect(errorMessage).toBe('username does not exist.');
         });
       });
-
       describe('should handle axios without error', () => {
         let store;
         beforeEach(async () => {
@@ -306,7 +305,6 @@ describe('userSignSlice', () => {
           expect(errorMessage).toBe('username or email already exists');
         });
       });
-      
       describe('should handle axios without error', () => {
         let store;
         beforeEach(async () => {

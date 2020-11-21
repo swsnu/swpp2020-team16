@@ -124,13 +124,13 @@ describe('userSignSlice', () => {
           });
 
           let errorMessage;
-          try{
+          try {
             await store.dispatch(signIn({
               username: 'test username',
               password: 'test password'
             }));
-          }catch (error){
-            errorMessage = error.message
+          } catch (error) {
+            errorMessage = error.message;
           }
 
           /* THEN */
@@ -209,28 +209,27 @@ describe('userSignSlice', () => {
 
         it('401', async () => {
           /* WHEN */
-          request.get = jest.fn().mockImplementation(() => {
-            return { status : 401 } 
+          request.get.mockResolvedValue({
+            status: 401
           });
 
           let errorMessage;
-          try{
+          try {
             await store.dispatch(signOut());
-          }catch (error){
-            errorMessage = error.message
+          } catch (error) {
+            errorMessage = error.message;
           }
 
           /* THEN */
           expect(errorMessage).toBe('username does not exist.');
         });
       });
-
       describe('should handle axios without error', () => {
         let store;
         beforeEach(async () => {
           /* GIVEN */
-          request.get = jest.fn().mockImplementation(() => {
-            return { status : 200 } 
+          request.get = jest.fn().mockResolvedValue({
+            status: 200
           });
           request.post = jest.fn();
           request.put = jest.fn();
@@ -250,8 +249,8 @@ describe('userSignSlice', () => {
         let store;
         beforeEach(async () => {
           /* GIVEN */
-          request.get = jest.fn().mockImplementation(() => {
-            return { status : 200 } 
+          request.get = jest.fn().mockResolvedValue({
+            status: 200
           });
           request.post = jest.fn();
           request.put = jest.fn();
@@ -284,12 +283,12 @@ describe('userSignSlice', () => {
 
         it('409', async () => {
           /* WHEN */
-          request.post = jest.fn().mockImplementation(() => {
-            return { status : 409 } 
+          request.post.mockResolvedValue({
+            status: 409
           });
 
           let errorMessage;
-          try{
+          try {
             await store.dispatch(signUp(
               {
                 username: 'test username',
@@ -298,22 +297,21 @@ describe('userSignSlice', () => {
                 email: 'test email',
               }
             ));
-          }catch (error){
-            errorMessage = error.message
+          } catch (error) {
+            errorMessage = error.message;
           }
 
           /* THEN */
           expect(errorMessage).toBe('username or email already exists');
         });
       });
-      
       describe('should handle axios without error', () => {
         let store;
         beforeEach(async () => {
           /* GIVEN */
           request.get = jest.fn();
-          request.post = jest.fn().mockImplementation(() => {
-            return { status : 200 } 
+          request.post = jest.fn().mockResolvedValue({
+            status: 200
           });
           request.put = jest.fn();
           request.delete = jest.fn();
@@ -346,8 +344,8 @@ describe('userSignSlice', () => {
         beforeEach(async () => {
           /* GIVEN */
           request.get = jest.fn();
-          request.post = jest.fn().mockImplementation(() => {
-            return { status : 200 } 
+          request.post = jest.fn().mockResolvedValue({
+            status: 200
           });
           request.put = jest.fn();
           request.delete = jest.fn();

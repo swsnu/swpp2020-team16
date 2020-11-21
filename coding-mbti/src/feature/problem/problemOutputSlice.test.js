@@ -17,13 +17,14 @@ describe('problemOutputSlice', () => {
             const action = {
                 type: problemOutputRead,
                 payload: {
-                    id: 1,
-                    content: ['test output case in string format']
+                    problemId: 1,
+                    content: ['output 1', 'output 2', 'output 3']
                 }
             };
             const state = reducer(initialState, action);
             expect(state).toEqual({
-                content: ['test output case in string format']
+                problemId: 1,
+                content: ['output 1', 'output 2', 'output 3']
             });
         });
     });
@@ -58,24 +59,9 @@ describe('problemOutputSlice', () => {
                     }
                 });
 
-                it('key `id` does not exist.', async () => {
-                    /* WHEN */
-                    delete invalidDataResponse.data.id;
-                    request.get.mockResolvedValue({
-                        ...invalidDataResponse
-                    });
-
-                    /* THEN */
-                    try {
-                        await store.dispatch(readProblemOutput(problemId));
-                    } catch (e) {
-                        expect(e.message).toBe('Key `id` does not exist.');
-                    }
-                });
-
                 it('key `content` does not exist.', async () => {
                     /* WHEN */
-                    delete invalidDataResponse.data.content;
+                    delete invalidDataResponse.data[0].content;
                     request.get.mockResolvedValue({
                         ...invalidDataResponse
                     });
@@ -132,7 +118,22 @@ describe('problemOutputSlice', () => {
                     /* THEN */
                     const state = store.getState().problem.problemOutputReducer;
                     const result = {};
-                    result.content = dbdata.data.content;
+                    result.problemId = problemId;
+                    result.content = dbdata.data.map(output => output.content);
+                    expect(state).toEqual(result);
+                });
+                it('problemOutputReducer empty', async () => {
+                    /* WHEN */
+                    request.get.mockResolvedValue({
+                        data: []
+                    });
+                    await store.dispatch(readProblemOutput(problemId));
+
+                    /* THEN */
+                    const state = store.getState().problem.problemOutputReducer;
+                    const result = {};
+                    result.problemId = problemId;
+                    result.content = [];
                     expect(state).toEqual(result);
                 });
             });

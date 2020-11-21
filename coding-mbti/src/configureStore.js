@@ -28,6 +28,5 @@ export default () => {
         }),
     });
     const persistor = persistStore(store);
-
     return { store, persistor };
 };

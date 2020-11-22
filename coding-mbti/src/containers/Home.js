@@ -36,13 +36,15 @@ const styles = (theme) => ({
 });
 
 // Home's default Problem ID
-const HOME_PROBLEM_ID = 1;
+const HOME_PROBLEM_ID = 9;
 
 class Home extends Component {
   async componentDidMount() {
-    await this.props.readProblem(HOME_PROBLEM_ID);
-    await this.props.readProblemInput(HOME_PROBLEM_ID);
-    await this.props.readProblemOutput(HOME_PROBLEM_ID);
+    await Promise.all([
+      this.props.readProblem(HOME_PROBLEM_ID),
+      this.props.readProblemInput(HOME_PROBLEM_ID),
+      this.props.readProblemOutput(HOME_PROBLEM_ID),
+    ]);
   }
 
   onClickGetTested = () => {

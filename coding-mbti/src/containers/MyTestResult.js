@@ -50,7 +50,7 @@ export default function Result() {
           </Typography>
           <Grid container spacing={4} justify="center">
             <Grid item xl={12} md={5}>
-              <TypeInfo type="INTJ" />
+              <TypeInfo type="UTEJ" />
             </Grid>
             <Grid item xl={12} md={5}>
               <RadarDiagram analysisData={[10, 20, 30, 40, 50, 60, 70, 80]} />

@@ -1,22 +1,41 @@
 import json
 from json import JSONDecodeError
+import datetime
+from pytz import utc
+
 from django.http import HttpResponse, HttpResponseNotAllowed, HttpResponseBadRequest, JsonResponse
-from django.contrib.auth import authenticate, login, logout as auth_logout
+from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.db.utils import IntegrityError
+
+from rest_framework.decorators import permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.authtoken.models import Token
+
 from user.models import User
 
 
 def signin(request):
     if request.method == 'POST':
-        req_data = json.loads(request.body.decode())
-        username = req_data['username']
-        password = req_data['password']
+        try:
+            req_data = json.loads(request.body.decode())
+            username = req_data['username']
+            password = req_data['password']
+        except (KeyError, JSONDecodeError) as error:
+            return HttpResponseBadRequest(error)
+
         user = authenticate(username=username, password=password)
-        if user is not None:
-            login(request, user)
-            return JsonResponse({"id": user.pk})
-        return HttpResponse(status=401)
+        if user is None:
+            return HttpResponse(status=401)
+
+        token_auth, created = Token.objects.get_or_create(user=user)
+        if not created:
+            token_auth.created = datetime.datetime.utcnow().replace(tzinfo=utc)
+            token_auth.save()
+
+        auth_login(request, user)
+        return JsonResponse({"token": token_auth.key})
+
     else:
         return HttpResponseNotAllowed(['POST'])
 
@@ -24,25 +43,30 @@ def signin(request):
 def signup(request):
     if request.method == 'POST':
         try:
-            body = request.body.decode()
-            username = json.loads(body)["username"]
-            email = json.loads(body)["email"]
-            password = json.loads(body)["password"]
-            role = json.loads(body)["role"]
+            req_data = json.loads(request.body.decode())
+            username = req_data["username"]
+            email = req_data["email"]
+            password = req_data["password"]
+            role = req_data["role"]
         except (KeyError, JSONDecodeError) as error:
             return HttpResponseBadRequest(error)
+
         try:
             User.objects.create_user(
                 username=username, email=email, salt="", role=role, password=password)
         except IntegrityError:
             return HttpResponse(status=409)
+
         return HttpResponse(status=201)
+
     return HttpResponseNotAllowed(['POST'])
 
 
+@permission_classes((IsAuthenticated, ))
 def logout(request):
     if request.method == 'GET':
         if request.user.is_authenticated:
+            request.user.auth_token.delete()
             auth_logout(request)
             return HttpResponse(status=204)
         return HttpResponse(status=401)

@@ -19,7 +19,7 @@ const usertypes = [
   },
 
   {
-    value: 'REASERCHER',
+    value: 'RESEARCHER',
     label: 'Researcher',
   },
   {

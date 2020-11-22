@@ -30,7 +30,7 @@ def user_report_view(request):
         return JsonResponse(UserReport.objects.filter(author__id=request.user.id)
                             .last().to_dict(), status=200, safe=False)
     else:
-        return HttpResponseNotAllowed(['UPDATE', 'DELETE'])
+        return HttpResponseNotAllowed(['GET', 'POST'])
 
 
 @permission_classes((IsAuthenticated, ))
@@ -43,7 +43,7 @@ def single_report_view(request):
             safe=False,
         )
     else:
-        return HttpResponseNotAllowed(['POST', 'UPDATE', 'DELETE'])
+        return HttpResponseNotAllowed(['GET'])
 
 
 @permission_classes((IsAuthenticated, ))
@@ -54,4 +54,4 @@ def problem_report_view(request):
 
         return JsonResponse(reports, status=200, safe=False)
     else:
-        return HttpResponseNotAllowed(['POST', 'UPDATE', 'DELETE'])
+        return HttpResponseNotAllowed(['GET'])

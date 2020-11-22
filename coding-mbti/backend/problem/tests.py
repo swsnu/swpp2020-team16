@@ -98,6 +98,9 @@ class ProblemTest(TestCase):
         response = self.client.get(f"/api/problem/{problem_input_id}/output/")
         self.assertEqual(response.status_code, 200)
 
+        response = self.client.get(f"/api/problem/100/output/")
+        self.assertEqual(response.status_code, 400)
+
         response = self.client.post("/api/problem/1/output/", {})
         self.assertEqual(response.status_code, 405)
 
@@ -156,7 +159,23 @@ class SolutionTest(TestCase):
         self.assertEqual(len(Solution.objects.all()), 1)
 
     def test_solution_create_exception(self):
+        problem = Problem(desc="For test", input_desc="For test",
+                          output_desc="Fore test", pid="ITP1_6_B", objective=1)
+        problem.save()
+        problem_id = problem.to_dict()['id']
+
+        response = self.client.post(
+            f"/api/problem/{problem_id}/solution/",
+            json.dumps({}),
+            content_type="application/json",
+        )
+
+        self.assertEqual(response.status_code, 400)
 
         response = self.client.post("/api/problem/2/solution/", {})
 
         self.assertEqual(response.status_code, 400)
+
+        response = self.client.delete("/api/problem/2/solution/")
+
+        self.assertEqual(response.status_code, 405)

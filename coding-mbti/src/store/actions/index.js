@@ -1,1 +1,0 @@
-export { putTestResult } from './result';

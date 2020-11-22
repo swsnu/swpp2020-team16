@@ -15,13 +15,16 @@ const colorPalette = [
 
 export default function BarSingleDiagram(props) {
   const { measures, color } = props;
-  const [series, setSeries] = useState([{
-    name: measures.one.name,
-    data: measures.one.data,
-  }, {
-    name: measures.another.name,
-    data: measures.another.data,
-  }]);
+  const [series, setSeries] = useState([
+    {
+      name: measures.one.name,
+      data: measures.one.data,
+    },
+    {
+      name: measures.another.name,
+      data: measures.another.data,
+    },
+  ]);
 
   const [options, setOptions] = useState({
     colors: colorPalette[color],
@@ -51,7 +54,6 @@ export default function BarSingleDiagram(props) {
     },
     fill: {
       opacity: 1,
-
     },
     legend: {
       position: 'top',
@@ -79,7 +81,7 @@ BarSingleDiagram.propTypes = {
     PropTypes.shape({
       name: PropTypes.string.isRequired,
       data: PropTypes.arrayOf(PropTypes.number).isRequired,
-    }),
+    })
   ).isRequired,
   color: PropTypes.number.isRequired,
 };

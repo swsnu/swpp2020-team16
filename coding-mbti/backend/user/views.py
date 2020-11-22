@@ -7,13 +7,12 @@ from django.http import HttpResponse, HttpResponseNotAllowed, HttpResponseBadReq
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.db.utils import IntegrityError
-from django.core.exceptions import ObjectDoesNotExist
 
 from rest_framework.decorators import permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authtoken.models import Token
 
-from user.models import User, Coder, CodingStyle
+from user.models import User
 
 
 def signin(request):
@@ -80,23 +79,3 @@ def token(request):
     if request.method == 'GET':
         return HttpResponse(status=204)
     return HttpResponseNotAllowed(['GET'])
-
-
-def fake_return(style):
-    expected_response = [{"user_id":1, "username":"hi", "style":style}, {"user_id":2, "username":"hello", "style":style},{"user_id":3, "username":"hello", "style":style},{"user_id":4, "username":"hello", "style":style},{"user_id":5, "username":"hello", "style":style}]
-    return expected_response
-
-@permission_classes((IsAuthenticated, ))
-def get_coders_by_style(request, style=""):
-    if request.method =='GET':
-        try :
-
-            return JsonResponse(fake_return(int(style)), status=200, safe=False)
-            #return JsonResponse(
-            #list(map(lambda coder: coder.to_dict(), Coder.objects.filter(style__style=int(style)))),
-            #status=200,
-            #safe=False,)
-        except ObjectDoesNotExist as error:
-            return HttpResponseBadRequest(error)
-    else :
-        return HttpResponseNotAllowed(['POST','PUT','DELETE'])

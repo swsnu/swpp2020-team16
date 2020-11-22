@@ -2,22 +2,19 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import {
-  createUserReport,
-  readUserReport,
-} from '../feature/report/userReportSlice';
+import { createMyReport, readMyReport } from '../feature/report/reportSlice';
 
 class Result extends Component {
   async componentDidMount() {
-    await this.props.createUserReport();
-    await this.props.readUserReport();
+    await this.props.createMyReport();
+    await this.props.readMyReport();
   }
 
   render() {
-    const { reports } = this.props;
+    const { report } = this.props;
     return (
       <div>
-        {Object.entries(reports).map(([key, value]) => (
+        {Object.entries(report).map(([key, value]) => (
           <div>
             {key}
             {JSON.stringify(value)}
@@ -29,19 +26,19 @@ class Result extends Component {
 }
 
 Result.propTypes = {
-  reports: PropTypes.object,
-  createUserReport: PropTypes.func.isRequired,
-  readUserReport: PropTypes.func.isRequired
+  report: PropTypes.object,
+  createMyReport: PropTypes.func.isRequired,
+  readMyReport: PropTypes.func.isRequired,
 };
 
 Result.defaultProps = {
-  reports: [],
+  report: [],
 };
 
 const mapStateToProps = (state) => ({
-  reports: state.report.userReportReducer,
+  report: state.report.reportReducer,
 });
 
-export default connect(mapStateToProps, { createUserReport, readUserReport })(
+export default connect(mapStateToProps, { createMyReport, readMyReport })(
   Result
 );

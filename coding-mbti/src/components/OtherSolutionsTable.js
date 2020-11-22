@@ -19,6 +19,11 @@ const useStyles = makeStyles((theme) => ({
     maring: theme.spacing(3),
     padding: theme.spacing(3),
   },
+  row: {
+    '&:hover': {
+      backgroundColor: 'rgba(0, 0, 0, .05)',
+    },
+  },
   paper: {
     position: 'absolute',
     alignSelf: 'center',
@@ -101,7 +106,7 @@ export default function OtherSolutionsTable(props) {
             <>
               <TableRow
                 key={row[0].id}
-                className="testRow"
+                className={classes.row}
                 onClick={() => {
                   setCode(row[1].code);
                   setErase(row[1].erase_cnt);
@@ -109,7 +114,7 @@ export default function OtherSolutionsTable(props) {
                   handleOpen();
                 }}
               >
-                <TableCell>{`${row[0].username}'s solution`}</TableCell>
+                <TableCell className="titleRow">{`${row[0].username}'s solution`}</TableCell>
                 <TableCell>{row[0].user_id}</TableCell>
                 <TableCell>{row[0].username}</TableCell>
                 <TableCell>{row[0].style}</TableCell>

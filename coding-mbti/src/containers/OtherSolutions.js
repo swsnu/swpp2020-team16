@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/styles';
-import { readUsersByStyle } from '../feature/user/userSlice';
+import { readUsersByStyle } from '../feature/report/reportSlice';
 import { readSolutionOfOthers } from '../feature/problem/solutionSlice';
 import OtherSolutionsTable from '../components/OtherSolutionsTable';
 
@@ -39,7 +39,7 @@ let pid = 1;
 class OtherSolutions extends Component {
   async componentDidMount() {
     await this.props.readUsersByStyle(styleInt);
-    await this.props.readSolutionOfOthers(this.props.users.selectedUsers, pid);
+    await this.props.readSolutionOfOthers(this.props.report.selectedUsers, pid);
   }
 
   render() {
@@ -48,11 +48,11 @@ class OtherSolutions extends Component {
     styleInt = mapStyleToInt(this.props.match.params.style);
     const styleStr = this.props.match.params.style;
     pid = this.props.match.params.pid;
-    const selectedUsers = this.props.users.selectedUsers
-      ? this.props.users.selectedUsers
+    const selectedUsers = this.props.report.selectedUsers
+      ? this.props.report.selectedUsers
       : [];
-    const selectedSolutions = this.props.solutions.selectedSolutions
-      ? this.props.solutions.selectedSolutions
+    const selectedSolutions = this.props.solution.selectedSolutions
+      ? this.props.solution.selectedSolutions
       : [];
 
     return (
@@ -85,14 +85,15 @@ OtherSolutions.propTypes = {
   users: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
-  solutions: PropTypes.object.isRequired,
+  solution: PropTypes.object.isRequired,
+  report: PropTypes.object.isRequired,
 };
 
 OtherSolutions.defaultProps = {};
 
 const mapDispatchToProps = (state) => ({
-  users: state.user.userReducer,
-  solutions: state.problem.solutionReducer,
+  report: state.report.reportReducer,
+  solution: state.problem.solutionReducer,
 });
 
 export default connect(mapDispatchToProps, {

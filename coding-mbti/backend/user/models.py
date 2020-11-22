@@ -90,7 +90,7 @@ class Coder(models.Model):
         Group, on_delete=models.SET_NULL, null=True, related_name='coder_group')
 
     def to_dict(self):
-        return {"user_id": self.user.pk, "style":self.style.style}
+        return {"user_id": self.user.pk, "username": self.user.username, "style":self.style.style}
 
 
 class Researcher(models.Model):

@@ -110,15 +110,12 @@ def solution_view(request, problem_id):
     else:
         return HttpResponseNotAllowed(["UPDATE", "DELETE"])
 
+@ permission_classes((IsAuthenticated, ))
 def solution_for_others_view(request, problem_id="", user_id=""):
     if request.method == "GET":
         try:
-            solution={"id": user_id, "evaluation": 0, "problem_id": problem_id,
-                "code": "def test():\n    print('hi')", "erase_cnt": 12, "elapsed_time": 30,
-                "status": 1,
-                }
-            #solution = Solution.objects.filter(
-            #    problem__id=problem_id, author_id=user_id).last().to_dict()
+            solution = Solution.objects.filter(
+                problem__id=problem_id, author_id=user_id).last().to_dict()
         except ObjectDoesNotExist as error:
             return HttpResponseBadRequest(error)
         return JsonResponse(solution, status=200, safe=False)

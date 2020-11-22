@@ -33,9 +33,11 @@ const styles = (theme) => ({
 
 class Check extends Component {
   async componentDidMount() {
-    await this.props.readProblem(this.props.match.params.pid);
-    await this.props.readProblemInput(this.props.match.params.pid);
-    await this.props.readProblemOutput(this.props.match.params.pid);
+    await Promise.all([
+      this.props.readProblem(this.props.match.params.pid),
+      this.props.readProblemInput(this.props.match.params.pid),
+      this.props.readProblemOutput(this.props.match.params.pid),
+    ]);
   }
 
   handleSubmit = async (pid, solution) => {
@@ -65,8 +67,8 @@ class Check extends Component {
           </Container>
           <Container maxWidth="lg">
             <CodeIDE
-              loggedIn={false}
-              pid={parseInt(pid, 10)}
+              signedIn={false}
+              pid={pid}
               handleSubmit={this.handleSubmit}
               problemInput={problemInput}
               problemOutput={problemOutput}

@@ -6,12 +6,17 @@ import { transitions, positions, Provider as AlertProvider } from 'react-alert';
 import AlertTemplate from 'react-alert-template-basic';
 import Home from './Home';
 import configureStore from '../configureStore';
+import * as utils from '../components/brython/utils';
 
 const { store } = configureStore();
 const theme = createMuiTheme();
 
 describe('<Home/>', () => {
   let home;
+  const runCodeWithFilesSpy = jest.fn();
+  jest.spyOn(utils, 'initBrythonRunner').mockImplementation(() => ({
+    runCodeWithFiles: runCodeWithFilesSpy
+  }));
 
   beforeEach(() => {
     const options = {
@@ -23,21 +28,19 @@ describe('<Home/>', () => {
       transition: transitions.SCALE,
     };
 
-    home =
-      (
-        <Provider store={store}>
-          <ThemeProvider theme={theme}>
-            <AlertProvider template={AlertTemplate} {...options}>
-              <Home />
-            </AlertProvider>
-          </ThemeProvider>
-        </Provider>
-      );
+    home = (
+      <Provider store={store}>
+        <ThemeProvider theme={theme}>
+          <AlertProvider template={AlertTemplate} {...options}>
+            <Home />
+          </AlertProvider>
+        </ThemeProvider>
+      </Provider>
+    );
   });
 
   it('should render without any error', () => {
     const component = mount(home);
-
     const wrapper = component.find('.phrase');
     expect(wrapper.length).toBe(3);
   });
@@ -45,7 +48,6 @@ describe('<Home/>', () => {
   it('should be directed to test page when user click Gettest button', () => {
     delete window.location;
     window.location = { replace: jest.fn() };
-
     const component = mount(home);
     const wrapper = component.find('#getTested').first();
     wrapper.simulate('click');

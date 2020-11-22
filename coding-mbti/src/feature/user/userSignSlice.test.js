@@ -105,6 +105,38 @@ describe('userSignSlice', () => {
           });
         });
       });
+      describe('should handle non-2XX status code', () => {
+        let store;
+        beforeEach(async () => {
+          /* GIVEN */
+          request.get = jest.fn();
+          request.post = jest.fn();
+          request.put = jest.fn();
+          request.delete = jest.fn();
+          store = configureStore().store;
+        });
+
+        it('401', async () => {
+          /* WHEN */
+          request.post.mockResolvedValue({
+            data: dbdata.data,
+            status: 401
+          });
+
+          let errorMessage;
+          try {
+            await store.dispatch(signIn({
+              username: 'test username',
+              password: 'test password'
+            }));
+          } catch (error) {
+            errorMessage = error.message;
+          }
+
+          /* THEN */
+          expect(errorMessage).toBe('wrong username or password');
+        });
+      });
 
       describe('should handle axios without error', () => {
         let store;
@@ -164,11 +196,41 @@ describe('userSignSlice', () => {
     });
     describe('signOut', () => {
       describe('should handle response validity', () => { });
+      describe('should handle non-2XX status code', () => {
+        let store;
+        beforeEach(async () => {
+          /* GIVEN */
+          request.get = jest.fn();
+          request.post = jest.fn();
+          request.put = jest.fn();
+          request.delete = jest.fn();
+          store = configureStore().store;
+        });
+
+        it('401', async () => {
+          /* WHEN */
+          request.get.mockResolvedValue({
+            status: 401
+          });
+
+          let errorMessage;
+          try {
+            await store.dispatch(signOut());
+          } catch (error) {
+            errorMessage = error.message;
+          }
+
+          /* THEN */
+          expect(errorMessage).toBe('username does not exist.');
+        });
+      });
       describe('should handle axios without error', () => {
         let store;
         beforeEach(async () => {
           /* GIVEN */
-          request.get = jest.fn().mockImplementation(() => Promise.resolve());
+          request.get = jest.fn().mockResolvedValue({
+            status: 200
+          });
           request.post = jest.fn();
           request.put = jest.fn();
           request.delete = jest.fn();
@@ -187,7 +249,9 @@ describe('userSignSlice', () => {
         let store;
         beforeEach(async () => {
           /* GIVEN */
-          request.get = jest.fn().mockImplementation(() => Promise.resolve());
+          request.get = jest.fn().mockResolvedValue({
+            status: 200
+          });
           request.post = jest.fn();
           request.put = jest.fn();
           request.delete = jest.fn();
@@ -206,12 +270,49 @@ describe('userSignSlice', () => {
     });
     describe('signUp', () => {
       describe('should handle response validity', () => { });
+      describe('should handle non-2XX status code', () => {
+        let store;
+        beforeEach(async () => {
+          /* GIVEN */
+          request.get = jest.fn();
+          request.post = jest.fn();
+          request.put = jest.fn();
+          request.delete = jest.fn();
+          store = configureStore().store;
+        });
+
+        it('409', async () => {
+          /* WHEN */
+          request.post.mockResolvedValue({
+            status: 409
+          });
+
+          let errorMessage;
+          try {
+            await store.dispatch(signUp(
+              {
+                username: 'test username',
+                password: 'test password',
+                role: 1,
+                email: 'test email',
+              }
+            ));
+          } catch (error) {
+            errorMessage = error.message;
+          }
+
+          /* THEN */
+          expect(errorMessage).toBe('username or email already exists');
+        });
+      });
       describe('should handle axios without error', () => {
         let store;
         beforeEach(async () => {
           /* GIVEN */
           request.get = jest.fn();
-          request.post = jest.fn().mockImplementation(() => Promise.resolve());
+          request.post = jest.fn().mockResolvedValue({
+            status: 200
+          });
           request.put = jest.fn();
           request.delete = jest.fn();
           store = configureStore().store;
@@ -243,7 +344,9 @@ describe('userSignSlice', () => {
         beforeEach(async () => {
           /* GIVEN */
           request.get = jest.fn();
-          request.post = jest.fn().mockImplementation(() => Promise.resolve());
+          request.post = jest.fn().mockResolvedValue({
+            status: 200
+          });
           request.put = jest.fn();
           request.delete = jest.fn();
           store = configureStore().store;

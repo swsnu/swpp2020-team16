@@ -84,15 +84,20 @@ def solution_view(request, problem_id):
         except ObjectDoesNotExist:
             return HttpResponseBadRequest()
         try:
-            body = request.body.decode()
-            code = json.loads(body)["code"]
-            erase_cnt = json.loads(body)["erase_cnt"]
-            elapsed_time = json.loads(body)["elapsed_time"]
+            req_data = json.loads(request.body.decode())
+            code = req_data["code"]
+            erase_cnt = int(req_data["erase_cnt"])
+            elapsed_time = int(req_data["elapsed_time"])
+            test_cnt = int(req_data["test_cnt"])
+            test_passed_cnt = int(req_data["test_passed_cnt"])
+
         except (KeyError, JSONDecodeError) as error:
             return HttpResponseBadRequest(error)
 
         solution = Solution(
-            problem=problem, code=code, erase_cnt=erase_cnt, elapsed_time=elapsed_time, author_id=request.user.id)
+            problem=problem, code=code, erase_cnt=erase_cnt,
+            elapsed_time=elapsed_time, author_id=request.user.id,
+            evalutaion=int((test_passed_cnt/test_cnt)*100))
         solution.save()
 
         SolutionReport(

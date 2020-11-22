@@ -1,195 +1,272 @@
-/* eslint-disable no-unused-vars */
+/* eslint-disable array-callback-return */
+/* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import raw from 'raw.macro';
 
 /* M-UIs */
 import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
+import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 
 /* ACE Editor */
 import AceEditor from 'react-ace';
 import 'ace-builds/src-noconflict/mode-python';
 import 'ace-builds/src-noconflict/theme-monokai';
 
-/* react-alert HOOK */
-import { useAlert } from 'react-alert';
+import brFileSystem from './brython/fileSystem';
+import { initBrythonRunner, createTestFiles } from './brython/utils';
 
-//                                          //
-//          initiators for brython          //
-//                                          //
-
-const isBrythonScriptLoaded = () => !!(
-  document.getElementById('brython_sdk') &&
-  document.getElementById('brython_stdlib')
-);
-const initBrython = () => window.brython();
-const setBrythonEditorInputHandler = () => {
-  const parser = raw('./brython/codeEditorScript.script');
-  const script = document.createElement('script');
-  script.type = 'text/python3';
-  script.text = parser;
-  document.body.appendChild(script);
-};
-
-//                                          //
-//          event handlers for IDE          //
-//                                          //
-
-/*
-    onCodeChange: handle user's code change
-
-      - Basically, this function updates state for user's code.
-      - Meanwhile, it also handles erase-counts.
-          It checks the length of (prev) code and (updated) newCode,
-          and if (updated) newCode is shorter, it adds eraseCount by 1.
-*/
-const onCodeChange = (newCode, code, eraseCount, setEraseCount, setCode) => {
-  const deleted = newCode.length - code.length < 0;
-  if (deleted) {
-    setEraseCount(eraseCount + 1);
-  }
-  setCode(newCode);
-};
-
-/*
-    onClickSubmit: handle user's click submit button
-
-      - validates if the user is logged in.
-        [TODO: must not validate with pid! use login cookie or whatever based on login data. ]s
-      - aggregates solution data, then call props' handleSubmit function to save it to DB.
-*/
-const onClickSubmit = (loggedIn, code, eraseCount, elapsedTime, props, alert) => {
-  if (loggedIn === false) {
-    alert.show('You need to Login!');
-  } else {
-    const solution = {
-      code,
-      erase_cnt: eraseCount,
-      elapsed_time: elapsedTime,
-    };
-    props.handleSubmit(props.pid, solution);
-  }
-};
+import SignDialog from './SignDialog';
+import CodeIDEProceedDialog from './CodeIDEProceedDialog';
 
 export default function CodeIDE(props) {
-  const alert = useAlert();
+  const {
+    signedIn, pid, handleSubmit, problemInputs, problemOutputs
+  } = props;
 
-  const [code, setCode] = useState('#happy coding! fixedFunctionName required.');
-  const [eraseCount, setEraseCount] = useState(0);
-
+  let runner;
   useEffect(() => {
-    if (isBrythonScriptLoaded()) {
-      window.addEventListener('load', initBrython);
-    }
-    setBrythonEditorInputHandler();
+    runner = initBrythonRunner('time-with-pass-count', 'output');
   }, []);
 
+  const testFiles = createTestFiles(problemInputs, problemOutputs);
+  const initialFiles = { ...brFileSystem, ...testFiles };
+  const [files, setFiles] = useState(initialFiles);
+  const [openProceedDialog, setOpenProceedDialog] = useState(false);
+  const [openSignDialog, setOpenSignDialog] = useState(false);
+  const [codeEraseCnt, setCodeEraseCnt] = useState(0);
+
+  function clickResetPythonCode() {
+    setFiles({
+      ...files,
+      'userCode.py': {
+        ...brFileSystem['userCode.py']
+      }
+    });
+    setCodeEraseCnt(0);
+    document.getElementById('output').value = '';
+  }
+
+  async function clickRunPythonCode() {
+    document.getElementById('output').value = '';
+    await runner.runCodeWithFiles(files['userCode.py'].body, files);
+    document.getElementById('output').value += '코드 실행이 완료되었습니다.';
+  }
+
+  async function clickTestPythonCode() {
+    document.getElementById('output').value = '';
+    await runner.runCodeWithFiles(files['test-single.py'].body, files);
+    document.getElementById('output').value += '코드 실행이 완료되었습니다.';
+  }
+
+  function handleSubmitWithTestCheck(forceSubmit = false) {
+    const timeNpass = document
+      .getElementById('time-with-pass-count').value
+      .split(' ')
+      .map(el => Number(el));
+
+    if (!forceSubmit && timeNpass[1] !== problemInputs.length) {
+      setOpenProceedDialog(true);
+      return;
+    }
+
+    handleSubmit(pid, {
+      code: files['userCode.py'].body,
+      erase_cnt: codeEraseCnt,
+      elapsed_time: timeNpass[0],
+      test_cnt: problemInputs.length,
+      test_passed_cnt: timeNpass[1],
+    });
+  }
+
+  async function clickSubmitPythonCode() {
+    if (!signedIn) {
+      setOpenSignDialog(true);
+      return;
+    }
+
+    document.getElementById('output').value = '';
+    await runner.runCodeWithFiles(files['test-all.py'].body, files);
+    document.getElementById('output').value += '코드 실행이 완료되었습니다.';
+
+    handleSubmitWithTestCheck();
+    setFiles(initialFiles);
+  }
+
+  function clickUploadPythonCode(e) {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const content = reader.result;
+      setFiles({
+        ...files,
+        'userCode.py': {
+          ...files['userCode.py'],
+          body: content
+        }
+      });
+    };
+    reader.readAsText(e.target.files[0]);
+  }
+
+  function handleUserWriteCode(value) {
+    if (files['userCode.py'].body.length > value.length) {
+      setCodeEraseCnt(codeEraseCnt + 1);
+    }
+    setFiles({
+      ...files,
+      'userCode.py': {
+        ...files['userCode.py'],
+        body: value
+      }
+    });
+  }
+
   return (
-    <Container>
-      <Grid item xs={12}>
-        <AceEditor
-          name="ace-editor"
-          mode="python"
-          theme="monokai"
-          height="500px"
-          width="100%"
-          onChange={(newCode) => onCodeChange(
-            newCode, code, eraseCount, setEraseCount, setCode
-          )}
-          fontSize={14}
-          showPrintMargin
-          showGutter
-          highlightActiveLine
-          value={code}
-          setOptions={{
-            showLineNumbers: true,
-            tabSize: 4,
-          }}
-        />
-      </Grid>
-      <Grid item xs={12}>
-        <textarea
-          id="console"
-          readOnly
-          style={{
-            display: 'inline',
-            backgroundColor: '#272822',
-            color: 'white',
-            width: `${100}%`,
-            height: `${300}px`,
-            padding: '1vw',
-          }}
-        />
-      </Grid>
-      <Grid container item xs={12}>
-        <Grid item xs={4} align="center">
-          <Button
-            id="run"
-            variant="outlined"
-            size="large"
-            color="secondary"
-          >
-            RUN
-          </Button>
+    <>
+      <Container>
+        <Grid item xs={12}>
+          <AceEditor
+            name="ace-editor"
+            mode="python"
+            theme="monokai"
+            height="350px"
+            width="100%"
+            onChange={newCode => handleUserWriteCode(newCode)}
+            fontSize={14}
+            showPrintMargin
+            showGutter
+            highlightActiveLine
+            value={files['userCode.py'].body}
+            setOptions={{
+              showLineNumbers: true,
+              tabSize: 4,
+            }}
+          />
         </Grid>
-        <Grid item xs={4} align="center">
-          <Button
-            id="test"
-            variant="outlined"
-            size="large"
-            color="secondary"
-          >
-            Test
-          </Button>
-        </Grid>
-        <Grid item xs={4} align="center">
-          <Button
-            id="submit"
-            variant="outlined"
-            size="large"
-            color="primary"
-            onClick={() => {
-              let elapsedTime;
-
-              if (document.getElementById('elapsed-time') === null) {
-                elapsedTime = 0;
-              } else {
-                elapsedTime = document.getElementById('elapsed-time').value;
-              }
-
-              onClickSubmit(
-                props.loggedIn,
-                code,
-                eraseCount,
-                elapsedTime,
-                props,
-                alert
-              );
+        <Grid item xs={12}>
+          <div
+            style={{
+              backgroundColor: '#272822',
+              width: `${100}%`,
+              height: `${150}px`,
             }}
           >
-            SUBMIT
-          </Button>
+            <TextareaAutosize
+              id="output"
+              readOnly
+              style={{
+                backgroundColor: '#272822',
+                outline: 'none',
+                color: 'white',
+                width: `${100}%`,
+                height: `${150}px`,
+                margin: '0px',
+                resize: 'none',
+              }}
+              data-role="none"
+            />
+          </div>
         </Grid>
-        <textarea
-          hidden
-          id="code-pipe"
-          value={code}
-          readOnly
-        />
-        <textarea
-          id="elapsed-time"
-        />
-      </Grid>
-    </Container>
+        <Grid
+          container
+          item
+          xs={12}
+          style={{
+            backgroundColor: '#272822',
+            margin: '0px',
+            height: `${50}px`,
+          }}
+          justify="center"
+          alignItems="center"
+        >
+          <Grid item xs={2} align="center">
+            <Button
+              id="run"
+              variant="contained"
+              size="large"
+              color="secondary"
+              onClick={clickRunPythonCode}
+            >
+              RUN
+            </Button>
+          </Grid>
+          <Grid item xs={2} align="center">
+            <Button
+              id="test"
+              variant="contained"
+              size="large"
+              color="secondary"
+              onClick={clickTestPythonCode}
+            >
+              Test
+            </Button>
+          </Grid>
+          <Grid item xs={2} align="center">
+            <Button
+              id="submit"
+              variant="contained"
+              size="large"
+              color="primary"
+              onClick={clickSubmitPythonCode}
+            >
+              SUBMIT
+            </Button>
+          </Grid>
+          <Grid item xs={2} align="center" />
+          <Grid item xs={2} align="center">
+            <Button
+              id="reset"
+              variant="outlined"
+              size="large"
+              color="primary"
+              onClick={clickResetPythonCode}
+            >
+              Reset
+            </Button>
+          </Grid>
+          <Grid item xs={2} align="center">
+            <input
+              id="upload"
+              type="file"
+              hidden
+              onChange={clickUploadPythonCode}
+            />
+            <label htmlFor="upload">
+              <Button
+                color="primary"
+                variant="outlined"
+                size="large"
+                component="span"
+              >
+                Upload
+              </Button>
+            </label>
+          </Grid>
+        </Grid>
+        <textarea id="time-with-pass-count" hidden />
+      </Container>
+      <CodeIDEProceedDialog
+        open={openProceedDialog}
+        onClose={() => setOpenProceedDialog(false)}
+        proceedSumbit={() => handleSubmitWithTestCheck(true)}
+      />
+      <SignDialog
+        open={openSignDialog}
+        onClose={() => setOpenSignDialog(false)}
+      />
+    </>
   );
 }
 
 CodeIDE.propTypes = {
-  loggedIn: PropTypes.bool.isRequired,
+  signedIn: PropTypes.bool.isRequired,
   pid: PropTypes.number.isRequired,
   handleSubmit: PropTypes.func.isRequired,
-  problemInput: PropTypes.object.isRequired,
-  problemOutput: PropTypes.object.isRequired
+  problemInputs: PropTypes.arrayOf(PropTypes.string),
+  problemOutputs: PropTypes.arrayOf(PropTypes.string),
+};
+CodeIDE.defaultProps = {
+  problemInputs: ['1', '2'],
+  problemOutputs: ['1', '2'],
 };

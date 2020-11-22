@@ -10,6 +10,7 @@ import SignUp from './containers/SignUp';
 import Check from './containers/Check';
 import Result from './containers/Result';
 import MyTestResult from './containers/MyTestResult';
+import ResearchAPI from './containers/ResearchAPI';
 import AuthRoute from './HOC/AuthRoute';
 
 function App(props) {
@@ -25,6 +26,7 @@ function App(props) {
           exact
           render={(props) => <Check {...props} />}
         />
+        <Route exact path="/research/api" component={ResearchAPI} />
         <AuthRoute exact path="/check/result"><Result /></AuthRoute>
         <AuthRoute exact path="/my/tests/results"><MyTestResult /></AuthRoute>
       </Switch>

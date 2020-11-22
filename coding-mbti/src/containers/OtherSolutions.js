@@ -26,6 +26,8 @@ const styleToIntDict = {
   MIFJ: 15,
   MIFC: 16,
 };
+const mapStyleToInt = (style) => styleToIntDict[style];
+
 const styles = (theme) => ({
   Page: {
     backgroundColor: 'white',
@@ -38,15 +40,16 @@ let pid = 1;
 
 class OtherSolutions extends Component {
   async componentDidMount() {
-    await this.props.readUsersByStyle(styleInt);
-    await this.props.readSolutionOfOthers(this.props.report.selectedUsers, pid);
+    await Promise.all([
+      this.props.readUsersByStyle(styleInt),
+      this.props.readSolutionOfOthers(this.props.report.selectedUsers, pid),
+    ]);
   }
 
   render() {
-    const mapStyleToInt = (style) => styleToIntDict[style];
     const { classes } = this.props;
-    styleInt = mapStyleToInt(this.props.match.params.style);
     const styleStr = this.props.match.params.style;
+    styleInt = mapStyleToInt(this.props.match.params.style);
     pid = this.props.match.params.pid;
     const selectedUsers = this.props.report.selectedUsers
       ? this.props.report.selectedUsers

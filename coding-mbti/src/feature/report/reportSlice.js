@@ -62,6 +62,7 @@ export const createMyReport = () => async () => {
 export const readUsersByStyle = (style) => async (dispatch) => {
   const res = await request.get(`analysis/style/${style}/`);
   dispatch(usersByStyleRead(res.data));
+  return res.data;
 };
 
 export const readOtherReport = (userId) => async (dispatch) => {

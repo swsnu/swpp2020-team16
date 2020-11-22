@@ -31,16 +31,14 @@ class UserRelations extends Component {
     };
   }
 
-  async componentDidMount() {
-    await this.props.readUsersByStyle(sameStyle);
-    this.props.report.selectedUsers.forEach((el) => {
-      this.state.same.push(el);
+  componentDidMount() {
+    Promise.all([
+      this.props.readUsersByStyle(sameStyle),
+      this.props.readUsersByStyle(oppositeStyle),
+    ]).then((values) => {
+      this.setState({ same: values[0] });
+      this.setState({ opposite: values[1] });
     });
-    await this.props.readUsersByStyle(oppositeStyle);
-    this.props.report.selectedUsers.forEach((el) => {
-      this.state.opposite.push(el);
-    });
-    await this.props.readUsersByStyle(1);
   }
 
   render() {
@@ -68,16 +66,11 @@ class UserRelations extends Component {
             </Grid>
 
             <Grid container item xs={12}>
-              {Object.entries(reportt).map(([key, value]) => (
-                <>
-                  <Grid>{key}</Grid>
-                  <Grid>{JSON.stringify(value)}</Grid>
-                </>
-              ))}
+              <Grid>{JSON.stringify(reportt)}</Grid>
             </Grid>
             <Grid item xs={12}>
               <h2>
-                solution for
+                solution for problem
                 {solution1.problem_id}
               </h2>
             </Grid>
@@ -86,7 +79,7 @@ class UserRelations extends Component {
             </Grid>
             <Grid item xs={12}>
               <h2>
-                solution for
+                solution for problem
                 {solution2.problem_id}
               </h2>
             </Grid>

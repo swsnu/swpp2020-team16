@@ -71,12 +71,13 @@ export default function CodeIDE(props) {
       return;
     }
 
+    const evaluation = (timeNpass[1] / problemInputs.length) * 100;
+
     handleSubmit(pid, {
       code: files['userCode.py'].body,
       erase_cnt: codeEraseCnt,
       elapsed_time: timeNpass[0],
-      test_cnt: problemInputs.length,
-      test_passed_cnt: timeNpass[1],
+      evaluation: Math.round(evaluation),
     });
   }
 

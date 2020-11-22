@@ -88,8 +88,7 @@ def solution_view(request, problem_id):
             code = req_data["code"]
             erase_cnt = int(req_data["erase_cnt"])
             elapsed_time = int(req_data["elapsed_time"])
-            test_cnt = int(req_data["test_cnt"])
-            test_passed_cnt = int(req_data["test_passed_cnt"])
+            evaluation = int(req_data["evaluation"])
 
         except (KeyError, JSONDecodeError) as error:
             return HttpResponseBadRequest(error)
@@ -97,7 +96,7 @@ def solution_view(request, problem_id):
         solution = Solution(
             problem=problem, code=code, erase_cnt=erase_cnt,
             elapsed_time=elapsed_time, author_id=request.user.id,
-            evalutaion=int((test_passed_cnt/test_cnt)*100))
+            evalutaion=evaluation)
         solution.save()
 
         SolutionReport(

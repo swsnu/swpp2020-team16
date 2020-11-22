@@ -9,21 +9,24 @@ import SignIn from './containers/SignIn';
 import SignUp from './containers/SignUp';
 import Check from './containers/Check';
 import Result from './containers/Result';
+import MyTestResult from './containers/MyTestResult';
+import AuthRoute from './HOC/AuthRoute';
 
 function App(props) {
   const { history } = props;
   return (
     <Router history={history}>
       <Switch>
-        <Route path="/" exact component={Home} />
-        <Route path="/signin/" exact component={SignIn} />
-        <Route path="/signup/" exact component={SignUp} />
-        <Route path="/check/result" exact component={Result} />
+        <Route exact path="/" component={Home} />
+        <Route exact path="/signin/" component={SignIn} />
+        <Route exact path="/signup/" component={SignUp} />
         <Route
           path="/check/:pid"
           exact
           render={(props) => <Check {...props} />}
         />
+        <AuthRoute exact path="/check/result"><Result /></AuthRoute>
+        <AuthRoute exact path="/my/tests/results"><MyTestResult /></AuthRoute>
       </Switch>
     </Router>
   );

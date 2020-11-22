@@ -80,19 +80,20 @@ jobs:
             repo: swsnu/swpp2020-team16
             branch: master
 
-    - name: "backend lint, test, and deploy"
+    - name: "local environment backend lint and test"
       language: python
       python:
         - "3.7"
       services:
-        - docker
+        - postgresql
       before_script:
-        - cd ${TRAVIS_BUILD_DIR}/coding-mbti/backend/local-docker/local-docker-starter-back
-        - ./install-after-remove.sh
         - cd ${TRAVIS_BUILD_DIR}/coding-mbti/backend/
         - pip install -r requirements.txt
+        - psql -c 'create database travis_ci_test;' -U postgres
+        - python manage.py makemigrations
+        - python manage.py migrate
       script:
-        - ./local-docker/local-docker-tester-back/init-pylint.sh
+        - DJANGO_SETTINGS_MODULE=codingmbti_backend.settings pylint **/*.py --load-plugins pylint_django
         - coverage run --source='.' manage.py test
         - coverage xml
         - coverage html
@@ -104,6 +105,20 @@ jobs:
             - coverage.xml
             - .coverage
             - .coveragerc
+
+    - name: "docker environment backend lint, test, and deploy"
+      language: python
+      python:
+        - "3.7"
+      services:
+        - docker
+      before_script:
+        - cd ${TRAVIS_BUILD_DIR}/coding-mbti/backend/local-docker/local-docker-starter-back
+        - ./install-after-remove.sh
+        - cd ${TRAVIS_BUILD_DIR}/coding-mbti/backend/
+      script:
+        - ./local-docker/local-docker-tester-back/init-pylint.sh
+        - ./local-docker/local-docker-tester-back/init-test.sh
       before_deploy:
         - mkdir -p ../backend-build
         - cp -r ./* ../backend-build

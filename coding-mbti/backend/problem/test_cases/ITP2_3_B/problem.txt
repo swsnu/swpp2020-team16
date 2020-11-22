@@ -1,0 +1,5 @@
+objective::2
+title::"Min-Max Element"
+input_desc::"Write a program which manipulates a sequence A={a0,a1,...,an−1} by the following operations: min(b,e): report the minimum element ab,ab+1,...,ae−1 max(b,e): report the maximum element ab,ab+1,...,ae−1."
+output_desc::"The input is given in the following format. In the first line, n (the number of elements in A) is given. In the second line, ai (each element in A) are given. In the third line, the number of queries q is given and each query is given in the following q lines. comi denotes a type of query. 0 and 1 represents min(b,e) and max(b,e) respectively."
+desc::"For each query, print the minimum element or the maximum element in a line."

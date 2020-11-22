@@ -1,16 +1,20 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { mount } from 'enzyme';
+import { Provider } from 'react-redux';
+import configureStore from '../configureStore';
 import Showprob from './Showprob';
+
+const { store } = configureStore();
 
 describe('<ShowProb/>', () => {
   let showprob;
   beforeEach(() => {
-    showprob = <Showprob />;
+    showprob = <Provider store={store}><Showprob /></Provider>;
   });
 
   it('should render withour any error', () => {
-    const component = shallow(showprob);
+    const component = mount(showprob);
     const wrapper = component.find('.showprob');
-    expect(wrapper.length).toBe(1);
+    expect(wrapper.length).toBe(3);
   });
 });

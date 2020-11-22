@@ -1,42 +1,132 @@
-import React from 'react';
-import { shallow } from 'enzyme';
+import { createMount } from '@material-ui/core/test-utils';
 import SignIn from './SignIn';
+import appWrappers from '../appWrappers';
 
 describe('<SignIn/>', () => {
-  let signin;
+  describe('should render core components', () => {
+    let mount;
+    let testingProps;
+    let testingComponent;
+    let wrappedComponent;
+    let mountedComponent;
+    let target;
 
-  beforeEach(() => {
-    signin = <SignIn />;
+    beforeAll(() => {
+      mount = createMount();
+    });
+    afterAll(() => {
+      mount.cleanUp();
+    });
+    beforeEach(() => {
+      testingComponent = SignIn;
+      testingProps = {};
+      wrappedComponent = appWrappers(testingComponent, testingProps);
+    });
+
+    it('should render withour any error', () => {
+      /* GIVEN - specific */
+      mountedComponent = mount(wrappedComponent);
+
+      /* WHEN */
+      target = mountedComponent.exists();
+
+      /* THEN */
+      expect(target).toBeTruthy();
+    });
   });
+  describe('handler methods', () => {
+    let mount;
+    let testingProps;
+    let testingComponent;
+    let wrappedComponent;
+    let mountedComponent;
 
-  it('should render without any error', () => {
-    const component = shallow(signin);
+    const mockSignIn = jest.fn();
+    const mockAlert = jest.fn();
 
-    const wrapper = component.find('.signin');
-    expect(wrapper.length).toBe(1);
+    beforeAll(() => {
+      mount = createMount();
+    });
+    afterAll(() => {
+      mount.cleanUp();
+    });
+    beforeEach(() => {
+      testingComponent = SignIn;
+      testingProps = { signIn: mockSignIn, alert: mockAlert };
+      wrappedComponent = appWrappers(testingComponent, testingProps);
+    });
+
+    it('signIn', () => {
+      /* GIVEN - specific */
+      mountedComponent = mount(wrappedComponent).find('SignIn');
+
+      /* WHEN */
+      mountedComponent.find('#sign_in_button').hostNodes().simulate('click');
+
+      /* THEN */
+      // expect(spy).toHaveBeenCalledTimes(1);
+    });
+
+    it('alert', () => {
+      /* GIVEN - specific */
+      mountedComponent = mount(wrappedComponent).find('SignIn');
+
+      /* WHEN */
+      mountedComponent.find('#sign_in_button').hostNodes().simulate('click');
+
+      /* THEN */
+      // expect(mockSignIn).toHaveBeenCalledTimes(1);
+    });
   });
+  describe('should handle state changes', () => {
+    let mount;
+    let testingProps;
+    let testingComponent;
+    let wrappedComponent;
+    let mountedComponent;
 
-  it('should email input good', () => {
-    const component = shallow(signin);
-    const email = 'TEST_EMAIL';
+    beforeAll(() => {
+      mount = createMount();
+    });
+    afterAll(() => {
+      mount.cleanUp();
+    });
+    beforeEach(() => {
+      testingComponent = SignIn;
+      testingProps = {};
+      wrappedComponent = appWrappers(testingComponent, testingProps);
+    });
 
-    const emailWrapper = component.find('#email');
-    emailWrapper.simulate('change', { target: { value: email } });
-  });
+    it('username', () => {
+      /* GIVEN - specific */
+      mountedComponent = mount(wrappedComponent).find('SignIn');
 
-  it('should password input good', () => {
-    const component = shallow(signin);
-    const password = 'TEST_PASSWORD';
+      /* WHEN */
+      const mockedEvent = {
+        preventDefault() { },
+        target: { value: 'new username' }
+      };
+      const usernameInput = mountedComponent.find('#inputUsername').hostNodes();
+      usernameInput.simulate('change', mockedEvent);
 
-    const passwordWrapper = component.find('#password');
-    passwordWrapper.simulate('change', { target: { value: password } });
-  });
+      /* THEN */
+      expect(mountedComponent.state().username).toBe(mockedEvent.target.value);
+    });
 
-  it('should signin button click good', () => {
-    const component = shallow(signin);
+    it('password', () => {
+      /* GIVEN - specific */
+      mountedComponent = mount(wrappedComponent).find('SignIn');
 
-    const buttonWrapper = component.find('#sign_in_button');
-    buttonWrapper.simulate('click');
-    // expect(spyHistoryPush).toHaveBeenCalledWith("/");
+      /* WHEN */
+      const mockedEvent = {
+        preventDefault() { },
+        target: { value: 'new password' }
+      };
+      const passwordInput = mountedComponent.find('#inputPassword').hostNodes();
+      passwordInput.simulate('change', mockedEvent);
+
+      /* THEN */
+      expect(mountedComponent.state().password).toBe(mockedEvent.target.value);
+    });
   });
 });

@@ -2,12 +2,14 @@ import os
 import logging
 import numpy as np
 
+
 from django.core.management.base import BaseCommand
 from django.conf import settings
 
 from user.models import User, Coder, CodingStyle
 from problem.models import Problem, ProblemInput, ProblemOutput, Solution
 from analysis.models import SolutionReport, UserReport
+
 
 def read_test_cases(option, pid):
     with open(f"{settings.PROB_DIR}/test_cases/{pid}/{option}.txt", "r") as f:
@@ -165,7 +167,6 @@ def create_data(_self):
         create_problem_input_output_to_database(problem_id)
     create_coder_by_style()
     _self.stdout.write("problems, inputs, outputs are created.")
-    # logger.info()
 
 
 def run_seed(_self, mode):

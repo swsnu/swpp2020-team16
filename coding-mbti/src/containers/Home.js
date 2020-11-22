@@ -44,7 +44,7 @@ class Home extends Component {
       this.props.readProblem(HOME_PROBLEM_ID),
       this.props.readProblemInput(HOME_PROBLEM_ID),
       this.props.readProblemOutput(HOME_PROBLEM_ID),
-    ])
+   ]);
   }
 
   onClickGetTested = () => {

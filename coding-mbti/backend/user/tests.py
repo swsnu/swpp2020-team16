@@ -1,6 +1,7 @@
 import json
 from django.test import TestCase, Client
-from user.models import User, Coder, CodingStyle
+from user.models import User
+
 
 
 class UserModelTest(TestCase):

@@ -2,6 +2,7 @@ from django.test import TestCase, Client
 from user.models import User
 from problem.models import Problem, Solution, ProblemInput, ProblemOutput
 import json
+from utils.utils import get_dicts_with_filter
 from django.core import management
 
 
@@ -84,8 +85,8 @@ class ProblemTest(TestCase):
         problem_id = problem.to_dict()['id']
         response = self.client.get(f"/api/problem/{problem_id}/input/")
         self.assertEqual(response.status_code, 200)
-        expected_response = json.dumps(list(ProblemInput.objects.filter(
-            problem__id=problem_id).values()))
+        expected_response = json.dumps(get_dicts_with_filter(
+            ProblemInput.objects, problem__id=problem_id))
         self.assertEqual(response.content.decode(), expected_response)
 
         response = self.client.get("/api/problem/1000/input/")
@@ -171,9 +172,26 @@ class SolutionTest(TestCase):
 
     def test_solution_create_exception(self):
 
+        problem = Problem(desc="For test", input_desc="For test",
+                          output_desc="Fore test", pid="ITP1_6_B", objective=1)
+        problem.save()
+        problem_id = problem.to_dict()['id']
+
+        response = self.client.post(
+            f"/api/problem/{problem_id}/solution/",
+            json.dumps({}),
+            content_type="application/json",
+        )
+
+        self.assertEqual(response.status_code, 400)
+
         response = self.client.post("/api/problem/2/solution/", {})
 
         self.assertEqual(response.status_code, 400)
+
+        response = self.client.delete("/api/problem/2/solution/")
+
+        self.assertEqual(response.status_code, 405)
 
     def test_solution_for_others_view(self):
 
@@ -212,4 +230,3 @@ class SolutionTest(TestCase):
                 }
         self.assertEqual(res.content.decode(), json.dumps(expected_response))
         
-

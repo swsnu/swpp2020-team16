@@ -40,5 +40,6 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, { createMyReport, readMyReport })(
+
   Result
 );

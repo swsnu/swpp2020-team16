@@ -46,7 +46,6 @@ function App(props) {
         <AuthRoute exact path="/my/tests/results">
           <MyTestResult />
         </AuthRoute>
-
       </Switch>
     </Router>
   );

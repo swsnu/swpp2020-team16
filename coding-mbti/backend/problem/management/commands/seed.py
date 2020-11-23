@@ -11,6 +11,7 @@ from problem.models import Problem, ProblemInput, ProblemOutput, Solution
 from analysis.models import SolutionReport, UserReport
 
 
+
 def read_test_cases(option, pid):
     with open(f"{settings.PROB_DIR}/test_cases/{pid}/{option}.txt", "r") as f:
         test_cases = f.read().split("/")
@@ -80,6 +81,7 @@ def clear_data():
     Solution.objects.all().delete()
     SolutionReport.objects.all().delete()
     UserReport.objects.all().delete()
+
 
 def create_problem_input_output_to_database(problem_id):
     problem_filename = f"{settings.PROB_DIR}/test_cases/{problem_id}/problem.txt"
@@ -167,6 +169,7 @@ def create_data(_self):
         create_problem_input_output_to_database(problem_id)
     create_coder_by_style()
     _self.stdout.write("problems, inputs, outputs are created.")
+
 
 
 def run_seed(_self, mode):

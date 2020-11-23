@@ -25,5 +25,6 @@ describe('<Result/>', () => {
     );
     const wrapper = component.find('div');
     expect(wrapper.length).toBe(4);
+
   });
 });

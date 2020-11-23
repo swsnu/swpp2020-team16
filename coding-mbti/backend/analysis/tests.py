@@ -3,6 +3,7 @@ from user.models import User
 from problem.models import Problem, Solution
 from analysis.models import SolutionReport
 from user.models import User, Coder, CodingStyle
+
 import json
 
 
@@ -44,6 +45,7 @@ class AnalysisTestCase(TestCase):
         }
 
         response = client.post(
+
             "/api/problem/2/solution/",
             json.dumps(solution2_body),
             content_type="application/json",
@@ -52,6 +54,7 @@ class AnalysisTestCase(TestCase):
         self.assertEqual(response.status_code, 204)
 
         client.post("/api/analysis/my/report/")
+
         self.assertEqual(response.status_code, 204)
 
     def test_user_report_analysis_exception(self):

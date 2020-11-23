@@ -9,6 +9,7 @@ from user.models import Coder
 
 @permission_classes((IsAuthenticated, ))
 def my_report_view(request):
+
     if request.method == 'POST':
         try:
             solution1 = SolutionReport.objects.filter(
@@ -96,3 +97,4 @@ def get_coders_by_style(request, style=""):
             return HttpResponseBadRequest(error)
     else :
         return HttpResponseNotAllowed(['POST','PUT','DELETE'])
+

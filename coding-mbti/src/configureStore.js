@@ -6,7 +6,6 @@ import {
   PAUSE,
   PERSIST,
   PURGE,
-  REGISTER,
 } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
@@ -30,5 +29,4 @@ export default () => {
   });
   const persistor = persistStore(store);
   return { store, persistor };
-
 };

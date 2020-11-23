@@ -54,12 +54,11 @@ def problem_by_objective_view(request, objective=""):
 @ permission_classes((IsAuthenticated, ))
 def problem_input_view(request, problem_id=""):
     if request.method == "GET":
-        try:
-            problem_inputs = ProblemInput.objects.filter(
-                problem__id=problem_id).first().to_dict()
-        except (ObjectDoesNotExist, AttributeError) as error:
-            return HttpResponseBadRequest(error)
-        return JsonResponse(problem_inputs, status=200, safe=False)
+        problem_inputs = ProblemInput.objects.filter(problem__id=problem_id)
+        if not problem_inputs.exists():
+            return HttpResponseBadRequest()
+        payload = list(problem_inputs.values())
+        return JsonResponse(payload, status=200, safe=False)
     else:
         return HttpResponseNotAllowed(["POST", "UPDATE", "DELETE"])
 
@@ -67,12 +66,12 @@ def problem_input_view(request, problem_id=""):
 @ permission_classes((IsAuthenticated, ))
 def problem_output_view(request, problem_input_id=""):
     if request.method == "GET":
-        try:
-            problem_outputs = ProblemOutput.objects.filter(
-                problem_input__id=problem_input_id).first().to_dict()
-        except ObjectDoesNotExist as error:
-            return HttpResponseBadRequest(error)
-        return JsonResponse(problem_outputs, status=200, safe=False)
+        problem_outputs = ProblemOutput.objects.filter(
+            problem_input__id=problem_input_id)
+        if not problem_outputs.exists():
+            return HttpResponseBadRequest()
+        payload = list(problem_outputs.values())
+        return JsonResponse(payload, status=200, safe=False)
     else:
         return HttpResponseNotAllowed(["POST", "UPDATE", "DELETE"])
 
@@ -85,15 +84,19 @@ def solution_view(request, problem_id):
         except ObjectDoesNotExist:
             return HttpResponseBadRequest()
         try:
-            body = request.body.decode()
-            code = json.loads(body)["code"]
-            erase_cnt = json.loads(body)["erase_cnt"]
-            elapsed_time = json.loads(body)["elapsed_time"]
+            req_data = json.loads(request.body.decode())
+            code = req_data["code"]
+            erase_cnt = int(req_data["erase_cnt"])
+            elapsed_time = int(req_data["elapsed_time"])
+            evaluation = int(req_data["evaluation"])
+
         except (KeyError, JSONDecodeError) as error:
             return HttpResponseBadRequest(error)
 
         solution = Solution(
-            problem=problem, code=code, erase_cnt=erase_cnt, elapsed_time=elapsed_time, author_id=request.user.id)
+            problem=problem, code=code, erase_cnt=erase_cnt,
+            elapsed_time=elapsed_time, author_id=request.user.id,
+            evalutaion=evaluation)
         solution.save()
 
         SolutionReport(

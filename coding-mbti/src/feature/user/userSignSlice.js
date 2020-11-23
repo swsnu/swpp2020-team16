@@ -29,15 +29,11 @@ export const { signout, signin } = userSlice.actions;
 
 export const signIn = (signInData) => async (dispatch) => {
     signInData.password = CryptoJS.SHA256(signInData.password).toString();
-    const res = await request
-        .post('/user/login/', signInData)
-        .catch((error) => {
-            if (error.response) {
-                if (error.response.status === 401) {
-                    throw new ResponseException('wrong username or password');
-                }
-            }
-        });
+
+    const res = await request.post('/user/login/', signInData);
+    if (res.status === 401) {
+        throw new ResponseException('wrong username or password');
+    }
 
     const necessaryKeysInResponse = ['data'];
     necessaryKeysInResponse.map((key) => {
@@ -59,30 +55,19 @@ export const signIn = (signInData) => async (dispatch) => {
 };
 
 export const signOut = () => async (dispatch) => {
-    await request
-        .get('/user/logout/')
-        .catch((error) => {
-            if (error.response) {
-                if (error.response.status === 401) {
-                    throw new ResponseException('username doesnot exists.');
-                }
-            }
-        });
-
-    localStorage.removeItem('token');
+    const res = await request.get('/user/logout/');
+    if (res.status === 401) {
+        throw new ResponseException('username does not exist.');
+    }
 
     dispatch(signout());
+    localStorage.removeItem('token');
 };
 
 export const signUp = (signUpData) => async () => {
     signUpData.password = CryptoJS.SHA256(signUpData.password).toString();
-    await request
-        .post('/user/signup/', signUpData)
-        .catch((error) => {
-            if (error.response) {
-                if (error.response.status === 409) {
-                    throw new ResponseException('username or email already exists');
-                }
-            }
-        });
+    const res = await request.post('/user/signup/', signUpData);
+    if (res.status === 409) {
+        throw new ResponseException('username or email already exists');
+    }
 };

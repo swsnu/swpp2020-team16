@@ -48,7 +48,8 @@ class ProblemTest(TestCase):
     def test_get_problem_by_objective(self):
 
         problem = Problem(desc="For test", input_desc="For test",
-                          output_desc="Fore test", pid="ITP1_6_B", objective=Problem.ProblemObjective.UM)
+                          output_desc="Fore test", pid="ITP1_6_B",
+                          objective=Problem.ProblemObjective.UM)
         problem.save()
 
         response = self.client.get("/api/problem/objective/1/")
@@ -63,18 +64,31 @@ class ProblemTest(TestCase):
                           output_desc="Fore test", pid="ITP1_6_B", objective=1)
         problem.save()
 
-        problem_input = ProblemInput(problem=problem, content=["1", "2", "3"])
-        problem_input.save()
+        problem_input_1 = ProblemInput(problem=problem, content="input str 1")
+        problem_input_1.save()
+        problem_input_2 = ProblemInput(problem=problem, content="input str 2")
+        problem_input_2.save()
+        problem_input_3 = ProblemInput(problem=problem, content="input str 3")
+        problem_input_3.save()
 
-        problem_output = ProblemOutput(
-            problem_input=problem_input, content=["1", "2", "3"])
-        problem_output.save()
+        problem_output_1 = ProblemOutput(
+            problem_input=problem_input_1, content="output str a")
+        problem_output_1.save()
+        problem_output_2 = ProblemOutput(
+            problem_input=problem_input_2, content="output str b")
+        problem_output_2.save()
+        problem_output_3 = ProblemOutput(
+            problem_input=problem_input_3, content="output str c")
+        problem_output_3.save()
 
         problem_id = problem.to_dict()['id']
         response = self.client.get(f"/api/problem/{problem_id}/input/")
         self.assertEqual(response.status_code, 200)
+        expected_response = json.dumps(list(ProblemInput.objects.filter(
+            problem__id=problem_id).values()))
+        self.assertEqual(response.content.decode(), expected_response)
 
-        response = self.client.get("/api/problem/100/input/")
+        response = self.client.get("/api/problem/1000/input/")
         self.assertEqual(response.status_code, 400)
 
         response = self.client.post("/api/problem/1/input/", {})
@@ -121,6 +135,7 @@ class SolutionTest(TestCase):
         solution_body = {
             "erase_cnt": 12,
             "elapsed_time": 30.0,
+            "evaluation": 66.0,
             "code": "n=int(input())\na=[[0 for i in range(13)]for j in range(4)]\nfor k in range(n):\ncard=input().split()\np=5\nif (card[0]=='S'):\np=0\nelif (card[0]=='H':\np=1\nelif (card[0]=='C'):\np=2\nelse:\np=3\nq=int(card[1])-1\na[p][q]=1\nfor i in range(4):\nfor j in range(13):\nif a[i][j]==0:\ntype=''\nif i==0 :\ntype='S'\nelif i==1:\ntype='H'\nelif i==2:\ntype='C'\nelse:\ntype='D'\nprint('{0} {1}'.format(type,j+1))",
         }
 
@@ -143,6 +158,7 @@ class SolutionTest(TestCase):
         solution_body = {
             "erase_cnt": 12,
             "elapsed_time": 30.0,
+            "evaluation": 66.0,
             "code": "n=int(input())\na=[[0 for i in range(13)]for j in range(4)]\nfor k in range(n):\ncard=input().split()\np=5\nif (card[0]=='S'):\np=0\nelif (card[0]=='H':\np=1\nelif (card[0]=='C'):\np=2\nelse:\np=3\nq=int(card[1])-1\na[p][q]=1\nfor i in range(4):\nfor j in range(13):\nif a[i][j]==0:\ntype=''\nif i==0 :\ntype='S'\nelif i==1:\ntype='H'\nelif i==2:\ntype='C'\nelse:\ntype='D'\nprint('{0} {1}'.format(type,j+1))",
         }
 

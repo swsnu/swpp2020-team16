@@ -1,21 +1,12 @@
-import os
-import logging
-
-from django.core.management.base import BaseCommand
-from django.conf import settings
 
 from problem.models import Problem, ProblemInput, ProblemOutput
+from django.conf import settings
+import os
 
 
-def read_test_cases(option, pid):
-    with open(f"{settings.PROB_DIR}/test_cases/{pid}/{option}.txt", "r") as f:
-        test_cases = f.read().split("/")
-    return test_cases
-
-
-def list_problem_ids(_self):
+def list_problem_ids():
     problem_ids = []
-    for problem_id in os.listdir(f"{settings.PROB_DIR}/test_cases/"):
+    for problem_id in filter(os.path.isdir, os.listdir(f"{settings.PROB_DIR}/test_cases")):
         problem_ids.append(problem_id)
     return problem_ids
 
@@ -44,32 +35,6 @@ def parse_output(output_filename):
     with open(output_filename) as f:
         outputs = f.read().split("/")
     return outputs
-
-
-logger = logging.getLogger(__name__)
-# python manage.py seed --mode=init
-
-MODE_INIT = "init"
-MODE_CLEAR = "clear"
-
-
-class Command(BaseCommand):
-    help = "seed database for testing and development."
-
-    def add_arguments(self, parser):
-        parser.add_argument("--mode", type=str, help="Mode")
-
-    def handle(self, *args, **options):
-        self.stdout.write("seeding data...")
-        run_seed(self, options["mode"])
-        self.stdout.write("done.")
-
-
-def clear_data():
-    logger.info("Delete Problem instances")
-    Problem.objects.all().delete()
-    ProblemInput.objects.all().delete()
-    ProblemOutput.objects.all().delete()
 
 
 def create_problem_input_output_to_database(problem_id):
@@ -105,17 +70,10 @@ def create_problem_input_output_to_database(problem_id):
         problem_output.save()
 
 
-def create_data(_self):
-    _self.stdout.write("seeding data...")
-    for problem_id in list_problem_ids(_self):
-        _self.stdout.write(problem_id)
+def create_data():
+    for problem_id in list_problem_ids():
         create_problem_input_output_to_database(problem_id)
-    _self.stdout.write("problems, inputs, outputs are created.")
-    # logger.info()
 
 
-def run_seed(_self, mode):
-    clear_data()
-    if mode == MODE_CLEAR:
-        return
-    create_data(_self)
+if __name__ == "__main__":
+    create_data()

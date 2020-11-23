@@ -105,6 +105,7 @@ describe('userSignSlice', () => {
           });
         });
       });
+
       describe('should handle non-2XX status code', () => {
         let store;
         beforeEach(async () => {
@@ -148,7 +149,6 @@ describe('userSignSlice', () => {
           request.delete = jest.fn();
           store = configureStore().store;
         });
-
         it('POST', async () => {
           /* WHEN */
           request.post.mockResolvedValue({
@@ -158,7 +158,6 @@ describe('userSignSlice', () => {
             username: 'test username',
             password: 'test password'
           }));
-
           /* THEN */
           expect(request.post).toHaveBeenCalledWith('/user/login/',
             {
@@ -212,14 +211,12 @@ describe('userSignSlice', () => {
           request.get.mockResolvedValue({
             status: 401
           });
-
           let errorMessage;
           try {
             await store.dispatch(signOut());
           } catch (error) {
             errorMessage = error.message;
           }
-
           /* THEN */
           expect(errorMessage).toBe('username does not exist.');
         });
@@ -270,6 +267,7 @@ describe('userSignSlice', () => {
     });
     describe('signUp', () => {
       describe('should handle response validity', () => { });
+
       describe('should handle non-2XX status code', () => {
         let store;
         beforeEach(async () => {

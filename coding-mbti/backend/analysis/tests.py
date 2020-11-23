@@ -2,6 +2,8 @@ from django.test import TestCase, Client
 from user.models import User
 from problem.models import Problem, Solution
 from analysis.models import SolutionReport
+from user.models import User, Coder, CodingStyle
+
 import json
 
 
@@ -43,6 +45,7 @@ class AnalysisTestCase(TestCase):
         }
 
         response = client.post(
+
             "/api/problem/2/solution/",
             json.dumps(solution2_body),
             content_type="application/json",
@@ -50,7 +53,8 @@ class AnalysisTestCase(TestCase):
 
         self.assertEqual(response.status_code, 204)
 
-        client.post("/api/analysis/")
+        client.post("/api/analysis/my/report/")
+
         self.assertEqual(response.status_code, 204)
 
     def test_user_report_analysis_exception(self):
@@ -61,6 +65,45 @@ class AnalysisTestCase(TestCase):
         )
         client.login(username="test", password="123")
 
-        res = client.put("/api/analysis/", {})
+        res = client.put("/api/analysis/my/report/", {})
 
         self.assertEqual(res.status_code, 405)
+
+     
+    def test_get_coders_by_style(self):
+        user1 = User.objects.create_user(
+            username="test1", password="123", email="test1@test.com", salt="123", role=1)
+        user2 = User.objects.create_user(
+            username="test2", password="123", email="test2@test.com", salt="123", role=1)
+        user3 = User.objects.create_user(
+            username="test3", password="123", email="test3@test.com", salt="123", role=1)
+
+        coding_style1 = CodingStyle(style=CodingStyle.Style.UIFC, UM_value=0, TI_value=0,EF_value=0,JC_value=0)
+        coding_style1.save()
+        coding_style2 = CodingStyle(style=CodingStyle.Style.UIFC, UM_value=0, TI_value=0,EF_value=0,JC_value=0)
+        coding_style2.save()
+        coding_style3 = CodingStyle(style=CodingStyle.Style.UIFC, UM_value=0, TI_value=0,EF_value=0,JC_value=0)
+        coding_style3.save()
+
+        coder1 = Coder(user=user1, style=coding_style1) 
+        coder1.save()
+        coder2 = Coder(user=user2, style=coding_style2)
+        coder2.save()
+        coder3 = Coder(user=user3, style=coding_style3)
+        coder3.save()
+
+        expected_response = [{"user_id":user1.pk, "username": "test1", "style":8,},
+        {"user_id":user2.pk,"username": "test2", "style":8,},
+        {"user_id":user3.pk,"username": "test3", "style":8, }
+        ]
+
+        client = Client()
+        res = client.get("/api/analysis/style/8/")
+        self.assertEqual(res.content.decode(), json.dumps(expected_response))
+
+    def test_get_coders_by_style_exception(self):
+        client = Client()
+        res = client.post("/api/analysis/style/8/",{})
+        self.assertEqual(res.status_code, 405)
+
+

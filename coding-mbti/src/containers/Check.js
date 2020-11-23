@@ -33,7 +33,6 @@ const styles = (theme) => ({
 
 class Check extends Component {
   async componentDidMount() {
-
     await Promise.all([
       this.props.readProblem(this.props.match.params.pid),
       this.props.readProblemInput(this.props.match.params.pid),

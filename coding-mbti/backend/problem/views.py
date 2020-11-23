@@ -18,7 +18,6 @@ from utils.utils import get_dicts_with_all, get_dicts_with_filter
 def problem_view(request):
     if request.method == "GET":
         return JsonResponse(
-            list(map(lambda problem: problem.to_dict(), Problem.objects.all())),
             get_dicts_with_all(Problem.objects),
             status=200,
             safe=False,
@@ -108,3 +107,17 @@ def solution_view(request, problem_id):
         return HttpResponse(status=204)
     else:
         return HttpResponseNotAllowed(["GET", "POST"])
+
+@ permission_classes((IsAuthenticated, ))
+def solution_for_others_view(request, problem_id="", user_id=""):
+    if request.method == "GET":
+        try:
+            solution = Solution.objects.filter(
+                problem__id=problem_id, author_id=user_id).last().to_dict()
+        except ObjectDoesNotExist as error:
+            return HttpResponseBadRequest(error)
+        return JsonResponse(solution, status=200, safe=False)
+
+    else :
+        return HttpResponseNotAllowed(["POST","UPDATE", "DELETE"])
+        

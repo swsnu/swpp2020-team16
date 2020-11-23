@@ -18,4 +18,3 @@ class CodingStyleAdmin(admin.ModelAdmin):
 admin.site.register(User, UserAdmin)
 admin.site.register(Coder, CoderAdmin)
 admin.site.register(CodingStyle, CodingStyleAdmin)
-

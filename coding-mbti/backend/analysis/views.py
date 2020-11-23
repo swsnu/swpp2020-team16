@@ -97,4 +97,3 @@ def get_coders_by_style(request, style=""):
             return HttpResponseBadRequest(error)
     else :
         return HttpResponseNotAllowed(['POST','PUT','DELETE'])
-

@@ -218,15 +218,11 @@ class SolutionTest(TestCase):
             content_type="application/json",
         )
 
-        sol_res = client2.get(f"/api/problem/{problem_id}/solution/")
-        sol_id = json.loads(sol_res.content.decode())["id"]
-
+        
         res = self.client.get(f"/api/problem/{problem_id}/solution/{user.id}")
-
-        expected_response = {"id": sol_id, "evaluation": 0, "problem_id": problem_id,
+        expected_response = {"id": 5, "evaluation": 0, "problem_id": problem_id,
                 "code": "n=int(input())\na=", 
                 "erase_cnt": 12, "elapsed_time": 30,
                 "status": 2,
                 }
         self.assertEqual(res.content.decode(), json.dumps(expected_response))
-        

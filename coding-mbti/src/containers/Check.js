@@ -67,8 +67,8 @@ class Check extends Component {
           </Container>
           <Container maxWidth="lg">
             <CodeIDE
-              loggedIn={false}
-              pid={parseInt(pid, 10)}
+              signedIn={false}
+              pid={pid}
               handleSubmit={this.handleSubmit}
               problemInput={problemInput}
               problemOutput={problemOutput}

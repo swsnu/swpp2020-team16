@@ -39,12 +39,19 @@ const styles = (theme) => ({
 const HOME_PROBLEM_ID = 1;
 
 class Home extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      ready: false
+    };
+  }
+
   async componentDidMount() {
     await Promise.all([
       this.props.readProblem(HOME_PROBLEM_ID),
       this.props.readProblemInput(HOME_PROBLEM_ID),
       this.props.readProblemOutput(HOME_PROBLEM_ID),
-   ]);
+    ]).then(this.setState({ ready: true }));
   }
 
   onClickGetTested = () => {
@@ -56,8 +63,9 @@ class Home extends Component {
   }
 
   render() {
+    if (!this.state.ready) return (null);
     const {
-      problem, classes, problemInput, problemOutput
+      user, problem, classes, problemInput, problemOutput
     } = this.props;
     return (
       <>
@@ -122,11 +130,11 @@ class Home extends Component {
           </Container>
           <Container maxWidth="lg">
             <CodeIDE
-              loggedIn={false}
+              signedIn={!!user.username}
               pid={HOME_PROBLEM_ID}
               handleSubmit={this.handleSubmit}
-              problemInput={problemInput}
-              problemOutput={problemOutput}
+              problemInputs={problemInput.content}
+              problemOutputs={problemOutput.content}
             />
           </Container>
         </main>
@@ -138,6 +146,7 @@ class Home extends Component {
 
 Home.propTypes = {
   classes: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
   problem: PropTypes.object.isRequired,
   problemInput: PropTypes.object.isRequired,
   problemOutput: PropTypes.object.isRequired,
@@ -148,6 +157,7 @@ Home.propTypes = {
 };
 
 const mapDispatchToProps = (state) => ({
+  user: state.user.userSignReducer,
   problem: state.problem.problemReducer,
   problemInput: state.problem.problemInputReducer,
   problemOutput: state.problem.problemOutputReducer,

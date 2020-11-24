@@ -71,6 +71,7 @@ class Home extends Component {
     return (
       <>
         <Navbar />
+        {console.log(process.env)}
         <main>
           <div className={classes.Content}>
             <Container maxWidth="lg">

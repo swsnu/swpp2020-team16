@@ -26,6 +26,8 @@
     "clsx": "^1.1.1",
     "connected-react-router": "^6.8.0",
     "crypto-js": "^4.0.0",
+    "dotenv": "^8.2.0",
+    "env-cmd": "^10.1.0",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.5",
     "history": "^5.0.0",
@@ -55,13 +57,15 @@
     "swagger-ui-react": "^3.37.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "./node_modules/.bin/env-cmd -e local react-scripts start",
     "start:prod": "serve -s build -l 3000",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "coverage": "react-scripts test --coverage",
-    "coveralls": "cat ./coverage/lcov.info | node node_modules/.bin/coveralls"
+    "coveralls": "cat ./coverage/lcov.info | node node_modules/.bin/coveralls",
+    "build:dev": "./node_modules/.bin/env-cmd -e dev react-scripts build",
+    "build:prd": "./node_modules/.bin/env-cmd -e prd react-scripts build"
   },
   "eslintConfig": {
     "extends": "react-app"

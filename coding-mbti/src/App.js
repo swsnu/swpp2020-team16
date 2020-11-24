@@ -25,12 +25,12 @@ function App(props) {
         <Route exact path="/signin/" component={SignIn} />
         <Route exact path="/signup/" component={SignUp} />
         <Route exact path="/relation/" component={UserRelations} />
+        <Route exact path="/research/api" component={ResearchAPI} />
         <Route
           path="/check/:pid"
           exact
           render={(props) => <Check {...props} />}
         />
-        <Route exact path="/research/api" component={ResearchAPI} />
         <Route
           exact
           path="/check/result/:pid/:style"

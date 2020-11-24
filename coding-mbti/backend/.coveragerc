@@ -3,3 +3,5 @@ omit =
         *asgi*
         *wsgi*
         *manage*
+        *init*
+        *seed*

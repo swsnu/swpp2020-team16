@@ -35,7 +35,7 @@ export const readProblem = (problemId) => async (dispatch) => {
 
   const necessaryKeysInResponse = ['data'];
 
-  necessaryKeysInResponse.map((key) => {
+  necessaryKeysInResponse.forEach((key) => {
     if (!(key in res)) {
       throw new InvalidKeyException(`Key "${key}" does not exist.`);
     }
@@ -45,7 +45,7 @@ export const readProblem = (problemId) => async (dispatch) => {
     'id', 'pid', 'desc',
     'input_desc', 'output_desc', 'title', 'objective'];
 
-  necessaryKeysInResponseData.map(key => {
+  necessaryKeysInResponseData.forEach(key => {
     if (!(key in res.data)) {
       throw new InvalidKeyException(`Key "${key}" does not exist.`);
     }

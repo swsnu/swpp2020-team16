@@ -34,13 +34,13 @@ export const signIn = (signInData) => async (dispatch) => {
         throw new ResponseException('wrong username or password');
     }
     const necessaryKeysInResponse = ['data'];
-    necessaryKeysInResponse.map((key) => {
+    necessaryKeysInResponse.forEach((key) => {
         if (!(key in res)) {
             throw new InvalidKeyException(`Key "${key}" does not exist.`);
         }
     });
     const necessaryKeysInResponseData = ['token'];
-    necessaryKeysInResponseData.map(key => {
+    necessaryKeysInResponseData.forEach(key => {
         if (!(key in res.data)) {
             throw new InvalidKeyException(`Key "${key}" does not exist.`);
         }

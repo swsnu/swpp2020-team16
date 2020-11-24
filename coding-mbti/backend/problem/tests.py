@@ -200,7 +200,7 @@ class SolutionTest(TestCase):
         user = User.objects.create_user(
             username="test2", password="123", email="test2@test.com", salt="123", role=1
         )
-        
+
         client2 = Client()
         client2.login(username="test2", password="123")
 
@@ -213,6 +213,7 @@ class SolutionTest(TestCase):
             "erase_cnt": 12,
             "elapsed_time": 30,
             "code": "n=int(input())\na=",
+            "evaluation": 60,
         }
         client2.post(
             f"/api/problem/{problem_id}/solution/",
@@ -220,11 +221,10 @@ class SolutionTest(TestCase):
             content_type="application/json",
         )
 
-        
         res = self.client.get(f"/api/problem/{problem_id}/solution/{user.id}")
-        expected_response = {"id": 5, "evaluation": 0, "problem_id": problem_id,
-                "code": "n=int(input())\na=", 
-                "erase_cnt": 12, "elapsed_time": 30,
-                "status": 2,
-                }
+        expected_response = {"id": 5, "evaluation": 60, "problem_id": problem_id,
+                             "code": "n=int(input())\na=",
+                             "erase_cnt": 12, "elapsed_time": 30,
+                             "status": 2,
+                             }
         self.assertEqual(res.content.decode(), json.dumps(expected_response))

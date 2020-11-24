@@ -21,9 +21,9 @@ describe('<Result/>', () => {
     const component = mount(
       <Provider store={store}>
         <Result />
-      </Provider>,
+      </Provider>
     );
     const wrapper = component.find('div');
-    expect(wrapper.length).toBe(1);
+    expect(wrapper.length).toBe(4);
   });
 });

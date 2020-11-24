@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
-import userReportReducer from './userReportSlice';
+import reportReducer from './reportSlice';
 
 export default combineReducers({
-  userReportReducer,
+  reportReducer,
 });

@@ -2,6 +2,7 @@ from django.test import TestCase, Client
 from user.models import User
 from problem.models import Problem, Solution, ProblemInput, ProblemOutput
 import json
+from utils.utils import get_dicts_with_filter
 from django.core import management
 
 
@@ -84,8 +85,8 @@ class ProblemTest(TestCase):
         problem_id = problem.to_dict()['id']
         response = self.client.get(f"/api/problem/{problem_id}/input/")
         self.assertEqual(response.status_code, 200)
-        expected_response = json.dumps(list(ProblemInput.objects.filter(
-            problem__id=problem_id).values()))
+        expected_response = json.dumps(get_dicts_with_filter(
+            ProblemInput.objects, problem__id=problem_id))
         self.assertEqual(response.content.decode(), expected_response)
 
         response = self.client.get("/api/problem/1000/input/")
@@ -173,6 +174,57 @@ class SolutionTest(TestCase):
 
     def test_solution_create_exception(self):
 
+        problem = Problem(desc="For test", input_desc="For test",
+                          output_desc="Fore test", pid="ITP1_6_B", objective=1)
+        problem.save()
+        problem_id = problem.to_dict()['id']
+
+        response = self.client.post(
+            f"/api/problem/{problem_id}/solution/",
+            json.dumps({}),
+            content_type="application/json",
+        )
+
+        self.assertEqual(response.status_code, 400)
+
         response = self.client.post("/api/problem/2/solution/", {})
 
         self.assertEqual(response.status_code, 400)
+
+        response = self.client.delete("/api/problem/2/solution/")
+
+        self.assertEqual(response.status_code, 405)
+
+    def test_solution_for_others_view(self):
+
+        user = User.objects.create_user(
+            username="test2", password="123", email="test2@test.com", salt="123", role=1
+        )
+        
+        client2 = Client()
+        client2.login(username="test2", password="123")
+
+        problem = Problem(desc="For test", input_desc="For test",
+                          output_desc="Fore test", pid="ITP1_6_B", objective=1)
+        problem.save()
+        problem_id = problem.to_dict()['id']
+
+        solution_body = {
+            "erase_cnt": 12,
+            "elapsed_time": 30,
+            "code": "n=int(input())\na=",
+        }
+        client2.post(
+            f"/api/problem/{problem_id}/solution/",
+            json.dumps(solution_body),
+            content_type="application/json",
+        )
+
+        
+        res = self.client.get(f"/api/problem/{problem_id}/solution/{user.id}")
+        expected_response = {"id": 5, "evaluation": 0, "problem_id": problem_id,
+                "code": "n=int(input())\na=", 
+                "erase_cnt": 12, "elapsed_time": 30,
+                "status": 2,
+                }
+        self.assertEqual(res.content.decode(), json.dumps(expected_response))

@@ -30,11 +30,11 @@ def get_inference(code, pid, model_name):
 
 
 def get_erase_inference(erase_cnt, pid):
-    clf_from_joblib = joblib.load(
-        f"{settings.ML_DIR}/problem{pid}/model_erase.pkl")
-
-    prediction = int(clf_from_joblib.predict(erase_cnt))
-    probability = float(np.max(clf_from_joblib.predict_proba(erase_cnt)))
+    # pylint: disable=W0613
+    # clf_from_joblib = joblib.load(
+    #    f"{settings.ML_DIR}/problem{pid}/model_erase.pkl")
+    prediction = 0 #int(clf_from_joblib.predict(erase_cnt))
+    probability = 0.0 #float(np.max(clf_from_joblib.predict_proba(erase_cnt)))
 
     return prediction, probability
 
@@ -59,10 +59,11 @@ class Report(TimeStampedModel):
         return get_inference(code, "ITP1_6_B", "model_style")
 
     def predict_JC(self, erase_cnt):
-        return get_erase_inference(erase_cnt, self.name)
+        return get_erase_inference(erase_cnt, "ITP1_6_B")
 
     def predict_TI(self, erase_cnt):
-        return get_erase_inference(erase_cnt, self.name)
+        return get_erase_inference(erase_cnt, "ITP1_6_B")
+
 
     class Meta:
         abstract = True

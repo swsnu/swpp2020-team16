@@ -1,8 +1,6 @@
-
-from problem.models import Problem, ProblemInput, ProblemOutput
-from django.conf import settings
 import os
-
+from django.conf import settings
+from problem.models import Problem, ProblemInput, ProblemOutput
 
 def list_problem_ids():
     problem_ids = []
@@ -54,8 +52,6 @@ def create_problem_input_output_to_database(problem_id):
         desc=parsed_problem["desc"],
     )
     problem.save()
-
-    assert(len(parsed_inputs) == len(parsed_outputs))
 
     for i in range(len(parsed_inputs)):
         problem_input = ProblemInput(

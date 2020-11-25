@@ -25,6 +25,12 @@ jobs:
           paths:
             - coverage/lcov.info
       before_deploy:
+        - |
+          if [[ $TRAVIS_BRANCH != $TRAVIS_PULL_REQUEST_BRANCH && $TRAVIS_BRANCH = 'dev' ]]; then
+            yarn build:dev
+          else
+            yarn build:prd
+          fi
         - yarn build
         - cp ../aws-codedeploy-scripts/frontend/* ./build
         - zip -r coding-mbti-webservice build/*

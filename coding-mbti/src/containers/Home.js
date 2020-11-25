@@ -40,19 +40,12 @@ const styles = (theme) => ({
 const HOME_PROBLEM_ID = 9;
 
 class Home extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      ready: false
-    };
-  }
-
   async componentDidMount() {
     await Promise.all([
       this.props.readProblem(HOME_PROBLEM_ID),
       this.props.readProblemInput(HOME_PROBLEM_ID),
       this.props.readProblemOutput(HOME_PROBLEM_ID),
-    ]).then(this.setState({ ready: true }));
+    ]);
   }
 
   onClickGetTested = () => {
@@ -64,7 +57,6 @@ class Home extends Component {
   }
 
   render() {
-    if (!this.state.ready) return (null);
     const {
       user, problem, classes, problemInput, problemOutput
     } = this.props;

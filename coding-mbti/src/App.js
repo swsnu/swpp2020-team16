@@ -13,6 +13,7 @@ import SignUp from './containers/SignUp';
 import Check from './containers/Check';
 import Result from './containers/Result';
 import MyTestResult from './containers/MyTestResult';
+import ResearchAPI from './containers/ResearchAPI';
 import AuthRoute from './HOC/AuthRoute';
 
 function App(props) {
@@ -24,6 +25,7 @@ function App(props) {
         <Route exact path="/signin/" component={SignIn} />
         <Route exact path="/signup/" component={SignUp} />
         <Route exact path="/relation/" component={UserRelations} />
+        <Route exact path="/research/api" component={ResearchAPI} />
         <Route
           path="/check/:pid"
           exact
@@ -42,7 +44,6 @@ function App(props) {
         <AuthRoute exact path="/check/result">
           <Result />
         </AuthRoute>
-        re
         <AuthRoute exact path="/my/tests/results">
           <MyTestResult />
         </AuthRoute>

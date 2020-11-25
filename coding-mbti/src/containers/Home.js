@@ -58,7 +58,7 @@ class Home extends Component {
 
   render() {
     const {
-      problem, classes, problemInput, problemOutput
+      user, problem, classes, problemInput, problemOutput
     } = this.props;
     return (
       <>
@@ -123,11 +123,11 @@ class Home extends Component {
           </Container>
           <Container maxWidth="lg">
             <CodeIDE
-              loggedIn={false}
+              signedIn={!!user.username}
               pid={HOME_PROBLEM_ID}
               handleSubmit={this.handleSubmit}
-              problemInput={problemInput}
-              problemOutput={problemOutput}
+              problemInputs={problemInput.content}
+              problemOutputs={problemOutput.content}
             />
           </Container>
         </main>
@@ -139,6 +139,7 @@ class Home extends Component {
 
 Home.propTypes = {
   classes: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
   problem: PropTypes.object.isRequired,
   problemInput: PropTypes.object.isRequired,
   problemOutput: PropTypes.object.isRequired,
@@ -149,6 +150,7 @@ Home.propTypes = {
 };
 
 const mapDispatchToProps = (state) => ({
+  user: state.user.userSignReducer,
   problem: state.problem.problemReducer,
   problemInput: state.problem.problemInputReducer,
   problemOutput: state.problem.problemOutputReducer,

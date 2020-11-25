@@ -1,227 +1,261 @@
-/* 아래 submit버튼에 대한 테스트들 제대로 안 되어 있음  */
+import React from 'react';
 import { createMount } from '@material-ui/core/test-utils';
+import Button from '@material-ui/core/Button';
+import TextareaAutosize from '@material-ui/core/TextareaAutosize';
+import AceEditor from 'react-ace';
+import * as utils from './brython/utils';
+
+import SignDialog from './SignDialog';
+import CodeIDEProceedDialog from './CodeIDEProceedDialog';
 import CodeIDE from './CodeIDE';
-// import request from '../utils/request';
-import appWrappers from '../appWrappers';
 
-describe('<CodeIDE/>', () => {
-  describe('should render without any error for the following each props cases', () => {
+describe('<CodeIDE/> should', () => {
+  const runCodeWithFilesSpy = jest.fn();
+  jest.spyOn(utils, 'initBrythonRunner').mockImplementation(() => ({
+    runCodeWithFiles: runCodeWithFilesSpy
+  }));
+  describe('render', () => {
     let mount;
-    let testingComponent;
-    let wrappedComponent;
+    let mountingComponent;
     let mountedComponent;
-    let target;
-
-    const testCases = [
-      {
-        loggedIn: true,
-        pid: 1,
-        handleSubmit: () => { },
-        problemInput: { test_cases: ['input string'] },
-        problemOutput: { test_cases: ['output string'] },
-      },
-      {
-        loggedIn: true,
-        pid: 2,
-        handleSubmit: () => { },
-        problemInput: { test_cases: ['input string'] },
-        problemOutput: { test_cases: ['output string'] },
-      },
-      {
-        loggedIn: false,
-        pid: 1,
-        handleSubmit: () => { },
-        problemInput: { test_cases: ['input string'] },
-        problemOutput: { test_cases: ['output string'] },
-      },
-      {
-        loggedIn: false,
-        pid: 2,
-        handleSubmit: () => { },
-        problemInput: { test_cases: ['input string'] },
-        problemOutput: { test_cases: ['output string'] },
-      },
-    ];
+    let props;
 
     beforeAll(() => {
       mount = createMount();
     });
 
-    testCases.forEach(caseProps => {
-      beforeEach(() => {
-        /* GIVEN - general */
-        testingComponent = CodeIDE;
-        wrappedComponent = appWrappers(testingComponent, caseProps);
-      });
+    beforeEach(() => {
+      props = {
+        signedIn: true,
+        pid: 1,
+        handleSubmit: jest.fn(),
+        problemInputs: ['p1 input 1', 'p1 input 2'],
+        problemOutputs: ['p1 output 1', 'p1 output 2']
+      };
+      mountingComponent = <CodeIDE {...props} />;
+      mountedComponent = mount(mountingComponent);
+    });
 
-      it(`if props are login[${caseProps.loggedIn}], pid[${caseProps.pid}] with valid handleSubmit function`, () => {
-        /* GIVEN - specific */
-        mountedComponent = mount(wrappedComponent);
+    afterAll(() => {
+      mount.cleanUp();
+    });
 
-        /* WHEN */
-        target = mountedComponent.find('ReactAce').exists();
-
-        /* THEN */
-        expect(target).toBeTruthy();
-      });
+    it('CodeIDE itself', () => {
+      /* WHEN */
+      const targetComponent = mountedComponent.find(CodeIDE);
+      /* THEN */
+      expect(targetComponent.length).toBe(1);
+    });
+    it('AceEditor', () => {
+      /* WHEN */
+      const targetComponent = mountedComponent.find(AceEditor);
+      /* THEN */
+      expect(targetComponent.length).toBe(1);
+    });
+    it('Console', () => {
+      /* WHEN */
+      const targetComponent = mountedComponent.find(TextareaAutosize);
+      /* THEN */
+      expect(targetComponent.length).toBe(1);
+    });
+    it('5 Buttons', () => {
+      /* WHEN */
+      const targetComponent = mountedComponent.find(Button);
+      /* THEN */
+      expect(targetComponent.length).toBe(5);
     });
   });
-
-  describe('should handle onCodeChange, onTest, and onSubmit for logged-in user', () => {
+  describe('handle props', () => {
     let mount;
-    let testingComponent;
-    let wrappedComponent;
+    let mountingComponent;
     let mountedComponent;
-
-    const mockHandleSubmit = jest.fn();
-    const testCases = [
-      {
-        loggedIn: true,
-        pid: 1,
-        handleSubmit: mockHandleSubmit,
-        problemInput: { test_cases: ['input string'] },
-        problemOutput: { test_cases: ['output string'] },
-      },
-      {
-        loggedIn: true,
-        pid: 2,
-        handleSubmit: mockHandleSubmit,
-        problemInput: { test_cases: ['input string'] },
-        problemOutput: { test_cases: ['output string'] },
-      },
-      {
-        loggedIn: false,
-        pid: 1,
-        handleSubmit: mockHandleSubmit,
-        problemInput: { test_cases: ['input string'] },
-        problemOutput: { test_cases: ['output string'] },
-      },
-      {
-        loggedIn: false,
-        pid: 2,
-        handleSubmit: mockHandleSubmit,
-        problemInput: { test_cases: ['input string'] },
-        problemOutput: { test_cases: ['output string'] },
-      },
-    ];
+    let props;
 
     beforeAll(() => {
       mount = createMount();
     });
 
-    testCases.forEach(caseProps => {
-      beforeEach(() => {
-        /* GIVEN - general */
-        mockHandleSubmit.mockClear();
-        testingComponent = CodeIDE;
-        wrappedComponent = appWrappers(testingComponent, caseProps);
-      });
+    beforeEach(() => {
+      window.BrythonRunner = jest.fn();
+    });
 
-      it('onSubmit function with `elapsed-time` value equals null.', () => {
-        /* GIVEN */
-        mountedComponent = mount(wrappedComponent);
+    afterAll(() => {
+      mount.cleanUp();
+    });
 
-        /* WHEN */
-        document.getElementById('elapsed-time').value = null;
-        mountedComponent.find('button').find('#submit').simulate('click');
+    it('initial props as expected', () => {
+      /* WHEN */
+      props = {
+        signedIn: true,
+        pid: 1,
+        handleSubmit: jest.fn(),
+        problemInputs: ['p1 input 1', 'p1 input 2'],
+        problemOutputs: ['p1 output 1', 'p1 output 2']
+      };
+      mountingComponent = <CodeIDE {...props} />;
+      mountedComponent = mount(mountingComponent);
+      const targetComponent = mountedComponent.find(CodeIDE);
 
-        /* THEN */
-        //
-      });
-
-      it('onSubmit function with `elapsed-time` value equals not null.', () => {
-        /* GIVEN */
-        mountedComponent = mount(wrappedComponent);
-
-        /* WHEN */
-        document.getElementById('elapsed-time').value = 100;
-        mountedComponent.find('button').find('#submit').simulate('click');
-
-        /* THEN */
-        //
-      });
-
-      // it('onCodeChange function.', () => {
-      //   /* GIVEN */
-      //   mountedComponent = mount(wrappedComponent);
-
-      //   /* WHEN */
-      //   document.getElementById('elapsed-time').value = 100;
-      //   mountedComponent.find('button').find('#submit').simulate('click');
-
-      //   /* THEN */
-      //   if (caseProps.loggedIn === true) {
-      //     expect(mockHandleSubmit).toHaveBeenCalledTimes(1);
-      //   } else {
-      //     expect(global.alert).toHaveBeenCalledTimes(1);
-      //   }
-      // });
+      /* THEN */
+      expect(targetComponent.props().signedIn).toBe(props.signedIn);
+      expect(targetComponent.props().pid).toEqual(props.pid);
+      expect(targetComponent.props().handleSubmit).toEqual(props.handleSubmit);
+      expect(targetComponent.props().problemInputs).toEqual(props.problemInputs);
+      expect(targetComponent.props().problemOutputs).toEqual(props.problemOutputs);
     });
   });
+  describe('handle useEffect', () => {
+    let mount;
+    let mountingComponent;
+    let props;
 
-  // describe('should handle onCodeChange, onTest, and onSubmit for logged-in user', () => {
-  //   const mockHandleSubmit = jest.fn().mockImplementation(() => () => { });
-  //   let mount;
-  //   let testingProps;
-  //   let testingComponent;
-  //   let wrappedComponent;
-  //   let mountedComponent;
-  //   let target;
+    beforeAll(() => {
+      mount = createMount();
+    });
 
-  //   beforeAll(() => {
-  //     mount = createMount();
-  //   });
+    beforeEach(() => {
+      window.BrythonRunner = jest.fn();
+    });
 
-  //   beforeEach(() => {
-  //     testingProps = {
-  //       loggedIn: true,
-  //       pid: 1,
-  //       handleSubmit: mockHandleSubmit,
-  //       problemInput: { test_cases: ['input string'] },
-  //       problemOutput: { test_cases: ['output string'] },
-  //     };
-  //     testingComponent = CodeIDE;
-  //     wrappedComponent = appWrappers(testingComponent, testingProps);
-  //   });
+    afterAll(() => {
+      mount.cleanUp();
+    });
 
-  //   it('onSubmit function.', () => {
-  //     /* GIVEN */
-  //     mountedComponent = mount(wrappedComponent);
+    it('useEffect as expected', () => {
+      /* WHEN */
+      props = {
+        signedIn: true,
+        pid: 1,
+        handleSubmit: jest.fn(),
+        problemInputs: ['p1 input 1', 'p1 input 2'],
+        problemOutputs: ['p1 output 1', 'p1 output 2']
+      };
+      const useEffectSpy = jest.spyOn(React, 'useEffect');
 
-  //     /* WHEN */
-  //     mountedComponent.find('#submit').simulate('click');
-  //     // target = mountedComponent.find('CodeIDE').state();
-  //     // console.log(target);
+      mountingComponent = <CodeIDE {...props} />;
+      mount(mountingComponent);
 
-  //     /* THEN */
-  //     expect(mockOnPutTestResult).toHaveBeenCalledTimes(0);
-  //   });
-  // });
+      /* THEN */
+      expect(useEffectSpy).toHaveBeenCalled();
+    });
+  });
+  describe('handle events', () => {
+    let mount;
+    let mountingComponent;
+    let mountedComponent;
+    let props;
+    let readAsTextSpy;
 
-  // it('should be directed correct test page before 5 submit', () => {
-  //   const mockOnPutTestResult = jest.fn().mockImplementation(() => () => { });
-  //   const spyAxios = jest.spyOn(request, 'post').mockImplementation(
-  //     () => new Promise((resolve) => {
-  //       const result = {
-  //         status: 200,
-  //         data: 'mock',
-  //       };
-  //       resolve(result);
-  //     }),
-  //   );
-  //   const component = mount(
-  //     <Provider store={store}>
-  //       <CodeIDE pid="2" onPutTestResult={mockOnPutTestResult} />
-  //     </Provider>,
-  //   );
+    beforeAll(() => {
+      mount = createMount();
+    });
 
-  //   let wrapper = component.find('button').at(1);
+    beforeEach(() => {
+      readAsTextSpy = jest.fn();
+      jest.spyOn(global, 'FileReader').mockImplementation(() => ({
+        readAsText: readAsTextSpy,
+        onLoad: jest.fn()
+      }));
 
-  //   wrapper.simulate('click');
-  //   wrapper = component.find('#console');
+      props = {
+        signedIn: true,
+        pid: 1,
+        handleSubmit: jest.fn(),
+        problemInputs: ['p1 input 1', 'p1 input 2'],
+        problemOutputs: ['p1 output 1', 'p1 output 2']
+      };
+      mountingComponent = <CodeIDE {...props} />;
+      mountedComponent = mount(mountingComponent);
+    });
 
-  //   expect(wrapper.length).toBe(1);
-  //   expect(spyAxios).toHaveBeenCalledTimes(1);
-  //   expect(mockOnPutTestResult).toHaveBeenCalledTimes(0);
-  // });
+    afterAll(() => {
+      mount.cleanUp();
+    });
+
+    it('RUN click events', () => {
+      /* WHEN */
+      mountedComponent.find(Button).at(0).simulate('click');
+      /* THEN */
+      expect(runCodeWithFilesSpy).toHaveBeenCalled();
+      expect(document.getElementById('output').value).toBe('');
+    });
+    it('TEST click events', () => {
+      /* WHEN */
+      mountedComponent.find(Button).at(1).simulate('click');
+      /* THEN */
+      expect(runCodeWithFilesSpy).toHaveBeenCalled();
+      expect(document.getElementById('output').value).toBe('');
+    });
+    it('SUBMIT click events', () => {
+      /* WHEN */
+      document.getElementById('time-with-pass-count').value = '33 2';
+      mountedComponent.find(Button).at(2).simulate('click');
+      mountedComponent.update();
+      /* THEN */
+      expect(runCodeWithFilesSpy).toHaveBeenCalled();
+      expect(mountedComponent.find(SignDialog).props().open).toBe(false);
+      expect(mountedComponent.find(CodeIDEProceedDialog).props().open).toBe(false);
+      expect(props.handleSubmit).not.toHaveBeenCalled();
+      expect(document.getElementById('output').value).toBe('');
+    });
+    it('RESET click events', () => {
+      /* WHEN */
+      mountedComponent.find(Button).at(3).simulate('click');
+      /* THEN */
+      expect(document.getElementById('output').value).toBe('');
+    });
+    it('UPLOAD click events', () => {
+      /* WHEN */
+      mountedComponent.find('input').at(0).simulate('change');
+      /* THEN */
+      expect(readAsTextSpy).toHaveBeenCalled();
+    });
+    it('IDE write events', () => {
+      /* WHEN */
+      mountedComponent.find(AceEditor).simulate('change', { target: { value: 333 } });
+    });
+    it('onClose CodeIDEProceedDialog event', () => {
+      /* WHEN */
+      mountedComponent.find(CodeIDEProceedDialog).props().onClose();
+    });
+  });
+  describe('handle etc', () => {
+    let mount;
+    let mountingComponent;
+    let mountedComponent;
+    let props;
+
+    beforeAll(() => {
+      mount = createMount();
+    });
+
+    beforeEach(() => {
+      props = {
+        signedIn: true,
+        pid: 1,
+        handleSubmit: jest.fn(),
+        problemInputs: ['p1 input 1', 'p1 input 2'],
+        problemOutputs: ['p1 output 1', 'p1 output 2']
+      };
+      mountingComponent = <CodeIDE {...props} />;
+      mountedComponent = mount(mountingComponent);
+    });
+
+    afterAll(() => {
+      mount.cleanUp();
+    });
+
+    it('onClose CodeIDEProceedDialog event', () => {
+      /* WHEN */
+      mountedComponent.find(CodeIDEProceedDialog).props().onClose();
+    });
+    it('proceedSumbit CodeIDEProceedDialog event', () => {
+      /* WHEN */
+      mountedComponent.find(CodeIDEProceedDialog).props().proceedSumbit();
+    });
+    it('onClose SignDialog event', () => {
+      /* WHEN */
+      mountedComponent.find(SignDialog).props().onClose();
+    });
+  });
 });

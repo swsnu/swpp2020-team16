@@ -105,7 +105,6 @@ describe('userSignSlice', () => {
           });
         });
       });
-
       describe('should handle non-2XX status code', () => {
         let store;
         beforeEach(async () => {
@@ -267,7 +266,6 @@ describe('userSignSlice', () => {
     });
     describe('signUp', () => {
       describe('should handle response validity', () => { });
-
       describe('should handle non-2XX status code', () => {
         let store;
         beforeEach(async () => {

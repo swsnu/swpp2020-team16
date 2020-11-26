@@ -17,21 +17,21 @@ def my_report_view(request):
             solution2 = SolutionReport.objects.filter(
                 title="ITP2_3_B_report").last().code
 
-        except ObjectDoesNotExist as error:
+        except (ObjectDoesNotExist, AttributeError) as error:
             return HttpResponseBadRequest(error)
         try:
             user_report = UserReport(
                 author=request.user, solution1=solution1, solution2=solution2,
                 title=f"user{request.user.id}'s report")
             user_report.save()
-        except (KeyError, JSONDecodeError) as error:
+        except (ObjectDoesNotExist, AttributeError) as error:
             return HttpResponseBadRequest(error)
         return HttpResponse(status=204)
 
     elif request.method == 'GET':
         try:
             user_report = UserReport.objects.filter(author__id=request.user.id).last().to_dict()
-        except ObjectDoesNotExist as error:
+        except (ObjectDoesNotExist, AttributeError) as error:
             return HttpResponseBadRequest(error)
         return JsonResponse(user_report, status=200, safe=False)
     else:
@@ -43,7 +43,7 @@ def other_report_view(request, user_id=""):
     if request.method == "GET":
         try:
             user_report = UserReport.objects.filter(author__id=user_id).last().to_dict()
-        except ObjectDoesNotExist as error:
+        except (ObjectDoesNotExist, AttributeError) as error:
             return HttpResponseBadRequest(error)
         return JsonResponse(user_report, status=200, safe=False)
 
@@ -60,7 +60,7 @@ def my_solutions_view(request):
             solution2 = Solution.objects.filter(
                 problem__pid="ITP2_3_B", author_id=request.user.id).last().to_dict()
             response_dict = [solution1, solution2]
-        except ObjectDoesNotExist as error:
+        except (ObjectDoesNotExist, AttributeError) as error:
             return HttpResponseBadRequest(error)
         return JsonResponse(response_dict, status=200, safe=False)
 
@@ -76,7 +76,7 @@ def other_solutions_view(request, user_id=""):
             solution2 = Solution.objects.filter(
                 problem__pid="ITP2_3_B", author_id=user_id).last().to_dict()
             response_arr = [solution1, solution2]
-        except ObjectDoesNotExist as error:
+        except (ObjectDoesNotExist, AttributeError) as error:
             return HttpResponseBadRequest(error)
         return JsonResponse(response_arr, status=200, safe=False)
 

@@ -1,4 +1,3 @@
-from json import JSONDecodeError
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseNotAllowed, JsonResponse
 from rest_framework.decorators import permission_classes

@@ -1,6 +1,6 @@
 /* eslint-disable array-callback-return */
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 /* M-UIs */
@@ -25,13 +25,10 @@ export default function CodeIDE(props) {
     signedIn, pid, handleSubmit, problemInputs, problemOutputs
   } = props;
 
-  let runner;
-  useEffect(() => {
-    runner = initBrythonRunner('time-with-pass-count', 'output');
-  }, []);
-
   const testFiles = createTestFiles(problemInputs, problemOutputs);
   const initialFiles = { ...brFileSystem, ...testFiles };
+
+  const [runner] = useState(initBrythonRunner('time-with-pass-count', 'output'));
   const [files, setFiles] = useState(initialFiles);
   const [openProceedDialog, setOpenProceedDialog] = useState(false);
   const [openSignDialog, setOpenSignDialog] = useState(false);
@@ -114,6 +111,7 @@ export default function CodeIDE(props) {
     if (files['userCode.py'].body.length > value.length) {
       setCodeEraseCnt(codeEraseCnt + 1);
     }
+
     setFiles({
       ...files,
       'userCode.py': {

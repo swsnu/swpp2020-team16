@@ -45,6 +45,7 @@ def problem_by_id_view(request, problem_id=""):
 @permission_classes((IsAuthenticated, ))
 def problem_by_objective_view(request, objective=""):
     if request.method == "GET":
+
         problems = get_dicts_with_filter(
             Problem.objects, objective=int(objective))
         return JsonResponse(problems, status=200, safe=False)
@@ -88,15 +89,19 @@ def solution_view(request, problem_id):
         except ObjectDoesNotExist:
             return HttpResponseBadRequest()
         try:
-            body = request.body.decode()
-            code = json.loads(body)["code"]
-            erase_cnt = json.loads(body)["erase_cnt"]
-            elapsed_time = json.loads(body)["elapsed_time"]
+            req_data = json.loads(request.body.decode())
+            code = req_data["code"]
+            erase_cnt = int(req_data["erase_cnt"])
+            elapsed_time = int(req_data["elapsed_time"])
+            evaluation = int(req_data["evaluation"])
+
         except (KeyError, JSONDecodeError) as error:
             return HttpResponseBadRequest(error)
 
         solution = Solution(
-            problem=problem, code=code, erase_cnt=erase_cnt, elapsed_time=elapsed_time, author_id=request.user.id)
+            problem=problem, code=code, erase_cnt=erase_cnt,
+            elapsed_time=elapsed_time, author_id=request.user.id,
+            evalutaion=evaluation)
         solution.save()
 
         SolutionReport(
@@ -106,3 +111,17 @@ def solution_view(request, problem_id):
         return HttpResponse(status=204)
     else:
         return HttpResponseNotAllowed(["GET", "POST"])
+
+
+@ permission_classes((IsAuthenticated, ))
+def solution_for_others_view(request, problem_id="", user_id=""):
+    if request.method == "GET":
+        try:
+            solution = Solution.objects.filter(
+                problem__id=problem_id, author_id=user_id).last().to_dict()
+        except ObjectDoesNotExist as error:
+            return HttpResponseBadRequest(error)
+        return JsonResponse(solution, status=200, safe=False)
+
+    else:
+        return HttpResponseNotAllowed(["POST", "UPDATE", "DELETE"])

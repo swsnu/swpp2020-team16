@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from group.models import Group
+from utils.utils import to_dict
 
 
 class CodingStyle(models.Model):
@@ -101,11 +102,11 @@ class Coder(models.Model):
         Group, on_delete=models.SET_NULL, null=True, related_name='coder_group')
 
     def to_dict(self):
-        return {
-            "user": self.user.pk,
-            "style": self.style.to_dict() if self.style is not None else None,
-            "group": self.group.pk if self.group is not None else None
-        }
+        return {"user_id": self.user.pk,
+                "username": self.user.username,
+                "style": to_dict(self.style),
+                "group": self.group.pk if self.group is not None else None
+                }
 
 
 class Researcher(models.Model):

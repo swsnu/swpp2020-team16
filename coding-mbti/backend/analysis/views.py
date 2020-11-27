@@ -1,13 +1,16 @@
-from json import JSONDecodeError
-from django.core.exceptions import ObjectDoesNotExist
-from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseNotAllowed, JsonResponse
-from rest_framework.decorators import permission_classes
-from rest_framework.permissions import IsAuthenticated
+from user.models import Coder
+from problem.models import Solution
 from analysis.models import SolutionReport, UserReport
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import permission_classes
+from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseNotAllowed, JsonResponse
+from django.core.exceptions import ObjectDoesNotExist
+from json import JSONDecodeError
 
 
 @permission_classes((IsAuthenticated, ))
-def user_report_view(request):
+def my_report_view(request):
+
     if request.method == 'POST':
         try:
             solution1 = SolutionReport.objects.filter(
@@ -15,43 +18,87 @@ def user_report_view(request):
             solution2 = SolutionReport.objects.filter(
                 title="ITP2_3_B_report").last().code
 
-        except ObjectDoesNotExist as error:
+        except (ObjectDoesNotExist, AttributeError) as error:
             return HttpResponseBadRequest(error)
         try:
             user_report = UserReport(
                 author=request.user, solution1=solution1, solution2=solution2,
                 title=f"user{request.user.id}'s report")
             user_report.save()
-        except (KeyError, JSONDecodeError) as error:
+        except (ObjectDoesNotExist, AttributeError) as error:
             return HttpResponseBadRequest(error)
         return HttpResponse(status=204)
 
     elif request.method == 'GET':
-        return JsonResponse(UserReport.objects.filter(author__id=request.user.id)
-                            .last().to_dict(), status=200, safe=False)
+        try:
+            user_report = UserReport.objects.filter(
+                author__id=request.user.id).last().to_dict()
+        except (ObjectDoesNotExist, AttributeError) as error:
+            return HttpResponseBadRequest(error)
+        return JsonResponse(user_report, status=200, safe=False)
     else:
-        return HttpResponseNotAllowed(['GET', 'POST'])
+        return HttpResponseNotAllowed(['UPDATE', 'DELETE'])
 
 
 @permission_classes((IsAuthenticated, ))
-def single_report_view(request):
-    if request.method == 'GET':
-        return JsonResponse(
-            UserReport.objects.filter(
-                author__id=request.user.id).first().to_dict(),
-            status=200,
-            safe=False,
-        )
+def other_report_view(request, user_id=""):
+    if request.method == "GET":
+        try:
+            user_report = UserReport.objects.filter(
+                author__id=user_id).last().to_dict()
+        except (ObjectDoesNotExist, AttributeError) as error:
+            return HttpResponseBadRequest(error)
+        return JsonResponse(user_report, status=200, safe=False)
+
     else:
-        return HttpResponseNotAllowed(['GET'])
+        return HttpResponseNotAllowed(["POST", "UPDATE", "DELETE"])
 
 
 @permission_classes((IsAuthenticated, ))
-def problem_report_view(request):
-    if request.method == 'GET':
-        reports = list(map(lambda report: report.to_dict(),
-                           SolutionReport.objects.filter(author=request.user)))
+def my_solutions_view(request):
+    if request.method == "GET":
+        try:
+            solution1 = Solution.objects.filter(
+                problem__pid="ITP1_6_B", author_id=request.user.id).last().to_dict()
+            solution2 = Solution.objects.filter(
+                problem__pid="ITP2_3_B", author_id=request.user.id).last().to_dict()
+            response_dict = [solution1, solution2]
+        except (ObjectDoesNotExist, AttributeError) as error:
+            return HttpResponseBadRequest(error)
+        return JsonResponse(response_dict, status=200, safe=False)
 
-        return JsonResponse(reports, status=200, safe=False)
+    else:
+        return HttpResponseNotAllowed(["GET"])
+
+
+@permission_classes((IsAuthenticated, ))
+def other_solutions_view(request, user_id=""):
+    if request.method == "GET":
+        try:
+            solution1 = Solution.objects.filter(
+                problem__pid="ITP1_6_B", author_id=user_id).last().to_dict()
+            solution2 = Solution.objects.filter(
+                problem__pid="ITP2_3_B", author_id=user_id).last().to_dict()
+            response_arr = [solution1, solution2]
+        except (ObjectDoesNotExist, AttributeError) as error:
+            return HttpResponseBadRequest(error)
+        return JsonResponse(response_arr, status=200, safe=False)
+
+    else:
+        return HttpResponseNotAllowed(["GET"])
+
+
+@permission_classes((IsAuthenticated, ))
+def get_coders_by_style(request, style=""):
+    if request.method == 'GET':
+        try:
+
+            return JsonResponse(
+                list(map(lambda coder: coder.to_dict(),
+                         Coder.objects.filter(style__style=int(style)))),
+                status=200,
+                safe=False,)
+        except ObjectDoesNotExist as error:
+            return HttpResponseBadRequest(error)
     else:
         return HttpResponseNotAllowed(['GET'])

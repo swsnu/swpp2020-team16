@@ -128,7 +128,6 @@ export const createGroup = group => async dispatch => {
         });
 
         dispatch(groupCreate(res.data));
-        return res.data.id;
     } catch (error) {
         dispatch(groupCreateFail(error.message));
     }

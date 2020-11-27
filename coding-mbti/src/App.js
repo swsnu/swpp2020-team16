@@ -36,7 +36,7 @@ function App(props) {
         </Switch>
       </Router>
       <Footer />
-    </div >
+    </div>
   );
 }
 

@@ -5,7 +5,6 @@ import Button from '@material-ui/core/Button';
 
 export default function MemberDelete(props) {
     const { groupId, userId, deleteMember } = props;
-    console.log(deleteMember);
     return (
         <Button onClick={() => deleteMember(groupId, userId)}>
             Member Delete

@@ -25,7 +25,7 @@ class GroupDetail extends Component {
 
     render() {
         const {
-            role, classes, groups, members, error, createInvitation, deleteMember
+            role, classes, groups, members, createInvitation, deleteMember
         } = this.props;
 
         const { groupId } = this.props.match.params;

@@ -9,7 +9,7 @@ function Copyright() {
     <Typography variant="body2" color="textSecondary">
       {'Copyright © '}
       <Link color="inherit" href="https://material-ui.com/">
-        Your Website
+        Coding MBTI &nbsp;
       </Link>
       {new Date().getFullYear()}
     </Typography>

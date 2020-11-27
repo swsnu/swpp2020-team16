@@ -21,4 +21,5 @@ urlpatterns = [
     path('api/analysis/', include('analysis.urls')),
     path('api/problem/', include('problem.urls')),
     path('api/user/', include('user.urls')),
+    path('api/group/', include('group.urls')),
 ]

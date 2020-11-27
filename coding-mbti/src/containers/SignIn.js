@@ -13,7 +13,6 @@ import Container from '@material-ui/core/Container';
 import { withStyles } from '@material-ui/styles';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import Navbar from '../components/Navbar';
 import { signIn, signOut } from '../feature/user/userSignSlice';
 
 const styles = (theme) => ({
@@ -68,7 +67,6 @@ class SignIn extends Component {
     }
     return (
       <>
-        <Navbar />
         <Container component="main" maxWidth="xs">
           <CssBaseline />
           <div className={classes.paper}>
@@ -142,6 +140,7 @@ class SignIn extends Component {
     );
   }
 }
+
 SignIn.propTypes = {
   classes: PropTypes.object.isRequired,
   signIn: PropTypes.func.isRequired,
@@ -149,6 +148,7 @@ SignIn.propTypes = {
   alert: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
 };
+
 const mapStateToProps = (state) => ({
   user: state.user.userSignReducer,
 });

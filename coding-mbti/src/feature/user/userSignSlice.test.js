@@ -16,10 +16,12 @@ describe('userSignSlice', () => {
       const initialState = {
         username: null,
         token: null,
+        role: null,
       };
       const payloadValue = {
         username: 'test username',
-        token: 'test token'
+        token: 'test token',
+        role: 1,
       };
       it('sets the state', () => {
         const action = {
@@ -33,17 +35,19 @@ describe('userSignSlice', () => {
     describe('signout', () => {
       const initialState = {
         username: 'test username',
-        token: 'test token'
+        token: 'test token',
+        role: 1,
       };
       it('sets the state', () => {
         const action = {
           type: signout,
-          payload: null
+          payload: null,
         };
         const state = reducer(initialState, action);
         expect(state).toEqual({
           username: null,
-          token: null
+          token: null,
+          role: null,
         });
       });
     });
@@ -264,7 +268,7 @@ describe('userSignSlice', () => {
 
           /* THEN */
           const state = store.getState().user.userSignReducer;
-          expect(state).toEqual({ username: null, token: null });
+          expect(state).toEqual({ username: null, token: null, role: null });
         });
       });
     });
@@ -365,7 +369,7 @@ describe('userSignSlice', () => {
 
           /* THEN */
           const state = store.getState().user.userSignReducer;
-          expect(state).toEqual({ username: null, token: null });
+          expect(state).toEqual({ username: null, token: null, role: null });
         });
       });
     });

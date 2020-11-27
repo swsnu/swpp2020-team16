@@ -1,5 +1,4 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 
@@ -36,7 +35,6 @@ const useStyles = makeStyles(() => ({
 }));
 
 function NavbarOMG(props) {
-  const history = useHistory();
   const classes = useStyles();
   const [state, setState] = React.useState({
     left: false,
@@ -56,8 +54,8 @@ function NavbarOMG(props) {
       onClick={toggleDrawer(anchor, false)}
     >
       <List>
-        {['NotYetImplemented'].map((text, index) => (
-          <ListItem button key={text}>
+        {['Group Management'].map((text, index) => (
+          <ListItem button key={text} href="/group">
             <ListItemIcon>
               {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
             </ListItemIcon>
@@ -81,11 +79,11 @@ function NavbarOMG(props) {
       <List>
         {['My Page', 'My Group', 'Messages', 'My Test Results'].map(
           (text, index) => (
-            <ListItem button key={text}>
+            <ListItem button key={text} component="a" href="/group">
               <ListItemIcon>
                 {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
               </ListItemIcon>
-              <ListItemText primary={text} />
+              <ListItemText color="inherit" primary={text} />
             </ListItem>
           ),
         )}
@@ -131,7 +129,13 @@ function NavbarOMG(props) {
           {
             props.user.username !== null ?
               (
-                <Button color="inherit" onClick={() => { props.signOut(); history.push('/'); }}>
+                <Button
+                  color="inherit"
+                  onClick={() => {
+                    props.signOut();
+                    window.location.replace('/');
+                  }}
+                >
                   Logout
                 </Button>
               ) :

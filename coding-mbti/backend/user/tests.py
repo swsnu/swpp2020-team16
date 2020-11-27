@@ -59,7 +59,7 @@ class UserModelTest(TestCase):
         res = self.login()
         self.assertEqual(res.status_code, 200)
         expected_response = {"token": User.objects.get(
-            username='test').auth_token.key}
+            username='test').auth_token.key, "role": 1}
         self.assertEqual(res.content.decode(), json.dumps(expected_response))
 
         res = self.client.get("/api/user/login/")

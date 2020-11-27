@@ -31,6 +31,15 @@ class CodingStyle(models.Model):
     EF_value = models.FloatField()
     JC_value = models.FloatField()
 
+    def to_dict(self):
+        return {
+            "style": self.style,
+            "UM_value": self.UM_value,
+            "TI_value": self.TI_value,
+            "EF_value": self.EF_value,
+            "JC_value": self.JC_value
+        }
+
 
 class UserManager(BaseUserManager):
     use_in_migrations = True
@@ -77,6 +86,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = 'username'
     REQUIRED_FIELD = []
 
+    readonly_fields = ('id',)
+
     class Meta:
         db_table = 'user'
         ordering = ['-pk']
@@ -85,9 +96,16 @@ class User(AbstractBaseUser, PermissionsMixin):
 class Coder(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     style = models.OneToOneField(
-        CodingStyle, on_delete=models.SET_NULL, null=True)
+        CodingStyle, on_delete=models.SET_NULL, null=True, default=None)
     group = models.ForeignKey(
         Group, on_delete=models.SET_NULL, null=True, related_name='coder_group')
+
+    def to_dict(self):
+        return {
+            "user": self.user.pk,
+            "style": self.style.to_dict() if self.style is not None else None,
+            "group": self.group.pk if self.group is not None else None
+        }
 
 
 class Researcher(models.Model):
@@ -96,5 +114,9 @@ class Researcher(models.Model):
 
 class Manager(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    group = models.OneToOneField(
-        Group, on_delete=models.SET_NULL, null=True, related_name='manager_group')
+
+    def to_dict(self):
+        return {
+            "user": self.user.pk,
+            "group": self.group.pk if self.group is not None else None
+        }

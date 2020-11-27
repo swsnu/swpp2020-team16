@@ -10,8 +10,6 @@ import { withStyles } from '@material-ui/styles';
 import Container from '@material-ui/core/Container';
 
 /* Components */
-import Footer from '../components/Footer';
-import Navbar from '../components/Navbar';
 import Showprob from '../components/Showprob';
 import CodeIDE from '../components/CodeIDE';
 
@@ -52,7 +50,7 @@ class Home extends Component {
   };
 
   handleSubmit = async (pid, solution) => {
-    await createSolution(pid, solution);
+    this.props.createSolution(pid, solution);
   }
 
   render() {
@@ -61,7 +59,6 @@ class Home extends Component {
     } = this.props;
     return (
       <>
-        <Navbar />
         <main>
           <div className={classes.Content}>
             <Container maxWidth="lg">
@@ -130,7 +127,6 @@ class Home extends Component {
             />
           </Container>
         </main>
-        <Footer />
       </>
     );
   }

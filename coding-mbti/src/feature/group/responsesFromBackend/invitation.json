@@ -1,0 +1,22 @@
+{
+    "data": [
+        {
+            "id": 1,
+            "sender": 1,
+            "receiver": 2,
+            "group": 1
+        },
+        {
+            "id": 2,
+            "sender": 1,
+            "receiver": 3,
+            "group": 1
+        },
+        {
+            "id": 3,
+            "sender": 1,
+            "receiver": 4,
+            "group": 1
+        }
+    ]
+}

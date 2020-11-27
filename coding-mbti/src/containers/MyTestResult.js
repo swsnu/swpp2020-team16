@@ -7,8 +7,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import TypeInfo from '../components/TypeInfo';
 import RadarDiagram from '../components/RadarDiagram';
 import BarSingleDiagram from '../components/BarSingleDiagram';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
 
 const useStyles = makeStyles((theme) => ({
   Content: {
@@ -36,7 +34,6 @@ export default function Result() {
 
   return (
     <>
-      <Navbar />
       <main>
         <div className={classes.Content}>
           <Typography
@@ -189,7 +186,6 @@ export default function Result() {
           </div>
         </div>
       </main>
-      <Footer className={classes.footer} />
     </>
   );
 }

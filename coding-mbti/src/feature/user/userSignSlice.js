@@ -11,16 +11,19 @@ const userSlice = createSlice({
     initialState: {
         username: null,
         token: null,
+        role: null,
     },
     reducers: {
         signin: (state, action) => {
-            const { token, username } = action.payload;
+            const { username, token, role } = action.payload;
             state.username = username;
             state.token = token;
+            state.role = role;
         },
         signout: (state) => {
             state.username = null;
             state.token = null;
+            state.role = null;
         },
     },
 });

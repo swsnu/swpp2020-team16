@@ -5,16 +5,17 @@ from pytz import utc
 
 from django.http import HttpResponse, HttpResponseNotAllowed, HttpResponseBadRequest, JsonResponse
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
-from django.views.decorators.csrf import ensure_csrf_cookie
+from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
 from django.db.utils import IntegrityError
 
 from rest_framework.decorators import permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authtoken.models import Token
 
-from user.models import User
+from user.models import User, Manager, Coder
 
 
+@csrf_exempt
 def signin(request):
     if request.method == 'POST':
         try:
@@ -32,9 +33,8 @@ def signin(request):
         if not created:
             token_auth.created = datetime.datetime.utcnow().replace(tzinfo=utc)
             token_auth.save()
-
         auth_login(request, user)
-        return JsonResponse({"token": token_auth.key})
+        return JsonResponse({"token": token_auth.key, "role": user.role})
 
     else:
         return HttpResponseNotAllowed(['POST'])
@@ -52,8 +52,12 @@ def signup(request):
             return HttpResponseBadRequest(error)
 
         try:
-            User.objects.create_user(
+            user = User.objects.create_user(
                 username=username, email=email, salt="", role=role, password=password)
+            if role == User.Role.Coder:
+                Coder(user=user).save()
+            elif role == User.Role.Manager:
+                Manager(user=user).save()
         except IntegrityError:
             return HttpResponse(status=409)
 

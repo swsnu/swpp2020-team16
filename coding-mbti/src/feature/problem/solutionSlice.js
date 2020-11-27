@@ -51,7 +51,7 @@ export const readSolution = () => async (dispatch) => {
   const res = await request.get('problem/solution/');
 
   const necessaryKeysInResponse = ['data'];
-  necessaryKeysInResponse.map((key) => {
+  necessaryKeysInResponse.forEach((key) => {
     if (!(key in res)) {
       throw new InvalidKeyException(`Key "${key}" does not exist.`);
     }
@@ -64,7 +64,7 @@ export const readSolution = () => async (dispatch) => {
     'elapsed_time',
     'erase_count',
   ];
-  necessaryKeysInResponseData.map((key) => {
+  necessaryKeysInResponseData.forEach((key) => {
     if (!(key in res.data)) {
       throw new InvalidKeyException(`Key "${key}" does not exist.`);
     }
@@ -76,13 +76,13 @@ export const readSolution = () => async (dispatch) => {
 export const createSolution = (problemId, solution) => async (dispatch) => {
   const res = await request.post(`problem/${problemId}/solution/`, solution);
   const necessaryKeysInResponse = ['data'];
-  necessaryKeysInResponse.map((key) => {
+  necessaryKeysInResponse.forEach((key) => {
     if (!(key in res)) {
       throw new InvalidKeyException(`Key "${key}" does not exist.`);
     }
   });
   const necessaryKeysInResponseData = ['id'];
-  necessaryKeysInResponseData.map((key) => {
+  necessaryKeysInResponseData.forEach((key) => {
     if (!(key in res.data)) {
       throw new InvalidKeyException(`Key "${key}" does not exist.`);
     }
@@ -94,13 +94,13 @@ export const createSolution = (problemId, solution) => async (dispatch) => {
 export const deleteSolution = (solutionId) => async (dispatch) => {
   const res = await request.delete(`problem/solution/${solutionId}`);
   const necessaryKeysInResponse = ['data'];
-  necessaryKeysInResponse.map((key) => {
+  necessaryKeysInResponse.forEach((key) => {
     if (!(key in res)) {
       throw new InvalidKeyException(`Key "${key}" does not exist.`);
     }
   });
   const necessaryKeysInResponseData = ['id'];
-  necessaryKeysInResponseData.map((key) => {
+  necessaryKeysInResponseData.forEach((key) => {
     if (!(key in res.data)) {
       throw new InvalidKeyException(`Key "${key}" does not exist.`);
     }

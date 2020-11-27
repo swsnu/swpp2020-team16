@@ -111,6 +111,7 @@ export default function CodeIDE(props) {
     if (files['userCode.py'].body.length > value.length) {
       setCodeEraseCnt(codeEraseCnt + 1);
     }
+
     setFiles({
       ...files,
       'userCode.py': {

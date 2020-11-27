@@ -6,6 +6,14 @@ class UserAdmin(admin.ModelAdmin):
     pass
 
 
+class CoderAdmin(admin.ModelAdmin):
+    pass
+
+
+class CodingStyleAdmin(admin.ModelAdmin):
+    pass
+
+
 class ManagerAdmin(admin.ModelAdmin):
     pass
 

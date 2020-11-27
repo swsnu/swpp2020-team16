@@ -1,35 +1,4 @@
-import pickle
-import joblib
-import numpy as np
-
 from django.db import models
-from django.conf import settings
-
-
-def get_inference(code, pid, model_name):
-    vectorizer = pickle.load(
-        open(f'{settings.ML_DIR}/problem{pid}/vectorizer.pkl', 'rb'))
-
-    clf_from_joblib = joblib.load(
-        f'{settings.ML_DIR}/problem{pid}/{model_name}.pkl')
-
-    prediction = int(clf_from_joblib.predict(
-        vectorizer.transform([code]).toarray()))
-
-    probability = float(np.max(clf_from_joblib.predict_proba(
-        vectorizer.transform([code]).toarray())))
-
-    return prediction, probability
-
-
-def get_erase_inference(erase_cnt, pid):
-    clf_from_joblib = joblib.load(
-        f'{settings.ML_DIR}/problem{pid}/model_erase.pkl')
-
-    prediction = int(clf_from_joblib.predict(erase_cnt))
-    probability = float(np.max(clf_from_joblib.predict_proba(erase_cnt)))
-
-    return prediction, probability
 
 
 def get_array_default():

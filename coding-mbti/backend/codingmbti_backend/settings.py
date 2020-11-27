@@ -151,22 +151,32 @@ STATIC_URL = '/static/'
 AUTH_USER_MODEL = 'user.User'
 
 # CORS configurations
-
 CORS_ALLOW_CREDENTIALS = True
 
 CORS_ALLOWED_ORIGINS = [
+    "http://0.0.0.0:3000",
     "http://localhost:3000",
     "http://ec2-18-215-159-57.compute-1.amazonaws.com",
     "http://ec2-3-82-13-53.compute-1.amazonaws.com",
 ]
 
+CORS_EXPOSE_HEADERS = [
+    'Set-Cookie',
+]
+
 # CSRF configurations
 
 CSRF_TRUSTED_ORIGINS = [
+    "0.0.0.0:3000",
     "localhost:3000",
     "ec2-18-215-159-57.compute-1.amazonaws.com",
     "ec2-3-82-13-53.compute-1.amazonaws.com",
 ]
+
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SAMESITE = 'None'
+SESSION_COOKIE_SAMESITE = 'Strict'
 
 # REST FRAMEWORK configurations
 

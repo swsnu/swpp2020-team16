@@ -8,6 +8,7 @@ import { ThemeProvider, createMuiTheme } from '@material-ui/core';
 import AlertTemplate from 'react-alert-template-basic';
 import App from './App';
 import configureStore from './configureStore';
+import * as utils from './components/brython/utils';
 
 const { store } = configureStore();
 const theme = createMuiTheme();
@@ -15,6 +16,10 @@ const theme = createMuiTheme();
 describe('App', () => {
   let app;
   let mount;
+  const runCodeWithFilesSpy = jest.fn();
+  jest.spyOn(utils, 'initBrythonRunner').mockImplementation(() => ({
+    runCodeWithFiles: runCodeWithFilesSpy
+  }));
 
   beforeAll(() => {
     mount = createMount();
@@ -68,6 +73,6 @@ describe('App', () => {
         </ThemeProvider>
       </Provider>,
     );
-    expect(wrapper.find('#console').length).toBe(1);
+    expect(wrapper.find('#output').length).toBe(2);
   });
 });

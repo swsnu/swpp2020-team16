@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/styles';
 import { Redirect } from 'react-router';
 import { readMember, deleteMember } from '../../feature/group/groupSlice';
+import { createInvitation } from '../../feature/group/groupInvitationSlice';
 
 import InvitationCreate from '../../components/group/InvitationCreate';
 import MemberList from '../../components/group/MemberList';
@@ -39,7 +40,7 @@ class GroupDetail extends Component {
                         {group.name}
                     </h3>
                     <MemberList groupId={groupId} members={members} deleteMember={deleteMember} />
-                    <InvitationCreate classeName={classes.tabPanel} createInvitaion={createInvitation} gruopId={groupId} />
+                    <InvitationCreate classeName={classes.tabPanel} createInvitation={createInvitation} groupId={groupId} />
                 </div>
             );
         }
@@ -66,4 +67,4 @@ const mapStateToProps = (state) => ({
     error: state.group.groupReducer.error,
 });
 
-export default connect(mapStateToProps, { readMember, deleteMember })(withStyles(styles)(GroupDetail));
+export default connect(mapStateToProps, { readMember, deleteMember, createInvitation })(withStyles(styles)(GroupDetail));

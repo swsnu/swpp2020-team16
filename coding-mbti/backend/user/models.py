@@ -1,6 +1,7 @@
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from group.models import Group
+
 
 class CodingStyle(models.Model):
     class Style(models.IntegerChoices):
@@ -36,15 +37,24 @@ class UserManager(BaseUserManager):
 
     def create_user(self, username, password, email, salt, role):
         user = self.model(username=username,
-                          password=password,
                           email=self.normalize_email(email),
                           salt=salt,
                           role=role)
+        user.set_password(password)
         user.save(using=self._db)
         return user
 
+    def create_superuser(self, username, password):
+        if password is None:
+            raise TypeError('Superusers must have a password.')
+        user = self.create_user(username, password, 'admin@admin', '', 1)
+        user.is_superuser = True
+        user.is_staff = True
+        user.save()
+        return user
 
-class User(AbstractBaseUser):
+
+class User(AbstractBaseUser, PermissionsMixin):
     class Role(models.IntegerChoices):
         Coder = 1
         Manager = 2
@@ -53,10 +63,13 @@ class User(AbstractBaseUser):
     username = models.CharField(max_length=21, unique=True, default=None)
     email = models.CharField(
         max_length=190, unique=True, null=True, default=None)
-    nickname = models.CharField(max_length=21, unique=True)
+    nickname = models.CharField(max_length=21)
     password = models.TextField(null=True, default=None)
     salt = models.TextField(null=True, default=None)
     role = models.IntegerField(choices=Role.choices)
+    is_active = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False)
+    is_superuser = models.BooleanField(default=False)
     profile_img = models.ImageField()
 
     objects = UserManager()
@@ -75,6 +88,9 @@ class Coder(models.Model):
         CodingStyle, on_delete=models.SET_NULL, null=True)
     group = models.ForeignKey(
         Group, on_delete=models.SET_NULL, null=True, related_name='coder_group')
+
+    def to_dict(self):
+        return {"user_id": self.user.pk, "username": self.user.username, "style":self.style.style}
 
 
 class Researcher(models.Model):

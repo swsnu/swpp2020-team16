@@ -1,22 +1,30 @@
 /* eslint-disable react/jsx-props-no-spreading */
-/*  테스트들 제대로 안 되어 있음  */
-
 import React from 'react';
 
 import { Provider } from 'react-redux';
-import { ConnectedRouter } from 'connected-react-router';
 import { createMount } from '@material-ui/core/test-utils';
 import { transitions, positions, Provider as AlertProvider } from 'react-alert';
+import { ThemeProvider, createMuiTheme } from '@material-ui/core';
 import AlertTemplate from 'react-alert-template-basic';
-import { store, history } from './store/store';
 import App from './App';
+import configureStore from './configureStore';
+import * as utils from './components/brython/utils';
+
+const { store } = configureStore();
+const theme = createMuiTheme();
 
 describe('App', () => {
   let app;
   let mount;
+  const runCodeWithFilesSpy = jest.fn();
+  jest.spyOn(utils, 'initBrythonRunner').mockImplementation(() => ({
+    runCodeWithFiles: runCodeWithFilesSpy
+  }));
+
   beforeAll(() => {
     mount = createMount();
   });
+
   afterAll(() => {
     mount.cleanUp();
   });
@@ -33,11 +41,11 @@ describe('App', () => {
 
     app = (
       <Provider store={store}>
-        <ConnectedRouter history={history}>
+        <ThemeProvider theme={theme}>
           <AlertProvider template={AlertTemplate} {...options}>
             <App />
           </AlertProvider>
-        </ConnectedRouter>
+        </ThemeProvider>
       </Provider>
     );
   });
@@ -58,13 +66,13 @@ describe('App', () => {
     };
     const wrapper = mount(
       <Provider store={store}>
-        <ConnectedRouter history={history}>
+        <ThemeProvider theme={theme}>
           <AlertProvider template={AlertTemplate} {...options}>
             <App />
           </AlertProvider>
-        </ConnectedRouter>
+        </ThemeProvider>
       </Provider>,
     );
-    expect(wrapper.find('#console').length).toBe(1);
+    expect(wrapper.find('#output').length).toBe(2);
   });
 });

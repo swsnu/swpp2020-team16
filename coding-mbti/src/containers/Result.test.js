@@ -1,18 +1,29 @@
 import React from 'react';
-import { createShallow } from '@material-ui/core/test-utils';
+import { createMount } from '@material-ui/core/test-utils';
+import { Provider } from 'react-redux';
+
 import Result from './Result';
+import configureStore from '../configureStore';
+
+const { store } = configureStore();
 
 describe('<Result/>', () => {
-  const result = <Result />;
-  let shallow;
+  let mount;
 
   beforeAll(() => {
-    shallow = createShallow();
+    mount = createMount();
+  });
+  afterAll(() => {
+    mount.cleanUp();
   });
 
   it('should render withour any error', () => {
-    const component = shallow(result);
-    const wrapper = component.find('h1');
-    expect(wrapper.length).toBe(1);
+    const component = mount(
+      <Provider store={store}>
+        <Result />
+      </Provider>
+    );
+    const wrapper = component.find('div');
+    expect(wrapper.length).toBe(4);
   });
 });

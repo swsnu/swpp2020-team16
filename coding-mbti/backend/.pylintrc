@@ -148,6 +148,14 @@ disable=import-outside-toplevel,
         exception-escape,
         comprehension-escape,
         too-few-public-methods,
+        bare-except,
+        no-self-use,
+        invalid-name,
+        too-many-instance-attributes,
+        duplicate-code,
+        line-too-long,
+        consider-using-enumerate,
+
 
 # Enable the message, report, category or checker with the given id(s). You can
 # either give multiple identifier separated by comma (,) or put this option

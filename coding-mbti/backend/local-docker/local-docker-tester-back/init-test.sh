@@ -36,7 +36,7 @@ cd "$DIR"/../../
 
 currentInstallation=`docker exec "$containerId" pip list | grep -v "pip" | grep -v "setuptools" | grep -v "wheel" |awk 'NR>2{print $1}' | sort`
 currentCNT=`echo "$currentInstallation" |wc -l`
-havetoInstallation=`cat requirements.txt| awk '{print $1}' | sed 's/==*[0-9].*[0-9]//g' | sort`
+havetoInstallation=`cat requirements.txt|grep -v "==\"Darwin\"" | awk '{print $1}' | sed 's/;.*//g' | sed 's/==*[0-9].*[0-9]//g' | sort`
 havetoCNT=`echo "$havetoInstallation"   |wc -l`
 
 until test "$currentCNT" -ge "$havetoCNT"; do

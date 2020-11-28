@@ -154,10 +154,10 @@ AUTH_USER_MODEL = 'user.User'
 CORS_ALLOW_CREDENTIALS = True
 
 CORS_ALLOWED_ORIGINS = [
-    "http://0.0.0.0:3000",
+    #"http://0.0.0.0:3000",
     "http://localhost:3000",
-    "http://ec2-18-215-159-57.compute-1.amazonaws.com",
-    "http://ec2-3-82-13-53.compute-1.amazonaws.com",
+    #"http://ec2-18-215-159-57.compute-1.amazonaws.com",
+    #"http://ec2-3-82-13-53.compute-1.amazonaws.com",
 ]
 
 CORS_EXPOSE_HEADERS = [

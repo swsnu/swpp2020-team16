@@ -19,10 +19,17 @@ class AnalysisTestCase(TestCase):
         problem1 = Problem(desc="For test", input_desc="For test",
                            output_desc="Fore test", pid="ITP1_6_B", objective=1)
         problem1.save()
+        problem1_id = problem1.to_dict()['id']
 
         problem2 = Problem(desc="For test", input_desc="For test",
-                           output_desc="Fore test", pid="ITP2_3_B", objective=1)
+                           output_desc="Fore test", pid="ALDS1_4_B", objective=3)
         problem2.save()
+        problem2_id = problem2.to_dict()['id']
+
+        problem3 = Problem(desc="For test", input_desc="For test",
+                           output_desc="Fore test", pid="ITP1_7_B", objective=2)
+        problem3.save()
+        problem3_id = problem3.to_dict()['id']
 
         solution1_body = {
             "erase_cnt": 12,
@@ -32,7 +39,7 @@ class AnalysisTestCase(TestCase):
         }
 
         response = client.post(
-            "/api/problem/1/solution/",
+            f"/api/problem/{problem1_id}/solution/",
             json.dumps(solution1_body),
             content_type="application/json",
         )
@@ -47,13 +54,28 @@ class AnalysisTestCase(TestCase):
         }
 
         response = client.post(
-
-            "/api/problem/2/solution/",
+            f"/api/problem/{problem2_id}/solution/",
             json.dumps(solution2_body),
             content_type="application/json",
         )
 
         self.assertEqual(response.status_code, 204)
+
+        solution3_body = {
+            "erase_cnt": 12,
+            "elapsed_time": 30,
+            "evaluation": 66.0,
+            "code": "n=int(input())\na=[[0 for i in range(13)]for j in range(4)]\nfor k in range(n):\ncard=input().split()\np=5\nif (card[0]=='S'):\np=0\nelif (card[0]=='H':\np=1\nelif (card[0]=='C'):\np=2\nelse:\np=3\nq=int(card[1])-1\na[p][q]=1\nfor i in range(4):\nfor j in range(13):\nif a[i][j]==0:\ntype=''\nif i==0 :\ntype='S'\nelif i==1:\ntype='H'\nelif i==2:\ntype='C'\nelse:\ntype='D'\nprint('{0} {1}'.format(type,j+1))",
+        }
+
+        response = client.post(
+            f"/api/problem/{problem3_id}/solution/",
+            json.dumps(solution3_body),
+            content_type="application/json",
+        )
+
+        self.assertEqual(response.status_code, 204)
+
 
         response = client.post("/api/analysis/my/report/")
 
@@ -106,10 +128,17 @@ class AnalysisTestCase(TestCase):
         problem1_id = problem1.to_dict()['id']
 
         problem2 = Problem(desc="For test", input_desc="For test",
-                           output_desc="Fore test", pid="ITP2_3_B", objective=1)
+                           output_desc="Fore test", pid="ALDS1_4_B", objective=3)
+
         
         problem2.save()
         problem2_id = problem2.to_dict()['id']
+
+        problem3 = Problem(desc="For test", input_desc="For test",
+                           output_desc="Fore test", pid="ITP1_7_B", objective=2)
+        
+        problem3.save()
+        problem3_id = problem3.to_dict()['id']
 
         solution1_body = {
             "erase_cnt": 12,
@@ -137,6 +166,22 @@ class AnalysisTestCase(TestCase):
 
             f"/api/problem/{problem2_id}/solution/",
             json.dumps(solution2_body),
+            content_type="application/json",
+        )
+
+        self.assertEqual(response.status_code, 204)
+
+        solution3_body = {
+            "erase_cnt": 12,
+            "elapsed_time": 30,
+            "evaluation": 66.0,
+            "code": "n=int(input())\na=[[0 for i in range(13)]for j in range(4)]\nfor k in range(n):\ncard=input().split()\np=5\nif (card[0]=='S'):\np=0\nelif (card[0]=='H':\np=1\nelif (card[0]=='C'):\np=2\nelse:\np=3\nq=int(card[1])-1\na[p][q]=1\nfor i in range(4):\nfor j in range(13):\nif a[i][j]==0:\ntype=''\nif i==0 :\ntype='S'\nelif i==1:\ntype='H'\nelif i==2:\ntype='C'\nelse:\ntype='D'\nprint('{0} {1}'.format(type,j+1))",
+        }
+
+        response = client.post(
+
+            f"/api/problem/{problem3_id}/solution/",
+            json.dumps(solution3_body),
             content_type="application/json",
         )
 
@@ -229,10 +274,17 @@ class AnalysisTestCase(TestCase):
         problem1_id = problem1.to_dict()['id']
 
         problem2 = Problem(desc="For test", input_desc="For test",
-                           output_desc="Fore test", pid="ITP2_3_B", objective=1)
+                           output_desc="Fore test", pid="ALDS1_4_B", objective=3)
+
         
         problem2.save()
         problem2_id = problem2.to_dict()['id']
+
+        problem3 = Problem(desc="For test", input_desc="For test",
+                           output_desc="Fore test", pid="ITP1_7_B", objective=2)
+        
+        problem3.save()
+        problem3_id = problem3.to_dict()['id']
 
         solution1_body = {
             "erase_cnt": 12,
@@ -260,6 +312,22 @@ class AnalysisTestCase(TestCase):
 
             f"/api/problem/{problem2_id}/solution/",
             json.dumps(solution2_body),
+            content_type="application/json",
+        )
+
+        self.assertEqual(response.status_code, 204)
+
+        solution3_body = {
+            "erase_cnt": 12,
+            "elapsed_time": 30,
+            "evaluation": 66.0,
+            "code": "n=int(input())\na=[[0 for i in range(13)]for j in range(4)]\nfor k in range(n):\ncard=input().split()\np=5\nif (card[0]=='S'):\np=0\nelif (card[0]=='H':\np=1\nelif (card[0]=='C'):\np=2\nelse:\np=3\nq=int(card[1])-1\na[p][q]=1\nfor i in range(4):\nfor j in range(13):\nif a[i][j]==0:\ntype=''\nif i==0 :\ntype='S'\nelif i==1:\ntype='H'\nelif i==2:\ntype='C'\nelse:\ntype='D'\nprint('{0} {1}'.format(type,j+1))",
+        }
+
+        response = client.post(
+
+            f"/api/problem/{problem3_id}/solution/",
+            json.dumps(solution3_body),
             content_type="application/json",
         )
 
@@ -302,11 +370,17 @@ class AnalysisTestCase(TestCase):
         problem1_id = problem1.to_dict()['id']
 
         problem2 = Problem(desc="For test", input_desc="For test",
-                           output_desc="Fore test", pid="ITP2_3_B", objective=1)
+                           output_desc="Fore test", pid="ALDS1_4_B", objective=3)
         
         problem2.save()
         problem2_id = problem2.to_dict()['id']
 
+        problem3 = Problem(desc="For test", input_desc="For test",
+                           output_desc="Fore test", pid="ITP1_7_B", objective=1)
+        
+        problem3.save()
+        problem3_id = problem3.to_dict()['id']
+        
         solution1_body = {
             "erase_cnt": 12,
             "elapsed_time": 30,
@@ -333,6 +407,22 @@ class AnalysisTestCase(TestCase):
 
             f"/api/problem/{problem2_id}/solution/",
             json.dumps(solution2_body),
+            content_type="application/json",
+        )
+
+        self.assertEqual(response.status_code, 204)
+
+        solution3_body = {
+            "erase_cnt": 12,
+            "elapsed_time": 30,
+            "evaluation": 66.0,
+            "code": "n=int(input())\na=[[0 for i in range(13)]for j in range(4)]\nfor k in range(n):\ncard=input().split()\np=5\nif (card[0]=='S'):\np=0\nelif (card[0]=='H':\np=1\nelif (card[0]=='C'):\np=2\nelse:\np=3\nq=int(card[1])-1\na[p][q]=1\nfor i in range(4):\nfor j in range(13):\nif a[i][j]==0:\ntype=''\nif i==0 :\ntype='S'\nelif i==1:\ntype='H'\nelif i==2:\ntype='C'\nelse:\ntype='D'\nprint('{0} {1}'.format(type,j+1))",
+        }
+
+        response = client.post(
+
+            f"/api/problem/{problem3_id}/solution/",
+            json.dumps(solution3_body),
             content_type="application/json",
         )
 

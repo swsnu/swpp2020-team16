@@ -10,13 +10,13 @@ from problem.models import Problem
 from group.models import Group
 
 
-def get_inference(code, pid, model_name):
+def get_inference(code, pid):
     vectorizer = pickle.load(
-        open(f"{settings.ML_DIR}/problem{pid}/vectorizer.pkl", "rb")
+        open(f"{settings.ML_DIR}/problem{pid}/vectorizer.pickle", "rb")
     )
 
     clf_from_joblib = joblib.load(
-        f"{settings.ML_DIR}/problem{pid}/{model_name}.pkl")
+        f"{settings.ML_DIR}/problem{pid}/model.pkl")
 
     prediction = int(clf_from_joblib.predict(
         vectorizer.transform([code]).toarray()))
@@ -29,12 +29,15 @@ def get_inference(code, pid, model_name):
     return prediction, probability
 
 
-def get_erase_inference(erase_cnt, pid):
-    # pylint: disable=W0613
-    # clf_from_joblib = joblib.load(
-    #    f"{settings.ML_DIR}/problem{pid}/model_erase.pkl")
-    prediction = 0 #int(clf_from_joblib.predict(erase_cnt))
-    probability = 0.0 #float(np.max(clf_from_joblib.predict_proba(erase_cnt)))
+
+def get_jc_inference(erase_cnt, elapsed_time):
+    if erase_cnt>15 and elapsed_time>100 :
+        prediction = 1
+        probability = 1
+
+    else :
+        prediction = 0
+        probability = 1
 
     return prediction, probability
 
@@ -53,17 +56,16 @@ class Report(TimeStampedModel):
     )
 
     def predict_UM(self, code):
-        return get_inference(code, "ITP2_3_B", "model")
+        return get_inference(code, "ITP1_6_B")
 
-    def predict_EF(self, code):
-        return get_inference(code, "ITP1_6_B", "model_style")
+    def predict_RT(self, code):
+        return get_inference(code, "ALDS1_4_B")
 
-    def predict_JC(self, erase_cnt):
-        return get_erase_inference(erase_cnt, "ITP1_6_B")
+    def predict_TI(self, code):
+        return get_inference(code, "ITP1_7_B")
 
-    def predict_TI(self, erase_cnt):
-        return get_erase_inference(erase_cnt, "ITP1_6_B")
-
+    def predict_JC(self, erase_cnt, elapsed_time):
+        return get_jc_inference(erase_cnt, elapsed_time)
 
     class Meta:
         abstract = True
@@ -76,7 +78,7 @@ class Distribution(models.Model):
     # Just type - Carefully type
     UM = models.FloatField()
     TI = models.FloatField()
-    EF = models.FloatField()
+    RT = models.FloatField()
     JC = models.FloatField()
 
 
@@ -115,6 +117,8 @@ class SolutionReport(Report):
 
         return {
             "author:": self.author.id,
+            "elapsed_time": self.elapsed_time,
+            "erase_cnt": self.erase_cnt,
             "title": self.title,
             "code": self.code,
             "status": self.solution.status,
@@ -123,18 +127,21 @@ class SolutionReport(Report):
 
 
 class UserReport(Report):
-    solution1 = models.TextField()
-    solution2 = models.TextField()
+    solution1 = models.TextField(default="")
+    solution2 = models.TextField(default="")
+    solution3 = models.TextField(default="")
+    mean_elapsed_time = models.FloatField(default=0.0)
+    mean_erase_cnt = models.IntegerField(default=0)
 
     UM_prediction = models.IntegerField(
         choices=Problem.ProblemObjective.choices, default=0
     )
     UM_probability = models.FloatField(default=0)
 
-    EF_prediction = models.IntegerField(
+    RT_prediction = models.IntegerField(
         choices=Problem.ProblemObjective.choices, default=0
     )
-    EF_probability = models.FloatField(default=0)
+    RT_probability = models.FloatField(default=0)
 
     TI_prediction = models.IntegerField(
         choices=Problem.ProblemObjective.choices, default=0
@@ -151,18 +158,17 @@ class UserReport(Report):
 
     def to_dict(self):
         if not self.is_available():
-            self.EF_prediction, self.EF_probability = self.predict_EF(
+            self.UM_prediction, self.UM_probability = self.predict_UM(
                 self.solution1)
 
-            self.UM_prediction, self.UM_probability = self.predict_UM(
+            self.RT_prediction, self.RT_probability = self.predict_RT(
                 self.solution2)
 
             self.TI_prediction, self.TI_probability = self.predict_TI(
-                self.solution2)
+                self.solution3)
 
             self.JC_prediction, self.JC_probability = self.predict_JC(
-                self.solution2)
-
+                self.mean_elapsed_time, self.mean_erase_cnt)
             self.status = Report.ReportStatus.READY
             self.save()
 
@@ -172,8 +178,8 @@ class UserReport(Report):
             "author:": self.author.id,
             "UM_prediction": self.UM_prediction,
             "UM_probability": self.UM_probability,
-            "EF_prediction": self.EF_prediction,
-            "EF_probability": self.EF_probability,
+            "RT_prediction": self.RT_prediction,
+            "RT_probability": self.RT_probability,
             "TI_prediction": self.TI_prediction,
             "TI_probability": self.TI_probability,
             "JC_prediction": self.JC_prediction,

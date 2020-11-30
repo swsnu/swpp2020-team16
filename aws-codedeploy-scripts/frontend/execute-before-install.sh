@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # check necessary installations
-if sudo yum list | grep -q cloud-utils; then
+if rpm -qa | grep -q cloud-utils; then
     echo "cloud-utils exists."
     echo "ec2metadata command can be executed."
 else

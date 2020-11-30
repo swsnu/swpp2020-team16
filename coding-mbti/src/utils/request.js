@@ -1,7 +1,5 @@
 import axios from 'axios';
 
-console.log(`env REACT_APP_BACKEND_URL : ${process.env.REACT_APP_BACKEND_URL}`);
-
 const baseAPIURL = process.env.REACT_APP_BACKEND_URL;
 
 const axiosInstance = axios.create({

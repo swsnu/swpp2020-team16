@@ -76,6 +76,7 @@ class AnalysisTestCase(TestCase):
 
         self.assertEqual(response.status_code, 204)
 
+
         response = client.post("/api/analysis/my/report/")
 
         self.assertEqual(response.status_code, 204)
@@ -128,6 +129,7 @@ class AnalysisTestCase(TestCase):
 
         problem2 = Problem(desc="For test", input_desc="For test",
                            output_desc="Fore test", pid="ALDS1_4_B", objective=3)
+
         
         problem2.save()
         problem2_id = problem2.to_dict()['id']
@@ -273,6 +275,7 @@ class AnalysisTestCase(TestCase):
 
         problem2 = Problem(desc="For test", input_desc="For test",
                            output_desc="Fore test", pid="ALDS1_4_B", objective=3)
+
         
         problem2.save()
         problem2_id = problem2.to_dict()['id']
@@ -377,7 +380,7 @@ class AnalysisTestCase(TestCase):
         
         problem3.save()
         problem3_id = problem3.to_dict()['id']
-
+        
         solution1_body = {
             "erase_cnt": 12,
             "elapsed_time": 30,

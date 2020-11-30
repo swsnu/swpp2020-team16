@@ -37,6 +37,7 @@ def my_report_view(request):
     elif request.method == 'GET':
         try:
             user_report = UserReport.objects.filter(author=request.user).last().to_dict()
+
         except (ObjectDoesNotExist, AttributeError) as error:
             return HttpResponseBadRequest(error)
         return JsonResponse(user_report, status=200, safe=False)
@@ -68,6 +69,7 @@ def my_solutions_view(request):
             solution3 = Solution.objects.filter(
                 problem__pid="ITP1_7_B", author_id=request.user.id).last().to_dict()
             response_arr = [solution1, solution2, solution3]
+
         except (ObjectDoesNotExist, AttributeError) as error:
             return HttpResponseBadRequest(error)
         return JsonResponse(response_arr, status=200, safe=False)
@@ -86,6 +88,7 @@ def other_solutions_view(request, user_id=""):
             solution3 = Solution.objects.filter(
                 problem__pid="ITP1_7_B", author_id=user_id).last().to_dict()
             response_arr = [solution1, solution2, solution3]
+
         except (ObjectDoesNotExist, AttributeError) as error:
             return HttpResponseBadRequest(error)
         return JsonResponse(response_arr, status=200, safe=False)

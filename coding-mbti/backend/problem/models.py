@@ -11,6 +11,8 @@ class Problem(models.Model):
         # Time Complexity - Intutive Code
         UM = 1
         TI = 2
+        RT = 3
+        JC = 4
     title = models.CharField(max_length=31, default="")
     desc = models.TextField(default="")
     objective = models.IntegerField(choices=ProblemObjective.choices)

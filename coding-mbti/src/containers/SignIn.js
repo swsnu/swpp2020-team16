@@ -14,6 +14,9 @@ import { withStyles } from '@material-ui/styles';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { signIn, signOut } from '../feature/user/userSignSlice';
+import configureStore from '../configureStore';
+
+const { persistor } = configureStore();
 
 const styles = (theme) => ({
   paper: {
@@ -54,8 +57,9 @@ class SignIn extends Component {
     }
   };
 
-  clickSignOut = () => {
-    this.props.signOut();
+  clickSignOut = async () => {
+    await persistor.purge();
+    await this.props.signOut();
   }
 
   render() {

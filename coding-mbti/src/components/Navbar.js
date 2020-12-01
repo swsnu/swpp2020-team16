@@ -24,6 +24,9 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 /* REDUXs */
 import { connect } from 'react-redux';
 import { signOut } from '../feature/user/userSignSlice';
+import configureStore from '../configureStore';
+
+const { persistor } = configureStore();
 
 const useStyles = makeStyles(() => ({
   list: {
@@ -133,6 +136,7 @@ function NavbarOMG(props) {
                   color="inherit"
                   onClick={() => {
                     props.signOut();
+                    persistor.purge();
                     window.location.replace('/');
                   }}
                 >

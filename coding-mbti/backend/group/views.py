@@ -77,6 +77,7 @@ def group_view(request):
             return HttpResponseBadRequest(error)
     elif request.method == "POST":
         try:
+            print(request.user)
             manager = Manager.objects.get(user=request.user)
             body = request.body.decode()
             name = json.loads(body)["name"]

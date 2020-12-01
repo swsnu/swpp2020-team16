@@ -50,6 +50,7 @@ export const signIn = (signInData) => async (dispatch) => {
     });
     res.data.username = signInData.username;
     localStorage.setItem('token', res.data.token);
+
     dispatch(signin(res.data));
 };
 
@@ -59,8 +60,8 @@ export const signOut = () => async (dispatch) => {
         throw new ResponseException('username does not exist.');
     }
 
+    localStorage.clear();
     dispatch(signout());
-    localStorage.removeItem('token');
 };
 
 export const signUp = (signUpData) => async () => {

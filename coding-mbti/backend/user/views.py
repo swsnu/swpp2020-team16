@@ -15,7 +15,7 @@ from rest_framework.authtoken.models import Token
 from user.models import User, Manager, Coder
 
 
-@csrf_exempt
+@ensure_csrf_cookie
 def signin(request):
     if request.method == 'POST':
         try:

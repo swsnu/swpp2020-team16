@@ -1,9 +1,8 @@
 #!/bin/bash
   
 cd /deploy/swpp2020-team16/coding-mbti
-yarn install
+yarn
 yarn global add serve
-#yarn global add react-scripts
-#yarn global add react-router-dom
-#apk add --no-cache git
-serve -s build -l 3000
+
+# `yarn run:built:dev` or `yarn run:built:prd` will be added dynamically based on ec2 instance id
+# handled in swpp2020-team16/aws-codedeploy-scripts/frontend/execute-before-install.sh

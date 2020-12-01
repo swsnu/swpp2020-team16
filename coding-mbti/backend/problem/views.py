@@ -105,7 +105,7 @@ def solution_view(request, problem_id):
         solution.save()
 
         SolutionReport(
-            solution=solution, author=request.user, title=f"{problem.pid}_report", code=code
+            solution=solution, author=request.user, title=f"{problem.pid}_report", code=code, erase_cnt=erase_cnt, elapsed_time=elapsed_time
         ).save()
 
         return HttpResponse(status=204)

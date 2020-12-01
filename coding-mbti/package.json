@@ -58,12 +58,15 @@
   },
   "scripts": {
     "start": "./node_modules/.bin/env-cmd -e local react-scripts start",
-    "start:prod": "serve -s build -l 3000",
+    "run:built:local": "./node_modules/.bin/env-cmd -e local serve -s build -l 3000",
+    "run:built:dev": "./node_modules/.bin/env-cmd -e dev serve -s build -l 3000",
+    "run:built:prd": "./node_modules/.bin/env-cmd -e prd serve -s build -l 3000",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "coverage": "react-scripts test --coverage",
     "coveralls": "cat ./coverage/lcov.info | node node_modules/.bin/coveralls",
+    "build:local": "./node_modules/.bin/env-cmd -e local react-scripts build",
     "build:dev": "./node_modules/.bin/env-cmd -e dev react-scripts build",
     "build:prd": "./node_modules/.bin/env-cmd -e prd react-scripts build"
   },

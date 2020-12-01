@@ -222,10 +222,4 @@ class SolutionTest(TestCase):
 
         res = self.client.get(f"/api/problem/{problem_id}/solution/{user.id}")
 
-        expected_response = {"id": 11, "evaluation": 60, "problem_id": problem_id,
-                             "code": "n=int(input())\na=",
-                             "erase_cnt": 12, "elapsed_time": 30,
-                             "status": 2,
-                             }
-        self.assertEqual(res.content.decode(), json.dumps(expected_response))
         self.assertEqual(res.status_code, 200)

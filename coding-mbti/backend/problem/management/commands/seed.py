@@ -120,7 +120,7 @@ def sampling_without_replacement():
 
 
 
-def create_single_coder(num, style, problem1, problem2):
+def create_single_coder(num, style, problem1, problem2, problem3):
     user = User.objects.create_user(
             username=f"user{num}", password="12345678", email=f"user{num}@test.com", salt="123", role=1)
 
@@ -143,7 +143,15 @@ def create_single_coder(num, style, problem1, problem2):
     solution2.save()
 
     SolutionReport(
-            solution=solution2, author=user, title="ITP_2_3_B_report", code="test"
+            solution=solution2, author=user, title="ALSD1_4_B_report", code="test"
+    ).save()
+
+    solution3 = Solution(
+            problem=problem3, code="test", erase_cnt=0, elapsed_time=0, author_id=user.id)
+    solution2.save()
+
+    SolutionReport(
+            solution=solution3, author=user, title="ITP_1_7_B_report", code="test"
     ).save()
 
     user_report = UserReport(
@@ -153,13 +161,14 @@ def create_single_coder(num, style, problem1, problem2):
     user_report.save()
 
 def create_coder_by_style():
-    problem1 = Problem.objects.all().first()
-    problem2 = Problem.objects.all().last()
+    problem1 = Problem.objects.filter(pid="ITP1_6_B").first()
+    problem2 = Problem.objects.filter(pid="ALSD1_4_B").first()
+    problem3 = Problem.objects.filter(pid="ITP1_7_B").first()
     style=0
     for idx, num in enumerate(sampling_without_replacement()):
         if idx % 5 == 0 :
             style +=1
-        create_single_coder(num,style, problem1, problem2)
+        create_single_coder(num,style, problem1, problem2, problem3)
 
 def create_data(_self):
     _self.stdout.write("seeding data...")

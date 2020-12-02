@@ -1,5 +1,4 @@
 import os
-import logging
 import numpy as np
 
 
@@ -9,7 +8,6 @@ from django.conf import settings
 from user.models import User, Coder, CodingStyle
 from problem.models import Problem, ProblemInput, ProblemOutput, Solution
 from analysis.models import SolutionReport, UserReport
-
 
 
 def read_test_cases(option, pid):
@@ -51,13 +49,6 @@ def parse_output(output_filename):
     return outputs
 
 
-logger = logging.getLogger(__name__)
-# python manage.py seed --mode=init
-
-MODE_INIT = "init"
-MODE_CLEAR = "clear"
-
-
 class Command(BaseCommand):
     help = "seed database for testing and development."
 
@@ -68,19 +59,6 @@ class Command(BaseCommand):
         self.stdout.write("seeding data...")
         run_seed(self, options["mode"])
         self.stdout.write("done.")
-
-
-def clear_data():
-    logger.info("Delete Problem instances")
-    Problem.objects.all().delete()
-    ProblemInput.objects.all().delete()
-    ProblemOutput.objects.all().delete()
-    User.objects.all().delete()
-    Coder.objects.all().delete()
-    CodingStyle.objects.all().delete()
-    Solution.objects.all().delete()
-    SolutionReport.objects.all().delete()
-    UserReport.objects.all().delete()
 
 
 def create_problem_input_output_to_database(problem_id):
@@ -101,7 +79,6 @@ def create_problem_input_output_to_database(problem_id):
     )
     problem.save()
 
-
     for i in range(len(parsed_inputs)):
         problem_input = ProblemInput(
             problem=problem,
@@ -115,74 +92,64 @@ def create_problem_input_output_to_database(problem_id):
         problem_output.save()
 
 
-def sampling_without_replacement():
-    return np.random.choice(range(300), size=80, replace=False, p=None)
-
-
-
-def create_single_coder(num, style, problem1, problem2, problem3):
+def create_single_coder(num, style, problems):
     user = User.objects.create_user(
-            username=f"user{num}", password="12345678", email=f"user{num}@test.com", salt="123", role=1)
+        username=f"user{num}", password="12345678", email=f"user{num}@test.com", salt="123", role=1)
 
-    coding_style = CodingStyle(style=style, UM_value=0, TI_value=0,EF_value=0,JC_value=0)
+    coding_style = CodingStyle(
+        style=style, UM_value=0, TI_value=0, EF_value=0, JC_value=0)
     coding_style.save()
 
     coder = Coder(user=user, style=coding_style)
     coder.save()
 
-    solution1 = Solution(
-            problem=problem1, code="test", erase_cnt=0, elapsed_time=0, author_id=user.id)
-    solution1.save()
+    solutions = []
+    for problem in problems:
+        solution = Solution(
+            problem=problem, code="test", erase_cnt=0, elapsed_time=0, author_id=user.id)
+        solution.save()
 
-    SolutionReport(
-            solution=solution1, author=user, title="ITP_1_6_B_report", code="test"
-    ).save()
+        SolutionReport(
+            solution=solution, author=user, title=f"{problem.pid}_report", code="test"
+        ).save()
 
-    solution2 = Solution(
-            problem=problem2, code="test", erase_cnt=0, elapsed_time=0, author_id=user.id)
-    solution2.save()
-
-    SolutionReport(
-            solution=solution2, author=user, title="ALSD1_4_B_report", code="test"
-    ).save()
-
-    solution3 = Solution(
-            problem=problem3, code="test", erase_cnt=0, elapsed_time=0, author_id=user.id)
-    solution2.save()
-
-    SolutionReport(
-            solution=solution3, author=user, title="ITP_1_7_B_report", code="test"
-    ).save()
+        solutions.append(solution)
 
     user_report = UserReport(
-                author=user, solution1=solution1.code, solution2=solution2.code,
-                title=f"{user.username}'s report")
+        author=user, solution1=solutions[0].code, solution2=solutions[1].code, solution3=solutions[2].code,
+        title=f"{user.username}'s report")
     user_report.to_dict()
     user_report.save()
 
-def create_coder_by_style():
-    problem1 = Problem.objects.filter(pid="ITP1_6_B").first()
-    problem2 = Problem.objects.filter(pid="ALSD1_4_B").first()
-    problem3 = Problem.objects.filter(pid="ITP1_7_B").first()
-    style=0
-    for idx, num in enumerate(sampling_without_replacement()):
-        if idx % 5 == 0 :
-            style +=1
-        create_single_coder(num,style, problem1, problem2, problem3)
 
-def create_data(_self):
-    _self.stdout.write("seeding data...")
+def seed_coder_by_style(_self):
+    problems = list(map(lambda x: Problem.objects.get(
+        pid=x), list_problem_ids(_self)))
 
+    numStyles = 16
+    numUsersByStyle = 5
+    numUsers = numUsersByStyle * numStyles
+
+    _self.stdout.write(
+        f"{numUsersByStyle} coders for each of {numStyles} styles will be created!")
+    _self.stdout.write(f"total {numUsersByStyle * numStyles} coders!")
+
+    for idx, userId in enumerate(range(numUsers)):
+        create_single_coder(userId, idx % numUsersByStyle, problems)
+        if idx % 10 == 0:
+            _self.stdout.write(f"[ {idx} / {numUsers} ] completed...")
+
+
+def seed_problem_input_output_all_at_once(_self):
     for problem_id in list_problem_ids(_self):
         _self.stdout.write(problem_id)
         create_problem_input_output_to_database(problem_id)
-    create_coder_by_style()
-    _self.stdout.write("problems, inputs, outputs are created.")
-
 
 
 def run_seed(_self, mode):
-    clear_data()
-    if mode == MODE_CLEAR:
-        return
-    create_data(_self)
+    _self.stdout.write("seeding data...")
+    seed_problem_input_output_all_at_once(_self)
+    _self.stdout.write(
+        "[Done] problems, inputs, outputs are created all at once.")
+    seed_coder_by_style(_self)
+    _self.stdout.write("[Done] coder by style.")

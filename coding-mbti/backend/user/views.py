@@ -15,7 +15,8 @@ from rest_framework.authtoken.models import Token
 from user.models import User, Manager, Coder
 
 
-@ensure_csrf_cookie
+# @ensure_csrf_cookie
+@csrf_exempt
 def signin(request):
     if request.method == 'POST':
         try:
@@ -40,6 +41,7 @@ def signin(request):
         return HttpResponseNotAllowed(['POST'])
 
 
+@csrf_exempt
 def signup(request):
     if request.method == 'POST':
         try:
@@ -66,7 +68,8 @@ def signup(request):
     return HttpResponseNotAllowed(['POST'])
 
 
-@permission_classes((IsAuthenticated, ))
+# @permission_classes((IsAuthenticated, ))
+@csrf_exempt
 def logout(request):
     if request.method == 'GET':
         if request.user.is_authenticated:

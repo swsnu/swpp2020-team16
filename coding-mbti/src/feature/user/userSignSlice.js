@@ -32,6 +32,7 @@ export const { signout, signin } = userSlice.actions;
 
 export const signIn = (signInData) => async (dispatch) => {
     signInData.password = CryptoJS.SHA256(signInData.password).toString();
+    await request.get('/user/token/');
     const res = await request.post('/user/login/', signInData);
     if (res.status === 401) {
         throw new ResponseException('wrong username or password');
@@ -66,6 +67,7 @@ export const signOut = () => async (dispatch) => {
 
 export const signUp = (signUpData) => async () => {
     signUpData.password = CryptoJS.SHA256(signUpData.password).toString();
+    await request.get('/user/token/');
     const res = await request.post('/user/signup/', signUpData);
     if (res.status === 409) {
         throw new ResponseException('username or email already exists');

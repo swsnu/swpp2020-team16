@@ -67,21 +67,21 @@ echo "deletion completed."
 
 
 echo "making migrations in django-backend-server container[ID=$DJANGOcontainerId]."
-docker exec -it "$DJANGOcontainerId" /bin/bash -c 'cd /deploy/swpp2020-team16/coding-mbti/backend; python3 manage.py makemigrations'
+docker exec -it "$DJANGOcontainerId" /bin/bash -c 'cd /deploy/swpp2020-team16/coding-mbti/backend; python manage.py makemigrations'
 echo "`python manage.py makemigrations` completed."
 
 
 
 
 echo "migrate in django-backend-server container[ID=$DJANGOcontainerId]."
-docker exec -it "$DJANGOcontainerId" /bin/bash -c 'cd /deploy/swpp2020-team16/coding-mbti/backend; python3 manage.py migrate'
+docker exec -it "$DJANGOcontainerId" /bin/bash -c 'cd /deploy/swpp2020-team16/coding-mbti/backend; python manage.py migrate'
 echo "`python manage.py migrate` completed."
 
 
 
 
 echo "seed in django-backend-server container[ID=$DJANGOcontainerId]."
-docker exec -it "$DJANGOcontainerId" /bin/bash -c 'cd /deploy/swpp2020-team16/coding-mbti/backend; python3 manage.py seed'
+docker exec -it "$DJANGOcontainerId" /bin/bash -c 'cd /deploy/swpp2020-team16/coding-mbti/backend; python manage.py seed'
 echo "`python manage.py seed` completed."
 
 

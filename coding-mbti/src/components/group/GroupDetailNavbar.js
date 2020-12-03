@@ -6,46 +6,130 @@ import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
-import PersonAddDisabledIcon from '@material-ui/icons/PersonAddDisabled';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import RecordVoiceOverIcon from '@material-ui/icons/RecordVoiceOver';
 import SupervisedUserCircleIcon from '@material-ui/icons/SupervisedUserCircle';
+import Grid from '@material-ui/core/Grid';
+
+import GroupCreate from './GroupCreate';
+import GroupDelete from './GroupDelete';
+import GroupRelations from './GroupRelations';
+import InvitationCreate from './InvitationCreate';
 
 export default class GroupDetailNavbar extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            value: 'recent'
-        };
-    }
-
-    handleChange = (event, newValue) => {
-        this.setState(prevState => ({ ...prevState, value: newValue }));
+  constructor(props) {
+    super(props);
+    this.state = {
+      value: 'groupCreate'
     };
+  }
 
-    render() {
-        return (
-            <BottomNavigation value={this.state.value} onChange={this.handleChange}>
-                <BottomNavigationAction label="Group Create" value="create" icon={<SupervisedUserCircleIcon />} />
-                <BottomNavigationAction label="Group Delete" value="delete" icon={<DeleteForeverIcon />} />
-                <BottomNavigationAction label="Group Test" value="groupTest" icon={<AssignmentIcon />} />
-                <BottomNavigationAction label="Group Relations" value="groupRelations" icon={<RecordVoiceOverIcon />} />
-                <BottomNavigationAction label="Add User" value="addUser" icon={<PersonAddIcon />} />
-                <BottomNavigationAction label="Delete User" value="deleteUser" icon={<PersonAddDisabledIcon />} />
-            </BottomNavigation>
-        );
-    }
+  render() {
+    const {
+      groupId, deleteGroup, createGroup, error, isManager, createInvitation
+    } = this.props;
+    return (
+      <>
+        <BottomNavigation
+          value={this.state.value}
+          onChange={(event, newValue) => this.setState(prevState => ({ ...prevState, value: newValue }))}
+        >
+          <BottomNavigationAction label="Group Create" value="groupCreate" icon={<SupervisedUserCircleIcon />} />
+          <BottomNavigationAction label="Group Delete" value="groupDelete" icon={<DeleteForeverIcon />} />
+          <BottomNavigationAction label="Group Test" value="groupTest" icon={<AssignmentIcon />} />
+          <BottomNavigationAction label="Group Relations" value="groupRelations" icon={<RecordVoiceOverIcon />} />
+          <BottomNavigationAction label="Add User" value="inviteUser" icon={<PersonAddIcon />} />
+        </BottomNavigation>
+        {
+          this.state.value === 'groupCreate' ? (
+            <Grid container direction="row" justify="center" alignItems="center" textAlign="center">
+              <Grid item>
+                <GroupCreate
+                  createGroup={createGroup}
+                  error={error}
+                  isManager={isManager}
+                />
+              </Grid>
+            </Grid>
+          )
+            : null
+        }
+        {
+          this.state.value === 'groupDelete' ? (
+            <Grid container direction="row" justify="center" alignItems="center" textAlign="center">
+              <Grid item>
+                <GroupDelete
+                  groupId={groupId}
+                  deleteGroup={deleteGroup}
+                  error={error}
+                  isManager={isManager}
+                />
+              </Grid>
+            </Grid>
+          )
+            : null
+        }
+        {/* {
+          this.state.value === 'groupTest' ? (
+            <Grid container direction="row" justify="center" alignItems="center" textAlign="center">
+              <Grid item>
+                <GroupDelete
+                  groupId={groupId}
+                  deleteGroup={deleteGroup}
+                  error={error}
+                  isManager={isManager}
+                />
+              </Grid>
+            </Grid>
+          )
+            : null
+        } */}
+        {
+          this.state.value === 'groupRelations' ? (
+            <Grid container direction="row" justify="center" alignItems="center" textAlign="center">
+              <Grid item>
+                <GroupRelations
+                  groupId={groupId}
+                  deleteGroup={deleteGroup}
+                  error={error}
+                  isManager={isManager}
+                />
+              </Grid>
+            </Grid>
+          )
+            : null
+        }
+        {
+          this.state.value === 'inviteUser' ? (
+            <Grid container direction="row" justify="center" alignItems="center" textAlign="center">
+              <Grid item>
+                <InvitationCreate
+                  groupId={groupId}
+                  createInvitation={createInvitation}
+                  isManager={isManager}
+                />
+              </Grid>
+            </Grid>
+          )
+            : null
+        }
+      </>
+    );
+  }
 }
 
 GroupDetailNavbar.propTypes = {
-    groups: PropTypes.object.isRequired,
-    role: PropTypes.object.isRequired,
-    classes: PropTypes.object.isRequired,
-    error: PropTypes.object.isRequired,
-    members: PropTypes.object.isRequired,
-    readMember: PropTypes.func.isRequired,
-    deleteMember: PropTypes.func.isRequired,
-    createInvitation: PropTypes.func.isRequired,
-    match: PropTypes.object.isRequired,
-    createGroup: PropTypes.func.isRequired,
+  groups: PropTypes.object.isRequired,
+  role: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired,
+  error: PropTypes.object.isRequired,
+  members: PropTypes.object.isRequired,
+  createGroup: PropTypes.func.isRequired,
+  deleteGroup: PropTypes.func.isRequired,
+  readMember: PropTypes.func.isRequired,
+  deleteMember: PropTypes.func.isRequired,
+  createInvitation: PropTypes.func.isRequired,
+  match: PropTypes.object.isRequired,
+  isManager: PropTypes.bool.isRequired,
+  groupId: PropTypes.string.isRequired,
 };

@@ -70,6 +70,29 @@ function NavbarOMG(props) {
     </div>
   );
 
+  const listRightContent = [
+    {
+      text: 'My Group',
+      href: '/group',
+      icon: <InboxIcon />,
+    },
+    {
+      text: 'My Invitations',
+      href: '/invitation',
+      icon: <MailIcon />,
+    },
+    {
+      text: 'My Messages',
+      href: '/messages',
+      icon: <MailIcon />,
+    },
+    {
+      text: 'My Test Results',
+      href: '/my/tests/results',
+      icon: <InboxIcon />,
+    }
+  ];
+
   const listRight = (anchor) => (
     <div
       className={clsx(classes.list, {
@@ -80,13 +103,13 @@ function NavbarOMG(props) {
       onKeyDown={toggleDrawer(anchor, false)}
     >
       <List>
-        {['My Page', 'My Group', 'Messages', 'My Test Results'].map(
-          (text, index) => (
-            <ListItem button key={text} component="a" href="/group">
+        {listRightContent.map(
+          (content) => (
+            <ListItem button key={content.text} component="a" href={content.href}>
               <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                {content.icon}
               </ListItemIcon>
-              <ListItemText color="inherit" primary={text} />
+              <ListItemText color="inherit" primary={content.text} />
             </ListItem>
           ),
         )}

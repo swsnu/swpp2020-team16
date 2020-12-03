@@ -9,5 +9,3 @@ ReactDOM.render(
   appWrapper(App, propsForAppComponent),
   document.getElementById('root'),
 );
-
-export default appWrapper;

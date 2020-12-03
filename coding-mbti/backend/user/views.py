@@ -40,6 +40,7 @@ def signin(request):
         return HttpResponseNotAllowed(['POST'])
 
 
+@ensure_csrf_cookie
 def signup(request):
     if request.method == 'POST':
         try:

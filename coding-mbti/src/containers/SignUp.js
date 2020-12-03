@@ -13,7 +13,6 @@ import Container from '@material-ui/core/Container';
 import MenuItem from '@material-ui/core/MenuItem';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/styles';
-import Navbar from '../components/Navbar';
 import { signUp } from '../feature/user/userSignSlice';
 
 const roles = [
@@ -159,7 +158,6 @@ class SignUp extends Component {
     const { classes } = this.props;
     return (
       <>
-        <Navbar />
         <Container component="main" maxWidth="xs">
           <CssBaseline />
           <div className={classes.paper}>

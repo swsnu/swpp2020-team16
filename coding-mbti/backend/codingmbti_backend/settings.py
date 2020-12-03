@@ -167,6 +167,12 @@ CORS_ALLOWED_ORIGINS = [
 
 # CSRF configurations
 
+CSRF_TRUSTED_ORIGINS = [
+    "localhost:3000",
+    "codingmbti-dev.shop",
+    "codingmbti.shop",
+]
+
 # REST FRAMEWORK configurations
 
 REST_FRAMEWORK = {

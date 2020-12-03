@@ -136,7 +136,7 @@ export const createGroup = group => async dispatch => {
 export const deleteGroup = groupId => async dispatch => {
     const res = await request.delete(`group/${groupId}/`);
     if (res.status === 204) {
-        dispatch(groupDelete({}));
+        dispatch(groupDelete(groupId));
     } else {
         dispatch(groupDeleteFail('Group delete Fail'));
     }

@@ -45,10 +45,9 @@ function App(props) {
           path="/check/result/:pid"
           render={(props) => <StyleGrid {...props} />}
         />
-        <AuthRoute exact path="/my/tests/results">
-          <MyTestResult />
-        </AuthRoute>
+        <AuthRoute exact path="/my/tests/results"><MyTestResult /></AuthRoute>
         <AuthRoute exact path="/group"><Group /></AuthRoute>
+        {/* <Route exact path="/group" component={Group} /> */}
         <Route exact path="/group/detail/:groupId" render={(props) => <GroupDetail {...props} />} />
       </Switch>
 

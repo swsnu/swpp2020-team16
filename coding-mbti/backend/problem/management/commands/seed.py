@@ -93,8 +93,9 @@ def create_problem_input_output_to_database(problem_id):
 
 
 def create_single_coder(num, style, problems):
-    user = User.objects.create_user(
+    user = User(
         username=f"user{num}", password="12345678", email=f"user{num}@test.com", salt="123", role=1)
+    user.save()
 
     coding_style = CodingStyle(
         style=style, UM_value=0, TI_value=0, EF_value=0, JC_value=0)
@@ -120,6 +121,25 @@ def create_single_coder(num, style, problems):
         title=f"{user.username}'s report")
     user_report.to_dict()
     user_report.save()
+
+
+def seed_group_with_manager(_self):
+    user1 = User.objects.create_user(
+        username="manager_user1", password="123", email="test@test.com", salt="123", role=User.Role.Manager
+    )
+    user1.save()
+    manager1 = Manager(user=user1)
+    manager1.save()
+
+    user2 = User.objects.create_user(
+        username="manager_user2", password="123", email="test2@test.com", salt="123", role=User.Role.Manager
+    )
+    user2.save()
+    manager2 = Manager(user=user2)
+    manager2.save()
+
+    group = Group(name="group_1", manager=manager1)
+    group.save()
 
 
 def seed_coder_by_style(_self):

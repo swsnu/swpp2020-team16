@@ -77,7 +77,7 @@ describe('groupSlice', () => {
         };
 
         const state = reducer(initialState, action);
-        expect(state.groups).toEqual({});
+        expect(state.groups).toEqual(action.payload);
     });
 
     it('groupDeleteFail', () => {

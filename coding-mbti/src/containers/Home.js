@@ -35,7 +35,7 @@ const styles = (theme) => ({
 
 // Home's default Problem ID
 
-const HOME_PROBLEM_ID = 9;
+const HOME_PROBLEM_ID = 1;
 
 class Home extends Component {
   constructor(props) {

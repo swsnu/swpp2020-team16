@@ -18,6 +18,7 @@ import Group from './containers/Group/Group';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import GroupDetail from './containers/Group/GroupDetail';
+import LoggedInHome from './containers/LoggedInHome';
 
 function App(props) {
   const { history } = props;
@@ -45,10 +46,23 @@ function App(props) {
           path="/check/result/:pid"
           render={(props) => <StyleGrid {...props} />}
         />
-        <AuthRoute exact path="/my/tests/results"><MyTestResult /></AuthRoute>
-        <AuthRoute exact path="/group"><Group /></AuthRoute>
+        <Route
+          exact
+          path="/home/"
+          render={(props) => <LoggedInHome {...props} />}
+        />
+        <AuthRoute exact path="/my/tests/results">
+          <MyTestResult />
+        </AuthRoute>
+        <AuthRoute exact path="/group">
+          <Group />
+        </AuthRoute>
         {/* <Route exact path="/group" component={Group} /> */}
-        <Route exact path="/group/detail/:groupId" render={(props) => <GroupDetail {...props} />} />
+        <Route
+          exact
+          path="/group/detail/:groupId"
+          render={(props) => <GroupDetail {...props} />}
+        />
       </Switch>
 
       <Footer />

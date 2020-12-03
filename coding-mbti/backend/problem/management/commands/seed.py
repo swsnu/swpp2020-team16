@@ -94,11 +94,11 @@ def create_problem_input_output_to_database(problem_id):
 
 def create_single_coder(num, style, problems):
     user = User(
-        username=f"user{num}", password="12345678", email=f"user{num}@test.com", salt="123", role=1)
+        username=f"user{num}", password="pbkdf2_sha256$216000$dLAEQvY7dMNY$xwzmhoRJjxK91PNu3KnPE5b5MGPEAtSzDafu5qfJAJo=", email=f"user{num}@test.com", salt="123", role=1)
     user.save()
 
     coding_style = CodingStyle(
-        style=style, UM_value=0, TI_value=0, EF_value=0, JC_value=0)
+        style=style, UM_value=0.5, TI_value=0.5, EF_value=0.5, JC_value=0.5)
     coding_style.save()
 
     coder = Coder(user=user, style=coding_style)
@@ -107,11 +107,11 @@ def create_single_coder(num, style, problems):
     solutions = []
     for problem in problems:
         solution = Solution(
-            problem=problem, code="test", erase_cnt=0, elapsed_time=0, author_id=user.id)
+            problem=problem, code="def hi() : \n print('hi')", erase_cnt=20, elapsed_time=18, author_id=user.id)
         solution.save()
 
         SolutionReport(
-            solution=solution, author=user, title=f"{problem.pid}_report", code="test"
+            solution=solution, author=user, title=f"{problem.pid}_report", code="def hi() : \n print('hi')"
         ).save()
 
         solutions.append(solution)
@@ -155,7 +155,7 @@ def seed_coder_by_style(_self):
     _self.stdout.write(f"total {numUsersByStyle * numStyles} coders!")
 
     for idx, userId in enumerate(range(numUsers)):
-        create_single_coder(userId, idx % numUsersByStyle, problems)
+        create_single_coder(userId, idx % numStyles +1, problems)
         if idx % 10 == 0:
             _self.stdout.write(f"[ {idx} / {numUsers} ] completed...")
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
@@ -171,18 +171,66 @@ export default function Result() {
             </Grid>
           </Grid>
           <div className={classes.Buttons}>
-            <Grid container spacing={2} justify="center">
-              <Grid item>
-                <Button variant="contained" color="secondary">
-                  Share!
-                </Button>
+            <Fragment>
+              <Grid container spacing={2} justify="center">
+                <Grid item>
+                  <Button variant="contained" color="secondary">
+                    Share!
+                  </Button>
+                </Grid>
+                <Grid item>
+                  <Button variant="contained" color="primary">
+                    Explore!
+                  </Button>
+                </Grid>
               </Grid>
-              <Grid item>
-                <Button variant="contained" color="primary">
-                  Explore!
-                </Button>
+              <Grid container spacing={2} align="center">
+                <Grid item xs={12}>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => {
+                      window.location.href = '../../../check/result/1/';
+                    }}
+                  >
+                    Check other solutions by style for problem 1
+                  </Button>
+                </Grid>
+                <Grid item xs={12}>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => {
+                      window.location.href = '../../../check/result/2/';
+                    }}
+                  >
+                    Check other solutions by style for problem 2
+                  </Button>
+                </Grid>
+                <Grid item xs={12}>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => {
+                      window.location.href = '../../../check/result/3/';
+                    }}
+                  >
+                    Check other solutions by style for problem 3
+                  </Button>
+                </Grid>
+                <Grid item xs={12}>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => {
+                      window.location.href = '../../../relation/';
+                    }}
+                  >
+                    Check similar or opposite style coder's report
+                  </Button>
+                </Grid>
               </Grid>
-            </Grid>
+            </Fragment>
           </div>
         </div>
       </main>

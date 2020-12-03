@@ -9,22 +9,22 @@ import { readSolutionOfOthers } from '../feature/problem/solutionSlice';
 import OtherSolutionsTable from '../components/OtherSolutionsTable';
 
 const styleToIntDict = {
-  UTEJ: 1,
-  UTEC: 2,
-  UTFJ: 3,
-  UTFC: 4,
-  UIEJ: 5,
-  UIEC: 6,
-  UIFJ: 7,
-  UIFC: 8,
-  MTEJ: 9,
-  MTEC: 10,
-  MTFJ: 11,
-  MTFC: 12,
-  MIEJ: 13,
-  EIEC: 14,
-  MIFJ: 15,
-  MIFC: 16,
+  UTRJ: 1,
+  UTRC: 2,
+  UTTJ: 3,
+  UTTC: 4,
+  UIRJ: 5,
+  UIRC: 6,
+  UITJ: 7,
+  UITC: 8,
+  MTRJ: 9,
+  MTRC: 10,
+  MTTJ: 11,
+  MTTC: 12,
+  MIRJ: 13,
+  EIRC: 14,
+  MITJ: 15,
+  MITC: 16,
 };
 const mapStyleToInt = (style) => styleToIntDict[style];
 

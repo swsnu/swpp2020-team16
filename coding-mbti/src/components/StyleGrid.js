@@ -43,22 +43,22 @@ const StyleGrid = (props) => {
   const { pid } = props.match.params;
 
   const styleList = [
-    'UTEJ',
-    'UTEC',
-    'UTFJ',
-    'UTFC',
-    'UIEJ',
-    'UIEC',
-    'UIFJ',
-    'UIFC',
-    'MTEJ',
-    'MTEC',
-    'MTFJ',
-    'MTFC',
-    'MIEJ',
-    'EIEC',
-    'MIFJ',
-    'MIFC',
+    'UTRJ',
+    'UTRC',
+    'UTTJ',
+    'UTTC',
+    'UIRJ',
+    'UIRC',
+    'UITJ',
+    'UITC',
+    'MTRJ',
+    'MTRC',
+    'MTTJ',
+    'MTTC',
+    'MIRJ',
+    'EIRC',
+    'MITJ',
+    'MITC',
   ];
 
   const styleBox = styleList.map((el) => (

@@ -19,8 +19,31 @@ const styles = (theme) => ({
     backgroundColor: 'white',
     padding: theme.spacing(8, 12, 8),
     spacing: 8,
+    alignItems: 'center',
+  },
+  Paper: {
+    backgroundColor: 'lightgray',
+    padding: theme.spacing(1, 2, 1),
+    spacing: 3,
+    borderRadius: '0.1%',
   },
 });
+
+function SingleSolution(props) {
+  return (
+    <Grid container>
+      <Grid item xs={6}>
+        elapsed time : {props.elapsedTime} seconds
+      </Grid>
+      <Grid item xs={6}>
+        erase count : {props.eraseCnt} times
+      </Grid>
+      <Grid className={props.classes.Paper} item xs={12}>
+        <pre>{props.code}</pre>
+      </Grid>
+    </Grid>
+  );
+}
 
 class UserRelations extends Component {
   constructor(props) {
@@ -49,6 +72,8 @@ class UserRelations extends Component {
       solutions.length === 0 ? { problem_id: '' } : solutions[0];
     const solution2 =
       solutions.length === 0 ? { problem_id: '' } : solutions[1];
+    const solution3 =
+      solutions.length === 0 ? { problem_id: '' } : solutions[2];
     const reportt = report.length === 0 ? { title: '' } : report;
 
     return (
@@ -66,7 +91,30 @@ class UserRelations extends Component {
             </Grid>
 
             <Grid container item xs={12}>
-              <Grid>{JSON.stringify(reportt)}</Grid>
+              <Grid item xs={6}>
+                UM prediction : {reportt['UM_prediction']}
+              </Grid>
+              <Grid item xs={6}>
+                UM probability : {reportt['UM_probability']}
+              </Grid>
+              <Grid item xs={6}>
+                RT prediction : {reportt['RT_prediction']}
+              </Grid>
+              <Grid item xs={6}>
+                RT probability : {reportt['RT_probability']}
+              </Grid>
+              <Grid item xs={6}>
+                JC prediction : {reportt['JC_prediction']}
+              </Grid>
+              <Grid item xs={6}>
+                JC probability : {reportt['JC_probability']}
+              </Grid>
+              <Grid item xs={6}>
+                TI prediction : {reportt['JC_prediction']}
+              </Grid>
+              <Grid item xs={6}>
+                TI probability : {reportt['TI_probability']}
+              </Grid>
             </Grid>
             <Grid item xs={12}>
               <h2>
@@ -75,7 +123,12 @@ class UserRelations extends Component {
               </h2>
             </Grid>
             <Grid item xs={12}>
-              <p>{JSON.stringify(solution1)}</p>
+              <SingleSolution
+                code={solution1.code}
+                elapsedTime={solution1['elapsed_time']}
+                eraseCnt={solution1['erase_cnt']}
+                classes={classes}
+              />
             </Grid>
             <Grid item xs={12}>
               <h2>
@@ -84,7 +137,26 @@ class UserRelations extends Component {
               </h2>
             </Grid>
             <Grid item xs={12}>
-              <p>{JSON.stringify(solution2)}</p>
+              <SingleSolution
+                code={solution2.code}
+                elapsedTime={solution2['elapsed_time']}
+                eraseCnt={solution2['erase_cnt']}
+                classes={classes}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <h2>
+                solution for problem
+                {solution3.problem_id}
+              </h2>
+            </Grid>
+            <Grid item xs={12}>
+              <SingleSolution
+                code={solution3.code}
+                elapsedTime={solution3['elapsed_time']}
+                eraseCnt={solution3['erase_cnt']}
+                classes={classes}
+              />
             </Grid>
           </Grid>
           <Grid item xs={1} />

@@ -45,7 +45,7 @@ class AnalysisTestCase(TestCase):
             content_type="application/json",
         )
 
-        self.assertEqual(response.status_code, 204)
+        self.assertEqual(response.status_code, 201)
 
         solution2_body = {
             "erase_cnt": 12,
@@ -60,7 +60,7 @@ class AnalysisTestCase(TestCase):
             content_type="application/json",
         )
 
-        self.assertEqual(response.status_code, 204)
+        self.assertEqual(response.status_code, 201)
 
         solution3_body = {
             "erase_cnt": 12,
@@ -75,7 +75,7 @@ class AnalysisTestCase(TestCase):
             content_type="application/json",
         )
 
-        self.assertEqual(response.status_code, 204)
+        self.assertEqual(response.status_code, 201)
 
         response = client.post("/api/analysis/my/report/")
 
@@ -152,7 +152,7 @@ class AnalysisTestCase(TestCase):
             content_type="application/json",
         )
 
-        self.assertEqual(response.status_code, 204)
+        self.assertEqual(response.status_code, 201)
 
         solution2_body = {
             "erase_cnt": 12,
@@ -168,7 +168,7 @@ class AnalysisTestCase(TestCase):
             content_type="application/json",
         )
 
-        self.assertEqual(response.status_code, 204)
+        self.assertEqual(response.status_code, 201)
 
         solution3_body = {
             "erase_cnt": 12,
@@ -184,7 +184,7 @@ class AnalysisTestCase(TestCase):
             content_type="application/json",
         )
 
-        self.assertEqual(response.status_code, 204)
+        self.assertEqual(response.status_code, 201)
 
         response = client.post("/api/analysis/my/report/")
 
@@ -301,7 +301,7 @@ class AnalysisTestCase(TestCase):
             content_type="application/json",
         )
 
-        self.assertEqual(response.status_code, 204)
+        self.assertEqual(response.status_code, 201)
 
         solution2_body = {
             "erase_cnt": 12,
@@ -317,7 +317,7 @@ class AnalysisTestCase(TestCase):
             content_type="application/json",
         )
 
-        self.assertEqual(response.status_code, 204)
+        self.assertEqual(response.status_code, 201)
 
         solution3_body = {
             "erase_cnt": 12,
@@ -333,7 +333,7 @@ class AnalysisTestCase(TestCase):
             content_type="application/json",
         )
 
-        self.assertEqual(response.status_code, 204)
+        self.assertEqual(response.status_code, 201)
 
         response = client.get("/api/analysis/my/solutions/")
 
@@ -396,7 +396,7 @@ class AnalysisTestCase(TestCase):
             content_type="application/json",
         )
 
-        self.assertEqual(response.status_code, 204)
+        self.assertEqual(response.status_code, 201)
 
         solution2_body = {
             "erase_cnt": 12,
@@ -412,7 +412,7 @@ class AnalysisTestCase(TestCase):
             content_type="application/json",
         )
 
-        self.assertEqual(response.status_code, 204)
+        self.assertEqual(response.status_code, 201)
 
         solution3_body = {
             "erase_cnt": 12,
@@ -428,7 +428,7 @@ class AnalysisTestCase(TestCase):
             content_type="application/json",
         )
 
-        self.assertEqual(response.status_code, 204)
+        self.assertEqual(response.status_code, 201)
 
         response = client.post("/api/analysis/my/report/")
 

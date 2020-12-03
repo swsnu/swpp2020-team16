@@ -84,3 +84,11 @@ def token(request):
     if request.method == 'GET':
         return HttpResponse(status=204)
     return HttpResponseNotAllowed(['GET'])
+
+
+def qualified_view(request):
+    if request.method == 'GET':
+        coder = Coder.objects.get(user=request.user)
+        return JsonResponse(coder.is_qualified(), safe=False)
+    else:
+        return HttpResponseNotAllowed(['GET'])

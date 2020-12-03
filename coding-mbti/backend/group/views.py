@@ -32,6 +32,7 @@ def group_members_view(request, group_id):
     else:
         return HttpResponseNotAllowed(["GET"])
 
+
 @csrf_exempt
 def group_members_id_view(request, group_id, member_id):
     if request.method == "DELETE":
@@ -81,7 +82,6 @@ def group_view(request):
             return HttpResponseBadRequest(error)
     elif request.method == "POST":
         try:
-            print(request.user)
             manager = Manager.objects.get(user=request.user)
             body = request.body.decode()
             name = json.loads(body)["name"]
@@ -150,6 +150,7 @@ def group_invite_accept_view(request, invitation_id):
         return HttpResponse(status=204)
     else:
         return HttpResponseNotAllowed(["GET", "DELETE"])
+
 
 @csrf_exempt
 def group_find_relation_view(request, group_id):

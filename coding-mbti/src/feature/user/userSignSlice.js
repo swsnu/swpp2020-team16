@@ -1,7 +1,7 @@
 /* eslint-disable array-callback-return */
 import { createSlice } from '@reduxjs/toolkit';
 import CryptoJS from 'crypto-js';
-import { InvalidKeyException } from '../../utils/exceptions';
+import { InvalidKeyException, ResponseException } from '../../utils/exceptions';
 import request from '../../utils/request';
 
 const userSlice = createSlice({
@@ -51,6 +51,9 @@ export const signIn = (signInData) => async (dispatch) => {
     try {
         const res = await request.post('/user/login/', signInData);
         const necessaryKeysInResponse = ['data'];
+        if (res.status === 401) {
+            throw new ResponseException('wrong username or password');
+        }
         necessaryKeysInResponse.forEach((key) => {
             if (!(key in res)) {
                 throw new InvalidKeyException(`Key "${key}" does not exist.`);
@@ -68,18 +71,19 @@ export const signIn = (signInData) => async (dispatch) => {
 
         dispatch(signin(res.data));
     } catch (error) {
-        dispatch(signInFail('Wrong user name or password'));
+        dispatch(signInFail(error.message));
     }
     return null;
 };
 
 export const signOut = () => async (dispatch) => {
     try {
-        await request.get('/user/logout/');
+        const res = await request.get('/user/logout/');
+        if (res.status === 401) throw new ResponseException('username does not exist.');
         localStorage.clear();
         dispatch(signout());
     } catch (error) {
-        return dispatch(signOutFail('You need to login first'));
+        return dispatch(signOutFail(error.message));
     }
     return null;
 };
@@ -87,8 +91,9 @@ export const signOut = () => async (dispatch) => {
 export const signUp = (signUpData) => async (dispatch) => {
     signUpData.password = CryptoJS.SHA256(signUpData.password).toString();
     try {
-        await request.post('/user/signup/', signUpData);
+        const res = await request.post('/user/signup/', signUpData);
+        if (res.status === 409) throw new ResponseException('username or email already exists');
     } catch (error) {
-        dispatch(signUpFail('username or email already exists'));
+        dispatch(signUpFail(error.message));
     }
 };

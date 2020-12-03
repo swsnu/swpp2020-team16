@@ -1,7 +1,7 @@
 from django.core import management
 from utils.utils import get_dicts_with_filter
 from problem.models import Problem, Solution, ProblemInput, ProblemOutput
-from user.models import User
+from user.models import User, Coder
 from django.test import TestCase, Client
 import json
 
@@ -19,7 +19,7 @@ class ProblemTest(TestCase):
     def setUp(self):
         self.client = Client()
 
-        User.objects.create_user(
+        self.user = User.objects.create_user(
             username="test", password="123", email="test@test.com", salt="123", role=1
         )
         self.client.login(username="test", password="123")
@@ -47,16 +47,18 @@ class ProblemTest(TestCase):
         self.assertEqual(response.status_code, 405)
 
     def test_get_problem_by_objective(self):
+        coder = Coder(user=self.user)
+        coder.save()
 
         problem = Problem(desc="For test", input_desc="For test",
                           output_desc="Fore test", pid="ITP1_6_B",
                           objective=Problem.ProblemObjective.UM)
         problem.save()
 
-        response = self.client.get("/api/problem/objective/1/")
+        response = self.client.get("/api/problem/objective/")
         self.assertEqual(response.status_code, 200)
 
-        response = self.client.post("/api/problem/objective/1/", {})
+        response = self.client.post("/api/problem/objective/", {})
         self.assertEqual(response.status_code, 405)
 
     def test_get_problem_input(self):
@@ -169,7 +171,7 @@ class SolutionTest(TestCase):
             content_type="application/json",
         )
 
-        self.assertEqual(response.status_code, 204)
+        self.assertEqual(response.status_code, 201)
         self.assertEqual(len(Solution.objects.all()), 1)
 
     def test_solution_create_exception(self):

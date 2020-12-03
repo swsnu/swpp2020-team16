@@ -2,7 +2,6 @@ import json
 from django.test import TestCase, Client
 from user.models import User, Coder, Manager, CodingStyle
 from group.models import Group, Invitation
-
 # Create your tests here.
 
 
@@ -186,6 +185,7 @@ class GroupModelTest(TestCase):
             f"/api/group/invite/accept/{invitation_id}/")
 
         self.assertEqual(response.status_code, 204)
+        print(Invitation.objects.all()[0].to_dict())
 
         response = self.client.post(
             f"/api/group/invite/")

@@ -19,6 +19,7 @@ describe('problemSlice', () => {
             title: '',
             pid: '',
             objective: '',
+            error: null,
         };
 
         it('sets the problemRead payload', () => {
@@ -43,6 +44,7 @@ describe('problemSlice', () => {
                 id: 1,
                 pid: 'aizu pid',
                 objective: 1,
+                error: null,
             });
         });
     });
@@ -143,7 +145,7 @@ describe('problemSlice', () => {
                     /* THEN */
                     const state = store.getState().problem.problemReducer;
                     const result = cloneObj(dbdata.data);
-                    expect(state).toEqual(result);
+                    expect(state).toEqual({ ...result, error: null });
                 });
             });
         });

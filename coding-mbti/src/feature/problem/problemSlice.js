@@ -14,6 +14,7 @@ const problemSlice = createSlice({
     title: '',
     objective: '',
     pid: '',
+    error: null,
   },
   reducers: {
     problemRead: {
@@ -23,10 +24,24 @@ const problemSlice = createSlice({
         });
       },
     },
+    problemReadFail: {
+      reducer(state, action) {
+        return {
+          desc: '',
+          input_desc: '',
+          output_desc: '',
+          id: '',
+          title: '',
+          objective: '',
+          pid: '',
+          error: action.payload,
+        };
+      }
+    }
   },
 });
 
-export const { problemRead } = problemSlice.actions;
+export const { problemRead, problemReadFail } = problemSlice.actions;
 
 export default problemSlice.reducer;
 
@@ -52,4 +67,24 @@ export const readProblem = (problemId) => async (dispatch) => {
   });
 
   dispatch(problemRead(res.data));
+};
+
+export const readProblemByObjective = () => async dispatch => {
+  const res = await request.get('problem/objective/');
+  try {
+    const necessaryKeysInResponseData = [
+      'id', 'pid', 'desc',
+      'input_desc', 'output_desc', 'title', 'objective'];
+
+    necessaryKeysInResponseData.forEach(key => {
+      if (!(key in res.data)) {
+        throw new InvalidKeyException(`Key "${key}" does not exist.`);
+      }
+    });
+
+    dispatch(problemRead(res.data));
+  } catch (error) {
+    dispatch(problemReadFail('No more problem'));
+  }
+  return res.data.id;
 };

@@ -5,6 +5,25 @@ def get_array_default():
     return list("default")
 
 
+class ProblemManager(models.Manager):
+    def with_specific_user(self, user):
+        objective = user.get_new_objective()[0]
+        from django.db import connection
+        with connection.cursor() as cursor:
+            cursor.execute(f"""
+            SELECT p.id, p.pid, p.title, p.desc, p.input_desc, p.output_desc, p.objective
+            FROM problem_problem p
+            WHERE p.id NOT IN (SELECT s.problem_id FROM problem_solution s WHERE s.author_id={user.user.id}) AND p.objective = {objective} LIMIT 1
+            """)
+
+            res = cursor.fetchall()
+            if len(res) == 0:
+                return {}
+            row = res[0]
+            return {"id": row[0], "pid": row[1], "title": row[2],
+                    "input_desc": row[3], "output_desc": row[4], "objective": row[5]}
+
+
 class Problem(models.Model):
     class ProblemObjective(models.IntegerChoices):
         # User Friendly - Machine Efficiency
@@ -19,6 +38,8 @@ class Problem(models.Model):
     pid = models.CharField(max_length=31, default="")
     input_desc = models.TextField(default="")
     output_desc = models.TextField(default="")
+
+    objects = ProblemManager()
 
     def to_dict(self):
         return {

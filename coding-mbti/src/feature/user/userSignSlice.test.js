@@ -260,7 +260,9 @@ describe('userSignSlice', () => {
 
           /* THEN */
           const state = store.getState().user.userSignReducer;
-          expect(state).toEqual({ username: null, token: null, role: null, error: null });
+          expect(state).toEqual({
+            username: null, token: null, role: null, error: null
+          });
         });
       });
     });
@@ -283,7 +285,6 @@ describe('userSignSlice', () => {
             status: 409
           });
 
-          let errorMessage;
           await store.dispatch(signUp(
             {
               username: 'test username',
@@ -357,7 +358,9 @@ describe('userSignSlice', () => {
 
           /* THEN */
           const state = store.getState().user.userSignReducer;
-          expect(state).toEqual({ username: null, token: null, role: null, error: null });
+          expect(state).toEqual({
+            username: null, token: null, role: null, error: null
+          });
         });
       });
     });

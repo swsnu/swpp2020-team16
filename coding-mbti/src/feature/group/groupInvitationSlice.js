@@ -88,7 +88,6 @@ export const createInvitation = (groupId, invitation) => async dispatch => {
 
     const necessaryKeysInResponseData = [
         'id', 'group', 'sender', 'receiver'];
-
     necessaryKeysInResponseData.map(key => {
         if (!(key in res.data)) {
             throw new InvalidKeyException(`Key "${key}" does not exist.`);

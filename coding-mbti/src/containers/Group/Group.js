@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
 import {
   readInvitation, createInvitation, acceptInvitation
 } from '../../feature/group/groupInvitationSlice';
@@ -26,8 +25,7 @@ class Group extends Component {
 
     const canCreateGroup = isManager(role);
     const noGroup = Object.keys(groups).length === 0;
-    const manageOneGroup = Object.keys(groups).length === 1 && canCreateGroup;
-    const manageManyGroups = Object.keys(groups).length > 1 && canCreateGroup;
+    const isGroup = Object.keys(groups).length > 0 && canCreateGroup;
 
     if (noGroup) {
       return (
@@ -41,13 +39,7 @@ class Group extends Component {
       );
     }
 
-    if (manageOneGroup) {
-      return (
-        <Redirect path="*" to={`/group/detail/${Object.keys(groups)[0]}`} />
-      );
-    }
-
-    if (manageManyGroups) {
+    if (isGroup) {
       return (
         <div>
           <GroupList

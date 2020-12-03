@@ -14,7 +14,7 @@ import { useAlert } from 'react-alert';
 
 export default function GroupCreate(props) {
   const alert = useAlert();
-  const { createGroup, error, isManager } = props;
+  const { createGroup, isManager } = props;
 
   const [open, setOpen] = React.useState(false);
   const [name, setName] = React.useState('');
@@ -37,11 +37,8 @@ export default function GroupCreate(props) {
       return;
     }
     await createGroup({ name });
-    if (nameValid && error) {
-      alert.show('server error while creating group.');
-      handleClose();
-      return;
-    }
+
+    alert.show('group is created!');
     handleClose();
   };
 
@@ -56,7 +53,7 @@ export default function GroupCreate(props) {
         Create Group!
       </Button>
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
+        <DialogTitle id="form-dialog-title">Create Group</DialogTitle>
         <DialogContent>
           <DialogContentText>
             Please enter your group name.

@@ -9,7 +9,7 @@ import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 
 import {
-  readMember, deleteMember, createGroup
+  readMember, deleteMember, createGroup, deleteGroup
 } from '../../feature/group/groupSlice';
 import { createInvitation } from '../../feature/group/groupInvitationSlice';
 
@@ -28,7 +28,7 @@ class GroupDetail extends Component {
 
   render() {
     const {
-      role, groups, members, deleteMember
+      role, groups, members, createInvitation, deleteMember, createGroup, deleteGroup, error
     } = this.props;
 
     const { groupId } = this.props.match.params;
@@ -59,28 +59,20 @@ class GroupDetail extends Component {
         <Grid container spacing={2}>
           <Grid item xs={12} md={6}>
             <MemberList
-              groupId={groupId}
               members={members}
               deleteMember={deleteMember}
+              detailMember={() => <Redirect path="*" to="/my/tests/results" />}
             />
           </Grid>
         </Grid>
-        <GroupDetailNavbar />
-
-        {/*
-            만약 내 그룹이 없다면,
-          ㅇ    - 그룹 추가하기 버튼 클릭이 메인에 와야 한다.
-          ㅇ    - 그룹 추가하기 버튼을 누르면,
-          ㅇ      - 내가 가지고 있는 role이 메니저인지 아닌지 확인해야 한다.
-          ㅇ        - 만약 매니저 role이 없다면,
-          ㅇ          - 나는 alarm을 받는다. 매니저로 승격하라고.
-                    - modal이 뜨면서, 돈 내고 매니저 하라는 글을 보여준다.
-          ㅇ        - 만약 매니저 role이 있다면,
-          ㅇ          - 그룹명을 작성함으로써, 그룹 하나를 생성할 수 있다.
-                      - 만약 사람을 초대한다면,
-                        - 그 사람에게는 메시지가 가야 한다.
-                        - 그 사람에게는 메일이 가야 한다.
-         */}
+        <GroupDetailNavbar
+          groupId={groupId}
+          createGroup={createGroup}
+          deleteGroup={deleteGroup}
+          createInvitation={createInvitation}
+          error={error}
+          isManager={isManager(role)}
+        />
       </Container>
     );
   }
@@ -97,6 +89,7 @@ GroupDetail.propTypes = {
   createInvitation: PropTypes.func.isRequired,
   match: PropTypes.object.isRequired,
   createGroup: PropTypes.func.isRequired,
+  deleteGroup: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -107,5 +100,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, {
-  readMember, deleteMember, createInvitation, createGroup
+  readMember, deleteMember, createInvitation, createGroup, deleteGroup
 })(GroupDetail);

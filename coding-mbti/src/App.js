@@ -18,6 +18,7 @@ import Group from './containers/Group/Group';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import GroupDetail from './containers/Group/GroupDetail';
+import Invitation from './containers/Invitation/Invitation';
 
 function App(props) {
   const { history } = props;
@@ -43,7 +44,7 @@ function App(props) {
         />
         <AuthRoute exact path="/my/tests/results"><MyTestResult /></AuthRoute>
         <AuthRoute exact path="/group"><Group /></AuthRoute>
-        {/* <Route exact path="/group" component={Group} /> */}
+        <AuthRoute exact path="/invitation"><Invitation /></AuthRoute>
         <Route exact path="/group/detail/:groupId" render={(props) => <GroupDetail {...props} />} />
       </Switch>
 

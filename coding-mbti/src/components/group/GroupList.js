@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Redirect } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 /* M-UIs */
 import Grid from '@material-ui/core/Grid';
@@ -33,9 +33,12 @@ const useStyles = makeStyles((theme) => ({
 
 export default function GroupList(props) {
   const classes = useStyles();
+  const history = useHistory();
+
   const {
     groups, createGroup, deleteGroup, error, isManager
   } = props;
+
   return (
     <>
       <div style={{ height: '25px' }} />
@@ -80,7 +83,7 @@ export default function GroupList(props) {
                         width: 60,
                         height: 60,
                       }}
-                      onClick={() => <Redirect path="*" to={`/group/detail/${group}`} />}
+                      onClick={() => history.push(`/group/detail/${group}`)}
                     >
                       <SupervisedUserCircleIcon />
                     </IconButton>
@@ -98,9 +101,11 @@ export default function GroupList(props) {
                     </IconButton>
                   </ListItemSecondaryAction>
                 </ListItem>
-                {Object.keys(groups).length - 1 !== idx ?
-                  <Divider variant="inset" component="li" />
-                  : null}
+                {
+                  Object.keys(groups).length - 1 !== idx ?
+                    <Divider variant="inset" component="li" />
+                    : null
+                }
               </>
             ))
           }

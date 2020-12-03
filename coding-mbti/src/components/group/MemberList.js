@@ -30,16 +30,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function MemberList() {
+export default function MemberList(props) {
+  const {
+    members, deleteMember, detailMember
+  } = props;
   const classes = useStyles();
-  const [dense] = React.useState(false);
-  const [secondary] = React.useState(false);
-
-  function generate(element) {
-    return [0, 1, 2].map((value) => React.cloneElement(element, {
-      key: value,
-    }));
-  }
 
   return (
     <div>
@@ -47,26 +42,29 @@ export default function MemberList() {
         Group Coders
       </Typography>
       <div className={classes.paperBackground}>
-        <List dense={dense}>
-          {generate(
-            <ListItem>
-              <ListItemAvatar>
-                <Avatar alt="A" src="../nosrc" />
-              </ListItemAvatar>
-              <ListItemText
-                primary="Single-line item"
-                secondary={secondary ? 'Secondary text' : null}
-              />
-              <ListItemSecondaryAction>
-                <IconButton edge="end" aria-label="delete">
-                  <InfoIcon />
-                </IconButton>
-                <IconButton edge="end" aria-label="delete">
-                  <DeleteForeverIcon />
-                </IconButton>
-              </ListItemSecondaryAction>
-            </ListItem>,
-          )}
+        <List dense={false}>
+          {
+            Object.keys(members).map((member) => (
+              <ListItem>
+                <ListItemAvatar>
+                  <Avatar alt="A" src="../nosrc" />
+                </ListItemAvatar>
+                <ListItemText
+                  primary={members[member].id}
+                  secondary={members[member].style}
+                />
+                <ListItemSecondaryAction>
+                  <IconButton edge="end" aria-label="delete" onClick={detailMember}>
+                    <InfoIcon />
+                  </IconButton>
+                  <IconButton edge="end" aria-label="delete" onClick={deleteMember}>
+                    <DeleteForeverIcon />
+                  </IconButton>
+                </ListItemSecondaryAction>
+              </ListItem>
+            ))
+
+          }
         </List>
       </div>
     </div>
@@ -74,8 +72,7 @@ export default function MemberList() {
 }
 
 MemberList.propTypes = {
-  groupId: PropTypes.number.isRequired,
   members: PropTypes.object.isRequired,
   deleteMember: PropTypes.func.isRequired,
-  createInvitation: PropTypes.func.isRequired,
+  detailMember: PropTypes.func.isRequired,
 };

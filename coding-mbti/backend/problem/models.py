@@ -20,8 +20,8 @@ class ProblemManager(models.Manager):
             if len(res) == 0:
                 return {}
             row = res[0]
-            return {"id": row[0], "pid": row[1], "title": row[2],
-                    "input_desc": row[3], "output_desc": row[4], "objective": row[5]}
+            return {"id": row[0], "pid": row[1], "title": row[2], "desc": row[3],
+                    "input_desc": row[4], "output_desc": row[5], "objective": row[6]}
 
 
 class Problem(models.Model):

@@ -53,7 +53,7 @@ class SignIn extends Component {
     } = this.props;
     if (this.props.user.username !== null) {
       return (
-        <Redirect path="*" to="/my/tests/results" />
+        <Redirect path="*" to="/cc" />
       );
     }
 

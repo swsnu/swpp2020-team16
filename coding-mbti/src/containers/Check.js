@@ -55,8 +55,7 @@ class Check extends Component {
     const {
       problem, classes, problemInput, problemOutput, alert
     } = this.props;
-    const { pid } = this.props.match.params;
-
+    const pid = problem.id;
     if (problem.error) {
       alert.show(problem.error);
       return (<div />);
@@ -76,7 +75,7 @@ class Check extends Component {
         </Container>
         <Container maxWidth="lg">
           <CodeIDE
-            signedIn={false}
+            signedIn
             pid={pid}
             handleSubmit={this.handleSubmit}
             problemInput={problemInput}

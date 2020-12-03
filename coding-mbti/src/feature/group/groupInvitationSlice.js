@@ -76,8 +76,8 @@ export const readInvitation = () => async dispatch => {
     dispatch(invitationRead(res.data));
 };
 
-export const createInvitation = (groupId, invitation) => async dispatch => {
-    const res = await request.post(`group/${groupId}/invite/`, invitation);
+export const createInvitation = (invitation) => async dispatch => {
+    const res = await request.post('group/invite/', invitation);
 
     const necessaryKeysInResponse = ['data'];
     necessaryKeysInResponse.map((key) => {

@@ -22,6 +22,7 @@ const problemSlice = createSlice({
         Object.keys(action.payload).forEach(key => {
           state[key] = action.payload[key];
         });
+        state.error = null;
       },
     },
     problemReadFail: {
@@ -70,21 +71,12 @@ export const readProblem = (problemId) => async (dispatch) => {
 };
 
 export const readProblemByObjective = () => async dispatch => {
-  const res = await request.get('problem/objective/');
   try {
-    const necessaryKeysInResponseData = [
-      'id', 'pid', 'desc',
-      'input_desc', 'output_desc', 'title', 'objective'];
-
-    necessaryKeysInResponseData.forEach(key => {
-      if (!(key in res.data)) {
-        throw new InvalidKeyException(`Key "${key}" does not exist.`);
-      }
-    });
-
+    const res = await request.get('problem/objective/');
     dispatch(problemRead(res.data));
+    return res.data.id;
   } catch (error) {
-    dispatch(problemReadFail('No more problem'));
+    dispatch(problemReadFail(error.message));
   }
-  return res.data.id;
+  return null;
 };

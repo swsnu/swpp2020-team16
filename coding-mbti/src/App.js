@@ -4,7 +4,6 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import './App.css';
 import PropTypes from 'prop-types';
 
-import Home from './containers/Home';
 import StyleGrid from './components/StyleGrid';
 import OtherSolution from './containers/OtherSolutions';
 import UserRelations from './containers/UserRelations';
@@ -26,12 +25,11 @@ function App(props) {
     <Router history={history}>
       <Navbar />
       <Switch>
-        <Route exact path="/" component={Home} />
+        <Route exact path="/cc" component={Check} />
         <Route exact path="/signin/" component={SignIn} />
         <Route exact path="/signup/" component={SignUp} />
         <Route exact path="/relation/" component={UserRelations} />
         <Route exact path="/research/api" component={ResearchAPI} />
-        <Route exact path="/check/" component={Check} />
         <Route
           exact
           path="/check/result/:pid/:style"

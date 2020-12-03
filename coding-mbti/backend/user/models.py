@@ -104,8 +104,8 @@ class Coder(models.Model):
 
     def get_new_objective(self):
         solved_solutions = get_dicts_with_filter(
-            Solution.objects, author_id=self.pk)
-        solved_styles = {1: 0, 2: 0, 3: 0, 4: 0}
+            Solution.objects, author_id=self.user.id)
+        solved_styles = {1: 0, 2: 0, 3: 0}
         for solution in solved_solutions:
             problem = Problem.objects.get(pk=solution['problem_id'])
             solved_styles[problem.objective] += 1

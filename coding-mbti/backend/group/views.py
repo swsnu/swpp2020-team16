@@ -95,7 +95,7 @@ def group_view(request):
 
 
 @permission_classes((IsAuthenticated, ))
-def group_invite_view(request):
+def group_invite_view(request, group_id):
     if request.method == "GET":
         try:
             coder = Coder.objects.get(user=request.user)

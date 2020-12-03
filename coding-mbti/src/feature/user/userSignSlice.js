@@ -1,10 +1,8 @@
 /* eslint-disable array-callback-return */
 import { createSlice } from '@reduxjs/toolkit';
 import CryptoJS from 'crypto-js';
+import { InvalidKeyException } from '../../utils/exceptions';
 import request from '../../utils/request';
-import {
-    InvalidKeyException, ResponseException
-} from '../../utils/exceptions';
 
 const userSlice = createSlice({
     name: 'usersign',
@@ -12,6 +10,7 @@ const userSlice = createSlice({
         username: null,
         token: null,
         role: null,
+        error: null,
     },
     reducers: {
         signin: (state, action) => {
@@ -19,55 +18,77 @@ const userSlice = createSlice({
             state.username = username;
             state.token = token;
             state.role = role;
+            state.error = null;
+        },
+        signInFail: (state, action) => {
+            state.error = action.payload;
         },
         signout: (state) => {
             state.username = null;
             state.token = null;
             state.role = null;
+            state.error = null;
         },
+        signOutFail: (state, action) => {
+            state.error = action.payload;
+        },
+        signUpFail: (state, action) => {
+            state.error = action.payload;
+        },
+        clearError: (state) => {
+            state.error = null;
+        }
     },
 });
 export default userSlice.reducer;
-export const { signout, signin } = userSlice.actions;
+export const {
+    signout, signin, signInFail, signUpFail, signOutFail, clearError
+} = userSlice.actions;
 
 export const signIn = (signInData) => async (dispatch) => {
     signInData.password = CryptoJS.SHA256(signInData.password).toString();
-    const res = await request.post('/user/login/', signInData);
-    if (res.status === 401) {
-        throw new ResponseException('wrong username or password');
-    }
-    const necessaryKeysInResponse = ['data'];
-    necessaryKeysInResponse.forEach((key) => {
-        if (!(key in res)) {
-            throw new InvalidKeyException(`Key "${key}" does not exist.`);
-        }
-    });
-    const necessaryKeysInResponseData = ['token'];
-    necessaryKeysInResponseData.forEach(key => {
-        if (!(key in res.data)) {
-            throw new InvalidKeyException(`Key "${key}" does not exist.`);
-        }
-    });
-    res.data.username = signInData.username;
-    localStorage.setItem('token', res.data.token);
+    await request.get('user/token');
+    try {
+        const res = await request.post('/user/login/', signInData);
+        const necessaryKeysInResponse = ['data'];
+        necessaryKeysInResponse.forEach((key) => {
+            if (!(key in res)) {
+                throw new InvalidKeyException(`Key "${key}" does not exist.`);
+            }
+        });
+        const necessaryKeysInResponseData = ['token'];
+        necessaryKeysInResponseData.forEach(key => {
+            if (!(key in res.data)) {
+                throw new InvalidKeyException(`Key "${key}" does not exist.`);
+            }
+        });
 
-    dispatch(signin(res.data));
+        res.data.username = signInData.username;
+        localStorage.setItem('token', res.data.token);
+
+        dispatch(signin(res.data));
+    } catch (error) {
+        dispatch(signInFail('Wrong user name or password'));
+    }
+    return null;
 };
 
 export const signOut = () => async (dispatch) => {
-    const res = await request.get('/user/logout/');
-    if (res.status === 401) {
-        throw new ResponseException('username does not exist.');
+    try {
+        await request.get('/user/logout/');
+        localStorage.clear();
+        dispatch(signout());
+    } catch (error) {
+        return dispatch(signOutFail('You need to login first'));
     }
-
-    localStorage.clear();
-    dispatch(signout());
+    return null;
 };
 
-export const signUp = (signUpData) => async () => {
+export const signUp = (signUpData) => async (dispatch) => {
     signUpData.password = CryptoJS.SHA256(signUpData.password).toString();
-    const res = await request.post('/user/signup/', signUpData);
-    if (res.status === 409) {
-        throw new ResponseException('username or email already exists');
+    try {
+        await request.post('/user/signup/', signUpData);
+    } catch (error) {
+        dispatch(signUpFail('username or email already exists'));
     }
 };

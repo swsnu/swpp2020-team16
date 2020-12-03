@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 import sys
 from pathlib import Path
+from corsheaders.defaults import default_methods
+
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -152,6 +154,10 @@ AUTH_USER_MODEL = 'user.User'
 
 # CORS configurations
 CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_HEADERS = list(default_methods) + [
+    'xsrfheadername',
+    'xsrfcookiename',
+    'X-CSRFTOKEN', 'authorization', 'content-type']
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
@@ -160,17 +166,6 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 # CSRF configurations
-
-CSRF_TRUSTED_ORIGINS = [
-    "localhost:3000",
-    "codingmbti-dev.shop",
-    "codingmbti.shop",
-]
-
-CSRF_COOKIE_SECURE = True
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SAMESITE = 'None'
-SESSION_COOKIE_SAMESITE = 'Strict'
 
 # REST FRAMEWORK configurations
 

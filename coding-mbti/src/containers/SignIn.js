@@ -13,10 +13,7 @@ import Container from '@material-ui/core/Container';
 import { withStyles } from '@material-ui/styles';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { signIn, signOut } from '../feature/user/userSignSlice';
-import configureStore from '../configureStore';
-
-const { persistor } = configureStore();
+import { signIn, signOut, clearError } from '../feature/user/userSignSlice';
 
 const styles = (theme) => ({
   paper: {
@@ -47,27 +44,22 @@ class SignIn extends Component {
   }
 
   clickSignIn = () => {
-    try {
-      this.props.signIn({
-        username: this.state.username,
-        password: this.state.password,
-      });
-    } catch (error) {
-      this.props.alert.show(error.message);
-    }
+    this.props.signIn({ ...this.state });
   };
 
-  clickSignOut = async () => {
-    await persistor.purge();
-    await this.props.signOut();
-  }
-
   render() {
-    const { classes } = this.props;
+    const {
+      alert, error, classes, clearError
+    } = this.props;
     if (this.props.user.username !== null) {
       return (
         <Redirect path="*" to="/my/tests/results" />
       );
+    }
+
+    if (error) {
+      alert.show(error);
+      clearError();
     }
     return (
       <>
@@ -115,16 +107,6 @@ class SignIn extends Component {
               >
                 Sign In
               </Button>
-              <Button
-                fullWidth
-                variant="contained"
-                color="primary"
-                id="sign_out_button"
-                className={classes.submit}
-                onClick={() => this.clickSignOut()}
-              >
-                Sign Out
-              </Button>
               <Grid container>
                 <Grid item xs>
                   <Link href="/" variant="body2">
@@ -149,14 +131,17 @@ SignIn.propTypes = {
   classes: PropTypes.object.isRequired,
   signIn: PropTypes.func.isRequired,
   signOut: PropTypes.func.isRequired,
+  clearError: PropTypes.func.isRequired,
   alert: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
+  error: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   user: state.user.userSignReducer,
+  error: state.user.userSignReducer.error,
 });
 
-export default connect(mapStateToProps, { signIn, signOut })(
+export default connect(mapStateToProps, { signIn, signOut, clearError })(
   withStyles(styles)(withAlert()(SignIn))
 );

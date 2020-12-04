@@ -63,6 +63,8 @@ export default function CodeIDE(props) {
       .value.split(' ')
       .map((el) => Number(el));
 
+    if (timeNpass.length === 1) timeNpass.push(0);
+
     if (!forceSubmit && timeNpass[1] !== problemInputs.length) {
       setOpenProceedDialog(true);
       return;
@@ -86,7 +88,7 @@ export default function CodeIDE(props) {
 
     document.getElementById('output').value = '';
     await runner.runCodeWithFiles(files['test-all.py'].body, files);
-    document.getElementById('output').value += '코드 실행이 완료되었습니다.';
+    document.getElementById('output').value += '\n코드 실행이 완료되었습니다.';
 
     handleSubmitWithTestCheck();
     setFiles(initialFiles);

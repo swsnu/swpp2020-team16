@@ -41,7 +41,7 @@ class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      ready: false
+      ready: false,
     };
   }
 
@@ -54,18 +54,16 @@ class Home extends Component {
   }
 
   onClickGetTested = () => {
-    window.location.replace(`/check/${HOME_PROBLEM_ID}`);
+    window.location.replace('/solve');
   };
 
   handleSubmit = async (pid, solution) => {
     this.props.createSolution(pid, solution);
-  }
+  };
 
   render() {
-    if (!this.state.ready) return (null);
-    const {
-      user, problem, classes, problemInput, problemOutput
-    } = this.props;
+    if (!this.state.ready) return null;
+    const { user, problem, classes, problemInput, problemOutput } = this.props;
     return (
       <>
         <main>

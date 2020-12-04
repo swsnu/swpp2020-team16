@@ -15,8 +15,7 @@ from user.models import User, Coder, Manager
 from utils.utils import get_dicts_with_filter, get_dicts_with_all
 
 
-# @permission_classes((IsAuthenticated, ))
-@csrf_exempt
+@permission_classes((IsAuthenticated, ))
 def group_members_view(request, group_id):
     if request.method == "GET":
         try:
@@ -32,7 +31,8 @@ def group_members_view(request, group_id):
     else:
         return HttpResponseNotAllowed(["GET"])
 
-@csrf_exempt
+
+@permission_classes((IsAuthenticated, ))
 def group_members_id_view(request, group_id, member_id):
     if request.method == "DELETE":
         try:
@@ -51,8 +51,7 @@ def group_members_id_view(request, group_id, member_id):
         return HttpResponseNotAllowed(["DELETE"])
 
 
-# @permission_classes((IsAuthenticated, ))
-@csrf_exempt
+@permission_classes((IsAuthenticated, ))
 def group_by_id_view(request, group_id):
     if request.method == "GET":
         try:
@@ -70,8 +69,7 @@ def group_by_id_view(request, group_id):
         return HttpResponseNotAllowed(["GET", "DELETE"])
 
 
-# @permission_classes((IsAuthenticated, ))
-@csrf_exempt
+@permission_classes((IsAuthenticated, ))
 def group_view(request):
     if request.method == "GET":
         try:
@@ -81,7 +79,6 @@ def group_view(request):
             return HttpResponseBadRequest(error)
     elif request.method == "POST":
         try:
-            print(request.user)
             manager = Manager.objects.get(user=request.user)
             body = request.body.decode()
             name = json.loads(body)["name"]
@@ -97,9 +94,8 @@ def group_view(request):
         return HttpResponseNotAllowed(["GET", "POST"])
 
 
-# @permission_classes((IsAuthenticated, ))
-@csrf_exempt
-def group_invite_view(request):
+@permission_classes((IsAuthenticated, ))
+def group_invite_view(request, group_id):
     if request.method == "GET":
         try:
             coder = Coder.objects.get(user=request.user)
@@ -128,8 +124,7 @@ def group_invite_view(request):
         return HttpResponseNotAllowed(["GET", "POST"])
 
 
-# @ permission_classes((IsAuthenticated, ))
-@csrf_exempt
+@permission_classes((IsAuthenticated, ))
 def group_invite_accept_view(request, invitation_id):
     if request.method == "GET":
         try:
@@ -151,7 +146,8 @@ def group_invite_accept_view(request, invitation_id):
     else:
         return HttpResponseNotAllowed(["GET", "DELETE"])
 
-@csrf_exempt
+
+@permission_classes((IsAuthenticated, ))
 def group_find_relation_view(request, group_id):
     if request.method == "GET":
         try:

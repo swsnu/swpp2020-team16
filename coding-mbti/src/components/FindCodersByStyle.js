@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles((theme) => ({
   seeMore: {
@@ -31,7 +32,9 @@ const SingleUser = (props) => {
       align="center"
       alignContent="center"
       onClick={() => {
-        props.readOtherReport(props.user.user_id);
+        props.readOtherReport(props.user.user_id).then(() => {
+          window.location.reload();
+        });
       }}
       item
       xs={2}
@@ -47,25 +50,17 @@ export default function FindCodersByStyle(props) {
   const sameStyleUsers = props.same.map((el) => (
     <SingleUser user={el} readOtherReport={props.readOtherReport} />
   ));
-  const oppositeStyleUsers = props.opposite.map((el) => (
-    <SingleUser user={el} readOtherReport={props.readOtherReport} />
-  ));
   return (
     <>
       <Grid item xs={1} className="findCoders" />
       <Grid item container spacing={3} xs={10}>
         <Grid item xs={12}>
-          <h1>Same Style Users</h1>
+          <Typography variant="h2" align="center">
+            Same Style Users
+          </Typography>
         </Grid>
         <Grid item container spacing={5} xs={12}>
           {sameStyleUsers}
-        </Grid>
-
-        <Grid item xs={12}>
-          <h1>Opposite Style Users</h1>
-        </Grid>
-        <Grid item container spacing={5} xs={12}>
-          {oppositeStyleUsers}
         </Grid>
       </Grid>
       <Grid item xs={1} />

@@ -84,3 +84,15 @@ def token(request):
     if request.method == 'GET':
         return HttpResponse(status=204)
     return HttpResponseNotAllowed(['GET'])
+
+
+def qualified_view(request):
+    if request.method == 'GET':
+        if request.user.is_anonymous:
+            return JsonResponse(False, safe=False)
+        print(request.user)
+        coder = Coder.objects.get(user=request.user)
+
+        return JsonResponse(coder.is_qualified(), safe=False)
+    else:
+        return HttpResponseNotAllowed(['GET'])

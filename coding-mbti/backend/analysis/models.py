@@ -130,7 +130,8 @@ class UserReport(Report):
     solution3 = models.TextField(default="")
     mean_elapsed_time = models.FloatField(default=0.0)
     mean_erase_cnt = models.IntegerField(default=0)
-
+    style_int = models.IntegerField(default=0)
+    style_str = models.CharField(default="", max_length=4)
     UM_prediction = models.IntegerField(
         choices=Problem.ProblemObjective.choices, default=0
     )
@@ -167,6 +168,57 @@ class UserReport(Report):
 
             self.JC_prediction, self.JC_probability = self.predict_JC(
                 self.mean_elapsed_time, self.mean_erase_cnt)
+            
+            predictions = (self.UM_prediction, self.TI_prediction, self.RT_prediction, self.JC_prediction)
+            if predictions == (1, 1, 1, 1) :
+                self.style_int = 1
+                self.style_str = 'UTRJ'
+            elif predictions == (1, 1, 1, 0) :
+                self.style_int = 2
+                self.style_str = 'UTRC'
+            elif predictions == (1, 1, 0, 1): 
+                self.style_int = 3
+                self.style_str = 'UTTJ'
+            elif predictions == (1, 1, 0, 0) :
+                self.style_int = 4
+                self.style_str = 'UTTC'
+            elif predictions == (1, 0, 1, 1) : 
+                self.style_int = 5
+                self.style_str = 'UIRJ'
+            elif predictions == (1, 0, 1, 0): 
+                self.style_int = 6
+                self.style_str = 'UIRC'
+            elif predictions == (1, 0, 0, 1): 
+                self.style_int = 7
+                self.style_str = 'UITJ'
+            elif predictions == (1, 0, 0, 0): 
+                self.style_int = 8
+                self.style_str = 'UITC'
+            elif predictions == (0, 1, 1, 1): 
+                self.style_int = 9
+                self.style_str = 'MTRJ'
+            elif predictions == (0, 1, 1, 0): 
+                self.style_int = 10
+                self.style_str = 'MTRC'
+            elif predictions == (0, 1, 0, 1): 
+                self.style_int = 11
+                self.style_str = 'MTTJ'
+            elif predictions == (0, 1, 0, 0): 
+                self.style_int = 12
+                self.style_str = 'MTTC'
+            elif predictions == (0, 0, 1, 1): 
+                self.style_int = 13
+                self.style_str = 'MIRJ'
+            elif predictions == (0, 0, 1, 0): 
+                self.style_int = 14
+                self.style_str = 'MTRC'
+            elif predictions == (0, 0, 0, 1): 
+                self.style_int = 15
+                self.style_str = 'MITJ'
+            elif predictions == (0, 0, 0, 0): 
+                self.style_int = 16
+                self.style_str = 'MITC'
+
             self.status = Report.ReportStatus.READY
             self.save()
 
@@ -182,4 +234,6 @@ class UserReport(Report):
             "TI_probability": self.TI_probability,
             "JC_prediction": self.JC_prediction,
             "JC_probability": self.JC_probability,
+            "style_str": self.style_str,
+            "style_int": self.style_int
         }

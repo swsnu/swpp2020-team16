@@ -47,7 +47,6 @@ export const {
 export default reportSlice.reducer;
 
 export const readMyReport = () => async (dispatch) => {
-  console.log('hi');
   try {
     const solutions = await request.get('analysis/my/solutions/');
     const report = await request.get('analysis/my/report/');

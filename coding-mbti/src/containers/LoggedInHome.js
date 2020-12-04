@@ -8,10 +8,10 @@ import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/styles';
 import Container from '@material-ui/core/Container';
 
-import { readMyReport } from '../feature/report/reportSlice';
 import Paper from '@material-ui/core/Paper';
 import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
 import DoneIcon from '@material-ui/icons/Done';
+import { readMyReport } from '../feature/report/reportSlice';
 
 const styles = (theme) => ({
   Content: {
@@ -30,7 +30,8 @@ const styles = (theme) => ({
     display: 'flex',
     flexWrap: 'wrap',
     padding: '1vw',
-    backgroundColor: 'rgba(0, 0, 0, .02)',
+    backgroundColor: '#3f51b5',
+    color: 'white',
     margin: '1vw',
     '&:hover': {
       backgroundColor: 'rgba(0, 0, 0, .1)',
@@ -49,6 +50,7 @@ const styles = (theme) => ({
     flexWrap: 'wrap',
     padding: '1vw',
     margin: '1vw',
+    color: 'white',
     backgroundColor: '#3f51b5',
     cursor: 'default',
   },
@@ -56,11 +58,13 @@ const styles = (theme) => ({
 
 const SingleProblem = (props) => {
   return (
-    <Fragment>
+    <>
       <Paper className={props.classes.rootNoClick2} elevation={3}>
         <Grid item xs={11}>
           <Typography variant="h6" component="h6">
-            problem {props.solution.problem_id} completed
+            problem
+            {props.solution.problem_id}
+            completed
           </Typography>
         </Grid>
         <Grid item xs={1} align="end">
@@ -80,7 +84,7 @@ const SingleProblem = (props) => {
         </Grid>
         <Grid> erase count :{props.solution.erase_cnt}</Grid>
       </Paper>
-    </Fragment>
+    </>
   );
 };
 
@@ -103,14 +107,19 @@ class LoggedInHome extends Component {
     const solvedProblems = report.myReport.solutions.map((el) => (
       <SingleProblem classes={classes} solution={el} />
     ));
-    console.log(report);
 
     return (
-      <Fragment>
+      <>
         <Container className={classes.Grid} maxWidth="lg" spacing={10}>
           <Paper className={classes.root} elevation={3} align="center">
             <Grid className="check" item xs={11}>
-              <Typography variant="h2" component="h1">
+              <Typography
+                variant="h2"
+                component="h1"
+                onClick={() => {
+                  window.location.replace('../my/tests/results/');
+                }}
+              >
                 Go to check my report
               </Typography>
             </Grid>
@@ -121,7 +130,7 @@ class LoggedInHome extends Component {
 
           {solvedProblems}
         </Container>
-      </Fragment>
+      </>
     );
   }
 }
@@ -129,6 +138,16 @@ class LoggedInHome extends Component {
 LoggedInHome.propTypes = {
   classes: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
+  solution: PropTypes.object.isRequired,
+  report: PropTypes.object.isRequired,
+  readMyReport: PropTypes.object.isRequired,
+};
+
+SingleProblem.propTypes = {
+  classes: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
+  solution: PropTypes.object.isRequired,
+  report: PropTypes.object.isRequired,
 };
 
 const mapDispatchToProps = (state) => ({

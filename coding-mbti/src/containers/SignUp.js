@@ -148,6 +148,7 @@ class SignUp extends Component {
         role: this.state.role,
         username: this.state.username
       });
+      window.location.replace('/signin');
     } catch (error) {
       this.props.alert.show(error.message);
     }

@@ -9,7 +9,11 @@ describe('<FindCodersByStyle/>', () => {
     { username: '2' },
     { username: '3' },
   ];
-  const mockReadOtherReport = jest.fn();
+  const mockReadOtherReport = jest.fn().mockImplementation(() => {
+    return new Promise((resolve) => {
+      resolve({});
+    });
+  });
   const findCodersByStyle = (
     <FindCodersByStyle
       same={mockSame}
@@ -26,7 +30,7 @@ describe('<FindCodersByStyle/>', () => {
 
   it('should render detail user info when clicked', () => {
     const component = mount(findCodersByStyle);
-    const wrapper = component.find('.forTest').at(10);
+    const wrapper = component.find('.forTest').at(2);
     wrapper.simulate('click');
     expect(mockReadOtherReport).toHaveBeenCalledTimes(1);
   });

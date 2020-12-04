@@ -53,7 +53,6 @@ export default function OtherSolutionsTable(props) {
   const classes = useStyles();
   const { selectedUsers } = props;
   const { selectedSolutions } = props;
-
   const rows = createRows(selectedUsers, selectedSolutions);
 
   const [open, setOpen] = React.useState(false);

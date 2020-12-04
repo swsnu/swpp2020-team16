@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
-import { useHistory } from 'react-router-dom';
 
 import Grid from '@material-ui/core/Grid';
 
@@ -26,10 +25,9 @@ const useStyles = makeStyles(() => ({
 
 const ButtonBox = (props) => {
   const classes = useStyles();
-  const history = useHistory();
   const { pid, style } = props;
   const handleClick = () => {
-    history.push(`/check/result/${pid}/${style}`);
+    window.location.replace(`../${pid}/${style}`);
   };
 
   return (

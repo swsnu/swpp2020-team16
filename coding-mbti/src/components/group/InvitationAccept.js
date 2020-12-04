@@ -7,7 +7,6 @@ export default function InvitationAccept(props) {
     const { invitationId, acceptInvitation } = props;
     const accpetAndReload = () => {
         acceptInvitation(invitationId);
-        window.location.replace('/group');
     };
 
     return (

@@ -2,7 +2,6 @@ import json
 from django.test import TestCase, Client
 from user.models import User, Coder, Manager, CodingStyle
 from group.models import Group, Invitation
-
 # Create your tests here.
 
 

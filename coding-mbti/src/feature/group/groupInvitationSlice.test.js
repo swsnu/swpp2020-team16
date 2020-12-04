@@ -246,11 +246,10 @@ describe('groupInvitationSlice', () => {
                             data: invitationData.data[0]
                         });
 
-                        const groupId = invitationData.data[0].group;
-                        await store.dispatch(createInvitation(groupId, invitationData.data[0]));
+                        await store.dispatch(createInvitation(invitationData.data[0]));
 
                         /* THEN */
-                        expect(request.post).toHaveBeenCalledWith(`group/${groupId}/invite/`, invitationData.data[0]);
+                        expect(request.post).toHaveBeenCalledWith('group/invite/', invitationData.data[0]);
                     });
                 });
             });

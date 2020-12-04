@@ -17,11 +17,13 @@ describe('userSignSlice', () => {
         username: null,
         token: null,
         role: null,
+        error: null,
       };
       const payloadValue = {
         username: 'test username',
         token: 'test token',
         role: 1,
+        error: null,
       };
       it('sets the state', () => {
         const action = {
@@ -37,6 +39,7 @@ describe('userSignSlice', () => {
         username: 'test username',
         token: 'test token',
         role: 1,
+        error: null,
       };
       it('sets the state', () => {
         const action = {
@@ -48,6 +51,7 @@ describe('userSignSlice', () => {
           username: null,
           token: null,
           role: null,
+          error: null,
         });
       });
     });
@@ -127,18 +131,13 @@ describe('userSignSlice', () => {
             status: 401
           });
 
-          let errorMessage;
-          try {
-            await store.dispatch(signIn({
-              username: 'test username',
-              password: 'test password'
-            }));
-          } catch (error) {
-            errorMessage = error.message;
-          }
+          await store.dispatch(signIn({
+            username: 'test username',
+            password: 'test password'
+          }));
 
           /* THEN */
-          expect(errorMessage).toBe('wrong username or password');
+          expect(store.getState().user.userSignReducer.error).toBe('wrong username or password');
         });
       });
 
@@ -192,7 +191,7 @@ describe('userSignSlice', () => {
 
           /* THEN */
           const state = store.getState().user.userSignReducer;
-          expect(state).toEqual(dbdata.data);
+          expect(state).toEqual({ ...dbdata.data, error: null });
         });
       });
     });
@@ -214,14 +213,11 @@ describe('userSignSlice', () => {
           request.get.mockResolvedValue({
             status: 401
           });
-          let errorMessage;
-          try {
-            await store.dispatch(signOut());
-          } catch (error) {
-            errorMessage = error.message;
-          }
+
+          await store.dispatch(signOut());
+
           /* THEN */
-          expect(errorMessage).toBe('username does not exist.');
+          expect(store.getState().user.userSignReducer.error).toBe('username does not exist.');
         });
       });
       describe('should handle axios without error', () => {
@@ -264,7 +260,9 @@ describe('userSignSlice', () => {
 
           /* THEN */
           const state = store.getState().user.userSignReducer;
-          expect(state).toEqual({ username: null, token: null, role: null });
+          expect(state).toEqual({
+            username: null, token: null, role: null, error: null
+          });
         });
       });
     });
@@ -287,22 +285,17 @@ describe('userSignSlice', () => {
             status: 409
           });
 
-          let errorMessage;
-          try {
-            await store.dispatch(signUp(
-              {
-                username: 'test username',
-                password: 'test password',
-                role: 1,
-                email: 'test email',
-              }
-            ));
-          } catch (error) {
-            errorMessage = error.message;
-          }
+          await store.dispatch(signUp(
+            {
+              username: 'test username',
+              password: 'test password',
+              role: 1,
+              email: 'test email',
+            }
+          ));
 
           /* THEN */
-          expect(errorMessage).toBe('username or email already exists');
+          expect(store.getState().user.userSignReducer.error).toBe('username or email already exists');
         });
       });
       describe('should handle axios without error', () => {
@@ -365,7 +358,9 @@ describe('userSignSlice', () => {
 
           /* THEN */
           const state = store.getState().user.userSignReducer;
-          expect(state).toEqual({ username: null, token: null, role: null });
+          expect(state).toEqual({
+            username: null, token: null, role: null, error: null
+          });
         });
       });
     });

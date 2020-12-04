@@ -1,18 +1,30 @@
 import React from 'react';
 
-import { shallow } from 'enzyme';
+import { mount } from 'enzyme';
+import { Provider } from 'react-redux';
+import { ThemeProvider, createMuiTheme } from '@material-ui/core';
+import configureStore from '../configureStore';
 import MyTestResult from './MyTestResult';
+
+const { store } = configureStore();
+const theme = createMuiTheme();
 
 describe('<MyTestResult/>', () => {
   let myTestResult;
 
   beforeEach(() => {
-    myTestResult = <MyTestResult />;
+    myTestResult = (
+      <Provider store={store}>
+        <ThemeProvider theme={theme}>
+          <MyTestResult />
+        </ThemeProvider>
+      </Provider>
+    );
   });
 
   it('should render withour any error', () => {
-    const component = shallow(myTestResult);
-    const wrapper = component.find('main');
-    expect(wrapper.length).toBe(1);
+    const component = mount(myTestResult);
+    const wrapper = component.find('.check');
+    expect(wrapper.length).toBe(3);
   });
 });

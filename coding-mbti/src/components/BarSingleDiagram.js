@@ -30,7 +30,7 @@ export default function BarSingleDiagram(props) {
     colors: colorPalette[color],
     chart: {
       type: 'bar',
-      height: 350,
+      height: 50,
       stacked: true,
       stackType: '100%',
       toolbar: {
@@ -49,9 +49,6 @@ export default function BarSingleDiagram(props) {
     title: {
       text: '',
     },
-    xaxis: {
-      categories: ['Q1', 'Q2', 'Q3', 'Q4', 'Q5', 'Q6', 'Q7'],
-    },
     fill: {
       opacity: 1,
     },
@@ -59,6 +56,16 @@ export default function BarSingleDiagram(props) {
       position: 'top',
       horizontalAlign: 'left',
       offsetX: 40,
+    },
+    xaxis: {
+      labels: {
+        show: false,
+      },
+    },
+    yaxis: {
+      labels: {
+        show: false,
+      },
     },
   });
 
@@ -69,7 +76,7 @@ export default function BarSingleDiagram(props) {
           options={options}
           series={series}
           type="bar"
-          height={350}
+          height={150}
         />
       </div>
     </>

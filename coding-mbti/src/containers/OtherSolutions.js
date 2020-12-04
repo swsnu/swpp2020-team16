@@ -22,7 +22,7 @@ const styleToIntDict = {
   MTTJ: 11,
   MTTC: 12,
   MIRJ: 13,
-  EIRC: 14,
+  MIRC: 14,
   MITJ: 15,
   MITC: 16,
 };
@@ -39,11 +39,10 @@ let styleInt = 1;
 let pid = 1;
 
 class OtherSolutions extends Component {
-  async componentDidMount() {
-    await Promise.all([
-      this.props.readUsersByStyle(styleInt),
-      this.props.readSolutionOfOthers(this.props.report.selectedUsers, pid),
-    ]);
+  componentDidMount() {
+    this.props.readUsersByStyle(styleInt).then((res) => {
+      this.props.readSolutionOfOthers(res, pid);
+    });
   }
 
   render() {
@@ -54,9 +53,10 @@ class OtherSolutions extends Component {
     const selectedUsers = this.props.report.selectedUsers
       ? this.props.report.selectedUsers
       : [];
-    const selectedSolutions = this.props.solution.selectedSolutions
-      ? this.props.solution.selectedSolutions
-      : [];
+    const selectedSolutions =
+      this.props.solution.selectedSolutions.length === 0
+        ? []
+        : this.props.solution.selectedSolutions;
 
     return (
       <Grid

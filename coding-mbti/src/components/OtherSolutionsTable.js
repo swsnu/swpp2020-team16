@@ -53,7 +53,6 @@ export default function OtherSolutionsTable(props) {
   const classes = useStyles();
   const { selectedUsers } = props;
   const { selectedSolutions } = props;
-
   const rows = createRows(selectedUsers, selectedSolutions);
 
   const [open, setOpen] = React.useState(false);
@@ -117,7 +116,7 @@ export default function OtherSolutionsTable(props) {
                 <TableCell className="titleRow">{`${row[0].username}'s solution`}</TableCell>
                 <TableCell>{row[0].user_id}</TableCell>
                 <TableCell>{row[0].username}</TableCell>
-                <TableCell>{row[0].style}</TableCell>
+                <TableCell>{row[0].style.style}</TableCell>
               </TableRow>
             </>
           ))}

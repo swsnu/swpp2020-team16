@@ -12,13 +12,25 @@ describe('<TypeInfo/>', () => {
     let target;
 
     const testCases = [
-      'UTEJ', 'MTEJ', 'UTEC', 'MTEC',
-      'UTFJ', 'MTFJ', 'UTFC', 'MTFC',
-      'UIEJ', 'MIEJ', 'UIEC', 'MIEC',
-      'UIFJ', 'MIFJ', 'UIFC', 'MIFC'
+      'UTRJ',
+      'MTRJ',
+      'UTRC',
+      'MTRC',
+      'UTTJ',
+      'MTTJ',
+      'UTTC',
+      'MTTC',
+      'UIRJ',
+      'MIRJ',
+      'UIRC',
+      'MIRC',
+      'UITJ',
+      'MITJ',
+      'UITC',
+      'MITC',
     ];
 
-    testCases.forEach(userType => {
+    testCases.forEach((userType) => {
       beforeAll(() => {
         shallow = createShallow();
       });
@@ -45,7 +57,11 @@ describe('<TypeInfo/>', () => {
         shallowComponent = shallow(wrappedComponent);
 
         /* WHEN */
-        target = shallowComponent.find('TypeInfo').dive().find('Styled(MuiBox)').exists();
+        target = shallowComponent
+          .find('TypeInfo')
+          .dive()
+          .find('Styled(MuiBox)')
+          .exists();
 
         /* THEN */
         expect(target).toBeTruthy();
@@ -61,11 +77,9 @@ describe('<TypeInfo/>', () => {
     let shallowComponent;
     let target;
 
-    const testCases = [
-      'invalid user type', 'aaaa', 'bbbb', 'cccc'
-    ];
+    const testCases = ['invalid user type', 'aaaa', 'bbbb', 'cccc'];
 
-    testCases.forEach(userType => {
+    testCases.forEach((userType) => {
       beforeAll(() => {
         shallow = createShallow();
       });
@@ -84,7 +98,7 @@ describe('<TypeInfo/>', () => {
           target = e;
         }
         /* THEN */
-        expect(target).toBeInstanceOf(Error);
+        expect(target).toBe(undefined);
       });
     });
   });

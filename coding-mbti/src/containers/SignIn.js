@@ -44,17 +44,17 @@ class SignIn extends Component {
   }
 
   clickSignIn = () => {
-    this.props.signIn({ ...this.state });
+    this.props.signIn({ ...this.state }).then((res) => {
+      if (res) {
+        window.location.replace('../home/');
+      }
+    });
   };
 
   render() {
-    const {
-      alert, error, classes, clearError
-    } = this.props;
+    const { alert, error, classes, clearError } = this.props;
     if (this.props.user.username !== null) {
-      return (
-        <Redirect path="*" to="/cc" />
-      );
+      return <Redirect path="*" to="/cc" />;
     }
 
     if (error) {

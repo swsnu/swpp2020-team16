@@ -30,124 +30,128 @@ const selectTypeIcon = function (type) {
   /*
     U-M : User Frienly - Machine Efficiency
     T-I : Time Complexity - Intutive Code
-    E-F : Easy style - Formatted Style
+    R-T : Rabbit - Turtle
     J-C : Just type - Carefully type
 
     U or M
           - T
-            - E
-              - J  [ UTEJ ]  [ MTEJ ]
-              - C  [ UTEC ]  [ MTEC ]
-            - F
-              - J  [ UTFJ ]  [ MTFJ ]
-              - C  [ UTFC ]  [ MTFC ]
+            - R
+              - J  [ UTRJ ]  [ MTRJ ]
+              - C  [ UTRC ]  [ MTRC ]
+            - T
+              - J  [ UTTJ ]  [ MTTJ ]
+              - C  [ UTTC ]  [ MTTC ]
           - I
-            - E
-              - J  [ UIEJ ]  [ MIEJ ]
-              - C  [ UIEC ]  [ MIEC ]
-            - F
-              - J  [ UIFJ ]  [ MIFJ ]
-              - C  [ UIFC ]  [ MIFC ]
+            - R
+              - J  [ UIRJ ]  [ MIRJ ]
+              - C  [ UIRC ]  [ MIRC ]
+            - T
+              - J  [ UITJ ]  [ MITJ ]
+              - C  [ UITC ]  [ MITC ]
   */
   switch (type) {
-    case 'UTEJ':
+    case 'UTRJ':
       return {
         Icon: Image_1,
         title: 'title 1',
         subtitle: 'subtitle 1',
       };
-    case 'UTEC':
+    case 'UTRC':
       return {
         Icon: Image_2,
         title: 'title 2',
         subtitle: 'subtitle 2',
       };
-    case 'UTFJ':
+    case 'UTTJ':
       return {
         Icon: Image_3,
         title: 'title 3',
         subtitle: 'subtitle 3',
       };
-    case 'UTFC':
+    case 'UTTC':
       return {
         Icon: Image_4,
         title: 'title 4',
         subtitle: 'subtitle 4',
       };
-    case 'UIEJ':
+    case 'UIRJ':
       return {
         Icon: Image_5,
         title: 'title 5',
         subtitle: 'subtitle 5',
       };
-    case 'UIEC':
+    case 'UIRC':
       return {
         Icon: Image_6,
         title: 'title 6',
         subtitle: 'subtitle 6',
       };
-    case 'UIFJ':
+    case 'UITJ':
       return {
         Icon: Image_7,
         title: 'title 7',
         subtitle: 'subtitle 7',
       };
-    case 'UIFC':
+    case 'UITC':
       return {
         Icon: Image_8,
         title: 'title 8',
         subtitle: 'subtitle 8',
       };
-    case 'MTEJ':
+    case 'MTRJ':
       return {
         Icon: Image_9,
         title: 'title 9',
         subtitle: 'subtitle 9',
       };
-    case 'MTEC':
+    case 'MTRC':
       return {
         Icon: Image_10,
         title: 'title 10',
         subtitle: 'subtitle 10',
       };
-    case 'MTFJ':
+    case 'MTTJ':
       return {
         Icon: Image_11,
         title: 'title 11',
         subtitle: 'subtitle 11',
       };
-    case 'MTFC':
+    case 'MTTC':
       return {
         Icon: Image_12,
         title: 'title 12',
         subtitle: 'subtitle 12',
       };
-    case 'MIEJ':
+    case 'MIRJ':
       return {
         Icon: Image_13,
         title: 'title 13',
         subtitle: 'subtitle 13',
       };
-    case 'MIEC':
+    case 'MIRC':
       return {
         Icon: Image_14,
         title: 'title 14',
         subtitle: 'subtitle 14',
       };
-    case 'MIFJ':
+    case 'MITJ':
       return {
         Icon: Image_15,
         title: 'title 15',
         subtitle: 'subtitle 15',
       };
-    case 'MIFC':
+    case 'MITC':
       return {
         Icon: Image_16,
         title: 'title 16',
         subtitle: 'subtitle 16',
       };
     default:
-      throw new Error(`${type} is Invalid User Type.`);
+      return {
+        Icon: Image_16,
+        title: 'title 16',
+        subtitle: 'subtitle 16',
+      };
   }
 };
 
@@ -173,9 +177,7 @@ export default function TypeInfo(props) {
   const classes = useStyles();
   return (
     <>
-      <Box
-        className={clsx(classes.animatedItem)}
-      >
+      <Box className={clsx(classes.animatedItem)} align="center">
         <Icon />
         <br />
         {type}

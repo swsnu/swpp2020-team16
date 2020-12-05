@@ -7,10 +7,12 @@ import PropTypes from 'prop-types';
 
 export default function RadarDiagram(props) {
   const { analysisData } = props;
-  const [series, setSeries] = useState([{
-    name: 'User Analysis',
-    data: analysisData,
-  }]);
+  const [series, setSeries] = useState([
+    {
+      name: 'User Analysis',
+      data: analysisData,
+    },
+  ]);
 
   const [options, setOptions] = useState({
     chart: {
@@ -22,11 +24,18 @@ export default function RadarDiagram(props) {
     },
     title: {
       text: 'Radar Analysis',
+      align: 'center',
     },
     xaxis: {
       categories: [
-        'User Friendly', 'Carefully type', 'Time Complexity', 'Formatted Style',
-        'Machine Efficiency', 'Just type', 'Intutive Code', 'Easy Style',
+        'User Friendly',
+        'Carefully type',
+        'Time Complexity',
+        'Rabbit',
+        'Machine Efficiency',
+        'Just type',
+        'Intutive Code',
+        'Turtle',
       ],
     },
   });

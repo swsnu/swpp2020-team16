@@ -4,26 +4,26 @@ import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core';
 import configureStore from '../configureStore';
-import MyTestResult from './MyTestResult';
+import LoggedInHome from './LoggedInHome';
 
 const { store } = configureStore();
 const theme = createMuiTheme();
 
-describe('<MyTestResult/>', () => {
-  let myTestResult;
+describe('<LoggedInHome/>', () => {
+  let loggedInHome;
 
   beforeEach(() => {
-    myTestResult = (
+    loggedInHome = (
       <Provider store={store}>
         <ThemeProvider theme={theme}>
-          <MyTestResult />
+          <LoggedInHome />
         </ThemeProvider>
       </Provider>
     );
   });
 
   it('should render withour any error', () => {
-    const component = mount(myTestResult);
+    const component = mount(loggedInHome);
     const wrapper = component.find('.check');
     expect(wrapper.length).toBe(3);
   });

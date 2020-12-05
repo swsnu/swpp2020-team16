@@ -18,7 +18,9 @@ import Group from './containers/Group/Group';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import GroupDetail from './containers/Group/GroupDetail';
+import LoggedInHome from './containers/LoggedInHome';
 import Invitation from './containers/Invitation/Invitation';
+import Home from './containers/Home';
 
 function App(props) {
   const { history } = props;
@@ -27,11 +29,12 @@ function App(props) {
       <Navbar />
       <Switch>
         <Route exact path="/" component={Home} />
-        <Route exact path="/cc" component={Check} />
+        <AuthRoute exact path="/solve"><Check /></AuthRoute>
         <Route exact path="/signin/" component={SignIn} />
         <Route exact path="/signup/" component={SignUp} />
         <Route exact path="/relation/" component={UserRelations} />
         <Route exact path="/research/api" component={ResearchAPI} />
+        <Route exact path="/" component={Home} />
         <Route
           exact
           path="/check/result/:pid/:style"
@@ -42,10 +45,25 @@ function App(props) {
           path="/check/result/:pid"
           render={(props) => <StyleGrid {...props} />}
         />
-        <AuthRoute exact path="/my/tests/results"><MyTestResult /></AuthRoute>
-        <AuthRoute exact path="/group"><Group /></AuthRoute>
-        <AuthRoute exact path="/invitation"><Invitation /></AuthRoute>
-        <Route exact path="/group/detail/:groupId" render={(props) => <GroupDetail {...props} />} />
+        <Route
+          exact
+          path="/home/"
+          render={(props) => <LoggedInHome {...props} />}
+        />
+        <AuthRoute exact path="/my/tests/results">
+          <MyTestResult />
+        </AuthRoute>
+        <AuthRoute exact path="/group">
+          <Group />
+        </AuthRoute>
+        <AuthRoute exact path="/invitation">
+          <Invitation />
+        </AuthRoute>
+        <Route
+          exact
+          path="/group/detail/:groupId"
+          render={(props) => <GroupDetail {...props} />}
+        />
       </Switch>
 
       <Footer />

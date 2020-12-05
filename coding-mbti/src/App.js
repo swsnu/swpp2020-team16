@@ -10,6 +10,7 @@ import UserRelations from './containers/UserRelations';
 import SignIn from './containers/SignIn';
 import SignUp from './containers/SignUp';
 import Check from './containers/Check';
+import Home from './containers/Home';
 import MyTestResult from './containers/MyTestResult';
 import ResearchAPI from './containers/ResearchAPI';
 import AuthRoute from './HOC/AuthRoute';
@@ -25,6 +26,7 @@ function App(props) {
     <Router history={history}>
       <Navbar />
       <Switch>
+        <Route exact path="/" component={Home} />
         <Route exact path="/cc" component={Check} />
         <Route exact path="/signin/" component={SignIn} />
         <Route exact path="/signup/" component={SignUp} />

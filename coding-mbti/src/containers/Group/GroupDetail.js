@@ -59,6 +59,7 @@ class GroupDetail extends Component {
         <Grid container spacing={2}>
           <Grid item xs={12} md={6}>
             <MemberList
+              groupId={groupId}
               members={members}
               deleteMember={deleteMember}
               detailMember={() => <Redirect path="*" to="/my/tests/results" />}

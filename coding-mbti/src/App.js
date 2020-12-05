@@ -20,7 +20,7 @@ import Footer from './components/Footer';
 import GroupDetail from './containers/Group/GroupDetail';
 import LoggedInHome from './containers/LoggedInHome';
 import Invitation from './containers/Invitation/Invitation';
-import Home from './containers/Home';
+// import Home from './containers/Home';
 
 function App(props) {
   const { history } = props;
@@ -34,7 +34,6 @@ function App(props) {
         <Route exact path="/signup/" component={SignUp} />
         <Route exact path="/relation/" component={UserRelations} />
         <Route exact path="/research/api" component={ResearchAPI} />
-        <Route exact path="/" component={Home} />
         <Route
           exact
           path="/check/result/:pid/:style"

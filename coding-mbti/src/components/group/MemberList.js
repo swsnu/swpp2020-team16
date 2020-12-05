@@ -32,10 +32,9 @@ const useStyles = makeStyles((theme) => ({
 
 export default function MemberList(props) {
   const {
-    members, deleteMember, detailMember
+    groupId, members, deleteMember, detailMember
   } = props;
   const classes = useStyles();
-
   return (
     <div>
       <Typography variant="h6" className={classes.title}>
@@ -47,17 +46,19 @@ export default function MemberList(props) {
             Object.keys(members).map((member) => (
               <ListItem>
                 <ListItemAvatar>
-                  <Avatar alt="A" src="../nosrc" />
+                  <Avatar alt={members[member].username.toUpperCase()} src="../nosrc" />
                 </ListItemAvatar>
                 <ListItemText
-                  primary={members[member].id}
-                  secondary={members[member].style}
+                  primary={members[member].username}
+                  secondary={members[member].style.style_str === undefined ?
+                    'did not solve over threshold(which is 3). no style info :(' :
+                    members[member].style.style_str}
                 />
                 <ListItemSecondaryAction>
                   <IconButton edge="end" aria-label="delete" onClick={detailMember}>
                     <InfoIcon />
                   </IconButton>
-                  <IconButton edge="end" aria-label="delete" onClick={deleteMember}>
+                  <IconButton edge="end" aria-label="delete" onClick={() => deleteMember(groupId, members[member].user_id)}>
                     <DeleteForeverIcon />
                   </IconButton>
                 </ListItemSecondaryAction>
@@ -72,6 +73,7 @@ export default function MemberList(props) {
 }
 
 MemberList.propTypes = {
+  groupId: PropTypes.string.isRequired,
   members: PropTypes.object.isRequired,
   deleteMember: PropTypes.func.isRequired,
   detailMember: PropTypes.func.isRequired,

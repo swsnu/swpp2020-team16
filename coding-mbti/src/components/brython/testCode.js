@@ -37,7 +37,7 @@ def test_runner():
                 test_pass = 0
         test_pass_count += test_pass 
     t1 = (time.perf_counter() - t0) * 1000.0
-    
+
     with open('time-pass-result.py', 'a') as f:
         delimiter = " "
         f.write(t1)

@@ -54,7 +54,7 @@ class SignIn extends Component {
   render() {
     const { alert, error, classes, clearError } = this.props;
     if (this.props.user.username !== null) {
-      return <Redirect path="*" to="/cc" />;
+      return <Redirect path="*" to="/solve" />;
     }
 
     if (error) {

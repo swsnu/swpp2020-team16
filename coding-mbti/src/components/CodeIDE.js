@@ -1,6 +1,6 @@
 /* eslint-disable array-callback-return */
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 /* M-UIs */
@@ -11,6 +11,7 @@ import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 
 /* ACE Editor */
 import AceEditor from 'react-ace';
+import { cloneObj } from '../utils/testingUtils';
 import 'ace-builds/src-noconflict/mode-python';
 import 'ace-builds/src-noconflict/theme-monokai';
 
@@ -26,13 +27,16 @@ export default function CodeIDE(props) {
   const testFiles = createTestFiles(problemInputs, problemOutputs);
   const initialFiles = { ...brFileSystem, ...testFiles };
 
-  const [runner] = useState(
-    initBrythonRunner('time-with-pass-count', 'output')
-  );
+  const [runner, setRunner] = useState(null);
   const [files, setFiles] = useState(initialFiles);
   const [openProceedDialog, setOpenProceedDialog] = useState(false);
   const [openSignDialog, setOpenSignDialog] = useState(false);
   const [codeEraseCnt, setCodeEraseCnt] = useState(0);
+
+  console.log(files, problemInputs, problemOutputs);
+  useEffect(() => {
+    setRunner(initBrythonRunner('time-with-pass-count', 'output'));
+  }, []);
 
   function clickResetPythonCode() {
     setFiles({
@@ -47,14 +51,16 @@ export default function CodeIDE(props) {
 
   async function clickRunPythonCode() {
     document.getElementById('output').value = '';
-    await runner.runCodeWithFiles(files['userCode.py'].body, files);
-    document.getElementById('output').value += '코드 실행이 완료되었습니다.';
+    const fs = cloneObj(files);
+    await runner.runCodeWithFiles(fs['userCode.py'].body, fs);
+    document.getElementById('output').value += '\n코드 실행이 완료되었습니다.';
   }
 
   async function clickTestPythonCode() {
     document.getElementById('output').value = '';
-    await runner.runCodeWithFiles(files['test-single.py'].body, files);
-    document.getElementById('output').value += '코드 실행이 완료되었습니다.';
+    const fs = cloneObj(files);
+    await runner.runCodeWithFiles(fs['test-single.py'].body, fs);
+    document.getElementById('output').value += '\n코드 실행이 완료되었습니다.';
   }
 
   function handleSubmitWithTestCheck(forceSubmit = false) {
@@ -87,7 +93,8 @@ export default function CodeIDE(props) {
     }
 
     document.getElementById('output').value = '';
-    await runner.runCodeWithFiles(files['test-all.py'].body, files);
+    const fs = cloneObj(files);
+    await runner.runCodeWithFiles(fs['test-all.py'].body, fs);
     document.getElementById('output').value += '\n코드 실행이 완료되었습니다.';
 
     handleSubmitWithTestCheck();

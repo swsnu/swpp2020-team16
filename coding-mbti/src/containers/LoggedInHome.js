@@ -30,8 +30,8 @@ const styles = (theme) => ({
     display: 'flex',
     flexWrap: 'wrap',
     padding: '1vw',
-    backgroundColor: '#3f51b5',
-    color: 'white',
+    border: 'solid 0.01vw black',
+    color: 'black',
     margin: '1vw',
     '&:hover': {
       backgroundColor: 'rgba(0, 0, 0, .1)',
@@ -62,9 +62,7 @@ const SingleProblem = (props) => {
       <Paper className={props.classes.rootNoClick2} elevation={3}>
         <Grid item xs={11}>
           <Typography variant="h6" component="h6">
-            problem
-            {props.solution.problem_id}
-            completed
+            problem {props.solution.problem_id} completed
           </Typography>
         </Grid>
         <Grid item xs={1} align="end">

@@ -20,6 +20,7 @@ import GroupDetail from './containers/Group/GroupDetail';
 import LoggedInHome from './containers/LoggedInHome';
 import Invitation from './containers/Invitation/Invitation';
 import Home from './containers/Home';
+import BeforeSolve from './containers/BeforeSolve';
 
 function App(props) {
   const { history } = props;
@@ -49,6 +50,11 @@ function App(props) {
           exact
           path="/home/"
           render={(props) => <LoggedInHome {...props} />}
+        />
+        <Route
+          exact
+          path="/beforesolve/"
+          render={(props) => <BeforeSolve {...props} />}
         />
         <AuthRoute exact path="/my/tests/results">
           <MyTestResult />

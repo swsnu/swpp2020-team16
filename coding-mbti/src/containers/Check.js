@@ -43,22 +43,20 @@ class Check extends Component {
         ]);
       }
     } else {
-      window.location.replace('/my/tests/results');
+      window.location.replace('/home/');
     }
   }
 
   handleSubmit = async (pid, solution) => {
     this.props.createSolution(pid, solution);
-  }
+  };
 
   render() {
-    const {
-      problem, classes, problemInput, problemOutput, alert
-    } = this.props;
+    const { problem, classes, problemInput, problemOutput, alert } = this.props;
     const pid = problem.id;
     if (problem.error) {
       alert.show(problem.error);
-      return (<div />);
+      return <div />;
     }
     return (
       <main>

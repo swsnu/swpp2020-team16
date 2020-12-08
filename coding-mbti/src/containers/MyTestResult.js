@@ -137,7 +137,7 @@ class MyTestResult extends Component {
             <Grid item xs={2} />
             <Grid item xs={4}>
               <Paper className={classes.box}>
-                <TypeInfo type={myStyleStr} />
+                <TypeInfo type={myStyleStr || 'UTRJ'} />
               </Paper>
             </Grid>
             <Grid item xs={4}>

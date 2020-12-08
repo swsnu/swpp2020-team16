@@ -106,7 +106,7 @@ describe('groupSlice', () => {
             type: memberRead,
             payload: [
                 {
-                    id: 1,
+                    user_id: 1,
                     group: 1,
                     style: undefined
                 }
@@ -116,7 +116,7 @@ describe('groupSlice', () => {
         const state = reducer(initialState, action);
         expect(state.members).toEqual({
             1: {
-                id: 1,
+                user_id: 1,
                 group: 1,
                 style: undefined
             }

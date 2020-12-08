@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from group.models import Group
+from problem.models import Problem, Solution
+from utils.utils import to_dict, get_dicts_with_filter
 
 
 class CodingStyle(models.Model):
@@ -30,6 +32,15 @@ class CodingStyle(models.Model):
     TI_value = models.FloatField()
     EF_value = models.FloatField()
     JC_value = models.FloatField()
+
+    def to_dict(self):
+        return {
+            "style": self.style,
+            "UM_value": self.UM_value,
+            "TI_value": self.TI_value,
+            "EF_value": self.EF_value,
+            "JC_value": self.JC_value
+        }
 
 
 class UserManager(BaseUserManager):
@@ -77,6 +88,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = 'username'
     REQUIRED_FIELD = []
 
+    readonly_fields = ('id',)
+
     class Meta:
         db_table = 'user'
         ordering = ['-pk']
@@ -85,12 +98,29 @@ class User(AbstractBaseUser, PermissionsMixin):
 class Coder(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     style = models.OneToOneField(
-        CodingStyle, on_delete=models.SET_NULL, null=True)
+        CodingStyle, on_delete=models.SET_NULL, null=True, default=None)
     group = models.ForeignKey(
         Group, on_delete=models.SET_NULL, null=True, related_name='coder_group')
 
+    def get_new_objective(self):
+        solved_solutions = get_dicts_with_filter(
+            Solution.objects, author_id=self.user.id)
+        solved_styles = {1: 0, 2: 0, 3: 0}
+        for solution in solved_solutions:
+            problem = Problem.objects.get(pk=solution['problem_id'])
+            solved_styles[problem.objective] += 1
+        objective_ranks = sorted(solved_styles.items(), key=lambda x: x[1])
+        return objective_ranks[0]
+
+    def is_qualified(self):
+        return self.get_new_objective()[1] > 0
+
     def to_dict(self):
-        return {"user_id": self.user.pk, "username": self.user.username, "style":self.style.style}
+        return {"user_id": self.user.pk,
+                "username": self.user.username,
+                "style": to_dict(self.style),
+                "group": self.group.pk if self.group is not None else None
+                }
 
 
 class Researcher(models.Model):
@@ -99,5 +129,9 @@ class Researcher(models.Model):
 
 class Manager(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    group = models.OneToOneField(
-        Group, on_delete=models.SET_NULL, null=True, related_name='manager_group')
+
+    def to_dict(self):
+        return {
+            "user": self.user.pk,
+            "group": self.group.pk if self.group is not None else None
+        }

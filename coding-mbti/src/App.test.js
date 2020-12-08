@@ -18,7 +18,7 @@ describe('App', () => {
   let mount;
   const runCodeWithFilesSpy = jest.fn();
   jest.spyOn(utils, 'initBrythonRunner').mockImplementation(() => ({
-    runCodeWithFiles: runCodeWithFilesSpy
+    runCodeWithFiles: runCodeWithFilesSpy,
   }));
 
   beforeAll(() => {
@@ -71,7 +71,7 @@ describe('App', () => {
             <App />
           </AlertProvider>
         </ThemeProvider>
-      </Provider>,
+      </Provider>
     );
     expect(wrapper.find('#output').length).toBe(2);
   });

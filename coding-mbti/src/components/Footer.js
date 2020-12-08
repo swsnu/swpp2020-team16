@@ -9,7 +9,7 @@ function Copyright() {
     <Typography variant="body2" color="textSecondary">
       {'Copyright © '}
       <Link color="inherit" href="https://material-ui.com/">
-        Your Website
+        Coding MBTI
       </Link>
       {new Date().getFullYear()}
     </Typography>
@@ -20,14 +20,9 @@ const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
-    minHeight: '20vh',
-  },
-  main: {
-    marginTop: theme.spacing(8),
-    marginBottom: theme.spacing(2),
   },
   footer: {
-    padding: theme.spacing(3, 2),
+    padding: theme.spacing(5),
     marginTop: 'auto',
     backgroundColor: theme.palette.grey[200],
   },
@@ -40,7 +35,6 @@ export default function FooterOMG() {
     <div className={classes.root}>
       <footer className={classes.footer}>
         <Container maxWidth="sm" align="center">
-          <Typography variant="body1">NotYetImplemented</Typography>
           <Copyright />
         </Container>
       </footer>

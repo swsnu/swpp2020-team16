@@ -1,6 +1,6 @@
 /* eslint-disable array-callback-return */
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 /* M-UIs */
@@ -11,6 +11,7 @@ import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 
 /* ACE Editor */
 import AceEditor from 'react-ace';
+import { cloneObj } from '../utils/testingUtils';
 import 'ace-builds/src-noconflict/mode-python';
 import 'ace-builds/src-noconflict/theme-monokai';
 
@@ -21,25 +22,27 @@ import SignDialog from './SignDialog';
 import CodeIDEProceedDialog from './CodeIDEProceedDialog';
 
 export default function CodeIDE(props) {
-  const {
-    signedIn, pid, handleSubmit, problemInputs, problemOutputs
-  } = props;
+  const { signedIn, pid, handleSubmit, problemInputs, problemOutputs } = props;
 
   const testFiles = createTestFiles(problemInputs, problemOutputs);
   const initialFiles = { ...brFileSystem, ...testFiles };
 
-  const [runner] = useState(initBrythonRunner('time-with-pass-count', 'output'));
+  const [runner, setRunner] = useState(null);
   const [files, setFiles] = useState(initialFiles);
   const [openProceedDialog, setOpenProceedDialog] = useState(false);
   const [openSignDialog, setOpenSignDialog] = useState(false);
   const [codeEraseCnt, setCodeEraseCnt] = useState(0);
 
+  useEffect(() => {
+    setRunner(initBrythonRunner('time-with-pass-count', 'output'));
+  }, []);
+
   function clickResetPythonCode() {
     setFiles({
       ...files,
       'userCode.py': {
-        ...brFileSystem['userCode.py']
-      }
+        ...brFileSystem['userCode.py'],
+      },
     });
     setCodeEraseCnt(0);
     document.getElementById('output').value = '';
@@ -47,21 +50,25 @@ export default function CodeIDE(props) {
 
   async function clickRunPythonCode() {
     document.getElementById('output').value = '';
-    await runner.runCodeWithFiles(files['userCode.py'].body, files);
-    document.getElementById('output').value += '코드 실행이 완료되었습니다.';
+    const fs = cloneObj(files);
+    await runner.runCodeWithFiles(fs['userCode.py'].body, fs);
+    document.getElementById('output').value += '\n코드 실행이 완료되었습니다.';
   }
 
   async function clickTestPythonCode() {
     document.getElementById('output').value = '';
-    await runner.runCodeWithFiles(files['test-single.py'].body, files);
-    document.getElementById('output').value += '코드 실행이 완료되었습니다.';
+    const fs = cloneObj(files);
+    await runner.runCodeWithFiles(fs['test-single.py'].body, fs);
+    document.getElementById('output').value += '\n코드 실행이 완료되었습니다.';
   }
 
   function handleSubmitWithTestCheck(forceSubmit = false) {
     const timeNpass = document
-      .getElementById('time-with-pass-count').value
-      .split(' ')
-      .map(el => Number(el));
+      .getElementById('time-with-pass-count')
+      .value.split(' ')
+      .map((el) => Number(el));
+
+    if (timeNpass.length === 1) timeNpass.push(0);
 
     if (!forceSubmit && timeNpass[1] !== problemInputs.length) {
       setOpenProceedDialog(true);
@@ -85,8 +92,9 @@ export default function CodeIDE(props) {
     }
 
     document.getElementById('output').value = '';
-    await runner.runCodeWithFiles(files['test-all.py'].body, files);
-    document.getElementById('output').value += '코드 실행이 완료되었습니다.';
+    const fs = cloneObj(files);
+    await runner.runCodeWithFiles(fs['test-all.py'].body, fs);
+    document.getElementById('output').value += '\n코드 실행이 완료되었습니다.';
 
     handleSubmitWithTestCheck();
     setFiles(initialFiles);
@@ -100,8 +108,8 @@ export default function CodeIDE(props) {
         ...files,
         'userCode.py': {
           ...files['userCode.py'],
-          body: content
-        }
+          body: content,
+        },
       });
     };
     reader.readAsText(e.target.files[0]);
@@ -116,8 +124,8 @@ export default function CodeIDE(props) {
       ...files,
       'userCode.py': {
         ...files['userCode.py'],
-        body: value
-      }
+        body: value,
+      },
     });
   }
 
@@ -131,7 +139,7 @@ export default function CodeIDE(props) {
             theme="monokai"
             height="350px"
             width="100%"
-            onChange={newCode => handleUserWriteCode(newCode)}
+            onChange={(newCode) => handleUserWriteCode(newCode)}
             fontSize={14}
             showPrintMargin
             showGutter
@@ -173,7 +181,7 @@ export default function CodeIDE(props) {
           xs={12}
           style={{
             backgroundColor: '#272822',
-            margin: '0px',
+            marginBottom: '5vw',
             height: `${50}px`,
           }}
           justify="center"

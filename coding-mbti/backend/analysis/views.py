@@ -1,10 +1,12 @@
-from django.core.exceptions import ObjectDoesNotExist
-from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseNotAllowed, JsonResponse
-from rest_framework.decorators import permission_classes
-from rest_framework.permissions import IsAuthenticated
-from analysis.models import SolutionReport, UserReport
-from problem.models import Solution
 from user.models import Coder
+from problem.models import Solution
+from analysis.models import SolutionReport, UserReport
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import permission_classes
+from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseNotAllowed, JsonResponse
+from django.core.exceptions import ObjectDoesNotExist
+from json import JSONDecodeError
+
 
 @permission_classes((IsAuthenticated, ))
 def my_report_view(request):
@@ -20,8 +22,10 @@ def my_report_view(request):
             code1 = solution1.code
             code2 = solution2.code
             code3 = solution3.code
-            mean_elapsed_time= (solution1.elapsed_time +solution2.elapsed_time + solution3.elapsed_time)/3
-            mean_erase_cnt = (solution1.erase_cnt +solution2.erase_cnt + solution3.erase_cnt)/3
+            mean_elapsed_time = (
+                solution1.elapsed_time + solution2.elapsed_time + solution3.elapsed_time)/3
+            mean_erase_cnt = (solution1.erase_cnt +
+                              solution2.erase_cnt + solution3.erase_cnt)/3
 
         except (ObjectDoesNotExist, AttributeError) as error:
             return HttpResponseBadRequest(error)
@@ -36,7 +40,8 @@ def my_report_view(request):
 
     elif request.method == 'GET':
         try:
-            user_report = UserReport.objects.filter(author=request.user).last().to_dict()
+            user_report = UserReport.objects.filter(
+                author=request.user).last().to_dict()
 
         except (ObjectDoesNotExist, AttributeError) as error:
             return HttpResponseBadRequest(error)
@@ -49,13 +54,14 @@ def my_report_view(request):
 def other_report_view(request, user_id=""):
     if request.method == "GET":
         try:
-            user_report = UserReport.objects.filter(author__id=user_id).last().to_dict()
+            user_report = UserReport.objects.filter(
+                author__id=user_id).last().to_dict()
         except (ObjectDoesNotExist, AttributeError) as error:
             return HttpResponseBadRequest(error)
         return JsonResponse(user_report, status=200, safe=False)
 
-    else :
-        return HttpResponseNotAllowed(["POST","UPDATE", "DELETE"])
+    else:
+        return HttpResponseNotAllowed(["POST", "UPDATE", "DELETE"])
 
 
 @permission_classes((IsAuthenticated, ))
@@ -74,8 +80,9 @@ def my_solutions_view(request):
             return HttpResponseBadRequest(error)
         return JsonResponse(response_arr, status=200, safe=False)
 
-    else :
-        return HttpResponseNotAllowed(["POST","UPDATE", "DELETE"])
+    else:
+        return HttpResponseNotAllowed(["GET"])
+
 
 @permission_classes((IsAuthenticated, ))
 def other_solutions_view(request, user_id=""):
@@ -93,20 +100,21 @@ def other_solutions_view(request, user_id=""):
             return HttpResponseBadRequest(error)
         return JsonResponse(response_arr, status=200, safe=False)
 
-    else :
-        return HttpResponseNotAllowed(["POST","UPDATE", "DELETE"])
+    else:
+        return HttpResponseNotAllowed(["GET"])
 
 
 @permission_classes((IsAuthenticated, ))
 def get_coders_by_style(request, style=""):
-    if request.method =='GET':
-        try :
+    if request.method == 'GET':
+        try:
 
             return JsonResponse(
-            list(map(lambda coder: coder.to_dict(), Coder.objects.filter(style__style=int(style)))),
-            status=200,
-            safe=False,)
+                list(map(lambda coder: coder.to_dict(),
+                         Coder.objects.filter(style__style=int(style)))),
+                status=200,
+                safe=False,)
         except ObjectDoesNotExist as error:
             return HttpResponseBadRequest(error)
-    else :
-        return HttpResponseNotAllowed(['POST','PUT','DELETE'])
+    else:
+        return HttpResponseNotAllowed(['GET'])

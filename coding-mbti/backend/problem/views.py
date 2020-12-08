@@ -11,7 +11,8 @@ from rest_framework.decorators import permission_classes
 from rest_framework.permissions import IsAuthenticated
 from analysis.models import SolutionReport
 from problem.models import Solution, Problem, ProblemInput, ProblemOutput
-from utils.utils import get_dicts_with_all, get_dicts_with_filter
+from user.models import Coder
+from utils.utils import get_dicts_with_all, get_dicts_with_filter, to_dict
 
 
 @permission_classes((IsAuthenticated, ))
@@ -43,12 +44,10 @@ def problem_by_id_view(request, problem_id=""):
 
 
 @permission_classes((IsAuthenticated, ))
-def problem_by_objective_view(request, objective=""):
+def problem_by_objective_view(request):
     if request.method == "GET":
-
-        problems = get_dicts_with_filter(
-            Problem.objects, objective=int(objective))
-        return JsonResponse(problems, status=200, safe=False)
+        coder = Coder.objects.get(user=request.user)
+        return JsonResponse(Problem.objects.with_specific_user(coder), status=200, safe=False)
     else:
         return HttpResponseNotAllowed(["GET"])
 
@@ -66,10 +65,13 @@ def problem_input_view(request, problem_id=""):
 
 
 @ permission_classes((IsAuthenticated, ))
-def problem_output_view(request, problem_input_id=""):
+def problem_output_view(request, problem_id=""):
     if request.method == "GET":
-        problem_outputs = get_dicts_with_filter(
-            ProblemOutput.objects, problem_input__id=problem_input_id)
+        problem_inputs = ProblemInput.objects.filter(problem__id=problem_id)
+        problem_outputs = list(map(
+            lambda input: get_dicts_with_filter(
+                ProblemOutput.objects, problem_input__id=input.id)[0],
+            problem_inputs))
         if len(problem_outputs) == 0:
             return HttpResponseBadRequest()
         return JsonResponse(problem_outputs, status=200, safe=False)
@@ -108,9 +110,10 @@ def solution_view(request, problem_id):
             solution=solution, author=request.user, title=f"{problem.pid}_report", code=code, erase_cnt=erase_cnt, elapsed_time=elapsed_time
         ).save()
 
-        return HttpResponse(status=204)
+        return JsonResponse({"id": solution.pk}, status=201)
     else:
         return HttpResponseNotAllowed(["GET", "POST"])
+
 
 @ permission_classes((IsAuthenticated, ))
 def solution_for_others_view(request, problem_id="", user_id=""):
@@ -122,6 +125,5 @@ def solution_for_others_view(request, problem_id="", user_id=""):
             return HttpResponseBadRequest(error)
         return JsonResponse(solution, status=200, safe=False)
 
-    else :
-        return HttpResponseNotAllowed(["POST","UPDATE", "DELETE"])
-        
+    else:
+        return HttpResponseNotAllowed(["POST", "UPDATE", "DELETE"])

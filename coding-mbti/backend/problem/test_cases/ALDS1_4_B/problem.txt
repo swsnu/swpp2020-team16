@@ -1,4 +1,4 @@
-objective::2
+objective::3
 title::"Binary Search"
 input_desc::"In the first line n is given. In the second line, n integers are given. In the third line q is given. Then, in the fourth line, q integers are given."
 output_desc::"Print C in a line."

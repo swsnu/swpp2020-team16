@@ -10,7 +10,7 @@ import {
 } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
-import reducer from './reducers';
+import reducer from './feature';
 
 const persistConfig = {
   key: 'root',

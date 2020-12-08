@@ -1,5 +1,4 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 
@@ -25,6 +24,9 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 /* REDUXs */
 import { connect } from 'react-redux';
 import { signOut } from '../feature/user/userSignSlice';
+import configureStore from '../configureStore';
+
+const { persistor } = configureStore();
 
 const useStyles = makeStyles(() => ({
   list: {
@@ -36,7 +38,6 @@ const useStyles = makeStyles(() => ({
 }));
 
 function NavbarOMG(props) {
-  const history = useHistory();
   const classes = useStyles();
   const [state, setState] = React.useState({
     left: false,
@@ -56,8 +57,8 @@ function NavbarOMG(props) {
       onClick={toggleDrawer(anchor, false)}
     >
       <List>
-        {['NotYetImplemented'].map((text, index) => (
-          <ListItem button key={text}>
+        {['Group Management'].map((text, index) => (
+          <ListItem button key={text} href="/group">
             <ListItemIcon>
               {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
             </ListItemIcon>
@@ -69,6 +70,29 @@ function NavbarOMG(props) {
     </div>
   );
 
+  const listRightContent = [
+    {
+      text: 'My Group',
+      href: '/group',
+      icon: <InboxIcon />,
+    },
+    {
+      text: 'My Invitations',
+      href: '/invitation',
+      icon: <MailIcon />,
+    },
+    {
+      text: 'My Messages',
+      href: '/messages',
+      icon: <MailIcon />,
+    },
+    {
+      text: 'My Test Results',
+      href: '/my/tests/results',
+      icon: <InboxIcon />,
+    }
+  ];
+
   const listRight = (anchor) => (
     <div
       className={clsx(classes.list, {
@@ -79,13 +103,13 @@ function NavbarOMG(props) {
       onKeyDown={toggleDrawer(anchor, false)}
     >
       <List>
-        {['My Page', 'My Group', 'Messages', 'My Test Results'].map(
-          (text, index) => (
-            <ListItem button key={text}>
+        {listRightContent.map(
+          (content) => (
+            <ListItem button key={content.text} component="a" href={content.href}>
               <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                {content.icon}
               </ListItemIcon>
-              <ListItemText primary={text} />
+              <ListItemText color="inherit" primary={content.text} />
             </ListItem>
           ),
         )}
@@ -131,7 +155,14 @@ function NavbarOMG(props) {
           {
             props.user.username !== null ?
               (
-                <Button color="inherit" onClick={() => { props.signOut(); history.push('/'); }}>
+                <Button
+                  color="inherit"
+                  onClick={() => {
+                    props.signOut();
+                    persistor.purge();
+                    window.location.replace('/');
+                  }}
+                >
                   Logout
                 </Button>
               ) :

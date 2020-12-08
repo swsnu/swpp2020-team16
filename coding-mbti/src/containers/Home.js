@@ -10,8 +10,6 @@ import { withStyles } from '@material-ui/styles';
 import Container from '@material-ui/core/Container';
 
 /* Components */
-import Footer from '../components/Footer';
-import Navbar from '../components/Navbar';
 import Showprob from '../components/Showprob';
 import CodeIDE from '../components/CodeIDE';
 
@@ -37,13 +35,13 @@ const styles = (theme) => ({
 
 // Home's default Problem ID
 
-const HOME_PROBLEM_ID = 9;
+const HOME_PROBLEM_ID = 1;
 
 class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      ready: false
+      ready: false,
     };
   }
 
@@ -56,21 +54,18 @@ class Home extends Component {
   }
 
   onClickGetTested = () => {
-    window.location.replace(`/check/${HOME_PROBLEM_ID}`);
+    window.location.replace('/beforesolve');
   };
 
   handleSubmit = async (pid, solution) => {
-    await createSolution(pid, solution);
-  }
+    this.props.createSolution(pid, solution);
+  };
 
   render() {
-    if (!this.state.ready) return (null);
-    const {
-      user, problem, classes, problemInput, problemOutput
-    } = this.props;
+    if (!this.state.ready) return null;
+    const { user, problem, classes, problemInput, problemOutput } = this.props;
     return (
       <>
-        <Navbar />
         <main>
           <div className={classes.Content}>
             <Container maxWidth="lg">
@@ -139,7 +134,6 @@ class Home extends Component {
             />
           </Container>
         </main>
-        <Footer />
       </>
     );
   }

@@ -8,5 +8,4 @@ urlpatterns = [
     path('other/<int:user_id>/solutions/', views.other_solutions_view),
     path('other/<int:user_id>/report/', views.other_report_view),
     path('style/<int:style>/', views.get_coders_by_style),
-
 ]

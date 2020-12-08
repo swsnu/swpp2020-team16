@@ -6,143 +6,144 @@ import Box from '@material-ui/core/Box';
 import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import { ReactComponent as Image_1 } from './TypeIcons/icons8-jasper-universe.svg';
-import { ReactComponent as Image_2 } from './TypeIcons/icons8-brutus.svg';
-import { ReactComponent as Image_3 } from './TypeIcons/icons8-cyborg.svg';
-import { ReactComponent as Image_4 } from './TypeIcons/icons8-cylon-head-new.svg';
 
-import { ReactComponent as Image_5 } from './TypeIcons/icons8-garnet-universe.svg';
-import { ReactComponent as Image_6 } from './TypeIcons/icons8-greg-universe.svg';
-import { ReactComponent as Image_7 } from './TypeIcons/icons8-ice-king.svg';
-import { ReactComponent as Image_8 } from './TypeIcons/icons8-iron-man.svg';
+import { ReactComponent as UTRC } from './TypeIcons/UTRC.svg';
+import { ReactComponent as UTRJ } from './TypeIcons/UTRJ.svg';
+import { ReactComponent as MTRC } from './TypeIcons/MTRC.svg';
+import { ReactComponent as MTRJ } from './TypeIcons/MTRJ.svg';
 
-import { ReactComponent as Image_9 } from './TypeIcons/icons8-joe-pineapples.svg';
-import { ReactComponent as Image_10 } from './TypeIcons/icons8-joker-dc.svg';
-import { ReactComponent as Image_11 } from './TypeIcons/icons8-mongrol.svg';
-import { ReactComponent as Image_12 } from './TypeIcons/icons8-morpheus.svg';
+import { ReactComponent as MTTC } from './TypeIcons/MTTC.svg';
+import { ReactComponent as UTTC } from './TypeIcons/UTTC.svg';
+import { ReactComponent as UTTJ } from './TypeIcons/UTTJ.svg';
+import { ReactComponent as MTTJ } from './TypeIcons/MTTJ.svg';
 
-import { ReactComponent as Image_13 } from './TypeIcons/icons8-mr.-hustler-robot.svg';
-import { ReactComponent as Image_14 } from './TypeIcons/icons8-ruby-universe.svg';
-import { ReactComponent as Image_15 } from './TypeIcons/icons8-walter-white.svg';
-import { ReactComponent as Image_16 } from './TypeIcons/icons8-yoda.svg';
+import { ReactComponent as MIRC } from './TypeIcons/MIRC.svg';
+import { ReactComponent as UIRC } from './TypeIcons/UIRC.svg';
+import { ReactComponent as MIRJ } from './TypeIcons/MIRJ.svg';
+import { ReactComponent as MITC } from './TypeIcons/MITC.svg';
+
+import { ReactComponent as MITJ } from './TypeIcons/MITJ.svg';
+import { ReactComponent as UIRJ } from './TypeIcons/UIRJ.svg';
+import { ReactComponent as UITC } from './TypeIcons/UITC.svg';
+import { ReactComponent as UITJ } from './TypeIcons/UITJ.svg';
 
 const selectTypeIcon = function (type) {
   /*
-    U-M : User Frienly - Machine Efficiency
+    U-M : User Friendly - Machine Efficiency
     T-I : Time Complexity - Intutive Code
-    E-F : Easy style - Formatted Style
+    R-T : Rabbit - Turtle
     J-C : Just type - Carefully type
 
     U or M
           - T
-            - E
-              - J  [ UTEJ ]  [ MTEJ ]
-              - C  [ UTEC ]  [ MTEC ]
-            - F
-              - J  [ UTFJ ]  [ MTFJ ]
-              - C  [ UTFC ]  [ MTFC ]
+            - R
+              - J  [ UTRJ ]  [ MTRJ ]
+              - C  [ UTRC ]  [ MTRC ]
+            - T
+              - J  [ UTTJ ]  [ MTTJ ]
+              - C  [ UTTC ]  [ MTTC ]
           - I
-            - E
-              - J  [ UIEJ ]  [ MIEJ ]
-              - C  [ UIEC ]  [ MIEC ]
-            - F
-              - J  [ UIFJ ]  [ MIFJ ]
-              - C  [ UIFC ]  [ MIFC ]
+            - R
+              - J  [ UIRJ ]  [ MIRJ ]
+              - C  [ UIRC ]  [ MIRC ]
+            - T
+              - J  [ UITJ ]  [ MITJ ]
+              - C  [ UITC ]  [ MITC ]
   */
   switch (type) {
-    case 'UTEJ':
+    case 'UTRJ':
       return {
-        Icon: Image_1,
+        Icon: UTRJ,
         title: 'title 1',
         subtitle: 'subtitle 1',
       };
-    case 'UTEC':
+    case 'UTRC':
       return {
-        Icon: Image_2,
+        Icon: UTRC,
         title: 'title 2',
         subtitle: 'subtitle 2',
       };
-    case 'UTFJ':
+    case 'UTTJ':
       return {
-        Icon: Image_3,
+        Icon: UTTJ,
         title: 'title 3',
         subtitle: 'subtitle 3',
       };
-    case 'UTFC':
+    case 'UTTC':
       return {
-        Icon: Image_4,
+        Icon: UTTC,
         title: 'title 4',
         subtitle: 'subtitle 4',
       };
-    case 'UIEJ':
+    case 'UIRJ':
       return {
-        Icon: Image_5,
+        Icon: UIRJ,
         title: 'title 5',
         subtitle: 'subtitle 5',
       };
-    case 'UIEC':
+    case 'UIRC':
       return {
-        Icon: Image_6,
+        Icon: UIRC,
         title: 'title 6',
         subtitle: 'subtitle 6',
       };
-    case 'UIFJ':
+    case 'UITJ':
       return {
-        Icon: Image_7,
+        Icon: UITJ,
         title: 'title 7',
         subtitle: 'subtitle 7',
       };
-    case 'UIFC':
+    case 'UITC':
       return {
-        Icon: Image_8,
+        Icon: UITC,
         title: 'title 8',
         subtitle: 'subtitle 8',
       };
-    case 'MTEJ':
+    case 'MTRJ':
       return {
-        Icon: Image_9,
+        Icon: MTRJ,
         title: 'title 9',
         subtitle: 'subtitle 9',
       };
-    case 'MTEC':
+    case 'MTRC':
       return {
-        Icon: Image_10,
+        Icon: MTRC,
         title: 'title 10',
         subtitle: 'subtitle 10',
       };
-    case 'MTFJ':
+    case 'MTTJ':
       return {
-        Icon: Image_11,
+        Icon: MTTJ,
         title: 'title 11',
         subtitle: 'subtitle 11',
       };
-    case 'MTFC':
+    case 'MTTC':
       return {
-        Icon: Image_12,
+        Icon: MTTC,
         title: 'title 12',
         subtitle: 'subtitle 12',
       };
-    case 'MIEJ':
+    case 'MIRJ':
       return {
-        Icon: Image_13,
+        Icon: MIRJ,
         title: 'title 13',
         subtitle: 'subtitle 13',
       };
-    case 'MIEC':
+    case 'MIRC':
       return {
-        Icon: Image_14,
+        Icon: MIRC,
         title: 'title 14',
         subtitle: 'subtitle 14',
       };
-    case 'MIFJ':
+    case 'MITJ':
       return {
-        Icon: Image_15,
+        Icon: MITJ,
         title: 'title 15',
         subtitle: 'subtitle 15',
       };
-    case 'MIFC':
+    case 'MITC':
       return {
-        Icon: Image_16,
+        Icon: MITC,
         title: 'title 16',
         subtitle: 'subtitle 16',
       };

@@ -33,7 +33,6 @@ export default function CodeIDE(props) {
   const [openSignDialog, setOpenSignDialog] = useState(false);
   const [codeEraseCnt, setCodeEraseCnt] = useState(0);
 
-  console.log(files, problemInputs, problemOutputs);
   useEffect(() => {
     setRunner(initBrythonRunner('time-with-pass-count', 'output'));
   }, []);

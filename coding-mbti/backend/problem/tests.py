@@ -110,7 +110,7 @@ class ProblemTest(TestCase):
             problem_input=problem_input, content=["1", "2", "3"])
         problem_output.save()
 
-        problem_input_id = problem_input.to_dict()['id']
+        problem_input_id = problem.to_dict()['id']
 
         response = self.client.get(f"/api/problem/{problem_input_id}/output/")
         self.assertEqual(response.status_code, 200)

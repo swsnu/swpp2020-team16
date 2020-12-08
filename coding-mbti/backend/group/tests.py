@@ -168,7 +168,9 @@ class GroupModelTest(TestCase):
 
         group_id = json.loads(response.content)["id"]
         response = self.client.post(
-            "/api/group/invite/", json.dumps({"receiver": user.pk, "group": group_id}), content_type="application/json")
+            "/api/group/invite/",
+            json.dumps({"receiver": user.pk, "group_id": group_id}),
+            content_type="application/json")
 
         self.assertEqual(response.status_code, 201)
 
@@ -228,7 +230,7 @@ class GroupModelTest(TestCase):
         self.client.login(username="test", password="123")
 
         response = self.client.post(
-            "/api/group/invite/", json.dumps({"receiver": user.pk, "group": group_id}), content_type="application/json")
+            "/api/group/invite/", json.dumps({"receiver": user.pk, "group_id": group_id}), content_type="application/json")
 
         invitation_id = json.loads(response.content)["id"]
 

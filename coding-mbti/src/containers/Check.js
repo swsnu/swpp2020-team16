@@ -55,6 +55,7 @@ class Check extends Component {
     const {
       problem, classes, problemInput, problemOutput, alert
     } = this.props;
+
     const pid = problem.id;
     if (problem.error) {
       alert.show(problem.error);

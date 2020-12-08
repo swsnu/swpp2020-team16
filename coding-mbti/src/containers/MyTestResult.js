@@ -58,6 +58,9 @@ const styles = (theme) => ({
     align: 'center',
     alignItems: 'center',
   },
+  total: {
+    marginBottom: '4vw',
+  },
 });
 
 class MyTestResult extends Component {
@@ -118,7 +121,7 @@ class MyTestResult extends Component {
 
     return (
       <>
-        <Grid container>
+        <Grid container spacing={6} className={classes.total}>
           <Grid item xs={12}>
             <Typography
               component="h1"

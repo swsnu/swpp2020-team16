@@ -54,7 +54,7 @@ class Home extends Component {
   }
 
   onClickGetTested = () => {
-    window.location.replace('/solve');
+    window.location.replace('/beforesolve');
   };
 
   handleSubmit = async (pid, solution) => {

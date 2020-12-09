@@ -1,11 +1,11 @@
-from user.models import Coder
-from problem.models import Solution
-from analysis.models import SolutionReport, UserReport
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import permission_classes
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseNotAllowed, JsonResponse
 from django.core.exceptions import ObjectDoesNotExist
-from json import JSONDecodeError
+
+from user.models import Coder
+from problem.models import Solution
+from analysis.models import SolutionReport, UserReport
 
 
 @permission_classes((IsAuthenticated, ))

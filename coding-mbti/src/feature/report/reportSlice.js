@@ -50,7 +50,6 @@ export const readMyReport = () => async (dispatch) => {
   try {
     const solutions = await request.get('analysis/my/solutions/');
     const report = await request.get('analysis/my/report/');
-
     const response = { solutions: solutions.data, report: report.data };
 
     dispatch(myReportRead(response));

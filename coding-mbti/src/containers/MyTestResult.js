@@ -13,6 +13,8 @@ import BarSingleDiagram from '../components/BarSingleDiagram';
 import RadarDiagram from '../components/RadarDiagram';
 import TypeInfo from '../components/TypeInfo';
 
+import { readMyReport, createMyReport } from '../feature/report/reportSlice';
+
 const styles = (theme) => ({
   imageIcon: {
     height: '24px',
@@ -40,8 +42,8 @@ const styles = (theme) => ({
     padding: '1vw',
     color: 'black',
     fontSize: '2vw',
-    height: '30vw',
-    width: '30vw',
+    height: '100%',
+    width: '100%',
     margin: '1vw',
     cursor: 'default',
     align: 'center',
@@ -53,13 +55,18 @@ const styles = (theme) => ({
 });
 
 class MyTestResult extends Component {
+  async componentDidMount() {
+    await this.props.createMyReport();
+    await this.props.readMyReport();
+  }
+
   render() {
     const { classes, report } = this.props;
 
-    if (report.myReport.solutions.length === 0) {
-      window.location.href = '../../';
-    }
-    const myReport = this.props.report.myReport.report;
+    // if (report.myReport.solutions.length === 0) {
+    //   window.location.href = '../../';
+    // }
+    const myReport = report.myReport.report;
 
     const umPrediction = myReport.UM_prediction;
     const tiPrediction = myReport.TI_prediction;
@@ -129,7 +136,7 @@ class MyTestResult extends Component {
                 <TypeInfo type={myStyleStr} />
               </Paper>
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={5}>
               <Paper className={classes.box}>
                 <RadarDiagram
                   analysisData={[
@@ -386,13 +393,14 @@ MyTestResult.propTypes = {
   classes: PropTypes.object.isRequired,
   solution: PropTypes.object.isRequired,
   report: PropTypes.object.isRequired,
+  readMyReport: PropTypes.func.isRequired,
+  createMyReport: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = (state) => ({
   report: state.report.reportReducer,
 });
 
-export default connect(
-  mapDispatchToProps,
-  {}
-)(withStyles(styles)(MyTestResult));
+export default connect(mapDispatchToProps, { readMyReport, createMyReport })(
+  withStyles(styles)(MyTestResult)
+);

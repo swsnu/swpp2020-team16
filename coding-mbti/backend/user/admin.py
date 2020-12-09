@@ -18,10 +18,6 @@ class ManagerAdmin(admin.ModelAdmin):
     pass
 
 
-class CoderAdmin(admin.ModelAdmin):
-    pass
-
-
 class CodingSytleAdmin(admin.ModelAdmin):
     pass
 

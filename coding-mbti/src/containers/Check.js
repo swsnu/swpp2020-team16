@@ -17,6 +17,7 @@ import { readProblemByObjective } from '../feature/problem/problemSlice';
 import { readProblemInput } from '../feature/problem/problemInputSlice';
 import { readProblemOutput } from '../feature/problem/problemOutputSlice';
 import { createSolution } from '../feature/problem/solutionSlice';
+import { createMyReport } from '../feature/report/reportSlice';
 
 import request from '../utils/request';
 
@@ -43,21 +44,23 @@ class Check extends Component {
         ]);
       }
     } else {
-      window.location.replace('/home/');
+      window.location.replace('/my/tests/results');
     }
   }
 
   handleSubmit = async (pid, solution) => {
-    this.props.createSolution(pid, solution);
+    this.props.createSolution(pid, solution)
+      .then(window.location.reload());
   };
 
   render() {
-    const { problem, classes, problemInput, problemOutput, alert } = this.props;
+    const { user, problem, classes, problemInput, problemOutput, alert } = this.props;
     const pid = problem.id;
     if (problem.error) {
       alert.show(problem.error);
       return <div />;
     }
+
     return (
       <main>
         <Container className={classes.Grid} maxWidth="lg">
@@ -73,11 +76,11 @@ class Check extends Component {
         </Container>
         <Container maxWidth="lg">
           <CodeIDE
-            signedIn
+            signedIn={!!user.username}
             pid={pid}
             handleSubmit={this.handleSubmit}
-            problemInput={problemInput}
-            problemOutput={problemOutput}
+            problemInputs={problemInput.content}
+            problemOutputs={problemOutput.content}
           />
         </Container>
       </main>
@@ -91,14 +94,17 @@ Check.propTypes = {
   problem: PropTypes.object.isRequired,
   problemInput: PropTypes.object.isRequired,
   problemOutput: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
   alert: PropTypes.object.isRequired,
   readProblemByObjective: PropTypes.func.isRequired,
   readProblemInput: PropTypes.func.isRequired,
   readProblemOutput: PropTypes.func.isRequired,
   createSolution: PropTypes.func.isRequired,
+  createMyReport: PropTypes.func.isRequired
 };
 
 const mapDispatchToProps = (state) => ({
+  user: state.user.userSignReducer,
   problem: state.problem.problemReducer,
   problemInput: state.problem.problemInputReducer,
   problemOutput: state.problem.problemOutputReducer,
@@ -109,4 +115,5 @@ export default connect(mapDispatchToProps, {
   readProblemInput,
   readProblemOutput,
   createSolution,
+  createMyReport,
 })(withStyles(styles)(withAlert()(Check)));

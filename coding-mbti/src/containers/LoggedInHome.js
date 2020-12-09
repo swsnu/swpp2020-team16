@@ -114,6 +114,7 @@ class LoggedInHome extends Component {
               <Typography
                 variant="h2"
                 component="h1"
+                className="buttton"
                 onClick={() => {
                   window.location.replace('../my/tests/results/');
                 }}
@@ -135,7 +136,6 @@ class LoggedInHome extends Component {
 
 LoggedInHome.propTypes = {
   classes: PropTypes.object.isRequired,
-  user: PropTypes.object.isRequired,
   solution: PropTypes.object.isRequired,
   report: PropTypes.object.isRequired,
   readMyReport: PropTypes.object.isRequired,
@@ -143,16 +143,14 @@ LoggedInHome.propTypes = {
 
 SingleProblem.propTypes = {
   classes: PropTypes.object.isRequired,
-  user: PropTypes.object.isRequired,
   solution: PropTypes.object.isRequired,
   report: PropTypes.object.isRequired,
 };
 
-const mapDispatchToProps = (state) => ({
-  user: state.user.userSignReducer,
+const mapStateToProps = (state) => ({
   report: state.report.reportReducer,
 });
 
-export default connect(mapDispatchToProps, { readMyReport })(
+export default connect(mapStateToProps, { readMyReport })(
   withStyles(styles)(LoggedInHome)
 );

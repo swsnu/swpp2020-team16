@@ -2,7 +2,6 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 
 /* M-UIs */
-import { connect } from 'react-redux';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/styles';
@@ -51,7 +50,7 @@ class BeforeSolve extends Component {
     return (
       <>
         <Grid container className={classes.Grid} maxWidth="lg" spacing={10}>
-          <Grid item xs={1} />
+          <Grid item className="check" xs={1} />
           <Grid item xs={10}>
             <Paper className={classes.desc} elevation={4}>
               <Grid container className={classes.desc}>
@@ -79,14 +78,15 @@ class BeforeSolve extends Component {
           <Grid item xs={3} />
           <Grid item xs={6}>
             <Paper className={classes.root} elevation={3} align="center">
-              <Grid className="check" item xs={12}>
-                <Typography
-                  variant="h2"
-                  component="h1"
-                  onClick={() => {
-                    window.location.replace('../solve/');
-                  }}
-                >
+              <Grid
+                className="goToSolve"
+                onClick={() => {
+                  window.location.replace('../solve/');
+                }}
+                item
+                xs={12}
+              >
+                <Typography variant="h2" component="h1">
                   Let&apos;s go!
                 </Typography>
               </Grid>
@@ -103,8 +103,4 @@ BeforeSolve.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-const mapDispatchToProps = (state) => ({
-  problem: state.problem,
-});
-
-export default connect(mapDispatchToProps, {})(withStyles(styles)(BeforeSolve));
+export default withStyles(styles)(BeforeSolve);

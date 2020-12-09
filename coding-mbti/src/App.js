@@ -29,7 +29,6 @@ function App(props) {
       <Navbar />
       <Switch>
         <Route exact path="/" component={Home} />
-        <AuthRoute exact path="/solve"><Check /></AuthRoute>
         <Route exact path="/signin/" component={SignIn} />
         <Route exact path="/signup/" component={SignUp} />
         <Route exact path="/relation/" component={UserRelations} />
@@ -54,6 +53,9 @@ function App(props) {
           path="/beforesolve/"
           render={(props) => <BeforeSolve {...props} />}
         />
+        <AuthRoute exact path="/solve">
+          <Check />
+        </AuthRoute>
         <AuthRoute exact path="/my/tests/results">
           <MyTestResult />
         </AuthRoute>

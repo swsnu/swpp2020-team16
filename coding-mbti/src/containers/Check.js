@@ -52,12 +52,14 @@ class Check extends Component {
   };
 
   render() {
-    const { problem, classes, problemInput, problemOutput, alert } = this.props;
+    const { user, problem, classes, problemInput, problemOutput, alert } = this.props;
     const pid = problem.id;
     if (problem.error) {
       alert.show(problem.error);
       return <div />;
     }
+    console.log(problemInput);
+
     return (
       <main>
         <Container className={classes.Grid} maxWidth="lg">
@@ -73,11 +75,11 @@ class Check extends Component {
         </Container>
         <Container maxWidth="lg">
           <CodeIDE
-            signedIn
+            signedIn={!!user.username}
             pid={pid}
             handleSubmit={this.handleSubmit}
-            problemInput={problemInput}
-            problemOutput={problemOutput}
+            problemInputs={problemInput.content}
+            problemOutputs={problemOutput.content}
           />
         </Container>
       </main>
@@ -91,6 +93,7 @@ Check.propTypes = {
   problem: PropTypes.object.isRequired,
   problemInput: PropTypes.object.isRequired,
   problemOutput: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
   alert: PropTypes.object.isRequired,
   readProblemByObjective: PropTypes.func.isRequired,
   readProblemInput: PropTypes.func.isRequired,
@@ -99,6 +102,7 @@ Check.propTypes = {
 };
 
 const mapDispatchToProps = (state) => ({
+  user: state.user.userSignReducer,
   problem: state.problem.problemReducer,
   problemInput: state.problem.problemInputReducer,
   problemOutput: state.problem.problemOutputReducer,

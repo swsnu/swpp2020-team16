@@ -5,7 +5,7 @@ from pytz import utc
 
 from django.http import HttpResponse, HttpResponseNotAllowed, HttpResponseBadRequest, JsonResponse
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
-from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
+from django.views.decorators.csrf import ensure_csrf_cookie
 from django.db.utils import IntegrityError
 
 from rest_framework.decorators import permission_classes

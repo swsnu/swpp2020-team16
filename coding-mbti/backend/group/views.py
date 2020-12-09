@@ -3,16 +3,13 @@ from json import JSONDecodeError
 
 from django.http import HttpResponse, HttpResponseNotAllowed, HttpResponseBadRequest, JsonResponse
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
-from django.views.decorators.csrf import csrf_exempt
-
-from django.db import IntegrityError
 
 from rest_framework.decorators import permission_classes
 from rest_framework.permissions import IsAuthenticated
 
 from group.models import Group, Invitation
-from user.models import User, Coder, Manager
-from utils.utils import get_dicts_with_filter, get_dicts_with_all
+from user.models import Coder, Manager
+from utils.utils import get_dicts_with_filter
 
 
 @permission_classes((IsAuthenticated, ))

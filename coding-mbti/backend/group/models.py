@@ -1,5 +1,5 @@
 from django.db import models
-from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
+from django.core.exceptions import PermissionDenied
 
 
 class Group(models.Model):

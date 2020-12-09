@@ -4,7 +4,6 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.http import (
     HttpResponseBadRequest,
     HttpResponseNotAllowed,
-    HttpResponse,
     JsonResponse,
 )
 from rest_framework.decorators import permission_classes
@@ -12,7 +11,7 @@ from rest_framework.permissions import IsAuthenticated
 from analysis.models import SolutionReport
 from problem.models import Solution, Problem, ProblemInput, ProblemOutput
 from user.models import Coder
-from utils.utils import get_dicts_with_all, get_dicts_with_filter, to_dict
+from utils.utils import get_dicts_with_all, get_dicts_with_filter
 
 
 @permission_classes((IsAuthenticated, ))

@@ -13,7 +13,7 @@ describe('<LoggedInHome/>', () => {
   let loggedInHome;
 
   beforeEach(() => {
-    let store = mockStore({
+    const store = mockStore({
       report: {
         reportReducer: {
           myReport: {
@@ -47,7 +47,7 @@ describe('<LoggedInHome/>', () => {
   });
 
   it('should have goot go to next button', () => {
-    let store = mockStore({
+    const store = mockStore({
       report: {
         reportReducer: {
           myReport: {
@@ -59,7 +59,7 @@ describe('<LoggedInHome/>', () => {
       },
     });
 
-    let loggedInHome = (
+    const loggedInHome = (
       <Provider store={store}>
         <ThemeProvider theme={theme}>
           <LoggedInHome readMyReport={jest.fn().mockReturnValue(false)} />

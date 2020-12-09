@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { mount, shallow } from 'enzyme';
+import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core';
 import configureMockStore from 'redux-mock-store';
@@ -13,7 +13,7 @@ describe('<MyTestResult/>', () => {
   let myTestResult;
 
   beforeEach(() => {
-    let store = mockStore({
+    const store = mockStore({
       report: {
         reportReducer: {
           myReport: {
@@ -29,6 +29,7 @@ describe('<MyTestResult/>', () => {
               TI_probability: 0.5,
               RT_prediction: 1,
               RT_probability: 0.5,
+              style_str: 'MTTC',
             },
           },
         },
@@ -65,7 +66,7 @@ describe('<MyTestResult/>', () => {
   });
 
   it('should render predictions& prob correctly', () => {
-    let store = mockStore({
+    const store = mockStore({
       report: {
         reportReducer: {
           myReport: {
@@ -81,13 +82,14 @@ describe('<MyTestResult/>', () => {
               TI_probability: 0.5,
               RT_prediction: 0,
               RT_probability: 0.5,
+              style_str: 'MTTC',
             },
           },
         },
       },
     });
 
-    let myTestResult = (
+    const myTestResult = (
       <Provider store={store}>
         <ThemeProvider theme={theme}>
           <MyTestResult />
@@ -101,18 +103,18 @@ describe('<MyTestResult/>', () => {
   });
 
   it('should redirect to solve when there is no solutions', () => {
-    let store = mockStore({
+    const store = mockStore({
       report: {
         reportReducer: {
           myReport: {
             solutions: [],
-            report: {},
+            report: { style_str: 'MTTC' },
           },
         },
       },
     });
 
-    let myTestResult = (
+    const myTestResult = (
       <Provider store={store}>
         <ThemeProvider theme={theme}>
           <MyTestResult />
@@ -123,19 +125,5 @@ describe('<MyTestResult/>', () => {
     const component = mount(myTestResult);
     const wrapper = component.find('.check');
     expect(wrapper.length).toBe(3);
-  });
-});
-
-describe('<MyTestResult />', () => {
-  const myTestResult = (
-    <Provider store={store}>
-      <ThemeProvider theme={theme}>
-        <MyTestResult />
-      </ThemeProvider>
-    </Provider>
-  );
-  it('matches snapshot', () => {
-    const wrapper = shallow(myTestResult);
-    expect(wrapper).toMatchSnapshot();
   });
 });

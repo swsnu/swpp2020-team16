@@ -1,8 +1,10 @@
 import React from 'react';
 
 import { mount } from 'enzyme';
-import BeforeSolve from './BeforeSolve';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core';
+
+import BeforeSolve from './BeforeSolve';
+
 const theme = createMuiTheme();
 
 describe('<BeforeSolve/>', () => {

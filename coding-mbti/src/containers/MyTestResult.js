@@ -1,4 +1,4 @@
-import React, { Fragment, Component } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import Grid from '@material-ui/core/Grid';
@@ -122,11 +122,11 @@ class MyTestResult extends Component {
               Analysis Result
             </Typography>
           </Grid>
-          <Grid container spacing={4} justify="center">
+          <Grid container spacing={4} align="center">
             <Grid item xs={2} />
             <Grid item xs={4}>
               <Paper className={classes.box}>
-                <TypeInfo type={myStyleStr || 'UTRJ'} />
+                <TypeInfo type={myStyleStr} />
               </Paper>
             </Grid>
             <Grid item xs={4}>

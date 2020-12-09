@@ -17,6 +17,7 @@ import { readProblemByObjective } from '../feature/problem/problemSlice';
 import { readProblemInput } from '../feature/problem/problemInputSlice';
 import { readProblemOutput } from '../feature/problem/problemOutputSlice';
 import { createSolution } from '../feature/problem/solutionSlice';
+import { createMyReport } from '../feature/report/reportSlice';
 
 import request from '../utils/request';
 
@@ -99,6 +100,7 @@ Check.propTypes = {
   readProblemInput: PropTypes.func.isRequired,
   readProblemOutput: PropTypes.func.isRequired,
   createSolution: PropTypes.func.isRequired,
+  createMyReport: PropTypes.func.isRequired
 };
 
 const mapDispatchToProps = (state) => ({
@@ -113,4 +115,5 @@ export default connect(mapDispatchToProps, {
   readProblemInput,
   readProblemOutput,
   createSolution,
+  createMyReport,
 })(withStyles(styles)(withAlert()(Check)));

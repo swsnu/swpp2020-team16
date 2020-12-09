@@ -9,6 +9,8 @@ import { withStyles } from '@material-ui/styles';
 
 import Paper from '@material-ui/core/Paper';
 
+import request from '../utils/request';
+
 const styles = (theme) => ({
   Content: {
     backgroundColor: theme.palette.background.paper,
@@ -44,6 +46,13 @@ class BeforeSolve extends Component {
   constructor(props) {
     super(props);
     this.state = {};
+  }
+
+  async componentDidMount() {
+    const res = await request.get('/user/qualified');
+    if (res.data === true) {
+      window.location.replace('/my/tests/results');
+    }
   }
 
   render() {

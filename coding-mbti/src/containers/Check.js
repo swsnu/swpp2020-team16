@@ -43,12 +43,13 @@ class Check extends Component {
         ]);
       }
     } else {
-      window.location.replace('/home/');
+      window.location.replace('/my/tests/results');
     }
   }
 
   handleSubmit = async (pid, solution) => {
-    this.props.createSolution(pid, solution);
+    this.props.createSolution(pid, solution)
+      .then(window.location.reload());
   };
 
   render() {
@@ -58,7 +59,6 @@ class Check extends Component {
       alert.show(problem.error);
       return <div />;
     }
-    console.log(problemInput);
 
     return (
       <main>

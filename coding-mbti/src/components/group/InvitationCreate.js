@@ -32,7 +32,7 @@ export default function InvitationCreate(props) {
   };
 
   const createInvitationWithId = async () => {
-    await createInvitation(groupId, { group: groupId, receiver: coderId });
+    await createInvitation({ group_id: groupId, receiver: coderId });
     alert.show(`invitation sent to the coder [${coderId}]`);
     handleClose();
   };

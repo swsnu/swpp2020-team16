@@ -49,8 +49,9 @@ const groupSlice = createSlice({
         },
         memberRead: {
             reducer(state, action) {
+                state.members = {};
                 action.payload.forEach(member => {
-                    state.members[member.id] = member;
+                    state.members[member.user_id] = member;
                 });
             }
         },
@@ -155,7 +156,7 @@ export const readMember = (groupId) => async dispatch => {
 
         response.data.forEach(res => {
             const necessaryKeysInResponseData = [
-                'id', 'style', 'manager'];
+                'user_id', 'style', 'username', 'group'];
 
             necessaryKeysInResponseData.map(key => {
                 if (!(key in res)) {
@@ -167,7 +168,6 @@ export const readMember = (groupId) => async dispatch => {
         dispatch(memberReadFail(error.message));
         return;
     }
-
     dispatch(memberRead(response.data));
 };
 

@@ -95,7 +95,7 @@ def group_view(request):
 
 
 @permission_classes((IsAuthenticated, ))
-def group_invite_view(request, group_id):
+def group_invite_view(request):
     if request.method == "GET":
         try:
             coder = Coder.objects.get(user=request.user)
@@ -109,7 +109,7 @@ def group_invite_view(request, group_id):
             manager = Manager.objects.get(user=request.user)
             body = request.body.decode()
             receiver_id = json.loads(body)["receiver"]
-            group_id = json.loads(body)["group"]
+            group_id = json.loads(body)["group_id"]
             receiver = Coder.objects.get(user__id=receiver_id)
             group = Group.objects.get(pk=group_id)
         except (KeyError, JSONDecodeError, ObjectDoesNotExist) as error:

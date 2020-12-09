@@ -10,6 +10,7 @@ import UserRelations from './containers/UserRelations';
 import SignIn from './containers/SignIn';
 import SignUp from './containers/SignUp';
 import Check from './containers/Check';
+import Home from './containers/Home';
 import MyTestResult from './containers/MyTestResult';
 import ResearchAPI from './containers/ResearchAPI';
 import AuthRoute from './HOC/AuthRoute';
@@ -19,7 +20,6 @@ import Footer from './components/Footer';
 import GroupDetail from './containers/Group/GroupDetail';
 import LoggedInHome from './containers/LoggedInHome';
 import Invitation from './containers/Invitation/Invitation';
-import Home from './containers/Home';
 import BeforeSolve from './containers/BeforeSolve';
 
 function App(props) {
@@ -28,14 +28,12 @@ function App(props) {
     <Router history={history}>
       <Navbar />
       <Switch>
-        <AuthRoute exact path="/solve">
-          <Check />
-        </AuthRoute>
+        <Route exact path="/" component={Home} />
+        <AuthRoute exact path="/solve"><Check /></AuthRoute>
         <Route exact path="/signin/" component={SignIn} />
         <Route exact path="/signup/" component={SignUp} />
         <Route exact path="/relation/" component={UserRelations} />
         <Route exact path="/research/api" component={ResearchAPI} />
-        <Route exact path="/" component={Home} />
         <Route
           exact
           path="/check/result/:pid/:style"

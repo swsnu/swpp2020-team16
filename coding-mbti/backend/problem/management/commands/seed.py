@@ -79,6 +79,8 @@ def create_problem_input_output_to_database(problem_id):
     )
     problem.save()
 
+    assert(len(parsed_inputs) == len(parsed_outputs))
+
     for i in range(len(parsed_inputs)):
         problem_input = ProblemInput(
             problem=problem,
@@ -155,7 +157,7 @@ def seed_coder_by_style(_self):
     _self.stdout.write(f"total {numUsersByStyle * numStyles} coders!")
 
     for idx, userId in enumerate(range(numUsers)):
-        create_single_coder(userId, idx % numStyles +1, problems)
+        create_single_coder(userId, idx % numStyles + 1, problems)
         if idx % 10 == 0:
             _self.stdout.write(f"[ {idx} / {numUsers} ] completed...")
 
@@ -168,8 +170,11 @@ def seed_problem_input_output_all_at_once(_self):
 
 def run_seed(_self, mode):
     _self.stdout.write("seeding data...")
+
     seed_problem_input_output_all_at_once(_self)
     _self.stdout.write(
         "[Done] problems, inputs, outputs are created all at once.")
+
     seed_coder_by_style(_self)
-    _self.stdout.write("[Done] coder by style.")
+    _self.stdout.write(
+        "[Done] 5 coders by each 16 style are created.")

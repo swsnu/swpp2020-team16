@@ -65,10 +65,13 @@ def problem_input_view(request, problem_id=""):
 
 
 @ permission_classes((IsAuthenticated, ))
-def problem_output_view(request, problem_input_id=""):
+def problem_output_view(request, problem_id=""):
     if request.method == "GET":
-        problem_outputs = get_dicts_with_filter(
-            ProblemOutput.objects, problem_input__id=problem_input_id)
+        problem_inputs = ProblemInput.objects.filter(problem__id=problem_id)
+        problem_outputs = list(map(
+            lambda input: get_dicts_with_filter(
+                ProblemOutput.objects, problem_input__id=input.id)[0],
+            problem_inputs))
         if len(problem_outputs) == 0:
             return HttpResponseBadRequest()
         return JsonResponse(problem_outputs, status=200, safe=False)

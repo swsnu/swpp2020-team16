@@ -50,7 +50,7 @@ class BeforeSolve extends Component {
   async componentDidMount() {
     const res = await request.get('/user/qualified');
     if (res.data === true) {
-      window.location.replace('/my/tests/results');
+      window.location.replace('/home');
     }
   }
 

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
@@ -13,7 +14,7 @@ import BarSingleDiagram from '../components/BarSingleDiagram';
 import RadarDiagram from '../components/RadarDiagram';
 import TypeInfo from '../components/TypeInfo';
 
-import { readMyReport, createMyReport } from '../feature/report/reportSlice';
+import { readMyReport } from '../feature/report/reportSlice';
 
 const styles = (theme) => ({
   imageIcon: {
@@ -56,7 +57,6 @@ const styles = (theme) => ({
 
 class MyTestResult extends Component {
   async componentDidMount() {
-    await this.props.createMyReport();
     await this.props.readMyReport();
   }
 
@@ -64,7 +64,7 @@ class MyTestResult extends Component {
     const { classes, report } = this.props;
 
     // if (report.myReport.solutions.length === 0) {
-    //   window.location.href = '../../';
+    //  window.location.href = '../../';
     // }
     const myReport = report.myReport.report;
 
@@ -136,7 +136,7 @@ class MyTestResult extends Component {
                 <TypeInfo type={myStyleStr} />
               </Paper>
             </Grid>
-            <Grid item xs={5}>
+            <Grid item xs={4}>
               <Paper className={classes.box}>
                 <RadarDiagram
                   analysisData={[
@@ -401,6 +401,6 @@ const mapDispatchToProps = (state) => ({
   report: state.report.reportReducer,
 });
 
-export default connect(mapDispatchToProps, { readMyReport, createMyReport })(
+export default connect(mapDispatchToProps, { readMyReport })(
   withStyles(styles)(MyTestResult)
 );

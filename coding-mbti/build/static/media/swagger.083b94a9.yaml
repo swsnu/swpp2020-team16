@@ -1,0 +1,37 @@
+swagger: "2.0"
+info:
+  title: Researcher API
+  description: API for research usage
+  version: 1.0.0
+host: todoMasterBranchBackendURL
+basePath: /v1
+schemes:
+  - https
+paths:
+  /api/blah:
+    get:
+      summary: Returns a list of users.
+      description: Optional extended description in Markdown.
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+  /api/foo:
+    get:
+      summary: Returns a list of users.
+      description: Optional extended description in Markdown.
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+  /api/slug:
+    get:
+      summary: Returns a list of users.
+      description: Optional extended description in Markdown.
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK

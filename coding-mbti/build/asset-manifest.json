@@ -1,0 +1,43 @@
+{
+  "files": {
+    "main.css": "/static/css/main.8e18a254.chunk.css",
+    "main.js": "/static/js/main.74847ecb.chunk.js",
+    "main.js.map": "/static/js/main.74847ecb.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.6a82dce9.js",
+    "runtime-main.js.map": "/static/js/runtime-main.6a82dce9.js.map",
+    "static/css/2.c44f4bce.chunk.css": "/static/css/2.c44f4bce.chunk.css",
+    "static/js/2.5250429c.chunk.js": "/static/js/2.5250429c.chunk.js",
+    "static/js/2.5250429c.chunk.js.map": "/static/js/2.5250429c.chunk.js.map",
+    "index.html": "/index.html",
+    "precache-manifest.549d91ea9e8a91a72839979b1f9b3884.js": "/precache-manifest.549d91ea9e8a91a72839979b1f9b3884.js",
+    "service-worker.js": "/service-worker.js",
+    "static/css/2.c44f4bce.chunk.css.map": "/static/css/2.c44f4bce.chunk.css.map",
+    "static/css/main.8e18a254.chunk.css.map": "/static/css/main.8e18a254.chunk.css.map",
+    "static/js/2.5250429c.chunk.js.LICENSE.txt": "/static/js/2.5250429c.chunk.js.LICENSE.txt",
+    "static/media/MIRC.098e58a0.svg": "/static/media/MIRC.098e58a0.svg",
+    "static/media/MIRJ.4b1d1116.svg": "/static/media/MIRJ.4b1d1116.svg",
+    "static/media/MITC.bfdb9483.svg": "/static/media/MITC.bfdb9483.svg",
+    "static/media/MITJ.b0b1c343.svg": "/static/media/MITJ.b0b1c343.svg",
+    "static/media/MTRC.75d84a34.svg": "/static/media/MTRC.75d84a34.svg",
+    "static/media/MTRJ.1fc6774a.svg": "/static/media/MTRJ.1fc6774a.svg",
+    "static/media/MTTC.d1ebf999.svg": "/static/media/MTTC.d1ebf999.svg",
+    "static/media/MTTJ.6520834d.svg": "/static/media/MTTJ.6520834d.svg",
+    "static/media/UIRC.5710e59f.svg": "/static/media/UIRC.5710e59f.svg",
+    "static/media/UIRJ.20b1b28d.svg": "/static/media/UIRJ.20b1b28d.svg",
+    "static/media/UITC.d97b493b.svg": "/static/media/UITC.d97b493b.svg",
+    "static/media/UITJ.4689297b.svg": "/static/media/UITJ.4689297b.svg",
+    "static/media/UTRC.fdca79bd.svg": "/static/media/UTRC.fdca79bd.svg",
+    "static/media/UTRJ.46ee7053.svg": "/static/media/UTRJ.46ee7053.svg",
+    "static/media/UTTC.35ffb1d9.svg": "/static/media/UTTC.35ffb1d9.svg",
+    "static/media/UTTJ.1f07afb6.svg": "/static/media/UTTJ.1f07afb6.svg",
+    "static/media/swagger.yaml": "/static/media/swagger.083b94a9.yaml",
+    "static/media/teamwork.d2605492.svg": "/static/media/teamwork.d2605492.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.6a82dce9.js",
+    "static/css/2.c44f4bce.chunk.css",
+    "static/js/2.5250429c.chunk.js",
+    "static/css/main.8e18a254.chunk.css",
+    "static/js/main.74847ecb.chunk.js"
+  ]
+}

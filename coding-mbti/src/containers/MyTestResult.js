@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
@@ -13,20 +14,9 @@ import BarSingleDiagram from '../components/BarSingleDiagram';
 import RadarDiagram from '../components/RadarDiagram';
 import TypeInfo from '../components/TypeInfo';
 
-import { readMyReport, createMyReport } from '../feature/report/reportSlice';
+import { readMyReport } from '../feature/report/reportSlice';
 
 const styles = (theme) => ({
-  Content: {
-    backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(8, 7, 6),
-  },
-  Buttons: {
-    marginTop: theme.spacing(4),
-  },
-  footer: {
-    backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(6),
-  },
   imageIcon: {
     height: '24px',
     width: '24px',
@@ -67,7 +57,6 @@ const styles = (theme) => ({
 
 class MyTestResult extends Component {
   async componentDidMount() {
-    await this.props.createMyReport();
     await this.props.readMyReport();
   }
 
@@ -75,7 +64,7 @@ class MyTestResult extends Component {
     const { classes, report } = this.props;
 
     // if (report.myReport.solutions.length === 0) {
-    //   window.location.href = '../../';
+    //  window.location.href = '../../';
     // }
     const myReport = report.myReport.report;
 
@@ -140,13 +129,14 @@ class MyTestResult extends Component {
               Analysis Result
             </Typography>
           </Grid>
-          <Grid container spacing={2} justify="center" alignItems="center">
-            <Grid item xs={5}>
+          <Grid container spacing={4} align="center">
+            <Grid item xs={2} />
+            <Grid item xs={4}>
               <Paper className={classes.box}>
-                <TypeInfo type={myStyleStr || 'UTRJ'} />
+                <TypeInfo type={myStyleStr} />
               </Paper>
             </Grid>
-            <Grid item xs={5}>
+            <Grid item xs={4}>
               <Paper className={classes.box}>
                 <RadarDiagram
                   analysisData={[
@@ -332,7 +322,7 @@ class MyTestResult extends Component {
                   }}
                 >
                   Check other solutions by style for problem 1
-                  <ZoomInIcon fontSize="large" />
+                  <ZoomInIcon className="bt" fontSize="large" />
                 </Paper>
               </Grid>
               <Grid item xs={2}>
@@ -346,7 +336,7 @@ class MyTestResult extends Component {
                   }}
                 >
                   Check other solutions by style for problem 2
-                  <ZoomInIcon fontSize="large" />
+                  <ZoomInIcon className="bt" fontSize="large" />
                 </Paper>
               </Grid>
               <Grid item xs={2}>
@@ -360,7 +350,7 @@ class MyTestResult extends Component {
                   }}
                 >
                   Check other solutions by style for problem 3
-                  <ZoomInIcon fontSize="large" />
+                  <ZoomInIcon className="bt" fontSize="large" />
                 </Paper>
               </Grid>
               <Grid item xs={2}>
@@ -375,7 +365,7 @@ class MyTestResult extends Component {
                   }}
                 >
                   Check similar or opposite style coder&apos;s report import
-                  <PeopleIcon style={{ fontSize: 60 }} />
+                  <PeopleIcon className="bt" style={{ fontSize: 60 }} />
                 </Paper>
               </Grid>
               <Grid xs={2} className="check" />
@@ -401,19 +391,16 @@ class MyTestResult extends Component {
 
 MyTestResult.propTypes = {
   classes: PropTypes.object.isRequired,
-  user: PropTypes.object.isRequired,
   solution: PropTypes.object.isRequired,
   report: PropTypes.object.isRequired,
   readMyReport: PropTypes.func.isRequired,
-  createMyReport: PropTypes.func.isRequired
+  createMyReport: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = (state) => ({
-  user: state.user.userSignReducer,
   report: state.report.reportReducer,
 });
 
-export default connect(
-  mapDispatchToProps,
-  { readMyReport, createMyReport }
-)(withStyles(styles)(MyTestResult));
+export default connect(mapDispatchToProps, { readMyReport })(
+  withStyles(styles)(MyTestResult)
+);

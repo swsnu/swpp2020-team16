@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
@@ -11,7 +12,9 @@ import Container from '@material-ui/core/Container';
 import Paper from '@material-ui/core/Paper';
 import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
 import DoneIcon from '@material-ui/icons/Done';
-import { readMyReport } from '../feature/report/reportSlice';
+import { readMyReport, createMyReport } from '../feature/report/reportSlice';
+
+import request from '../utils/request';
 
 const styles = (theme) => ({
   Content: {
@@ -93,11 +96,12 @@ class LoggedInHome extends Component {
   }
 
   async componentDidMount() {
-    await this.props.readMyReport().then((report) => {
-      if (!report) {
-        window.location.href = '../../';
-      }
-    });
+    await this.props.createMyReport();
+    await this.props.readMyReport();
+    const res = await request.get('/user/qualified');
+    if (res.data === false) {
+      window.location.replace('../');
+    }
   }
 
   render() {
@@ -114,6 +118,7 @@ class LoggedInHome extends Component {
               <Typography
                 variant="h2"
                 component="h1"
+                className="buttton"
                 onClick={() => {
                   window.location.replace('../my/tests/results/');
                 }}
@@ -135,24 +140,22 @@ class LoggedInHome extends Component {
 
 LoggedInHome.propTypes = {
   classes: PropTypes.object.isRequired,
-  user: PropTypes.object.isRequired,
   solution: PropTypes.object.isRequired,
   report: PropTypes.object.isRequired,
   readMyReport: PropTypes.object.isRequired,
+  createMyReport: PropTypes.object.isRequired,
 };
 
 SingleProblem.propTypes = {
   classes: PropTypes.object.isRequired,
-  user: PropTypes.object.isRequired,
   solution: PropTypes.object.isRequired,
   report: PropTypes.object.isRequired,
 };
 
-const mapDispatchToProps = (state) => ({
-  user: state.user.userSignReducer,
+const mapStateToProps = (state) => ({
   report: state.report.reportReducer,
 });
 
-export default connect(mapDispatchToProps, { readMyReport })(
+export default connect(mapStateToProps, { readMyReport, createMyReport })(
   withStyles(styles)(LoggedInHome)
 );

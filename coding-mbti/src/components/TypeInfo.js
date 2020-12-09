@@ -148,7 +148,11 @@ const selectTypeIcon = function (type) {
         subtitle: 'subtitle 16',
       };
     default:
-      throw new Error(`${type} is Invalid User Type.`);
+      return {
+        Icon: MITC,
+        title: 'title 16',
+        subtitle: 'subtitle 16',
+      };
   }
 };
 
@@ -174,9 +178,7 @@ export default function TypeInfo(props) {
   const classes = useStyles();
   return (
     <>
-      <Box
-        className={clsx(classes.animatedItem)}
-      >
+      <Box className={clsx(classes.animatedItem)}>
         <Icon />
         <br />
         {type}

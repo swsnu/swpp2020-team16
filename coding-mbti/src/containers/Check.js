@@ -44,17 +44,23 @@ class Check extends Component {
         ]);
       }
     } else {
-      window.location.replace('/my/tests/results');
+      window.location.replace('/home');
     }
   }
 
   handleSubmit = async (pid, solution) => {
-    this.props.createSolution(pid, solution)
-      .then(window.location.reload());
+    this.props.createSolution(pid, solution).then(window.location.reload());
   };
 
   render() {
-    const { user, problem, classes, problemInput, problemOutput, alert } = this.props;
+    const {
+      user,
+      problem,
+      classes,
+      problemInput,
+      problemOutput,
+      alert,
+    } = this.props;
     const pid = problem.id;
     if (problem.error) {
       alert.show(problem.error);
@@ -100,7 +106,7 @@ Check.propTypes = {
   readProblemInput: PropTypes.func.isRequired,
   readProblemOutput: PropTypes.func.isRequired,
   createSolution: PropTypes.func.isRequired,
-  createMyReport: PropTypes.func.isRequired
+  createMyReport: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = (state) => ({

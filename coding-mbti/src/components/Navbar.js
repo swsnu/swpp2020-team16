@@ -18,7 +18,6 @@ import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 
 /* REDUXs */
@@ -140,7 +139,7 @@ function NavbarOMG(props) {
       </SwipeableDrawer>
       <AppBar position="relative" className="navbar">
         <Toolbar>
-          <IconButton
+          {/* <IconButton
             edge="start"
             className={classes.menuButton}
             id="drawerButton"
@@ -149,7 +148,7 @@ function NavbarOMG(props) {
             onClick={toggleDrawer('left', true)}
           >
             <MenuIcon />
-          </IconButton>
+          </IconButton> */}
           <Typography variant="h6" className={classes.title} />
           <Button color="inherit" href="/">Home</Button>
           {
@@ -172,13 +171,20 @@ function NavbarOMG(props) {
                 </Button>
               )
           }
-          <IconButton
-            edge="end"
-            color="inherit"
-            onClick={toggleDrawer('right', true)}
-          >
-            <AccountCircle />
-          </IconButton>
+          {
+            props.user.username !== null ?
+              (
+                <IconButton
+                  edge="end"
+                  color="inherit"
+                  onClick={toggleDrawer('right', true)}
+                >
+                  <AccountCircle />
+                </IconButton>
+              ) :
+              null
+          }
+
         </Toolbar>
       </AppBar>
     </>

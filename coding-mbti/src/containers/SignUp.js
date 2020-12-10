@@ -104,8 +104,8 @@ class SignUp extends Component {
   };
 
   validatePasswordCheck = () => {
-    if (this.state.passwordCheck >= 8 &&
-      this.state.passwordCheck === this.state.password) {
+    if (this.state.passwordCheck.length >= 8 &&
+      (this.state.passwordCheck === this.state.password)) {
       this.setState({
         passwordCheckValidation: true,
       });

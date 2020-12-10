@@ -3,21 +3,32 @@ import PropTypes from 'prop-types';
 import {
   Route, Redirect
 } from 'react-router-dom';
+import { connect } from 'react-redux';
 
-export default function AuthRoute({ component: Component, ...rest }) {
+function AuthRoute({ component: Component, ...rest }) {
+  const { user } = rest;
+
+  if (user.username === null) {
+    return (
+      <Route
+        {...rest}
+        exact
+        render={(props) => (
+          <Redirect
+            to={{ pathname: '/signin', state: { from: props.location } }}
+          />
+        )}
+      />
+    );
+  }
+
   return (
     <Route
       {...rest}
       exact
-      render={(props) => (localStorage.getItem('token') !== null ?
-        (
-          <Component {...props} {...{ match: { params: rest.computedMatch.params } }} />
-        ) :
-        (
-          <Redirect
-            to={{ pathname: '/signin', state: { from: props.location } }}
-          />
-        ))}
+      render={(props) => (
+        <Component {...props} {...{ match: { params: rest.computedMatch.params } }} />
+      )}
     />
   );
 }
@@ -25,4 +36,11 @@ export default function AuthRoute({ component: Component, ...rest }) {
 AuthRoute.propTypes = {
   component: PropTypes.object.isRequired,
   location: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
 };
+
+const mapStateToProps = (state) => ({
+  user: state.user.userSignReducer,
+});
+
+export default connect(mapStateToProps, {})(AuthRoute);

@@ -99,7 +99,7 @@ class Home extends Component {
                       Sign up
                     </Button>
                   </Grid>
-                  <Grid item>
+                  {/* <Grid item>
                     <Button
                       variant="outlined"
                       color="secondary"
@@ -108,7 +108,7 @@ class Home extends Component {
                     >
                       Get tested
                     </Button>
-                  </Grid>
+                  </Grid> */}
                 </Grid>
               </div>
             </Container>

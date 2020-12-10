@@ -102,50 +102,58 @@ const selectTypeIcon = function (type) {
     case 'MTRJ':
       return {
         Icon: MTRJ,
-        title: 'title 9',
-        subtitle: 'subtitle 9',
+        title: 'Cyborg',
+        subtitle:
+          'write code in machine friendly way, care about Time complexity, solve the problem wisely and know the way to get things done quickly.',
       };
     case 'MTRC':
       return {
         Icon: MTRC,
-        title: 'title 10',
-        subtitle: 'subtitle 10',
+        title: 'Ice Man',
+        subtitle:
+          'write code in machine friendly way, care about Time complexity, solve the problem wisely, and carefully.',
       };
     case 'MTTJ':
       return {
         Icon: MTTJ,
-        title: 'title 11',
-        subtitle: 'subtitle 11',
+        title: 'Orange Man',
+        subtitle:
+          'write code in machine friendly way, care about Time complexity, solve the problem honestly and know the way to get things done quickly.',
       };
     case 'MTTC':
       return {
         Icon: MTTC,
-        title: 'title 12',
-        subtitle: 'subtitle 12',
+        title: 'Matrix Man',
+        subtitle:
+          'write code in machine friendly way, care about Time complexity, solve the problem honestly and carefully.',
       };
     case 'MIRJ':
       return {
         Icon: MIRJ,
-        title: 'title 13',
-        subtitle: 'subtitle 13',
+        title: 'Iron Man',
+        subtitle:
+          'write code in machine friendly way, does not care about Time complexity, solve the problem wisely and know the way to get things done quickly.',
       };
     case 'MIRC':
       return {
         Icon: MIRC,
-        title: 'title 14',
-        subtitle: 'subtitle 14',
+        title: 'Robot',
+        subtitle:
+          'write code in machine friendly way, does not care about Time complexity, solve the problem wisely and carefully',
       };
     case 'MITJ':
       return {
         Icon: MITJ,
-        title: 'title 15',
-        subtitle: 'subtitle 15',
+        title: 'Tin woodcutter',
+        subtitle:
+          'write code in machine friendly way, does not care about Time complexity, solve the problem honestly and know the way to get things done quickly.',
       };
     case 'MITC':
       return {
         Icon: MITC,
-        title: 'title 16',
-        subtitle: 'subtitle 16',
+        title: 'Soldier',
+        subtitle:
+          'write code in machine friendly way, does not care about Time complexity, solve the problem honestly and carefully.',
       };
     default:
       return {

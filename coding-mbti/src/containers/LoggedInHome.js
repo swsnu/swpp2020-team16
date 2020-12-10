@@ -65,7 +65,7 @@ const SingleProblem = (props) => {
       <Paper className={props.classes.rootNoClick2} elevation={3}>
         <Grid item xs={11}>
           <Typography variant="h6" component="h6">
-            problem {props.solution.problem_id} completed
+            problem {props.solution.problem_id} completed [correctness: {props.solution.evaluation} %]
           </Typography>
         </Grid>
         <Grid item xs={1} align="end">
@@ -81,9 +81,11 @@ const SingleProblem = (props) => {
           <pre>{props.solution.code}</pre>
         </Grid>
         <Grid item xs={12}>
-          elapsed time :{props.solution.elapsed_time}
+          {`elapsed time      :${props.solution.elapsed_time}`}
         </Grid>
-        <Grid> erase count :{props.solution.erase_cnt}</Grid>
+        <Grid item xs={12}>
+          {`erase count       :${props.solution.erase_cnt}`}
+        </Grid>
       </Paper>
     </>
   );

@@ -96,6 +96,7 @@ export const signOut = () => async (dispatch) => {
 
 export const signUp = (signUpData) => async (dispatch) => {
   signUpData.password = CryptoJS.SHA256(signUpData.password).toString();
+  await request.get('user/token');
   try {
     const res = await request.post('/user/signup/', signUpData);
     if (res.status === 409) throw new ResponseException('username or email already exists');

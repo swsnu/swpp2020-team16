@@ -62,7 +62,7 @@ export default function CodeIDE(props) {
     document.getElementById('output').value += '\n코드 실행이 완료되었습니다.';
   }
 
-  function handleSubmitWithTestCheck(forceSubmit = false) {
+  async function handleSubmitWithTestCheck(forceSubmit = false) {
     const timeNpass = document
       .getElementById('time-with-pass-count')
       .value.split(' ')
@@ -77,7 +77,7 @@ export default function CodeIDE(props) {
 
     const evaluation = (timeNpass[1] / problemInputs.length) * 100;
 
-    handleSubmit(pid, {
+    await handleSubmit(pid, {
       code: files['userCode.py'].body,
       erase_cnt: codeEraseCnt,
       elapsed_time: timeNpass[0],
@@ -96,8 +96,7 @@ export default function CodeIDE(props) {
     await runner.runCodeWithFiles(fs['test-all.py'].body, fs);
     document.getElementById('output').value += '\n코드 실행이 완료되었습니다.';
 
-    handleSubmitWithTestCheck();
-    setFiles(initialFiles);
+    await handleSubmitWithTestCheck();
   }
 
   function clickUploadPythonCode(e) {
@@ -119,7 +118,6 @@ export default function CodeIDE(props) {
     if (files['userCode.py'].body.length > value.length) {
       setCodeEraseCnt(codeEraseCnt + 1);
     }
-
     setFiles({
       ...files,
       'userCode.py': {

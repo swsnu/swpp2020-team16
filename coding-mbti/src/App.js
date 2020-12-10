@@ -21,6 +21,7 @@ import GroupDetail from './containers/Group/GroupDetail';
 import LoggedInHome from './containers/LoggedInHome';
 import Invitation from './containers/Invitation/Invitation';
 import BeforeSolve from './containers/BeforeSolve';
+import Message from './containers/Message';
 
 function App(props) {
   const { history } = props;
@@ -32,6 +33,7 @@ function App(props) {
         <Route exact path="/signin/" component={SignIn} />
         <Route exact path="/signup/" component={SignUp} />
         <Route exact path="/relation/" component={UserRelations} />
+        <Route exact path="/messages/" component={Message} />
         <Route exact path="/research/api" component={ResearchAPI} />
         <Route
           exact
@@ -71,7 +73,6 @@ function App(props) {
           render={(props) => <GroupDetail {...props} />}
         />
       </Switch>
-
       <Footer />
     </Router>
   );

@@ -13,7 +13,7 @@ import Grid from '@material-ui/core/Grid';
 
 import GroupCreate from './GroupCreate';
 import GroupDelete from './GroupDelete';
-import GroupRelations from './GroupRelations';
+// import GroupRelations from './GroupRelations';
 import InvitationCreate from './InvitationCreate';
 
 export default class GroupDetailNavbar extends Component {
@@ -84,7 +84,7 @@ export default class GroupDetailNavbar extends Component {
           )
             : null
         } */}
-        {
+        {/* {
           this.state.value === 'groupRelations' ? (
             <Grid container direction="row" justify="center" alignItems="center" textAlign="center">
               <Grid item>
@@ -98,7 +98,7 @@ export default class GroupDetailNavbar extends Component {
             </Grid>
           )
             : null
-        }
+        } */}
         {
           this.state.value === 'inviteUser' ? (
             <Grid container direction="row" justify="center" alignItems="center" textAlign="center">

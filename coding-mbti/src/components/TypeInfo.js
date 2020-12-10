@@ -30,7 +30,7 @@ import { ReactComponent as UITJ } from './TypeIcons/UITJ.svg';
 const selectTypeIcon = function (type) {
   /*
     U-M : User Friendly - Machine Efficiency
-    T-I : Time Complexity - Intutive Code
+    T-I : time Complexity - Intutive Code
     R-T : Rabbit - Turtle
     J-C : Just type - Carefully type
 
@@ -54,112 +54,112 @@ const selectTypeIcon = function (type) {
     case 'UTRJ':
       return {
         Icon: UTRJ,
-        title: 'title 1',
-        subtitle: 'subtitle 1',
+        title: 'Great Supporter',
+        subtitle: 'write code in user friendly way, care about time Complexity, solve the problem wisely, and know the way to get things done quickly.',
       };
     case 'UTRC':
       return {
         Icon: UTRC,
-        title: 'title 2',
-        subtitle: 'subtitle 2',
+        title: 'Furious Teacher',
+        subtitle: 'write code in user friendly way, care about time Complexity, solve the problem wisely, and carefully.',
       };
     case 'UTTJ':
       return {
         Icon: UTTJ,
-        title: 'title 3',
-        subtitle: 'subtitle 3',
+        title: 'Great Helper',
+        subtitle: 'write code in user friendly way, care about time Complexity, solve the problem honestly, and know the way to get things done quickly.',
       };
     case 'UTTC':
       return {
         Icon: UTTC,
-        title: 'title 4',
-        subtitle: 'subtitle 4',
+        title: 'king of clean code',
+        subtitle: 'write code in user friendly way, care about time Complexity, solve the problem honestly, and carefully.',
       };
     case 'UIRJ':
       return {
         Icon: UIRJ,
-        title: 'title 5',
-        subtitle: 'subtitle 5',
+        title: 'Fast Code Writer',
+        subtitle: 'write code in user friendly way, does not care about time Complexity, solve the problem wisely, and know the way to get things done quickly.',
       };
     case 'UIRC':
       return {
         Icon: UIRC,
-        title: 'title 6',
-        subtitle: 'subtitle 6',
+        title: 'Why so serious about code?',
+        subtitle: 'write code in user friendly way, does not care about time Complexity, solve the problem wisely, and carefully.',
       };
     case 'UITJ':
       return {
         Icon: UITJ,
-        title: 'title 7',
-        subtitle: 'subtitle 7',
+        title: 'Write. Or write not. There is no think.',
+        subtitle: 'write code in user friendly way, does not care about time Complexity, solve the problem honestly, and know the way to get things done quickly.',
       };
     case 'UITC':
       return {
         Icon: UITC,
-        title: 'title 8',
-        subtitle: 'subtitle 8',
+        title: 'Code Sniper',
+        subtitle: 'write code in user friendly way, does not care about time Complexity, solve the problem honestly, and carefully.',
       };
     case 'MTRJ':
       return {
         Icon: MTRJ,
-        title: 'Cyborg',
+        title: 'I code like Cyborg',
         subtitle:
-          'write code in machine friendly way, care about Time complexity, solve the problem wisely and know the way to get things done quickly.',
+          'write code in machine friendly way, care about time Complexity, solve the problem wisely and know the way to get things done quickly.',
       };
     case 'MTRC':
       return {
         Icon: MTRC,
-        title: 'Ice Man',
+        title: 'I code like Ice Man',
         subtitle:
-          'write code in machine friendly way, care about Time complexity, solve the problem wisely, and carefully.',
+          'write code in machine friendly way, care about time Complexity, solve the problem wisely, and carefully.',
       };
     case 'MTTJ':
       return {
         Icon: MTTJ,
-        title: 'Orange Man',
+        title: "I'm code devourer",
         subtitle:
-          'write code in machine friendly way, care about Time complexity, solve the problem honestly and know the way to get things done quickly.',
+          'write code in machine friendly way, care about time Complexity, solve the problem honestly and know the way to get things done quickly.',
       };
     case 'MTTC':
       return {
         Icon: MTTC,
-        title: 'Matrix Man',
+        title: 'I code like NEO.',
         subtitle:
-          'write code in machine friendly way, care about Time complexity, solve the problem honestly and carefully.',
+          'write code in machine friendly way, care about time Complexity, solve the problem honestly and carefully.',
       };
     case 'MIRJ':
       return {
         Icon: MIRJ,
-        title: 'Iron Man',
+        title: 'I code like Iron Man',
         subtitle:
-          'write code in machine friendly way, does not care about Time complexity, solve the problem wisely and know the way to get things done quickly.',
+          'write code in machine friendly way, does not care about time Complexity, solve the problem wisely and know the way to get things done quickly.',
       };
     case 'MIRC':
       return {
         Icon: MIRC,
-        title: 'Robot',
+        title: 'I code like Robot',
         subtitle:
-          'write code in machine friendly way, does not care about Time complexity, solve the problem wisely and carefully',
+          'write code in machine friendly way, does not care about time Complexity, solve the problem wisely and carefully',
       };
     case 'MITJ':
       return {
         Icon: MITJ,
-        title: 'Tin woodcutter',
+        title: 'I code like Soldier',
         subtitle:
-          'write code in machine friendly way, does not care about Time complexity, solve the problem honestly and know the way to get things done quickly.',
+          'write code in machine friendly way, does not care about time Complexity, solve the problem honestly and know the way to get things done quickly.',
       };
     case 'MITC':
       return {
         Icon: MITC,
-        title: 'Soldier',
+        title: 'Write Code, Run! Write more code, Run!',
         subtitle:
-          'write code in machine friendly way, does not care about Time complexity, solve the problem honestly and carefully.',
+          'write code in machine friendly way, does not care about time Complexity, solve the problem honestly and carefully.',
       };
     default:
       return {
         Icon: MITC,
-        title: 'title 16',
-        subtitle: 'subtitle 16',
+        title: 'I code like Soldier',
+        subtitle: 'write code in machine friendly way, does not care about time Complexity, solve the problem honestly and know the way to get things done quickly.',
       };
   }
 };
@@ -191,7 +191,9 @@ export default function TypeInfo(props) {
         <br />
         {type}
         <br />
+        <br />
         {title}
+        <br />
         <br />
         {subtitle}
       </Box>

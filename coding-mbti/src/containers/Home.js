@@ -89,16 +89,24 @@ class Home extends Component {
               </Typography>
               <div className={classes.Buttons}>
                 <Grid container spacing={2} justify="center">
-                  <Grid item>
-                    <Button variant="contained" color="primary" href="/signin/">
-                      Sign in
-                    </Button>
-                  </Grid>
-                  <Grid item>
-                    <Button variant="outlined" color="primary" href="/signup/">
-                      Sign up
-                    </Button>
-                  </Grid>
+                  {
+                    user.username !== null ?
+                      null :
+                      (
+                        <>
+                          <Grid item>
+                            <Button variant="contained" color="primary" href="/signin/">
+                              Sign in
+                            </Button>
+                          </Grid>
+                          <Grid item>
+                            <Button variant="outlined" color="primary" href="/signup/">
+                              Sign up
+                            </Button>
+                          </Grid>
+                        </>
+                      )
+                  }
                   {/* <Grid item>
                     <Button
                       variant="outlined"

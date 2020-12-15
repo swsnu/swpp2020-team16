@@ -122,11 +122,6 @@ export default function OtherSolutionsTable(props) {
           ))}
         </TableBody>
       </Table>
-      {/* <div className={classes.seeMore}>
-        <Link color="primary" href="/" className="seeMore">
-          See more
-        </Link>
-      </div> */}
     </>
   );
 }

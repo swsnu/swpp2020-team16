@@ -48,9 +48,7 @@ describe('<otherSolutionsTable/>', () => {
 
   it('should turn off modal when anywhere is clicked', () => {
     const component = shallow(otherSolutionsTable);
-    let wrapper = component.find('.titleRow').at(0);
-    wrapper.simulate('click');
-    wrapper = component.find('.seeMore');
+    const wrapper = component.find('.titleRow').at(0);
     wrapper.simulate('click');
   });
 });

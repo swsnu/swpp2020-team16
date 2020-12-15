@@ -19,6 +19,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { useAlert } from 'react-alert';
 
 /* Components */
 import GroupCreate from './GroupCreate';
@@ -78,6 +79,7 @@ const emptyRowContent = [
 export default function GroupList(props) {
   const classes = useStyles();
   const history = useHistory();
+  const alert = useAlert();
 
   const {
     groups, createGroup, deleteGroup, error, isManager
@@ -143,7 +145,14 @@ export default function GroupList(props) {
                         width: 80,
                         height: 80,
                       }}
-                      onClick={() => { deleteGroup(groups[group].id); }}
+                      onClick={() => {
+                        if (isManager) {
+                          deleteGroup(groups[group].id);
+                          alert.show('group is deleted.');
+                        } else {
+                          alert.show('Only manager can delete groups.');
+                        }
+                      }}
                     >
                       <DeleteForeverIcon />
                     </IconButton>

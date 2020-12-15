@@ -11,9 +11,12 @@ import PeopleIcon from '@material-ui/icons/People';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/styles';
 import { Redirect } from 'react-router';
+
 import BarSingleDiagram from '../components/BarSingleDiagram';
 import RadarDiagram from '../components/RadarDiagram';
 import TypeInfo from '../components/TypeInfo';
+
+import Types from './Types';
 
 import { readMyReport } from '../feature/report/reportSlice';
 
@@ -138,31 +141,7 @@ class MyTestResult extends Component {
               Analysis Result
             </Typography>
           </Grid>
-          <Grid container spacing={4} align="center">
-            <Grid item xs={2} />
-            <Grid item xs={4}>
-              <Paper className={classes.box}>
-                <TypeInfo type={myStyleStr} />
-              </Paper>
-            </Grid>
-            <Grid item xs={4}>
-              <Paper className={classes.box}>
-                <RadarDiagram
-                  analysisData={[
-                    uProb * 100,
-                    cProb * 100,
-                    t1Prob * 100,
-                    rProb * 100,
-                    mProb * 100,
-                    jProb * 100,
-                    iProb * 100,
-                    t2Prob * 100,
-                  ]}
-                />
-              </Paper>
-            </Grid>
-            <Grid item xs={2} />
-          </Grid>
+          <Types style={myStyleStr} />
           <Grid item xs={12}>
             <Typography
               component="h2"
@@ -174,7 +153,22 @@ class MyTestResult extends Component {
               Thorough Analysis Based On Each Measure
             </Typography>
           </Grid>
-
+          <Grid item xs={12}>
+            <Paper className={classes.box}>
+              <RadarDiagram
+                analysisData={[
+                  uProb * 100,
+                  cProb * 100,
+                  t1Prob * 100,
+                  rProb * 100,
+                  mProb * 100,
+                  jProb * 100,
+                  iProb * 100,
+                  t2Prob * 100,
+                ]}
+              />
+            </Paper>
+          </Grid>
           <Grid item xs={12}>
             <Paper>
               <Grid container>

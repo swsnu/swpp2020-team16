@@ -55,7 +55,13 @@ const styles = (theme) => ({
 class Types extends React.Component {
   render() {
     const { classes } = this.props;
-    const { style } = this.props.match.params;
+    let style;
+    if (this.props.match && this.props.match.params) {
+      style = this.props.match.params.style;
+    } else {
+      style = this.props.style;
+    }
+
     return (
       <>
         <Grid className={classes.Page} spacing={3} container>
@@ -284,6 +290,7 @@ class Types extends React.Component {
 Types.propTypes = {
   classes: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
+  style: PropTypes.object.isRequired,
 };
 
 Types.defaultProps = {};

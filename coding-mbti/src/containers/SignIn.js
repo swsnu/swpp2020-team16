@@ -50,7 +50,13 @@ class SignIn extends Component {
   render() {
     const { alert, error, classes, clearError } = this.props;
     if (this.props.user.username !== null) {
-      return <Redirect path="*" to="/beforesolve" />;
+      if (this.props.user.role === 1) {
+        return <Redirect path="*" to="/beforesolve" />;
+      }
+      if (this.props.user.role === 2) {
+        return <Redirect path="*" to="/group" />;
+      }
+      return <Redirect path="*" to="/research/api" />;
     }
 
     if (error) {

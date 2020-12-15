@@ -166,7 +166,7 @@ class Home extends Component {
                         prevState => ({ toggleImage: !prevState.toggleImage })
                       )}
                     >
-                      watch tutorial video
+                      How can you solve problems?
                     </Button>
                   </Grid>
                 </Grid>
@@ -267,17 +267,26 @@ class Home extends Component {
                       I stands for intuitive.
                       <br />
                       <br />
-                      3.
+                      3. solve like rabbit or turtle.
+                      <br />
+                      <br />
+                      &nbsp;&nbsp; When you solve problems in a clever way that might surprise other coders,
+                      you are a clever rabbit, and you earn R flag.
+                      R stands for rabbit.
+                      <br />
+                      &nbsp;&nbsp; When you solve problems in a very honest way that cares about the basic constraints of the problem,
+                      you are a turtle, and you earn T flag.
+                      T stands for turtle.
                       <br />
                       <br />
                       4. Typing code carefully or not.
                       <br />
                       <br />
                       &nbsp;&nbsp; When you spend your time more on thinking rather than typing, you earn C flag.
-                      C stands for careful.
+                      C stands for carefully typed.
                       <br />
                       &nbsp;&nbsp; When you spend your time more on typing rather than thinking, you earn J flag.
-                      J stands for junk art.
+                      J stands for just typed.
                       <br />
                       <br />
                     </Typography>
@@ -289,7 +298,7 @@ class Home extends Component {
                       className="phrase"
                     >
                       <br />
-                      please help yourself with detailed information on each types.
+                      please help yourself with detailed information on each type.
                     </Typography>
                   </Container>
                   <StyleGridComponent handleClick={(style) => {

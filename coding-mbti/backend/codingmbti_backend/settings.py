@@ -161,7 +161,7 @@ CORS_ALLOW_HEADERS = list(default_methods) + [
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
-    "http://ec2-54-236-200-4.compute-1.amazonaws.com",
+    #"http://ec2-54-236-200-4.compute-1.amazonaws.com",
     "https://codingmbti-dev.shop",
     "https://codingmbti.shop"
 ]

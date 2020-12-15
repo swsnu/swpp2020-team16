@@ -11,6 +11,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import MenuItem from '@material-ui/core/MenuItem';
+import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/styles';
 import { signUp } from '../feature/user/userSignSlice';
@@ -157,6 +158,9 @@ class SignUp extends Component {
 
   render() {
     const { classes } = this.props;
+    if (this.props.user.username !== null) {
+      return <Redirect path="*" to="/beforesolve" />;
+    }
     return (
       <>
         <Container component="main" maxWidth="xs">
@@ -284,9 +288,11 @@ class SignUp extends Component {
 SignUp.propTypes = {
   classes: PropTypes.object.isRequired,
   signUp: PropTypes.func.isRequired,
-  alert: PropTypes.object.isRequired
+  alert: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired
 };
-const mapStateToProps = () => ({
+const mapStateToProps = (state) => ({
+  user: state.user.userSignReducer,
 });
 export default connect(mapStateToProps, {
   signUp,

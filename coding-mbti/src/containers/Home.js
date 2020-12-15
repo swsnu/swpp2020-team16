@@ -107,18 +107,17 @@ class Home extends Component {
                         </>
                       )
                   }
-                  {/* <Grid item>
-                    <Button
-                      variant="outlined"
-                      color="secondary"
-                      id="getTested"
-                      onClick={this.onClickGetTested}
-                    >
-                      Get tested
-                    </Button>
-                  </Grid> */}
                 </Grid>
               </div>
+              <Typography
+                component="h1"
+                variant="h2"
+                align="center"
+                color="textPrimary"
+                gutterBottom
+              >
+                Coding MBTI
+              </Typography>
             </Container>
           </div>
           <Container className={classes.Grid} maxWidth="lg">

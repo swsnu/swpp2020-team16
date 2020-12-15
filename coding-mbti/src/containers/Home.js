@@ -40,6 +40,11 @@ const styles = (theme) => ({
     padding: theme.spacing(8, 0, 6),
     height: '450px',
   },
+  ContentFourth: {
+    backgroundColor: '#45b6fe',
+    padding: theme.spacing(8, 0, 6),
+    height: '450px',
+  },
   Buttons: {
     marginTop: theme.spacing(4),
   },
@@ -274,6 +279,17 @@ class Home extends Component {
                       &nbsp;&nbsp; When you spend your time more on typing rather than thinking, you earn J flag.
                       J stands for junk art.
                       <br />
+                      <br />
+                    </Typography>
+                    <Typography
+                      variant="h5"
+                      align="center"
+                      color="textSecondary"
+                      paragraph
+                      className="phrase"
+                    >
+                      <br />
+                      please help yourself with detailed information on each types.
                     </Typography>
                   </Container>
                   <StyleGridComponent handleClick={(style) => {
@@ -310,7 +326,39 @@ class Home extends Component {
               <Grid container spacing={2} justify="center">
                 <Grid item>
                   <Button variant="contained" color="primary" href="/signup/">
-                    Would you be a manager?
+                    Would you be our manager?
+                  </Button>
+                </Grid>
+              </Grid>
+            </div>
+          </div>
+          <div className={classes.ContentFourth}>
+            <Container maxWidth="lg">
+              <Typography
+                component="h1"
+                variant="h2"
+                align="center"
+                color="textPrimary"
+                gutterBottom
+              >
+                <br />
+                Research On Coder Behavior
+              </Typography>
+              <Typography
+                variant="h5"
+                align="center"
+                color="textSecondary"
+                paragraph
+                className="phrase"
+              >
+                We provide useful APIs for your research
+              </Typography>
+            </Container>
+            <div className={classes.Buttons}>
+              <Grid container spacing={2} justify="center">
+                <Grid item>
+                  <Button variant="contained" color="primary" href="/signup/">
+                    Would you be our researcher?
                   </Button>
                 </Grid>
               </Grid>

@@ -23,22 +23,9 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const ButtonBox = (props) => {
-  const classes = useStyles();
-  const { pid, style } = props;
-  const handleClick = () => {
-    window.location.replace(`../${pid}/${style}`);
-  };
-
-  return (
-    <Grid className={classes.box} onClick={handleClick} item xs={3}>
-      {style}
-    </Grid>
-  );
-};
-
 const StyleGrid = (props) => {
-  const { pid } = props.match.params;
+  const { handleClick } = props;
+  const classes = useStyles();
 
   const styleList = [
     'UTRJ',
@@ -59,9 +46,12 @@ const StyleGrid = (props) => {
     'MITC',
   ];
 
-  const styleBox = styleList.map((el) => (
-    <ButtonBox key={el} pid={pid} style={el} />
+  const styleBox = styleList.map((style) => (
+    <Grid key={style} className={classes.box} onClick={() => handleClick(style)} item xs={3}>
+      {style}
+    </Grid>
   ));
+
   return (
     <Grid container className="styleGrid">
       {styleBox}
@@ -71,26 +61,11 @@ const StyleGrid = (props) => {
 
 StyleGrid.propTypes = {
   pid: PropTypes.string,
-  classes: PropTypes.object.isRequired,
-  style: PropTypes.string,
-  match: PropTypes.object.isRequired,
+  handleClick: PropTypes.func.isRequired
 };
 
 StyleGrid.defaultProps = {
   pid: '1',
-  style: '1',
-};
-
-ButtonBox.propTypes = {
-  pid: PropTypes.string,
-  classes: PropTypes.object.isRequired,
-  style: PropTypes.string,
-  match: PropTypes.object.isRequired,
-};
-
-ButtonBox.defaultProps = {
-  pid: '1',
-  style: '1',
 };
 
 export default StyleGrid;

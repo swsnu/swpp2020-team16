@@ -10,8 +10,7 @@ import { withStyles } from '@material-ui/styles';
 import Container from '@material-ui/core/Container';
 
 /* Components */
-import Showprob from '../components/Showprob';
-import CodeIDE from '../components/CodeIDE';
+import codingGIF from '../components/HomeAsset/output.gif';
 
 /* REDUXs */
 import { readProblem } from '../feature/problem/problemSlice';
@@ -20,9 +19,25 @@ import { readProblemOutput } from '../feature/problem/problemOutputSlice';
 import { createSolution } from '../feature/problem/solutionSlice';
 
 const styles = (theme) => ({
-  Content: {
+  ContentTop: {
     backgroundColor: theme.palette.background.paper,
     padding: theme.spacing(8, 0, 6),
+    height: '450px',
+  },
+  ContentFirst: {
+    backgroundColor: '#d0efff',
+    padding: theme.spacing(8, 0, 6),
+    height: '450px',
+  },
+  ContentSecond: {
+    backgroundColor: '#b5e2ff',
+    padding: theme.spacing(8, 0, 6),
+    height: '450px',
+  },
+  ContentThird: {
+    backgroundColor: '#8fd3fe',
+    padding: theme.spacing(8, 0, 6),
+    height: '450px',
   },
   Buttons: {
     marginTop: theme.spacing(4),
@@ -42,6 +57,7 @@ class Home extends Component {
     super(props);
     this.state = {
       ready: false,
+      toggleImage: false,
     };
   }
 
@@ -63,11 +79,11 @@ class Home extends Component {
 
   render() {
     if (!this.state.ready) return null;
-    const { user, problem, classes, problemInput, problemOutput } = this.props;
+    const { user, classes } = this.props;
     return (
       <>
         <main>
-          <div className={classes.Content}>
+          <div className={classes.ContentTop}>
             <Container maxWidth="lg">
               <Typography
                 component="h1"
@@ -76,6 +92,7 @@ class Home extends Component {
                 color="textPrimary"
                 gutterBottom
               >
+                <br />
                 Coding MBTI
               </Typography>
               <Typography
@@ -109,6 +126,10 @@ class Home extends Component {
                   }
                 </Grid>
               </div>
+            </Container>
+          </div>
+          <div className={classes.ContentFirst}>
+            <Container maxWidth="lg">
               <Typography
                 component="h1"
                 variant="h2"
@@ -116,30 +137,127 @@ class Home extends Component {
                 color="textPrimary"
                 gutterBottom
               >
-                Coding MBTI
+                <br />
+                Solve Problems
               </Typography>
+              <Typography
+                variant="h5"
+                align="center"
+                color="textSecondary"
+                paragraph
+                className="phrase"
+              >
+                Problems will be easy and short
+              </Typography>
+              <div className={classes.Buttons}>
+                <Grid container spacing={2} justify="center">
+                  {
+                    user.username !== null ?
+                      null :
+                      (
+                        <>
+                          <Grid item>
+                            <Button
+                              variant="contained"
+                              color="primary"
+                              onClick={() => this.setState(
+                                prevState => ({ toggleImage: !prevState.toggleImage })
+                              )}
+                            >
+                              watch tutorial video
+                            </Button>
+                          </Grid>
+                        </>
+                      )
+                  }
+                </Grid>
+              </div>
             </Container>
           </div>
-          <Container className={classes.Grid} maxWidth="lg">
-            <Grid container spacing={4} />
-          </Container>
-          <Container maxWidth="lg">
-            <Showprob
-              title={problem.title}
-              content={problem.desc}
-              input={problem.input_desc}
-              output={problem.output_desc}
-            />
-          </Container>
-          <Container maxWidth="lg">
-            <CodeIDE
-              signedIn={!!user.username}
-              pid={HOME_PROBLEM_ID}
-              handleSubmit={this.handleSubmit}
-              problemInputs={problemInput.content}
-              problemOutputs={problemOutput.content}
-            />
-          </Container>
+          {
+            this.state.toggleImage ? <img src={codingGIF} alt="loading..." /> : null
+          }
+          <div className={classes.ContentSecond}>
+            <Container maxWidth="lg">
+              <Typography
+                component="h1"
+                variant="h2"
+                align="center"
+                color="textPrimary"
+                gutterBottom
+              >
+                <br />
+                Get Analysis On Yourself
+              </Typography>
+              <Typography
+                variant="h5"
+                align="center"
+                color="textSecondary"
+                paragraph
+                className="phrase"
+              >
+                You will be classified into one of 16 types
+              </Typography>
+              <div className={classes.Buttons}>
+                <Grid container spacing={2} justify="center">
+                  {
+                    user.username !== null ?
+                      null :
+                      (
+                        <>
+                          <Grid item>
+                            <Button variant="contained" color="primary" href="/types/">
+                              What are 16 types?
+                            </Button>
+                          </Grid>
+                        </>
+                      )
+                  }
+                </Grid>
+              </div>
+            </Container>
+          </div>
+          <div className={classes.ContentThird}>
+            <Container maxWidth="lg">
+              <Typography
+                component="h1"
+                variant="h2"
+                align="center"
+                color="textPrimary"
+                gutterBottom
+              >
+                <br />
+                Manage Your Coders
+              </Typography>
+              <Typography
+                variant="h5"
+                align="center"
+                color="textSecondary"
+                paragraph
+                className="phrase"
+              >
+                <br />
+                You can manage a team of coders
+              </Typography>
+            </Container>
+            <div className={classes.Buttons}>
+              <Grid container spacing={2} justify="center">
+                {
+                  user.username !== null ?
+                    null :
+                    (
+                      <>
+                        <Grid item>
+                          <Button variant="contained" color="primary" href="/signup/">
+                            Would you be a manager?
+                          </Button>
+                        </Grid>
+                      </>
+                    )
+                }
+              </Grid>
+            </div>
+          </div>
         </main>
       </>
     );

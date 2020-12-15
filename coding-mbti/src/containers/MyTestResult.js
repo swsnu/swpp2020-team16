@@ -63,8 +63,11 @@ class MyTestResult extends Component {
 
   // eslint-disable-next-line class-methods-use-this
   onClickShare(str) {
-    navigator.clipboard.writeText(`https://codingmbti-dev.shop/types/${str}/`);
-    window.alert('URL has been copied to clipboard');
+    navigator.clipboard.writeText(`https://codingmbti-dev.shop/types/${str}/`).then(() => {
+      window.alert('URL has been copied to clipboard');
+    }, (err) => {
+      window.alert('URL has not been copied to clipboard');
+    });
   }
 
   render() {

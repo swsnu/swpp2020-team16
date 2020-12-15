@@ -286,7 +286,8 @@ class SignUp extends Component {
 SignUp.propTypes = {
   classes: PropTypes.object.isRequired,
   signUp: PropTypes.func.isRequired,
-  alert: PropTypes.object.isRequired
+  alert: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
 };
 const mapStateToProps = (state) => ({
   user: state.user.userSignReducer,

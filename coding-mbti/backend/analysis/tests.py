@@ -1,8 +1,8 @@
 from django.test import TestCase, Client
 from user.models import User
 from problem.models import Problem, Solution
-from analysis.models import SolutionReport
-from user.models import User, Coder, CodingStyle
+from analysis.models import SolutionReport, GlobalReport
+from user.models import User, Coder, CodingStyle, Researcher
 from utils.utils import to_dict
 
 import json
@@ -471,3 +471,32 @@ class AnalysisTestCase(TestCase):
         response = client.put(f"/api/analysis/other/{user_id}/solutions/", {})
 
         self.assertEqual(response.status_code, 405)
+
+    def test_report_view(self):
+        client = Client()
+
+        user = User.objects.create_user(
+            username="test", password="123", email="test@test.com", salt="123", role=User.Role.Manager)
+        researcher = Researcher(user=user)
+        researcher.save()
+
+        client.login(username="test", password="123")
+
+        CodingStyle(style=1, UM_value=1.0, TI_value=1.0,
+                    EF_value=1.0, JC_value=1.0).save()
+        CodingStyle(style=2, UM_value=1.0, TI_value=1.0,
+                    EF_value=1.0, JC_value=1.0).save()
+        CodingStyle(style=3, UM_value=1.0, TI_value=1.0,
+                    EF_value=1.0, JC_value=1.0).save()
+        CodingStyle(style=4, UM_value=1.0, TI_value=1.0,
+                    EF_value=1.0, JC_value=1.0).save()
+        CodingStyle(style=5, UM_value=1.0, TI_value=1.0,
+                    EF_value=1.0, JC_value=1.0).save()
+
+        response = client.post("/api/analysis/global/report/", json.dumps(
+            {"title": "test", "content": "For test"}), content_type="application/json")
+
+        self.assertEqual(response.status_code, 201)
+
+        self.assertEqual(GlobalReport.objects.all().first().to_dict(), {'distribution': {
+                         'UM': 1.0, 'TI': 0.8, 'RT': 1.0, 'JC': 0.6}, 'title': 'test', 'author': 16, 'content': 'For test'})

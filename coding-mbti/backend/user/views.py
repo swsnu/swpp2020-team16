@@ -23,6 +23,7 @@ def signin(request):
             req_data = json.loads(request.body.decode())
             username = req_data['username']
             password = req_data['password']
+
         except (KeyError, JSONDecodeError) as error:
             return HttpResponseBadRequest(error)
 

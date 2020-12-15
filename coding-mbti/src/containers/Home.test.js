@@ -43,7 +43,7 @@ describe('<Home/>', () => {
   it('should render without any error', () => {
     const component = mount(home);
     const wrapper = component.find(Container);
-    expect(wrapper.length).toBe(4);
+    expect(wrapper.length).toBe(5);
   });
 
   it('should be directed to test page when user click Gettest button', () => {

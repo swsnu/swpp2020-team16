@@ -4,7 +4,10 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import './App.css';
 import PropTypes from 'prop-types';
 
-import StyleGrid from './components/StyleGrid';
+/* HOC */
+import AuthRoute from './HOC/AuthRoute';
+
+/* Containers */
 import OtherSolution from './containers/OtherSolutions';
 import UserRelations from './containers/UserRelations';
 import SignIn from './containers/SignIn';
@@ -13,17 +16,19 @@ import Check from './containers/Check';
 import Home from './containers/Home';
 import MyTestResult from './containers/MyTestResult';
 import ResearchAPI from './containers/ResearchAPI';
-import AuthRoute from './HOC/AuthRoute';
-import Group from './containers/Group/Group';
-import Navbar from './components/Navbar';
-import Footer from './components/Footer';
 import GroupDetail from './containers/Group/GroupDetail';
 import LoggedInHome from './containers/LoggedInHome';
 import Invitation from './containers/Invitation/Invitation';
 import BeforeSolve from './containers/BeforeSolve';
 import Message from './containers/Message';
+import Group from './containers/Group/Group';
+import StyleGrid from './containers/StyleGrid';
+
+/* Components */
+import Navbar from './components/Navbar';
+import Footer from './components/Footer';
 import NotFound from './components/NotFound';
-import Types from './containers/Types';
+import GlobalReportMain from './containers/Research/GlobalReportMain';
 
 function App(props) {
   const { history } = props;
@@ -74,6 +79,7 @@ function App(props) {
         <AuthRoute exact path="/invitation">
           <Invitation />
         </AuthRoute>
+        <AuthRoute exact path="/researcher" component={GlobalReportMain} />
         <Route
           exact
           path="/group/detail/:groupId"

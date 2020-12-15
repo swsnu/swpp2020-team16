@@ -10,19 +10,40 @@ import { withStyles } from '@material-ui/styles';
 import Container from '@material-ui/core/Container';
 
 /* Components */
-import Showprob from '../components/Showprob';
-import CodeIDE from '../components/CodeIDE';
+import codingGIF from '../components/HomeAsset/output.gif';
 
 /* REDUXs */
 import { readProblem } from '../feature/problem/problemSlice';
 import { readProblemInput } from '../feature/problem/problemInputSlice';
 import { readProblemOutput } from '../feature/problem/problemOutputSlice';
 import { createSolution } from '../feature/problem/solutionSlice';
+import StyleGridComponent from '../components/StyleGrid';
 
 const styles = (theme) => ({
-  Content: {
+  ContentTop: {
     backgroundColor: theme.palette.background.paper,
     padding: theme.spacing(8, 0, 6),
+    height: '450px',
+  },
+  ContentFirst: {
+    backgroundColor: '#d0efff',
+    padding: theme.spacing(8, 0, 6),
+    height: '450px',
+  },
+  ContentSecond: {
+    backgroundColor: '#b5e2ff',
+    padding: theme.spacing(8, 0, 6),
+    height: '450px',
+  },
+  ContentThird: {
+    backgroundColor: '#8fd3fe',
+    padding: theme.spacing(8, 0, 6),
+    height: '450px',
+  },
+  ContentFourth: {
+    backgroundColor: '#45b6fe',
+    padding: theme.spacing(8, 0, 6),
+    height: '450px',
   },
   Buttons: {
     marginTop: theme.spacing(4),
@@ -42,6 +63,8 @@ class Home extends Component {
     super(props);
     this.state = {
       ready: false,
+      toggleImage: false,
+      toggleTypes: false,
     };
   }
 
@@ -63,11 +86,11 @@ class Home extends Component {
 
   render() {
     if (!this.state.ready) return null;
-    const { user, problem, classes, problemInput, problemOutput } = this.props;
+    const { user, classes } = this.props;
     return (
       <>
         <main>
-          <div className={classes.Content}>
+          <div className={classes.ContentTop}>
             <Container maxWidth="lg">
               <Typography
                 component="h1"
@@ -76,6 +99,7 @@ class Home extends Component {
                 color="textPrimary"
                 gutterBottom
               >
+                <br />
                 Coding MBTI
               </Typography>
               <Typography
@@ -107,40 +131,239 @@ class Home extends Component {
                         </>
                       )
                   }
-                  {/* <Grid item>
-                    <Button
-                      variant="outlined"
-                      color="secondary"
-                      id="getTested"
-                      onClick={this.onClickGetTested}
-                    >
-                      Get tested
-                    </Button>
-                  </Grid> */}
                 </Grid>
               </div>
             </Container>
           </div>
-          <Container className={classes.Grid} maxWidth="lg">
-            <Grid container spacing={4} />
-          </Container>
-          <Container maxWidth="lg">
-            <Showprob
-              title={problem.title}
-              content={problem.desc}
-              input={problem.input_desc}
-              output={problem.output_desc}
-            />
-          </Container>
-          <Container maxWidth="lg">
-            <CodeIDE
-              signedIn={!!user.username}
-              pid={HOME_PROBLEM_ID}
-              handleSubmit={this.handleSubmit}
-              problemInputs={problemInput.content}
-              problemOutputs={problemOutput.content}
-            />
-          </Container>
+          <div className={classes.ContentFirst}>
+            <Container maxWidth="lg">
+              <Typography
+                component="h1"
+                variant="h2"
+                align="center"
+                color="textPrimary"
+                gutterBottom
+              >
+                <br />
+                Solve Problems
+              </Typography>
+              <Typography
+                variant="h5"
+                align="center"
+                color="textSecondary"
+                paragraph
+                className="phrase"
+              >
+                Problems will be easy and short
+              </Typography>
+              <div className={classes.Buttons}>
+                <Grid container spacing={2} justify="center">
+                  <Grid item>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={() => this.setState(
+                        prevState => ({ toggleImage: !prevState.toggleImage })
+                      )}
+                    >
+                      watch tutorial video
+                    </Button>
+                  </Grid>
+                </Grid>
+              </div>
+            </Container>
+          </div>
+          {
+            this.state.toggleImage ? <img src={codingGIF} alt="loading..." /> : null
+          }
+          <div className={classes.ContentSecond}>
+            <Container maxWidth="lg">
+              <Typography
+                component="h1"
+                variant="h2"
+                align="center"
+                color="textPrimary"
+                gutterBottom
+              >
+                <br />
+                Get Analysis On Yourself
+              </Typography>
+              <Typography
+                variant="h5"
+                align="center"
+                color="textSecondary"
+                paragraph
+                className="phrase"
+              >
+                You will be classified into one of 16 types
+              </Typography>
+              <div className={classes.Buttons}>
+                <Grid container spacing={2} justify="center">
+                  <Grid item>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={() => this.setState(
+                        prevState => ({ toggleTypes: !prevState.toggleTypes })
+                      )}
+                    >
+                      What are 16 types?
+                    </Button>
+                  </Grid>
+                </Grid>
+              </div>
+            </Container>
+          </div>
+          {
+            this.state.toggleTypes ?
+              (
+                <>
+                  <Container>
+                    <Typography
+                      component="h1"
+                      variant="h2"
+                      align="center"
+                      color="textPrimary"
+                      gutterBottom
+                    >
+                      <br />
+                      16 types
+                    </Typography>
+                    <Typography
+                      variant="h5"
+                      align="center"
+                      color="textSecondary"
+                      paragraph
+                      className="phrase"
+                    >
+                      <br />
+                      We classify your coding habit based on our 4 criteria.
+                    </Typography>
+                    <Typography
+                      variant="h5"
+                      align="left"
+                      color="textSecondary"
+                      paragraph
+                      className="phrase"
+                    >
+                      <br />
+                      1. machine friendly or user friendly.
+                      <br />
+                      <br />
+                      &nbsp;&nbsp; When your code is machine friendly, you earn M flag.
+                      M stands for machine friendliness.
+                      <br />
+                      &nbsp;&nbsp; When your code is user friendly, you earn U flag.
+                      U stands for user friendliness.
+                      <br />
+                      <br />
+                      2. caring about time complexity or not.
+                      <br />
+                      <br />
+                      &nbsp;&nbsp; When you care about time complexity, you earn T flag.
+                      T stands for time complexity.
+                      <br />
+                      &nbsp;&nbsp; When you don&apos;t much care about time complexity, you earn I flag.
+                      I stands for intuitive.
+                      <br />
+                      <br />
+                      3.
+                      <br />
+                      <br />
+                      4. Typing code carefully or not.
+                      <br />
+                      <br />
+                      &nbsp;&nbsp; When you spend your time more on thinking rather than typing, you earn C flag.
+                      C stands for careful.
+                      <br />
+                      &nbsp;&nbsp; When you spend your time more on typing rather than thinking, you earn J flag.
+                      J stands for junk art.
+                      <br />
+                      <br />
+                    </Typography>
+                    <Typography
+                      variant="h5"
+                      align="center"
+                      color="textSecondary"
+                      paragraph
+                      className="phrase"
+                    >
+                      <br />
+                      please help yourself with detailed information on each types.
+                    </Typography>
+                  </Container>
+                  <StyleGridComponent handleClick={(style) => {
+                    window.location.replace(`types/${style}`);
+                  }}
+                  />
+                </>
+              )
+              : null
+          }
+          <div className={classes.ContentThird}>
+            <Container maxWidth="lg">
+              <Typography
+                component="h1"
+                variant="h2"
+                align="center"
+                color="textPrimary"
+                gutterBottom
+              >
+                <br />
+                Manage Your Coders
+              </Typography>
+              <Typography
+                variant="h5"
+                align="center"
+                color="textSecondary"
+                paragraph
+                className="phrase"
+              >
+                You can manage a team of coders
+              </Typography>
+            </Container>
+            <div className={classes.Buttons}>
+              <Grid container spacing={2} justify="center">
+                <Grid item>
+                  <Button variant="contained" color="primary" href="/signup/">
+                    Would you be our manager?
+                  </Button>
+                </Grid>
+              </Grid>
+            </div>
+          </div>
+          <div className={classes.ContentFourth}>
+            <Container maxWidth="lg">
+              <Typography
+                component="h1"
+                variant="h2"
+                align="center"
+                color="textPrimary"
+                gutterBottom
+              >
+                <br />
+                Research On Coder Behavior
+              </Typography>
+              <Typography
+                variant="h5"
+                align="center"
+                color="textSecondary"
+                paragraph
+                className="phrase"
+              >
+                We provide useful APIs for your research
+              </Typography>
+            </Container>
+            <div className={classes.Buttons}>
+              <Grid container spacing={2} justify="center">
+                <Grid item>
+                  <Button variant="contained" color="primary" href="/signup/">
+                    Would you be our researcher?
+                  </Button>
+                </Grid>
+              </Grid>
+            </div>
+          </div>
         </main>
       </>
     );

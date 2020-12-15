@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core';
 import { transitions, positions, Provider as AlertProvider } from 'react-alert';
 import AlertTemplate from 'react-alert-template-basic';
+import Container from '@material-ui/core/Container';
 import Home from './Home';
 import configureStore from '../configureStore';
 import * as utils from '../components/brython/utils';
@@ -41,8 +42,8 @@ describe('<Home/>', () => {
 
   it('should render without any error', () => {
     const component = mount(home);
-    const wrapper = component.find('.phrase');
-    expect(wrapper.length).toBe(3);
+    const wrapper = component.find(Container);
+    expect(wrapper.length).toBe(5);
   });
 
   it('should be directed to test page when user click Gettest button', () => {

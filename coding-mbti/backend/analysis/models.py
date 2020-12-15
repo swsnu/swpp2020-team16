@@ -5,9 +5,10 @@ import numpy as np
 from django.db import models
 from django.conf import settings
 from django_extensions.db.models import TimeStampedModel
-from user.models import User
+from user.models import User, CodingStyle
 from problem.models import Problem
 from group.models import Group
+from utils.utils import to_dict
 
 
 def get_inference(code, pid):
@@ -79,6 +80,18 @@ class Distribution(models.Model):
     RT = models.FloatField()
     JC = models.FloatField()
 
+    def save(self):
+        self.UM, self.TI, self.RT, self.JC = CodingStyle.objects.calculate_distribution()
+        super(Distribution, self).save()
+
+    def to_dict(self):
+        return {
+            "UM": self.UM,
+            "TI": self.TI,
+            "RT": self.RT,
+            "JC": self.JC
+        }
+
 
 class DistributionReport(Report):
     distribution = models.ForeignKey(Distribution, on_delete=models.CASCADE)
@@ -88,7 +101,21 @@ class DistributionReport(Report):
 
 
 class GlobalReport(DistributionReport):
-    pass
+    def save(self):
+        self.status = Report.ReportStatus.READY
+        self.distribution = Distribution()
+        self.distribution.save()
+        super(GlobalReport, self).save()
+
+    def to_dict(self):
+        return {
+            "id": self.pk,
+            "distribution": to_dict(self.distribution),
+            "title": self.title,
+            "author": self.author.pk,
+            "content": self.content,
+            "created_time": self.created,
+        }
 
 
 class GroupReport(DistributionReport):

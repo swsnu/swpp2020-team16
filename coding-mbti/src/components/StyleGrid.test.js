@@ -23,10 +23,4 @@ describe('<StyleGrid/>', () => {
     const wrapper = component.find('.styleGrid');
     expect(wrapper.length).toBe(3);
   });
-
-  it('should be pushed to each solutions of style page when button clicked', () => {
-    const component = mount(styleGrid);
-    const wrapper = component.find('ButtonBox').at(0);
-    wrapper.simulate('click');
-  });
 });

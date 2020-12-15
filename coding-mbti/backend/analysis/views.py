@@ -2,10 +2,13 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import permission_classes
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseNotAllowed, JsonResponse
 from django.core.exceptions import ObjectDoesNotExist
+import json
 
-from user.models import Coder
+from user.models import Coder, Researcher
 from problem.models import Solution
-from analysis.models import SolutionReport, UserReport
+from analysis.models import SolutionReport, UserReport, GlobalReport, Distribution
+
+from utils.utils import get_dicts_with_filter
 
 
 @permission_classes((IsAuthenticated, ))
@@ -118,3 +121,30 @@ def get_coders_by_style(request, style=""):
             return HttpResponseBadRequest(error)
     else:
         return HttpResponseNotAllowed(['GET'])
+
+
+@permission_classes((IsAuthenticated, ))
+def global_report_view(request):
+    if request.method == 'GET':
+        try:
+            researcher = Researcher.objects.get(user=request.user)
+            reports = get_dicts_with_filter(
+                GlobalReport.objects, author=request.user)
+            return JsonResponse(reports, safe=False)
+        except ObjectDoesNotExist as error:
+            return HttpResponseBadRequest(error)
+    elif request.method == 'POST':
+        try:
+            researcher = Researcher.objects.get(user=request.user)
+            req_data = json.loads(request.body.decode())
+            title = req_data['title']
+            content = req_data['content']
+
+            report = GlobalReport(author=request.user, title=title,
+                                  content=content)
+            report.save()
+            return HttpResponse(status=201)
+        except ObjectDoesNotExist as error:
+            return HttpResponseBadRequest(error)
+    else:
+        return HttpResponseNotAllowed(['GET', 'POST'])

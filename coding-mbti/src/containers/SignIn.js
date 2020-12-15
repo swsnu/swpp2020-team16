@@ -104,11 +104,7 @@ class SignIn extends Component {
                 Sign In
               </Button>
               <Grid container>
-                <Grid item xs>
-                  <Link href="/" variant="body2">
-                    Forgot password?
-                  </Link>
-                </Grid>
+                <Grid item xs />
                 <Grid item>
                   <Link href="/signup/" variant="body2">
                     Do not have an account? Sign Up

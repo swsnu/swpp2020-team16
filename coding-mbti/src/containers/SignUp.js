@@ -151,7 +151,9 @@ class SignUp extends Component {
       });
     } catch (error) {
       this.props.alert.show(error.message);
+      return;
     }
+    window.location.replace('/signin');
   }
 
   render() {
@@ -287,7 +289,7 @@ SignUp.propTypes = {
   classes: PropTypes.object.isRequired,
   signUp: PropTypes.func.isRequired,
   alert: PropTypes.object.isRequired,
-  user: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired
 };
 const mapStateToProps = (state) => ({
   user: state.user.userSignReducer,

@@ -39,7 +39,6 @@ class Invitation(models.Model):
     def accept(self, user):
         if self.receiver.user != user:
             raise PermissionDenied()
-
         self.receiver.group = self.group
         self.receiver.save()
 

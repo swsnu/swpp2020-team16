@@ -6,7 +6,6 @@ import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
-import AssignmentIcon from '@material-ui/icons/Assignment';
 import RecordVoiceOverIcon from '@material-ui/icons/RecordVoiceOver';
 import SupervisedUserCircleIcon from '@material-ui/icons/SupervisedUserCircle';
 import Grid from '@material-ui/core/Grid';
@@ -36,10 +35,10 @@ export default class GroupDetailNavbar extends Component {
         >
           <BottomNavigationAction label="Group Create" value="groupCreate" icon={<SupervisedUserCircleIcon />} />
           <BottomNavigationAction label="Group Delete" value="groupDelete" icon={<DeleteForeverIcon />} />
-          <BottomNavigationAction label="Group Test" value="groupTest" icon={<AssignmentIcon />} />
           <BottomNavigationAction label="Group Relations" value="groupRelations" icon={<RecordVoiceOverIcon />} />
           <BottomNavigationAction label="Add User" value="inviteUser" icon={<PersonAddIcon />} />
         </BottomNavigation>
+        <div style={{ height: '25px' }} />
         {
           this.state.value === 'groupCreate' ? (
             <Grid container direction="row" justify="center" alignItems="center" textAlign="center">
@@ -69,21 +68,6 @@ export default class GroupDetailNavbar extends Component {
           )
             : null
         }
-        {/* {
-          this.state.value === 'groupTest' ? (
-            <Grid container direction="row" justify="center" alignItems="center" textAlign="center">
-              <Grid item>
-                <GroupDelete
-                  groupId={groupId}
-                  deleteGroup={deleteGroup}
-                  error={error}
-                  isManager={isManager}
-                />
-              </Grid>
-            </Grid>
-          )
-            : null
-        } */}
         {/* {
           this.state.value === 'groupRelations' ? (
             <Grid container direction="row" justify="center" alignItems="center" textAlign="center">

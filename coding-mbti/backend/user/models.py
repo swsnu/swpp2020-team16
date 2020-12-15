@@ -3,6 +3,27 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Permis
 from group.models import Group
 from problem.models import Problem, Solution
 from utils.utils import to_dict, get_dicts_with_filter
+from django.db.models import Count
+
+
+class CodingStyleManager(models.Manager):
+    def calculate_distribution(self):
+        res = self.all().values('style').annotate(total=Count('style'))
+        tot = res.count()
+        UM = 0
+        TI = 0
+        EF = 0
+        JC = 0
+        for it in res:
+            if it['style'] <= 8:
+                UM += it['total']
+            if ((it['style'] - 1) // 4) % 2 == 0:
+                TI += it['total']
+            if ((it['style'] - 1) // 8) % 2 == 0:
+                EF += it['total']
+            if (it['style'] - 1) % 2 == 0:
+                JC += it['total']
+        return UM / tot, TI / tot, EF / tot, JC / tot
 
 
 class CodingStyle(models.Model):
@@ -33,6 +54,8 @@ class CodingStyle(models.Model):
     EF_value = models.FloatField()
     JC_value = models.FloatField()
 
+    objects = CodingStyleManager()
+
     def to_dict(self):
         return {
             "style": self.style,
@@ -58,7 +81,7 @@ class UserManager(BaseUserManager):
     def create_superuser(self, username, password):
         if password is None:
             raise TypeError('Superusers must have a password.')
-        user = self.create_user(username, password, 'admin@admin', '', 1)
+        user = self.create_user(username, password, '', '', 1)
         user.is_superuser = True
         user.is_staff = True
         user.save()

@@ -13,6 +13,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.authtoken.models import Token
 
 from user.models import User, Manager, Coder
+from utils.utils import get_dicts_with_filter
 
 
 @ensure_csrf_cookie
@@ -53,6 +54,10 @@ def signup(request):
             return HttpResponseBadRequest(error)
 
         try:
+            same_name = User.objects.filter(username=username).count()
+            same_email = User.objects.filter(email=email).count()
+            if same_name > 0 or same_email > 0:
+                raise IntegrityError()
             user = User.objects.create_user(
                 username=username, email=email, salt="", role=role, password=password)
             if role == User.Role.Coder:

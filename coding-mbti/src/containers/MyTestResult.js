@@ -10,6 +10,7 @@ import ZoomInIcon from '@material-ui/icons/ZoomIn';
 import PeopleIcon from '@material-ui/icons/People';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/styles';
+import { Redirect } from 'react-router';
 import BarSingleDiagram from '../components/BarSingleDiagram';
 import RadarDiagram from '../components/RadarDiagram';
 import TypeInfo from '../components/TypeInfo';
@@ -60,12 +61,18 @@ class MyTestResult extends Component {
     await this.props.readMyReport();
   }
 
+  // eslint-disable-next-line class-methods-use-this
+  onClickShare(str) {
+    navigator.clipboard.writeText(`https://coding-mbti.com/${str}/`);
+    window.alert('URL has been copied to clipboard');
+  }
+
   render() {
     const { classes, report } = this.props;
 
-    // if (report.myReport.solutions.length === 0) {
-    //  window.location.href = '../../';
-    // }
+    if (report.myReport.solutions.length === 0) {
+      window.location.replace('/');
+    }
     const myReport = report.myReport.report;
 
     const umPrediction = myReport.UM_prediction;
@@ -114,7 +121,6 @@ class MyTestResult extends Component {
       cProb = myReport.JC_probability;
       jProb = 1 - cProb;
     }
-
     return (
       <>
         <Grid container spacing={6} className={classes.total}>
@@ -372,13 +378,8 @@ class MyTestResult extends Component {
             </Grid>
             <Grid container spacing={2} justify="center">
               <Grid item>
-                <Button variant="contained" color="secondary">
+                <Button variant="contained" color="secondary" onClick={() => this.onClickShare(myStyleStr)}>
                   Share!
-                </Button>
-              </Grid>
-              <Grid item>
-                <Button variant="contained" color="primary">
-                  Explore!
                 </Button>
               </Grid>
             </Grid>

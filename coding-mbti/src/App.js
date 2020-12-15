@@ -22,6 +22,7 @@ import LoggedInHome from './containers/LoggedInHome';
 import Invitation from './containers/Invitation/Invitation';
 import BeforeSolve from './containers/BeforeSolve';
 import Message from './containers/Message';
+import NotFound from './components/NotFound';
 
 function App(props) {
   const { history } = props;
@@ -72,6 +73,7 @@ function App(props) {
           path="/group/detail/:groupId"
           render={(props) => <GroupDetail {...props} />}
         />
+        <Route path="*" exact component={NotFound} />
       </Switch>
       <Footer />
     </Router>

@@ -51,7 +51,9 @@ export const {
 } = userSlice.actions;
 
 export const signIn = (signInData) => async (dispatch) => {
-  signInData.password = CryptoJS.SHA256(signInData.password).toString();
+  if (!('email' in signInData)) {
+    signInData.password = CryptoJS.SHA256(signInData.password).toString();
+  }
   await request.get('user/token');
   try {
     const res = await request.post('/user/login/', signInData);
@@ -100,6 +102,7 @@ export const signUp = (signUpData) => async (dispatch) => {
   try {
     const res = await request.post('/user/signup/', signUpData);
     if (res.status === 409) throw new ResponseException('username or email already exists');
+    dispatch(signIn(signUpData));
   } catch (error) {
     dispatch(signUpFail(error.message));
   }

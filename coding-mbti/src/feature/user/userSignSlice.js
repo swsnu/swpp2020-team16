@@ -56,9 +56,6 @@ export const signIn = (signInData) => async (dispatch) => {
   try {
     const res = await request.post('/user/login/', signInData);
     const necessaryKeysInResponse = ['data'];
-    if (res.status === 401) {
-      throw new ResponseException('wrong username or password');
-    }
     necessaryKeysInResponse.forEach((key) => {
       if (!(key in res)) {
         throw new InvalidKeyException(`Key "${key}" does not exist.`);
@@ -77,6 +74,9 @@ export const signIn = (signInData) => async (dispatch) => {
     dispatch(signin(res.data));
     return true;
   } catch (error) {
+    if (error.response.status === 401) {
+      throw new ResponseException('wrong username or password');
+    }
     dispatch(signInFail(error.message));
     return false;
   }
@@ -84,11 +84,13 @@ export const signIn = (signInData) => async (dispatch) => {
 
 export const signOut = () => async (dispatch) => {
   try {
-    const res = await request.get('/user/logout/');
-    if (res.status === 401) throw new ResponseException('username does not exist.');
+    await request.get('/user/logout/');
     localStorage.clear();
     dispatch(signout());
   } catch (error) {
+    if (error.response.status === 401) {
+      throw new ResponseException('username does not exist.');
+    }
     return dispatch(signOutFail(error.message));
   }
   return null;
@@ -98,9 +100,11 @@ export const signUp = (signUpData) => async (dispatch) => {
   signUpData.password = CryptoJS.SHA256(signUpData.password).toString();
   await request.get('user/token');
   try {
-    const res = await request.post('/user/signup/', signUpData);
-    if (res.status === 409) throw new ResponseException('username or email already exists');
+    await request.post('/user/signup/', signUpData);
   } catch (error) {
+    if (error.response.status === 409) {
+      throw new ResponseException('username or email already exists');
+    }
     dispatch(signUpFail(error.message));
   }
 };

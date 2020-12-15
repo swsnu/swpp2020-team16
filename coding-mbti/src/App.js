@@ -23,6 +23,7 @@ import Invitation from './containers/Invitation/Invitation';
 import BeforeSolve from './containers/BeforeSolve';
 import Message from './containers/Message';
 import NotFound from './components/NotFound';
+import Types from './containers/Types';
 
 function App(props) {
   const { history } = props;
@@ -40,6 +41,11 @@ function App(props) {
           exact
           path="/check/result/:pid/:style"
           render={(props) => <OtherSolution {...props} />}
+        />
+        <Route
+          exact
+          path="/types/:style"
+          render={(props) => <Types {...props} />}
         />
         <Route
           exact

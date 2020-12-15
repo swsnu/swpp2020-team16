@@ -6,6 +6,7 @@ import Box from '@material-ui/core/Box';
 import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
+import Grid from '@material-ui/core/Grid';
 
 import { ReactComponent as UTRC } from './TypeIcons/UTRC.svg';
 import { ReactComponent as UTRJ } from './TypeIcons/UTRJ.svg';
@@ -55,49 +56,57 @@ const selectTypeIcon = function (type) {
       return {
         Icon: UTRJ,
         title: 'Great Supporter',
-        subtitle: 'write code in user friendly way, care about time Complexity, solve the problem wisely, and know the way to get things done quickly.',
+        subtitle:
+          'write code in user friendly way, care about time Complexity, solve the problem wisely, and know the way to get things done quickly.',
       };
     case 'UTRC':
       return {
         Icon: UTRC,
         title: 'Furious Teacher',
-        subtitle: 'write code in user friendly way, care about time Complexity, solve the problem wisely, and carefully.',
+        subtitle:
+          'write code in user friendly way, care about time Complexity, solve the problem wisely, and carefully.',
       };
     case 'UTTJ':
       return {
         Icon: UTTJ,
         title: 'Great Helper',
-        subtitle: 'write code in user friendly way, care about time Complexity, solve the problem honestly, and know the way to get things done quickly.',
+        subtitle:
+          'write code in user friendly way, care about time Complexity, solve the problem honestly, and know the way to get things done quickly.',
       };
     case 'UTTC':
       return {
         Icon: UTTC,
         title: 'king of clean code',
-        subtitle: 'write code in user friendly way, care about time Complexity, solve the problem honestly, and carefully.',
+        subtitle:
+          'write code in user friendly way, care about time Complexity, solve the problem honestly, and carefully.',
       };
     case 'UIRJ':
       return {
         Icon: UIRJ,
         title: 'Fast Code Writer',
-        subtitle: 'write code in user friendly way, does not care about time Complexity, solve the problem wisely, and know the way to get things done quickly.',
+        subtitle:
+          'write code in user friendly way, does not care about time Complexity, solve the problem wisely, and know the way to get things done quickly.',
       };
     case 'UIRC':
       return {
         Icon: UIRC,
         title: 'Why so serious about code?',
-        subtitle: 'write code in user friendly way, does not care about time Complexity, solve the problem wisely, and carefully.',
+        subtitle:
+          'write code in user friendly way, does not care about time Complexity, solve the problem wisely, and carefully.',
       };
     case 'UITJ':
       return {
         Icon: UITJ,
         title: 'Write. Or write not. There is no think.',
-        subtitle: 'write code in user friendly way, does not care about time Complexity, solve the problem honestly, and know the way to get things done quickly.',
+        subtitle:
+          'write code in user friendly way, does not care about time Complexity, solve the problem honestly, and know the way to get things done quickly.',
       };
     case 'UITC':
       return {
         Icon: UITC,
         title: 'Code Sniper',
-        subtitle: 'write code in user friendly way, does not care about time Complexity, solve the problem honestly, and carefully.',
+        subtitle:
+          'write code in user friendly way, does not care about time Complexity, solve the problem honestly, and carefully.',
       };
     case 'MTRJ':
       return {
@@ -159,7 +168,8 @@ const selectTypeIcon = function (type) {
       return {
         Icon: MITC,
         title: 'I code like Soldier',
-        subtitle: 'write code in machine friendly way, does not care about time Complexity, solve the problem honestly and know the way to get things done quickly.',
+        subtitle:
+          'write code in machine friendly way, does not care about time Complexity, solve the problem honestly and know the way to get things done quickly.',
       };
   }
 };
@@ -178,6 +188,15 @@ const useStyles = makeStyles((theme) => ({
       transform: 'translateY(0)',
     },
   },
+  type: {
+    fontSize: '3vw',
+  },
+  title: {
+    fontSize: '2vw',
+  },
+  subtitle: {
+    fontSize: '1.3vw',
+  },
 }));
 
 export default function TypeInfo(props) {
@@ -187,15 +206,21 @@ export default function TypeInfo(props) {
   return (
     <>
       <Box className={clsx(classes.animatedItem)}>
-        <Icon />
-        <br />
-        {type}
-        <br />
-        <br />
-        {title}
-        <br />
-        <br />
-        {subtitle}
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <Icon />
+          </Grid>
+          <Grid item className={classes.type} xs={12}>
+            <strong>{type}</strong>
+          </Grid>
+
+          <Grid item className={classes.title} xs={12}>
+            {title}
+          </Grid>
+          <Grid item className={classes.subtitle} xs={12}>
+            {subtitle}
+          </Grid>
+        </Grid>
       </Box>
     </>
   );

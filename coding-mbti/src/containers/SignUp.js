@@ -151,9 +151,7 @@ class SignUp extends Component {
       });
     } catch (error) {
       this.props.alert.show(error.message);
-      return;
     }
-    window.location.replace('/signin');
   }
 
   render() {

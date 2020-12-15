@@ -73,6 +73,6 @@ describe('App', () => {
         </ThemeProvider>
       </Provider>
     );
-    expect(wrapper.find('#output').length).toBe(2);
+    expect(wrapper.find('#output').length).toBe(0);
   });
 });

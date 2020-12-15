@@ -23,6 +23,7 @@ import Invitation from './containers/Invitation/Invitation';
 import BeforeSolve from './containers/BeforeSolve';
 import Message from './containers/Message';
 import NotFound from './components/NotFound';
+import GlobalReportMain from './containers/Research/GlobalReportMain';
 
 function App(props) {
   const { history } = props;
@@ -68,6 +69,7 @@ function App(props) {
         <AuthRoute exact path="/invitation">
           <Invitation />
         </AuthRoute>
+        <AuthRoute exact path="/researcher" component={GlobalReportMain} />
         <Route
           exact
           path="/group/detail/:groupId"

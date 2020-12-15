@@ -12,7 +12,7 @@ from rest_framework.decorators import permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authtoken.models import Token
 
-from user.models import User, Manager, Coder
+from user.models import User, Manager, Coder, Researcher
 from utils.utils import get_dicts_with_filter
 
 
@@ -23,6 +23,7 @@ def signin(request):
             req_data = json.loads(request.body.decode())
             username = req_data['username']
             password = req_data['password']
+
         except (KeyError, JSONDecodeError) as error:
             return HttpResponseBadRequest(error)
 
@@ -64,6 +65,8 @@ def signup(request):
                 Coder(user=user).save()
             elif role == User.Role.Manager:
                 Manager(user=user).save()
+            elif role == User.Role.Researcher:
+                Researcher(user=user).save()
         except IntegrityError:
             return HttpResponse(status=409)
 

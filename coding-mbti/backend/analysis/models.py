@@ -109,10 +109,12 @@ class GlobalReport(DistributionReport):
 
     def to_dict(self):
         return {
+            "id": self.pk,
             "distribution": to_dict(self.distribution),
             "title": self.title,
             "author": self.author.pk,
             "content": self.content,
+            "created_time": self.created,
         }
 
 

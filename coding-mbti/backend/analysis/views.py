@@ -128,14 +128,14 @@ def global_report_view(request):
     if request.method == 'GET':
         try:
             researcher = Researcher.objects.get(user=request.user)
-            reports = get_dicts_with_filter(GlobalReport, author=request.user)
+            reports = get_dicts_with_filter(
+                GlobalReport.objects, author=request.user)
             return JsonResponse(reports, safe=False)
         except ObjectDoesNotExist as error:
             return HttpResponseBadRequest(error)
     elif request.method == 'POST':
         try:
             researcher = Researcher.objects.get(user=request.user)
-
             req_data = json.loads(request.body.decode())
             title = req_data['title']
             content = req_data['content']

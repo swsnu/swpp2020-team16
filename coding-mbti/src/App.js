@@ -28,6 +28,7 @@ import StyleGrid from './containers/StyleGrid';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import NotFound from './components/NotFound';
+import GlobalReportMain from './containers/Research/GlobalReportMain';
 
 function App(props) {
   const { history } = props;
@@ -73,6 +74,7 @@ function App(props) {
         <AuthRoute exact path="/invitation">
           <Invitation />
         </AuthRoute>
+        <AuthRoute exact path="/researcher" component={GlobalReportMain} />
         <Route
           exact
           path="/group/detail/:groupId"

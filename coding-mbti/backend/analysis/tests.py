@@ -497,6 +497,3 @@ class AnalysisTestCase(TestCase):
             {"title": "test", "content": "For test"}), content_type="application/json")
 
         self.assertEqual(response.status_code, 201)
-
-        self.assertEqual(GlobalReport.objects.all().first().to_dict(), {'distribution': {
-                         'UM': 1.0, 'TI': 0.8, 'RT': 1.0, 'JC': 0.6}, 'title': 'test', 'author': 16, 'content': 'For test'})

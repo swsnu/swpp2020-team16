@@ -12,7 +12,7 @@ from rest_framework.decorators import permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authtoken.models import Token
 
-from user.models import User, Manager, Coder
+from user.models import User, Manager, Coder, Researcher
 from utils.utils import get_dicts_with_filter
 
 
@@ -65,6 +65,8 @@ def signup(request):
                 Coder(user=user).save()
             elif role == User.Role.Manager:
                 Manager(user=user).save()
+            elif role == User.Role.Researcher:
+                Researcher(user=user).save()
         except IntegrityError:
             return HttpResponse(status=409)
 

@@ -1,25 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  Route, Redirect
+  Route
 } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 function AuthRoute({ component: Component, ...rest }) {
   const { user } = rest;
-
   if (user.username === null) {
-    return (
-      <Route
-        {...rest}
-        exact
-        render={(props) => (
-          <Redirect
-            to={{ pathname: '/signin', state: { from: props.location } }}
-          />
-        )}
-      />
-    );
+    return window.location.replace('/signin');
   }
 
   return (

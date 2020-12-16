@@ -23,6 +23,7 @@ import BeforeSolve from './containers/BeforeSolve';
 import Message from './containers/Message';
 import Group from './containers/Group/Group';
 import StyleGrid from './containers/StyleGrid';
+import Types from './containers/Types';
 
 /* Components */
 import Navbar from './components/Navbar';

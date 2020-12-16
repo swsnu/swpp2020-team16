@@ -57,18 +57,24 @@ function SingleSolution(props) {
 }
 
 let myStyleInt = 1;
+let oppositeStyleInt = 16;
 let reportt = { title: '', style_str: 'MTTC' };
 class UserRelations extends Component {
   constructor(props) {
     super(props);
     this.state = {
       same: [],
+      opposite: [],
     };
   }
 
   componentDidMount() {
-    Promise.all([this.props.readUsersByStyle(myStyleInt)]).then((values) => {
+    Promise.all([
+      this.props.readUsersByStyle(myStyleInt),
+      this.props.readUsersByStyle(oppositeStyleInt),
+    ]).then((values) => {
       this.setState({ same: values[0] });
+      this.setState({ opposite: values[1] });
     });
   }
 

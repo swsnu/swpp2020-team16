@@ -2,6 +2,9 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import permission_classes
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseNotAllowed, JsonResponse
 from django.core.exceptions import ObjectDoesNotExist
+from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth import authenticate
+
 import json
 import hashlib
 
@@ -159,6 +162,7 @@ def global_report_view(request):
         return HttpResponseNotAllowed(['GET', 'POST'])
 
 
+@csrf_exempt
 def global_report_api_view(request):
     if request.method == 'POST':
         try:
@@ -169,12 +173,17 @@ def global_report_api_view(request):
         except (KeyError, JSONDecodeError) as error:
             return HttpResponseBadRequest(error)
 
-        user = authenciate(username=username, password=password)
+        user = authenticate(username=username, password=password)
 
         if user is None:
             return HttpResponse(status=401)
 
-        report = GlobalReport(author=request.user,
+        try:
+            researcher = Researcher.objects.get(user=user)
+        except ObjectDoesNotExist as error:
+            return HttpResponseBadRequest(error)
+
+        report = GlobalReport(author=user,
                               title="API Request", content="Auto generated")
         report.save()
 

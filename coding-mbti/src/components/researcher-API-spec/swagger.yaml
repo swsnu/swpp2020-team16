@@ -3,35 +3,49 @@ info:
   title: Researcher API
   description: API for research usage
   version: 1.0.0
-host: todoMasterBranchBackendURL
-basePath: /v1
+host: https://codingmbti.shop:8000/
 schemes:
   - https
 paths:
-  /api/blah:
-    get:
-      summary: Returns a list of users.
-      description: Optional extended description in Markdown.
+  /api/analysis/global/report/api/:
+    post:
+      summary: authenticate with username, password and return global report.
+      parameters:
+        - in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              username:
+                type: string
+                example: "raid"
+              password:
+                type: string
+                example: "1234"
       produces:
         - application/json
       responses:
         200:
-          description: OK
-  /api/foo:
-    get:
-      summary: Returns a list of users.
-      description: Optional extended description in Markdown.
-      produces:
-        - application/json
-      responses:
-        200:
-          description: OK
-  /api/slug:
-    get:
-      summary: Returns a list of users.
-      description: Optional extended description in Markdown.
-      produces:
-        - application/json
-      responses:
-        200:
-          description: OK
+          description: Distribution Report Json
+          schema:
+            type: object
+            properties:
+              title:
+                type: string
+                example: "Research API"
+              content:
+                type: string
+                example: "Auto generated"
+              distribution:
+                type: object
+                example: 
+                  UM: 0.72
+                  TI: 0.61
+                  RT: 0.42
+                  JC: 0.75
+              created_time:
+                type: date
+                example: 15-12-2020 18:59:03
+              id:
+                type: integer
+                example: 123

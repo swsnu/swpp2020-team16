@@ -49,7 +49,8 @@ class Check extends Component {
   }
 
   handleSubmit = async (pid, solution) => {
-    this.props.createSolution(pid, solution).then(window.location.reload());
+    await this.props.createSolution(pid, solution);
+    window.location.reload();
   };
 
   render() {

@@ -19,9 +19,8 @@ import BarSingleDiagram from '../components/BarSingleDiagram';
 const styles = (theme) => ({
   Page: {
     backgroundColor: 'white',
-    padding: theme.spacing(8, 12, 8),
-    spacing: 8,
     alignItems: 'center',
+    margin: 0,
   },
   Paper: {
     backgroundColor: 'lightgray',
@@ -34,9 +33,8 @@ const styles = (theme) => ({
   },
   box2: {
     padding: theme.spacing(5),
-    height: '25vw',
-    width: '25vw',
-    marginBottom: '5vw',
+    height: '80%',
+    marginBottom: '10vw',
   },
 });
 
@@ -81,6 +79,8 @@ class UserRelations extends Component {
   render() {
     const { classes } = this.props;
     myStyleInt = this.props.report.myReport.report.style_int;
+    oppositeStyleInt = 17 - myStyleInt;
+
     const { solutions, report } = this.props.report.otherReport;
     if (Object.keys(report).length !== 0) {
       reportt = report;
@@ -144,20 +144,29 @@ class UserRelations extends Component {
           <Paper align="center" className={classes.box1} elevation={3}>
             <FindCodersByStyle
               same={this.state.same}
+              opposite={this.state.opposite}
               readOtherReport={this.props.readOtherReport}
             />
           </Paper>
         </Grid>
-        <Grid container spacing={3} className="userRelations" item xs={12}>
+        <Grid container spacing={3} className={classes.Page} item xs={12}>
           <Paper elevation={12} className={classes.box1}>
             <Grid container>
               <Grid item xs={1} />
-              <Grid container spacing={3} item xs={10}>
+              <Grid
+                className="userRelations"
+                container
+                spacing={3}
+                item
+                xs={10}
+              >
                 <Grid item xs={12}>
-                  <Typography variant="h2">{reportt.title}</Typography>
+                  <Typography variant="h2">
+                    <strong>{reportt.title}</strong>
+                  </Typography>
                 </Grid>
 
-                <Grid container item xs={12}>
+                <Grid container spacing={3} item xs={12}>
                   <Grid item xs={6} align="center">
                     <Paper className={classes.box2} elevation={3}>
                       <TypeInfo type={reportt.style_str} />

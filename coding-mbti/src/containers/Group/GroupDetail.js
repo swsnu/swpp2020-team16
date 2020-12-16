@@ -64,6 +64,10 @@ class GroupDetail extends Component {
               members={members}
               deleteMember={deleteMember}
               detailMember={(userid) => {
+                if (userid === 'myself') {
+                  window.location.href = '/my/tests/results';
+                  return;
+                }
                 window.location.href = `/other/tests/results/${userid}`;
               }}
             />

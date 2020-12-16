@@ -1,7 +1,7 @@
 import { createMount } from '@material-ui/core/test-utils';
 import Check from './Check';
-import appWrappers from '../appWrappers';
-import * as utils from '../components/brython/utils';
+import appWrappers from '../../appWrappers';
+import * as utils from '../../components/brython/utils';
 
 describe('<Check/>', () => {
   let mount;

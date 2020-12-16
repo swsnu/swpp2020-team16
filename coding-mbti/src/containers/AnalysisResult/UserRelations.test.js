@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core';
 
 import UserRelations from './UserRelations';
-import configureStore from '../configureStore';
+import configureStore from '../../configureStore';
 
 const { store } = configureStore();
 const theme = createMuiTheme();

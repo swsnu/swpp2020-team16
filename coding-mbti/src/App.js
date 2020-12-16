@@ -21,7 +21,6 @@ import LoggedInHome from './containers/MainPage/LoggedInHome';
 import Invitation from './containers/Invitation/Invitation';
 import BeforeSolve from './containers/MainPage/BeforeSolve';
 import Group from './containers/Group/Group';
-import StyleGrid from './containers/UI/StyleGrid';
 import Types from './containers/UI/Types';
 import OtherTestResult from './containers/AnalysisResult/OtherTestResult';
 
@@ -51,11 +50,6 @@ function App(props) {
           exact
           path="/types/:style"
           render={(props) => <Types {...props} />}
-        />
-        <Route
-          exact
-          path="/check/result/:pid"
-          render={(props) => <StyleGrid {...props} />}
         />
         <Route
           exact

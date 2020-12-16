@@ -6,8 +6,8 @@ import { transitions, positions, Provider as AlertProvider } from 'react-alert';
 import AlertTemplate from 'react-alert-template-basic';
 import Container from '@material-ui/core/Container';
 import Home from './Home';
-import configureStore from '../configureStore';
-import * as utils from '../components/brython/utils';
+import configureStore from '../../configureStore';
+import * as utils from '../../components/brython/utils';
 
 const { store } = configureStore();
 const theme = createMuiTheme();

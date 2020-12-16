@@ -3,7 +3,7 @@ import { createMount } from '@material-ui/core/test-utils';
 import Button from '@material-ui/core/Button';
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import AceEditor from 'react-ace';
-import * as utils from './brython/utils';
+import * as utils from '../brython/utils';
 
 import SignDialog from './SignDialog';
 import CodeIDEProceedDialog from './CodeIDEProceedDialog';

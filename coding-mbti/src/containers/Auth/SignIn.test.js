@@ -1,6 +1,6 @@
 import { createMount } from '@material-ui/core/test-utils';
 import SignIn from './SignIn';
-import appWrappers from '../appWrappers';
+import appWrappers from '../../appWrappers';
 
 describe('<SignIn/>', () => {
   describe('should render core components', () => {

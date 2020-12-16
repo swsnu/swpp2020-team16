@@ -15,7 +15,6 @@ import BarSingleDiagram from '../../components/AnalysisResult/BarSingleDiagram';
 import RadarDiagram from '../../components/AnalysisResult/RadarDiagram';
 import TypeInfo from '../../components/UI/TypeInfo';
 
-
 import Types from '../UI/Types';
 
 import { readOtherReport } from '../../feature/report/reportSlice';

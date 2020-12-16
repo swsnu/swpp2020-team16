@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core';
 import { transitions, positions, Provider as AlertProvider } from 'react-alert';
 import AlertTemplate from 'react-alert-template-basic';
-import configureStore from '../configureStore';
+import configureStore from '../../configureStore';
 import OtherSolutions from './OtherSolutions';
 
 const { store } = configureStore();

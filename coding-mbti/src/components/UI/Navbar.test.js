@@ -3,7 +3,7 @@ import { createMount } from '@material-ui/core/test-utils';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { Provider } from 'react-redux';
 import Navbar from './Navbar';
-import configureStore from '../configureStore';
+import configureStore from '../../configureStore';
 
 const { store } = configureStore();
 

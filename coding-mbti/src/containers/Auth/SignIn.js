@@ -43,8 +43,12 @@ class SignIn extends Component {
     };
   }
 
-  clickSignIn = () => {
-    this.props.signIn({ ...this.state });
+  clickSignIn = async () => {
+    try {
+      await this.props.signIn({ ...this.state });
+    } catch (error) {
+      this.props.alert.show(error.message);
+    }
   };
 
   render() {

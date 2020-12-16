@@ -11,6 +11,7 @@ import Typography from '@material-ui/core/Typography';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableRow from '@material-ui/core/TableRow';
 
+import { useAlert } from 'react-alert';
 import InvitationAccept from './InvitationAccept';
 import InvitationDelete from './InvitationDelete';
 
@@ -23,6 +24,7 @@ const useStyles = makeStyles({
 export default function InvitationList(props) {
   const { deleteInvitation, acceptInvitation } = props;
   const classes = useStyles();
+  const alert = useAlert();
 
   let { invitation } = props;
   const isInvitationDemo = Object.values(props.invitation).length === 0;
@@ -49,7 +51,10 @@ export default function InvitationList(props) {
       window.alert('demo invitation accept.');
       return;
     }
-    await acceptInvitation(id);
+    await acceptInvitation(id)
+      .then(() => {
+        alert.show('accepting invitation success.');
+      });
   }
 
   async function handleDelete(id) {
@@ -57,7 +62,10 @@ export default function InvitationList(props) {
       window.alert('demo invitation delete.');
       return;
     }
-    await deleteInvitation(id);
+    await deleteInvitation(id)
+      .then(() => {
+        alert.show('deleting invitation success.');
+      });
   }
 
   return (

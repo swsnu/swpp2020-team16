@@ -6,17 +6,20 @@ import { useHistory } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import SupervisedUserCircleIcon from '@material-ui/icons/SupervisedUserCircle';
 import Avatar from '@material-ui/core/Avatar';
-import { makeStyles } from '@material-ui/core/styles';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { useAlert } from 'react-alert';
 
 /* Components */
 import GroupCreate from './GroupCreate';
@@ -31,9 +34,52 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const StyledTableCell = withStyles((theme) => ({
+  head: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white,
+  },
+  body: {
+    fontSize: 14,
+  },
+}))(TableCell);
+
+const StyledTableRow = withStyles((theme) => ({
+  root: {
+    '&:nth-of-type(odd)': {
+      backgroundColor: theme.palette.action.hover,
+    },
+  },
+}))(TableRow);
+
+const emptyRowContent = [
+  {
+    avatar: '-',
+    groupname: '-',
+    manager: '-',
+    detail: '-',
+    delete: '-',
+  },
+  {
+    avatar: '-',
+    groupname: '-',
+    manager: '-',
+    detail: '-',
+    delete: '-',
+  },
+  {
+    avatar: '-',
+    groupname: '-',
+    manager: '-',
+    detail: '-',
+    delete: '-',
+  },
+];
+
 export default function GroupList(props) {
   const classes = useStyles();
   const history = useHistory();
+  const alert = useAlert();
 
   const {
     groups, createGroup, deleteGroup, error, isManager
@@ -51,30 +97,32 @@ export default function GroupList(props) {
           </Grid>
         </Grid>
         <div style={{ height: '25px' }} />
-        <List className={classes.root}>
-          {
-            Object.keys(groups).map((group, idx) => (
-              <>
-                <ListItem alignItems="flex-start">
-                  <ListItemAvatar>
-                    <Avatar alt={groups[group].name.toUpperCase()} src="../nosrc" />
-                  </ListItemAvatar>
-                  <ListItemText
-                    primary={groups[group].name}
-                    secondary={(
-                      <>
-                        <Typography
-                          component="span"
-                          variant="body2"
-                          className={classes.inline}
-                          color="textPrimary"
-                        >
-                          group of 5 members
-                        </Typography>
-                      </>
-                    )}
-                  />
-                  <ListItemSecondaryAction>
+        <TableContainer component={Paper}>
+          <Table className={classes.table} aria-label="customized table">
+            <TableHead>
+              <TableRow>
+                <StyledTableCell>Avatar</StyledTableCell>
+                <StyledTableCell align="center">Group Name</StyledTableCell>
+                <StyledTableCell align="center">Manager</StyledTableCell>
+                <StyledTableCell align="center">Details</StyledTableCell>
+                <StyledTableCell align="center">Delete This Group</StyledTableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {Object.keys(groups).map((group) => (
+                <StyledTableRow key={groups[group].name}>
+                  <StyledTableCell>
+                    <ListItemAvatar>
+                      <Avatar alt={groups[group].name.toUpperCase()} src="../nosrc" />
+                    </ListItemAvatar>
+                  </StyledTableCell>
+                  <StyledTableCell align="center" component="th" scope="row">
+                    {groups[group].name}
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    me
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
                     <IconButton
                       edge="end"
                       aria-label="comments"
@@ -87,6 +135,8 @@ export default function GroupList(props) {
                     >
                       <SupervisedUserCircleIcon />
                     </IconButton>
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
                     <IconButton
                       edge="end"
                       aria-label="comments"
@@ -95,27 +145,51 @@ export default function GroupList(props) {
                         width: 80,
                         height: 80,
                       }}
-                      onClick={() => { deleteGroup(groups[group].id); }}
+                      onClick={() => {
+                        if (isManager) {
+                          deleteGroup(groups[group].id);
+                          alert.show('group is deleted.');
+                        } else {
+                          alert.show('Only manager can delete groups.');
+                        }
+                      }}
                     >
                       <DeleteForeverIcon />
                     </IconButton>
-                  </ListItemSecondaryAction>
-                </ListItem>
-                {
-                  Object.keys(groups).length - 1 !== idx ?
-                    <Divider variant="inset" component="li" />
-                    : null
-                }
-              </>
-            ))
-          }
-        </List>
+                  </StyledTableCell>
+                </StyledTableRow>
+              ))}
+              {
+                emptyRowContent.map((group) => (
+                  <StyledTableRow align="center" key={group.name}>
+                    <StyledTableCell>
+                      {group.avatar}
+                    </StyledTableCell>
+                    <StyledTableCell align="center" component="th" scope="row">
+                      {group.groupname}
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      {group.manager}
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      {group.detail}
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      {group.delete}
+                    </StyledTableCell>
+                  </StyledTableRow>
+                ))
+              }
+            </TableBody>
+          </Table>
+        </TableContainer>
         <div style={{ height: '25px' }} />
-        <Grid container direction="row" justify="center" alignItems="center" textAlign="center">
+        <Grid container spacing={2} direction="row" justify="center" alignItems="center" textAlign="center">
           <Grid item>
             <GroupCreate createGroup={createGroup} error={error} isManager={isManager} />
           </Grid>
         </Grid>
+        <div style={{ height: '25px' }} />
       </Container>
     </>
   );

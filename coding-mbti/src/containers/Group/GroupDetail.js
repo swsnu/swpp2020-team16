@@ -56,16 +56,20 @@ class GroupDetail extends Component {
             </Typography>
           </Grid>
         </Grid>
+        <div style={{ height: '25px' }} />
         <Grid container spacing={2}>
-          <Grid item xs={12} md={6}>
+          <Grid item xs={12}>
             <MemberList
               groupId={groupId}
               members={members}
               deleteMember={deleteMember}
-              detailMember={() => <Redirect path="*" to="/my/tests/results" />}
+              detailMember={(userid) => {
+                window.location.href = `/other/tests/results/${userid}`;
+              }}
             />
           </Grid>
         </Grid>
+        <div style={{ height: '25px' }} />
         <GroupDetailNavbar
           groupId={groupId}
           createGroup={createGroup}
@@ -74,6 +78,7 @@ class GroupDetail extends Component {
           error={error}
           isManager={isManager(role)}
         />
+        <div style={{ height: '25px' }} />
       </Container>
     );
   }

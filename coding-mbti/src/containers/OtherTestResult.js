@@ -11,14 +11,13 @@ import PeopleIcon from '@material-ui/icons/People';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/styles';
 import { Redirect } from 'react-router';
-
 import BarSingleDiagram from '../components/BarSingleDiagram';
 import RadarDiagram from '../components/RadarDiagram';
 import TypeInfo from '../components/TypeInfo';
 
 import Types from './Types';
 
-import { readMyReport } from '../feature/report/reportSlice';
+import { readOtherReport } from '../feature/report/reportSlice';
 
 const styles = (theme) => ({
   imageIcon: {
@@ -59,34 +58,22 @@ const styles = (theme) => ({
   },
 });
 
-class MyTestResult extends Component {
+class OtherTestResult extends Component {
   async componentDidMount() {
-    await this.props.readMyReport();
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  onClickShare(str) {
-    navigator.clipboard.writeText(`https://codingmbti-dev.shop/types/${str}/`).then(() => {
-      window.alert('URL has been copied to clipboard');
-    }, (err) => {
-      window.alert('URL has not been copied to clipboard');
-    });
+    const { userid } = this.props.match.params;
+    await this.props.readOtherReport(userid);
   }
 
   render() {
     const { classes, report } = this.props;
 
-    if (report.myReport.solutions.length === 0) {
-      window.location.replace('/');
-    }
-    const myReport = report.myReport.report;
+    const otherReport = report.otherReport.report;
+    const umPrediction = otherReport.UM_prediction;
+    const tiPrediction = otherReport.TI_prediction;
+    const rtPrediction = otherReport.RT_prediction;
+    const jcPrediction = otherReport.JC_prediction;
 
-    const umPrediction = myReport.UM_prediction;
-    const tiPrediction = myReport.TI_prediction;
-    const rtPrediction = myReport.RT_prediction;
-    const jcPrediction = myReport.JC_prediction;
-
-    const myStyleStr = myReport.style_str;
+    const myStyleStr = otherReport.style_str;
 
     let uProb;
     let mProb;
@@ -97,42 +84,39 @@ class MyTestResult extends Component {
     let jProb;
     let cProb;
     if (umPrediction === 1) {
-      uProb = myReport.UM_probability;
+      uProb = otherReport.UM_probability;
       mProb = 1 - uProb;
     } else {
-      mProb = myReport.UM_probability;
+      mProb = otherReport.UM_probability;
       uProb = 1 - uProb;
     }
 
     if (tiPrediction === 1) {
-      t1Prob = myReport.TI_probability;
+      t1Prob = otherReport.TI_probability;
       iProb = 1 - t1Prob;
     } else {
-      iProb = myReport.TI_probability;
+      iProb = otherReport.TI_probability;
       t1Prob = 1 - iProb;
     }
 
     if (rtPrediction === 1) {
-      rProb = myReport.RT_probability;
+      rProb = otherReport.RT_probability;
       t2Prob = 1 - rProb;
     } else {
-      t2Prob = myReport.RT_probability;
+      t2Prob = otherReport.RT_probability;
       rProb = 1 - t2Prob;
     }
 
     if (jcPrediction === 1) {
-      jProb = myReport.JC_probability;
+      jProb = otherReport.JC_probability;
       cProb = 1 - jProb;
     } else {
-      cProb = myReport.JC_probability;
+      cProb = otherReport.JC_probability;
       jProb = 1 - cProb;
     }
     return (
       <>
         <Grid container spacing={6} className={classes.total}>
-          <Grid item xs={12}>
-            &nbsp;
-          </Grid>
           <Grid item xs={12}>
             <Typography
               component="h1"
@@ -141,14 +125,11 @@ class MyTestResult extends Component {
               color="textPrimary"
               gutterBottom
             >
-              <strong>Analysis Result</strong>
+              Analysis Result
             </Typography>
           </Grid>
           <Types style={myStyleStr} />
           <Grid item xs={12}>
-            <Grid item xs={12}>
-              &nbsp;
-            </Grid>
             <Typography
               component="h2"
               variant="h3"
@@ -156,7 +137,7 @@ class MyTestResult extends Component {
               color="textPrimary"
               gutterBottom
             >
-              <strong>Thorough Analysis Based On Each Measure</strong>
+              Thorough Analysis Based On Each Measure
             </Typography>
           </Grid>
           <Grid item xs={12}>
@@ -379,20 +360,6 @@ class MyTestResult extends Component {
               </Grid>
               <Grid xs={2} className="check" />
             </Grid>
-            <Grid container spacing={2} justify="center">
-              <Grid item xs={12}>
-                &nbsp;
-              </Grid>
-              <Grid item>
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  onClick={() => this.onClickShare(myStyleStr)}
-                >
-                  Share!
-                </Button>
-              </Grid>
-            </Grid>
           </>
         </Grid>
       </>
@@ -400,18 +367,19 @@ class MyTestResult extends Component {
   }
 }
 
-MyTestResult.propTypes = {
+OtherTestResult.propTypes = {
   classes: PropTypes.object.isRequired,
   solution: PropTypes.object.isRequired,
   report: PropTypes.object.isRequired,
-  readMyReport: PropTypes.func.isRequired,
+  readOtherReport: PropTypes.func.isRequired,
   createMyReport: PropTypes.func.isRequired,
+  match: PropTypes.object.isRequired
 };
 
 const mapDispatchToProps = (state) => ({
   report: state.report.reportReducer,
 });
 
-export default connect(mapDispatchToProps, { readMyReport })(
-  withStyles(styles)(MyTestResult)
+export default connect(mapDispatchToProps, { readOtherReport })(
+  withStyles(styles)(OtherTestResult)
 );

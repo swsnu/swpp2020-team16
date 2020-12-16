@@ -44,20 +44,20 @@ export default function InvitationList(props) {
     invitation = demoInvitation;
   }
 
-  function handleAccept() {
+  async function handleAccept(id) {
     if (isInvitationDemo) {
       window.alert('demo invitation accept.');
       return;
     }
-    acceptInvitation();
+    await acceptInvitation(id);
   }
 
-  function handleDelete() {
+  async function handleDelete(id) {
     if (isInvitationDemo) {
       window.alert('demo invitation delete.');
       return;
     }
-    deleteInvitation();
+    await deleteInvitation(id);
   }
 
   return (
@@ -93,13 +93,13 @@ export default function InvitationList(props) {
                 <TableCell>
                   <InvitationDelete
                     invitaionId={id}
-                    deleteInvitation={handleDelete}
+                    deleteInvitation={() => handleDelete(id)}
                   />
                 </TableCell>
                 <TableCell>
                   <InvitationAccept
                     invitationId={id}
-                    acceptInvitation={handleAccept}
+                    acceptInvitation={() => handleAccept(id)}
                   />
                 </TableCell>
               </TableRow>

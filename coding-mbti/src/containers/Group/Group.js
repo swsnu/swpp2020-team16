@@ -13,9 +13,6 @@ class Group extends Component {
   async componentDidMount() {
     const { role } = this.props;
     if (isManager(role)) this.props.readGroup();
-    else if (isCoder(role)) {
-      this.props.readInvitation();
-    }
   }
 
   render() {
@@ -23,9 +20,9 @@ class Group extends Component {
       role, groups, error, createGroup, deleteGroup,
     } = this.props;
 
-    const canCreateGroup = isManager(role);
     const noGroup = Object.keys(groups).length === 0;
-    const isGroup = Object.keys(groups).length > 0 && canCreateGroup;
+    const isManagerOfGroup = Object.keys(groups).length > 0 && isManager(role);
+    const isMemberOfGroup = Object.keys(groups).length > 0 && isCoder(role);
 
     if (noGroup) {
       return (
@@ -33,13 +30,13 @@ class Group extends Component {
           <GroupNotExist
             createGroup={createGroup}
             error={error}
-            isManager={canCreateGroup}
+            isManager={isManager(role)}
           />
         </div>
       );
     }
 
-    if (isGroup) {
+    if (isManagerOfGroup) {
       return (
         <div>
           <GroupList
@@ -47,7 +44,21 @@ class Group extends Component {
             createGroup={createGroup}
             deleteGroup={deleteGroup}
             error={error}
-            isManager={canCreateGroup}
+            isManager={isManager(role)}
+          />
+        </div>
+      );
+    }
+
+    if (isMemberOfGroup) {
+      return (
+        <div>
+          <GroupList
+            groups={groups}
+            createGroup={createGroup}
+            deleteGroup={deleteGroup}
+            error={error}
+            isManager={isManager(role)}
           />
         </div>
       );

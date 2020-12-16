@@ -1,13 +1,16 @@
 /* eslint-disable react/jsx-indent */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
-
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
+import { withStyles, makeStyles } from '@material-ui/core/styles';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
+import Grid from '@material-ui/core/Grid';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import ListItemText from '@material-ui/core/ListItemText';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
@@ -30,6 +33,67 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const StyledTableCell = withStyles((theme) => ({
+  head: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white,
+  },
+  body: {
+    fontSize: 14,
+  },
+}))(TableCell);
+
+const StyledTableRow = withStyles((theme) => ({
+  root: {
+    '&:nth-of-type(odd)': {
+      backgroundColor: theme.palette.action.hover,
+    },
+  },
+}))(TableRow);
+
+const emptyRowContent = [
+  {
+    avatar: '-',
+    username: '-',
+    style: '-',
+    detail: '-',
+    delete: '-',
+  },
+  {
+    avatar: '-',
+    username: '-',
+    style: '-',
+    detail: '-',
+    delete: '-',
+  },
+  {
+    avatar: '-',
+    username: '-',
+    style: '-',
+    detail: '-',
+    delete: '-',
+  },
+];
+
+const stylesDict = {
+  1: 'UTRJ',
+  2: 'UTRC',
+  3: 'UTTJ',
+  4: 'UTTC',
+  5: 'UIRJ',
+  6: 'UIRC',
+  7: 'UITJ',
+  8: 'UITC',
+  9: 'MTRJ',
+  10: 'MTRC',
+  11: 'MTTJ',
+  12: 'MTTC',
+  13: 'MIRJ',
+  14: 'MTRC',
+  15: 'MITJ',
+  16: 'MITC'
+};
+
 export default function MemberList(props) {
   const {
     groupId, members, deleteMember, detailMember
@@ -37,37 +101,81 @@ export default function MemberList(props) {
   const classes = useStyles();
   return (
     <div>
-      <Typography variant="h6" className={classes.title}>
-        Group Coders
-      </Typography>
-      <div className={classes.paperBackground}>
-        <List dense={false}>
-          {
-            Object.keys(members).map((member) => (
-              <ListItem>
-                <ListItemAvatar>
-                  <Avatar alt={members[member].username.toUpperCase()} src="../nosrc" />
-                </ListItemAvatar>
-                <ListItemText
-                  primary={members[member].username}
-                  secondary={members[member].style.style_str === undefined ?
-                    'did not solve over threshold(which is 3). no style info :(' :
-                    members[member].style.style_str}
-                />
-                <ListItemSecondaryAction>
-                  <IconButton edge="end" aria-label="delete" onClick={detailMember}>
+      <Grid
+        container
+        direction="row"
+        justify="center"
+        alignItems="center"
+        textAlign="center"
+      >
+        <Grid item>
+          <Typography variant="h5" component="h5">
+            Group coders
+          </Typography>
+        </Grid>
+      </Grid>
+      <div style={{ height: '25px' }} />
+      <TableContainer component={Paper}>
+        <Table className={classes.table} aria-label="customized table">
+          <TableHead>
+            <TableRow>
+              <StyledTableCell>Avatar</StyledTableCell>
+              <StyledTableCell align="center">name</StyledTableCell>
+              <StyledTableCell align="center">style</StyledTableCell>
+              <StyledTableCell align="center">detail</StyledTableCell>
+              <StyledTableCell align="center">delete</StyledTableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {Object.keys(members).map((member) => (
+              <StyledTableRow key={member.username}>
+                <StyledTableCell component="th" scope="row">
+                  <ListItemAvatar>
+                    <Avatar alt={members[member].username.toUpperCase()} src="../nosrc" />
+                  </ListItemAvatar>
+                </StyledTableCell>
+                <StyledTableCell align="center">{members[member].username}</StyledTableCell>
+                <StyledTableCell align="center">{stylesDict[members[member].style.style] ? stylesDict[members[member].style.style] : '-'}</StyledTableCell>
+                <StyledTableCell align="center">
+                  <IconButton
+                    edge="end"
+                    aria-label="detail"
+                    onClick={() => detailMember(members[member].user_id)}
+                  >
                     <InfoIcon />
                   </IconButton>
+                </StyledTableCell>
+                <StyledTableCell align="center">
                   <IconButton edge="end" aria-label="delete" onClick={() => deleteMember(groupId, members[member].user_id)}>
                     <DeleteForeverIcon />
                   </IconButton>
-                </ListItemSecondaryAction>
-              </ListItem>
-            ))
-
-          }
-        </List>
-      </div>
+                </StyledTableCell>
+              </StyledTableRow>
+            ))}
+            {
+              emptyRowContent.map((coder) => (
+                <StyledTableRow align="center" key={coder.name}>
+                  <StyledTableCell>
+                    {coder.avatar}
+                  </StyledTableCell>
+                  <StyledTableCell align="center" component="th" scope="row">
+                    {coder.username}
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    {coder.style}
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    {coder.detail}
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    {coder.delete}
+                  </StyledTableCell>
+                </StyledTableRow>
+              ))
+            }
+          </TableBody>
+        </Table>
+      </TableContainer>
     </div>
   );
 }

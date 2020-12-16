@@ -24,6 +24,7 @@ import Message from './containers/Message';
 import Group from './containers/Group/Group';
 import StyleGrid from './containers/StyleGrid';
 import Types from './containers/Types';
+import OtherTestResult from './containers/OtherTestResult';
 
 /* Components */
 import Navbar from './components/Navbar';
@@ -74,6 +75,11 @@ function App(props) {
         <AuthRoute exact path="/my/tests/results">
           <MyTestResult />
         </AuthRoute>
+        <Route
+          exact
+          path="/other/tests/results/:userid"
+          render={(props) => <OtherTestResult {...props} />}
+        />
         <AuthRoute exact path="/group">
           <Group />
         </AuthRoute>

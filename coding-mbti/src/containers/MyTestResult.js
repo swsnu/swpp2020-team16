@@ -390,7 +390,7 @@ class MyTestResult extends Component {
               <Grid item xs={12}>
                 &nbsp;
               </Grid>
-              <Grid tiem xs={5}></Grid>
+              <Grid tiem xs={5} />
               <Grid item xs={2} align="center">
                 <Button
                   variant="contained"
@@ -400,7 +400,7 @@ class MyTestResult extends Component {
                   Share It!
                 </Button>
               </Grid>
-              <Grid tiem xs={5}></Grid>
+              <Grid tiem xs={5} />
             </Grid>
           </>
         </Grid>

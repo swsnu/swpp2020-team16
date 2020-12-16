@@ -53,9 +53,6 @@ const StyleGrid = (props) => {
     handleClick = props.handleClick;
   }
 
-  console.log(props.handleClick);
-  console.log(handleClick);
-
   const classes = useStyles();
 
   const styleList = [

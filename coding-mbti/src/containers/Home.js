@@ -166,11 +166,9 @@ class Home extends Component {
                     <Button
                       variant="contained"
                       color="primary"
-                      onClick={() =>
-                        this.setState((prevState) => ({
-                          toggleImage: !prevState.toggleImage,
-                        }))
-                      }
+                      onClick={() => this.setState((prevState) => ({
+                        toggleImage: !prevState.toggleImage,
+                      }))}
                     >
                       How can you solve problems?
                     </Button>
@@ -209,11 +207,9 @@ class Home extends Component {
                     <Button
                       variant="contained"
                       color="primary"
-                      onClick={() =>
-                        this.setState((prevState) => ({
-                          toggleTypes: !prevState.toggleTypes,
-                        }))
-                      }
+                      onClick={() => this.setState((prevState) => ({
+                        toggleTypes: !prevState.toggleTypes,
+                      }))}
                     >
                       What are 16 types?
                     </Button>
@@ -293,7 +289,7 @@ class Home extends Component {
                 </Typography>
               </Container>
               <Grid container>
-                <Grid item xs={1}></Grid>
+                <Grid item xs={1} />
                 <Grid item container xs={10}>
                   <StyleGridComponent
                     handleClick={(style) => {
@@ -301,7 +297,7 @@ class Home extends Component {
                     }}
                   />
                 </Grid>
-                <Grid item xs={1}></Grid>
+                <Grid item xs={1} />
               </Grid>
             </>
           ) : null}

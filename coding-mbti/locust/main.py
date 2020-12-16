@@ -6,6 +6,7 @@ class MyTaskSet(TaskSet):
     def on_start(self):
         self.login()
 
+    @task
     def login(self):
         response = self.client.get('/api/user/token/')
         csrftoken = response.cookies['csrftoken']
@@ -31,6 +32,6 @@ class ReportTaskSet(TaskSet):
 
 
 class MyLocus(HttpUser):
-    tasks = {MyTaskSet: 1, ReportTaskSet: 4}
+    tasks = {MyTaskSet: 10, ReportTaskSet: 1}
     min_wait = 50
     max_wait = 500

@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 
@@ -76,7 +76,7 @@ function NavbarOMG(props) {
           'MITJ',
           'MITC',
         ].map((text) => (
-          <Fragment>
+          <>
             <ListItem button key={text} href="/group">
               <ListItemText
                 align="center"
@@ -87,7 +87,7 @@ function NavbarOMG(props) {
               />
             </ListItem>
             <Divider />
-          </Fragment>
+          </>
         ))}
       </List>
     </div>
@@ -122,7 +122,7 @@ function NavbarOMG(props) {
     >
       <List>
         {listRightContent.map((content) => (
-          <Fragment>
+          <>
             <ListItem
               button
               key={content.text}
@@ -134,7 +134,7 @@ function NavbarOMG(props) {
               <ListItemText color="inherit" primary={content.text} />
             </ListItem>
             <Divider />
-          </Fragment>
+          </>
         ))}
       </List>
     </div>
@@ -189,10 +189,10 @@ function NavbarOMG(props) {
               Logout
             </Button>
           ) : (
-            <Button color="inherit" href="/signin/">
-              Login
-            </Button>
-          )}
+              <Button color="inherit" href="/signin/">
+                Login
+              </Button>
+            )}
           {props.user.username !== null ? (
             <IconButton
               edge="end"

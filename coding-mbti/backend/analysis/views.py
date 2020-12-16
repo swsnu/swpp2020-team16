@@ -4,9 +4,9 @@ from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseNotAll
 from django.core.exceptions import ObjectDoesNotExist
 import json
 
-from user.models import Coder, Researcher
+from user.models import Coder, Researcher, CodingStyle
 from problem.models import Solution
-from analysis.models import SolutionReport, UserReport, GlobalReport, Distribution
+from analysis.models import SolutionReport, UserReport, GlobalReport
 
 from utils.utils import get_dicts_with_filter
 
@@ -45,6 +45,14 @@ def my_report_view(request):
         try:
             user_report = UserReport.objects.filter(
                 author=request.user).last().to_dict()
+            coding_style = CodingStyle(style=user_report["style_int"], UM_value = user_report["UM_probability"],
+                TI_value = user_report["TI_probability"],
+                RT_value = user_report["RT_probability"],
+                JC_value = user_report["JC_probability"])
+            coding_style.save()
+            coder = Coder.objects.filter(user=request.user).first()
+            coder.style = coding_style
+            coder.save()
 
         except (ObjectDoesNotExist, AttributeError) as error:
             return HttpResponseBadRequest(error)

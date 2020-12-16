@@ -100,7 +100,7 @@ def create_single_coder(num, style, problems):
     user.save()
 
     coding_style = CodingStyle(
-        style=style, UM_value=0.5, TI_value=0.5, EF_value=0.5, JC_value=0.5)
+        style=style, UM_value=0.5, TI_value=0.5, RT_value=0.5, JC_value=0.5)
     coding_style.save()
 
     coder = Coder(user=user, style=coding_style)

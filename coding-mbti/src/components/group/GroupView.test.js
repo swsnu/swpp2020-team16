@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core';
 import { transitions, positions, Provider as AlertProvider } from 'react-alert';
 import AlertTemplate from 'react-alert-template-basic';
-import GroupCreate from './GroupCreate';
+import GroupView from './GroupView';
 import configureStore from '../../configureStore';
 
 const theme = createMuiTheme();
@@ -18,7 +18,7 @@ const options = {
     // you can also just use 'scale'
     transition: transitions.SCALE,
 };
-describe('GroupCreate', () => {
+describe('GroupView', () => {
     let wrapper;
     const createGroup = jest.fn();
 
@@ -27,30 +27,12 @@ describe('GroupCreate', () => {
             <Provider store={store}>
                 <ThemeProvider theme={theme}>
                     <AlertProvider template={AlertTemplate} {...options}>
-                        <GroupCreate isManager createGroup={createGroup} error={{}} />
+                        <GroupView groups={{ 1: { id: 1, name: 'text' } }} isManager gruopId={1} createGroup={createGroup} />
                     </AlertProvider>
                 </ThemeProvider>
             </Provider>
         );
-        expect(wrapper).toMatchSnapshot();
-        const startButton = wrapper.find('#GroupCreateStart').first();
-        startButton.simulate('click');
 
-        const createButton = wrapper.find('#GroupCreate').first();
-        createButton.simulate('click');
-        expect(createGroup).not.toHaveBeenCalled();
-    });
-
-    it('no Manager', () => {
-        wrapper = mount(
-            <Provider store={store}>
-                <ThemeProvider theme={theme}>
-                    <AlertProvider template={AlertTemplate} {...options}>
-                        <GroupCreate isManager={false} createGroup={createGroup} error={{}} />
-                    </AlertProvider>
-                </ThemeProvider>
-            </Provider>
-        );
         expect(wrapper).toMatchSnapshot();
     });
 });

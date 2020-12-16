@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GroupCreate no Manager 1`] = `ReactWrapper {}`;
+
+exports[`GroupCreate render 1`] = `ReactWrapper {}`;

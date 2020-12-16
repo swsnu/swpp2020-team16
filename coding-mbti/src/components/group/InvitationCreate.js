@@ -66,7 +66,7 @@ export default function InvitationCreate(props) {
           <Button onClick={handleClose} color="primary">
             Cancel
           </Button>
-          <Button onClick={createInvitationWithId} color="primary">
+          <Button id="InvitationStart" onClick={createInvitationWithId} color="primary">
             Invite
           </Button>
         </DialogActions>

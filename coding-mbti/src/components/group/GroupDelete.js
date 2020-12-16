@@ -35,6 +35,7 @@ export default function GroupDelete(props) {
   return (
     <>
       <Button
+        id="GroupDeleteStart"
         variant="contained"
         size="large"
         color="primary"
@@ -53,7 +54,7 @@ export default function GroupDelete(props) {
           <Button onClick={handleClose} color="primary">
             Cancel
           </Button>
-          <Button onClick={handleDelete} color="primary">
+          <Button id="GroupDelete" onClick={handleDelete} color="primary">
             Delete
           </Button>
         </DialogActions>

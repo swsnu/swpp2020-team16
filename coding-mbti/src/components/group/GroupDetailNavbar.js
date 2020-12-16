@@ -68,21 +68,6 @@ export default class GroupDetailNavbar extends Component {
           )
             : null
         }
-        {/* {
-          this.state.value === 'groupRelations' ? (
-            <Grid container direction="row" justify="center" alignItems="center" textAlign="center">
-              <Grid item>
-                <GroupRelations
-                  groupId={groupId}
-                  deleteGroup={deleteGroup}
-                  error={error}
-                  isManager={isManager}
-                />
-              </Grid>
-            </Grid>
-          )
-            : null
-        } */}
         {
           this.state.value === 'inviteUser' ? (
             <Grid container direction="row" justify="center" alignItems="center" textAlign="center">

@@ -45,6 +45,7 @@ export default function GroupCreate(props) {
   return (
     <div>
       <Button
+        id="GroupCreateStart"
         variant="contained"
         size="large"
         color="primary"
@@ -70,10 +71,10 @@ export default function GroupCreate(props) {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
+          <Button id="GroupCreateCancel" onClick={handleClose} color="primary">
             Cancel
           </Button>
-          <Button onClick={handleCreate} color="primary">
+          <Button id="GroupCreate" onClick={handleCreate} color="primary">
             Create
           </Button>
         </DialogActions>

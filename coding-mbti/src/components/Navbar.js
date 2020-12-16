@@ -81,11 +81,6 @@ function NavbarOMG(props) {
       icon: <MailIcon />,
     },
     {
-      text: 'My Messages',
-      href: '/messages',
-      icon: <MailIcon />,
-    },
-    {
       text: 'My Test Results',
       href: '/my/tests/results',
       icon: <InboxIcon />,

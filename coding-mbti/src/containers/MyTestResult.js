@@ -131,6 +131,9 @@ class MyTestResult extends Component {
       <>
         <Grid container spacing={6} className={classes.total}>
           <Grid item xs={12}>
+            &nbsp;
+          </Grid>
+          <Grid item xs={12}>
             <Typography
               component="h1"
               variant="h1"
@@ -138,11 +141,14 @@ class MyTestResult extends Component {
               color="textPrimary"
               gutterBottom
             >
-              Analysis Result
+              <strong>Analysis Result</strong>
             </Typography>
           </Grid>
           <Types style={myStyleStr} />
           <Grid item xs={12}>
+            <Grid item xs={12}>
+              &nbsp;
+            </Grid>
             <Typography
               component="h2"
               variant="h3"
@@ -150,7 +156,7 @@ class MyTestResult extends Component {
               color="textPrimary"
               gutterBottom
             >
-              Thorough Analysis Based On Each Measure
+              <strong>Thorough Analysis Based On Each Measure</strong>
             </Typography>
           </Grid>
           <Grid item xs={12}>
@@ -374,8 +380,15 @@ class MyTestResult extends Component {
               <Grid xs={2} className="check" />
             </Grid>
             <Grid container spacing={2} justify="center">
+              <Grid item xs={12}>
+                &nbsp;
+              </Grid>
               <Grid item>
-                <Button variant="contained" color="secondary" onClick={() => this.onClickShare(myStyleStr)}>
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  onClick={() => this.onClickShare(myStyleStr)}
+                >
                   Share!
                 </Button>
               </Grid>

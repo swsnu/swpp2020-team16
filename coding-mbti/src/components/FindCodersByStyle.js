@@ -50,17 +50,28 @@ export default function FindCodersByStyle(props) {
   const sameStyleUsers = props.same.map((el) => (
     <SingleUser user={el} readOtherReport={props.readOtherReport} />
   ));
+  const oppositeStyleUsers = props.opposite.map((el) => (
+    <SingleUser user={el} readOtherReport={props.readOtherReport} />
+  ));
   return (
     <>
       <Grid item xs={1} className="findCoders" />
-      <Grid item container spacing={3} xs={10}>
+      <Grid item container align="center" spacing={3} xs={10}>
         <Grid item xs={12}>
           <Typography variant="h2" align="center">
-            Same Style Users
+            <strong>Same Style Users</strong>
           </Typography>
         </Grid>
         <Grid item container spacing={5} xs={12}>
           {sameStyleUsers}
+        </Grid>
+        <Grid item xs={12}>
+          <Typography variant="h2" align="center">
+            <strong>Opposite Style Users</strong>
+          </Typography>
+        </Grid>
+        <Grid item container spacing={5} xs={12}>
+          {oppositeStyleUsers}
         </Grid>
       </Grid>
       <Grid item xs={1} />

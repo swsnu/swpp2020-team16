@@ -31,13 +31,16 @@ def get_inference(code, pid):
 
 
 def get_jc_inference(erase_cnt, elapsed_time):
-    if erase_cnt > 15 and elapsed_time > 100:
-        prediction = 1
-        probability = 1
+    if erase_cnt + elapsed_time > 100:
+        prediction = 0
+        if erase_cnt+elapsed_time  > 200 :
+            probability = 1
+        else :
+            probability = erase_cnt+elapsed_time / 200
 
     else:
-        prediction = 0
-        probability = 1
+        prediction = 1
+        probability = erase_cnt+elapsed_time / 100
 
     return prediction, probability
 

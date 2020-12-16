@@ -47,7 +47,13 @@ const StyleGrid = (props) => {
   ];
 
   const styleBox = styleList.map((style) => (
-    <Grid key={style} className={classes.box} onClick={() => handleClick(style)} item xs={3}>
+    <Grid
+      key={style}
+      className={classes.box}
+      onClick={() => handleClick(style)}
+      item
+      xs={3}
+    >
       {style}
     </Grid>
   ));
@@ -61,7 +67,7 @@ const StyleGrid = (props) => {
 
 StyleGrid.propTypes = {
   pid: PropTypes.string,
-  handleClick: PropTypes.func.isRequired
+  handleClick: PropTypes.func.isRequired,
 };
 
 StyleGrid.defaultProps = {

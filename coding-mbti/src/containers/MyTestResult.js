@@ -108,7 +108,7 @@ class MyTestResult extends Component {
       mProb = 1 - uProb;
     } else {
       mProb = myReport.UM_probability;
-      uProb = 1 - uProb;
+      uProb = 1 - mProb;
     }
 
     if (tiPrediction === 1) {

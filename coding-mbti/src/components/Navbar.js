@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 
@@ -15,10 +15,12 @@ import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import IconButton from '@material-ui/core/IconButton';
 import AccountCircle from '@material-ui/icons/AccountCircle';
+import MenuIcon from '@material-ui/icons/Menu';
+import PeopleIcon from '@material-ui/icons/People';
+import AssessmentIcon from '@material-ui/icons/Assessment';
 
 /* REDUXs */
 import { connect } from 'react-redux';
@@ -56,16 +58,38 @@ function NavbarOMG(props) {
       onClick={toggleDrawer(anchor, false)}
     >
       <List>
-        {['Group Management'].map((text, index) => (
-          <ListItem button key={text} href="/group">
-            <ListItemIcon>
-              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-            </ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
+        {[
+          'URTJ',
+          'UTRC',
+          'UTTJ',
+          'UTTC',
+          'UIRJ',
+          'UIRC',
+          'UITJ',
+          'UITC',
+          'MTRJ',
+          'MTRC',
+          'MTTJ',
+          'MTTC',
+          'MIRJ',
+          'MTRC',
+          'MITJ',
+          'MITC',
+        ].map((text) => (
+          <Fragment>
+            <ListItem button key={text} href="/group">
+              <ListItemText
+                align="center"
+                primary={text}
+                onClick={() => {
+                  window.location.href = `../../../../types/${text}`;
+                }}
+              />
+            </ListItem>
+            <Divider />
+          </Fragment>
         ))}
       </List>
-      <Divider />
     </div>
   );
 
@@ -73,7 +97,7 @@ function NavbarOMG(props) {
     {
       text: 'My Group',
       href: '/group',
-      icon: <InboxIcon />,
+      icon: <PeopleIcon />,
     },
     {
       text: 'My Invitations',
@@ -83,8 +107,8 @@ function NavbarOMG(props) {
     {
       text: 'My Test Results',
       href: '/my/tests/results',
-      icon: <InboxIcon />,
-    }
+      icon: <AssessmentIcon />,
+    },
   ];
 
   const listRight = (anchor) => (
@@ -97,18 +121,22 @@ function NavbarOMG(props) {
       onKeyDown={toggleDrawer(anchor, false)}
     >
       <List>
-        {listRightContent.map(
-          (content) => (
-            <ListItem button key={content.text} component="a" href={content.href}>
-              <ListItemIcon>
-                {content.icon}
-              </ListItemIcon>
+        {listRightContent.map((content) => (
+          <Fragment>
+            <ListItem
+              button
+              key={content.text}
+              component="a"
+              style={{ height: '10vh', fontSize: '5vw' }}
+              href={content.href}
+            >
+              <ListItemIcon>{content.icon}</ListItemIcon>
               <ListItemText color="inherit" primary={content.text} />
             </ListItem>
-          ),
-        )}
+            <Divider />
+          </Fragment>
+        ))}
       </List>
-      <Divider />
     </div>
   );
   return (
@@ -134,7 +162,7 @@ function NavbarOMG(props) {
       </SwipeableDrawer>
       <AppBar position="relative" className="navbar">
         <Toolbar>
-          {/* <IconButton
+          <IconButton
             edge="start"
             className={classes.menuButton}
             id="drawerButton"
@@ -143,43 +171,37 @@ function NavbarOMG(props) {
             onClick={toggleDrawer('left', true)}
           >
             <MenuIcon />
-          </IconButton> */}
-          <Typography variant="h6" className={classes.title} />
-          <Button color="inherit" href="/">Home</Button>
-          {
-            props.user.username !== null ?
-              (
-                <Button
-                  color="inherit"
-                  onClick={() => {
-                    props.signOut();
-                    persistor.purge();
-                    window.location.replace('/');
-                  }}
-                >
-                  Logout
-                </Button>
-              ) :
-              (
-                <Button color="inherit" href="/signin/">
-                  Login
-                </Button>
-              )
-          }
-          {
-            props.user.username !== null ?
-              (
-                <IconButton
-                  edge="end"
-                  color="inherit"
-                  onClick={toggleDrawer('right', true)}
-                >
-                  <AccountCircle />
-                </IconButton>
-              ) :
-              null
-          }
+          </IconButton>
 
+          <Typography variant="h6" className={classes.title} />
+          <Button color="inherit" href="/">
+            Home
+          </Button>
+          {props.user.username !== null ? (
+            <Button
+              color="inherit"
+              onClick={() => {
+                props.signOut();
+                persistor.purge();
+                window.location.replace('/');
+              }}
+            >
+              Logout
+            </Button>
+          ) : (
+            <Button color="inherit" href="/signin/">
+              Login
+            </Button>
+          )}
+          {props.user.username !== null ? (
+            <IconButton
+              edge="end"
+              color="inherit"
+              onClick={toggleDrawer('right', true)}
+            >
+              <AccountCircle />
+            </IconButton>
+          ) : null}
         </Toolbar>
       </AppBar>
     </>

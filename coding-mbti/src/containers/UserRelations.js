@@ -42,7 +42,7 @@ function SingleSolution(props) {
   return (
     <Grid container>
       <Grid item xs={6}>
-        elapsed time : {props.elapsedTime} seconds
+        elapsed time : {props.elapsedTime} ms
       </Grid>
       <Grid item xs={6}>
         erase count : {props.eraseCnt} times

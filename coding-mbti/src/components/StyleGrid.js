@@ -4,6 +4,26 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import Grid from '@material-ui/core/Grid';
 
+import { ReactComponent as UTRC } from './TypeIcons/UTRC.svg';
+import { ReactComponent as UTRJ } from './TypeIcons/UTRJ.svg';
+import { ReactComponent as MTRC } from './TypeIcons/MTRC.svg';
+import { ReactComponent as MTRJ } from './TypeIcons/MTRJ.svg';
+
+import { ReactComponent as MTTC } from './TypeIcons/MTTC.svg';
+import { ReactComponent as UTTC } from './TypeIcons/UTTC.svg';
+import { ReactComponent as UTTJ } from './TypeIcons/UTTJ.svg';
+import { ReactComponent as MTTJ } from './TypeIcons/MTTJ.svg';
+
+import { ReactComponent as MIRC } from './TypeIcons/MIRC.svg';
+import { ReactComponent as UIRC } from './TypeIcons/UIRC.svg';
+import { ReactComponent as MIRJ } from './TypeIcons/MIRJ.svg';
+import { ReactComponent as MITC } from './TypeIcons/MITC.svg';
+
+import { ReactComponent as MITJ } from './TypeIcons/MITJ.svg';
+import { ReactComponent as UIRJ } from './TypeIcons/UIRJ.svg';
+import { ReactComponent as UITC } from './TypeIcons/UITC.svg';
+import { ReactComponent as UITJ } from './TypeIcons/UITJ.svg';
+
 const useStyles = makeStyles(() => ({
   box: {
     alignItems: 'center',
@@ -27,7 +47,7 @@ const StyleGrid = (props) => {
   let handleClick;
   if (!props.handleClick) {
     handleClick = (style) => {
-      window.location.replace(`${style}`);
+      window.location.href = `${style}`;
     };
   } else {
     handleClick = props.handleClick;
@@ -36,33 +56,34 @@ const StyleGrid = (props) => {
   const classes = useStyles();
 
   const styleList = [
-    'UTRJ',
-    'UTRC',
-    'UTTJ',
-    'UTTC',
-    'UIRJ',
-    'UIRC',
-    'UITJ',
-    'UITC',
-    'MTRJ',
-    'MTRC',
-    'MTTJ',
-    'MTTC',
-    'MIRJ',
-    'EIRC',
-    'MITJ',
-    'MITC',
+    { type: 'UTRJ', icon: UTRJ },
+    { type: 'UTRC', icon: UTRC },
+    { type: 'UTTJ', icon: UTTJ },
+    { type: 'UTTC', icon: UTTC },
+    { type: 'UIRJ', icon: UIRJ },
+    { type: 'UIRC', icon: UIRC },
+    { type: 'UITJ', icon: UITJ },
+    { type: 'UITC', icon: UITC },
+    { type: 'MTRJ', icon: MTRJ },
+    { type: 'MTRC', icon: MTRC },
+    { type: 'MTTJ', icon: MTTJ },
+    { type: 'MTTC', icon: MTTC },
+    { type: 'MIRJ', icon: MIRJ },
+    { type: 'MIRC', icon: MIRC },
+    { type: 'MITJ', icon: MITJ },
+    { type: 'MITC', icon: MITC },
   ];
 
   const styleBox = styleList.map((style) => (
     <Grid
-      key={style}
+      key={style.type}
       className={classes.box}
-      onClick={() => handleClick(style)}
+      onClick={() => handleClick(style.type)}
       item
       xs={3}
     >
-      {style}
+      <style.icon />
+      {style.type}
     </Grid>
   ));
 

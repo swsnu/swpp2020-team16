@@ -135,7 +135,7 @@ export default function CodeIDE(props) {
             name="ace-editor"
             mode="python"
             theme="monokai"
-            height="350px"
+            height="800px"
             width="100%"
             onChange={(newCode) => handleUserWriteCode(newCode)}
             fontSize={14}

@@ -1,5 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import Grid from '@material-ui/core/Grid';
@@ -231,7 +231,7 @@ class Types extends React.Component {
                           <strong style={{ fontSize: '1.3vw' }}>
                             'Turtle'
                           </strong>
-                          , you solve a problem in a very honestly. If given
+                          , you solve a problem in a very honest way. If given
                           problem direct you to solve it in a certain way, even
                           if it is not efficient way, you follow it without any
                           complaints. Sometimes you might get applause because

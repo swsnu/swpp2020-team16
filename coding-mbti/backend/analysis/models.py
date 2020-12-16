@@ -36,11 +36,14 @@ def get_jc_inference(erase_cnt, elapsed_time):
         if erase_cnt+elapsed_time  > 200 :
             probability = 1
         else :
-            probability = erase_cnt+elapsed_time / 200
+            probability = float(erase_cnt+elapsed_time) / 200.0
 
     else:
         prediction = 1
-        probability = erase_cnt+elapsed_time / 100
+        if (float(erase_cnt+elapsed_time) / 100.0 < 60 ):
+            probability = float(erase_cnt+elapsed_time+60) / 100.0
+        else :
+            probability = float(erase_cnt+elapsed_time) / 100.0
 
     return prediction, probability
 

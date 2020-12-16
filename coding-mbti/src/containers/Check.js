@@ -27,8 +27,11 @@ const styles = (theme) => ({
     padding: theme.spacing(8, 0, 6),
   },
   Grid: {
-    paddingTop: theme.spacing(8),
-    paddingBottom: theme.spacing(8),
+    paddingTop: theme.spacing(2),
+    paddingBottom: theme.spacing(3),
+  },
+  IDE: {
+    height: '130vh',
   },
 });
 
@@ -80,7 +83,7 @@ class Check extends Component {
             output={problem.output_desc}
           />
         </Container>
-        <Container maxWidth="lg">
+        <Container className={classes.IDE} maxWidth="lg">
           <CodeIDE
             signedIn={!!user.username}
             pid={pid}

@@ -31,7 +31,10 @@ const styles = (theme) => ({
   root: {
     display: 'flex',
     flexWrap: 'wrap',
-    padding: '1vw',
+    paddingLeft: '1vw',
+    paddingRight: '1vw',
+    paddingBottom: '1vw',
+    paddingTop: '1vw',
     backgroundColor: '#3f51b5',
     color: 'white',
     fontSize: '1vw',
@@ -44,7 +47,7 @@ const styles = (theme) => ({
     cursor: 'default',
   },
   box: {
-    padding: '1vw',
+    padding: '2vw',
     color: 'black',
     fontSize: '2vw',
     height: '100%',
@@ -52,7 +55,6 @@ const styles = (theme) => ({
     margin: '1vw',
     cursor: 'default',
     align: 'center',
-    alignItems: 'center',
   },
   total: {
     marginBottom: '4vw',
@@ -66,11 +68,16 @@ class MyTestResult extends Component {
 
   // eslint-disable-next-line class-methods-use-this
   onClickShare(str) {
-    navigator.clipboard.writeText(`https://codingmbti-dev.shop/types/${str}/`).then(() => {
-      window.alert('URL has been copied to clipboard');
-    }, (err) => {
-      window.alert('URL has not been copied to clipboard');
-    });
+    navigator.clipboard
+      .writeText(`https://codingmbti-dev.shop/types/${str}/`)
+      .then(
+        () => {
+          window.alert('URL has been copied to clipboard');
+        },
+        (err) => {
+          window.alert('URL has not been copied to clipboard');
+        }
+      );
   }
 
   render() {
@@ -139,7 +146,6 @@ class MyTestResult extends Component {
               variant="h1"
               align="center"
               color="textPrimary"
-              gutterBottom
             >
               <strong>Analysis Result</strong>
             </Typography>
@@ -223,41 +229,6 @@ class MyTestResult extends Component {
                     paragraph
                     gutterBottom
                   >
-                    Carefully Typed VS Just Typed
-                  </Typography>
-                </Grid>
-                <Grid container spacing={4} justify="center">
-                  <Grid item xl={12} md={5}>
-                    <BarSingleDiagram
-                      measures={{
-                        one: {
-                          name: 'Carefully Typed',
-                          data: [cProb * 100],
-                        },
-                        another: {
-                          name: 'Just Typed',
-                          data: [jProb * 100],
-                        },
-                      }}
-                      color={1}
-                    />
-                  </Grid>
-                </Grid>
-              </Grid>
-            </Paper>
-          </Grid>
-          <Grid item xs={12}>
-            <Paper>
-              <Grid container>
-                <Grid item xs={12}>
-                  <Typography
-                    component="h2"
-                    variant="subtitle1"
-                    align="center"
-                    color="textSecondary"
-                    paragraph
-                    gutterBottom
-                  >
                     Time Complexity VS Intuitive Code
                   </Typography>
                 </Grid>
@@ -310,6 +281,42 @@ class MyTestResult extends Component {
                         },
                       }}
                       color={3}
+                    />
+                  </Grid>
+                </Grid>
+              </Grid>
+            </Paper>
+          </Grid>
+
+          <Grid item xs={12}>
+            <Paper>
+              <Grid container>
+                <Grid item xs={12}>
+                  <Typography
+                    component="h2"
+                    variant="subtitle1"
+                    align="center"
+                    color="textSecondary"
+                    paragraph
+                    gutterBottom
+                  >
+                    Carefully Typed VS Just Typed
+                  </Typography>
+                </Grid>
+                <Grid container spacing={4} justify="center">
+                  <Grid item xl={12} md={5}>
+                    <BarSingleDiagram
+                      measures={{
+                        one: {
+                          name: 'Carefully Typed',
+                          data: [cProb * 100],
+                        },
+                        another: {
+                          name: 'Just Typed',
+                          data: [jProb * 100],
+                        },
+                      }}
+                      color={1}
                     />
                   </Grid>
                 </Grid>
@@ -383,15 +390,17 @@ class MyTestResult extends Component {
               <Grid item xs={12}>
                 &nbsp;
               </Grid>
-              <Grid item>
+              <Grid tiem xs={5}></Grid>
+              <Grid item xs={2} align="center">
                 <Button
                   variant="contained"
                   color="secondary"
                   onClick={() => this.onClickShare(myStyleStr)}
                 >
-                  Share!
+                  Share It!
                 </Button>
               </Grid>
+              <Grid tiem xs={5}></Grid>
             </Grid>
           </>
         </Grid>

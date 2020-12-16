@@ -24,7 +24,18 @@ const useStyles = makeStyles(() => ({
 }));
 
 const StyleGrid = (props) => {
-  const { handleClick } = props;
+  let handleClick;
+  if (!props.handleClick) {
+    handleClick = (style) => {
+      window.location.replace(`${style}`);
+    };
+  } else {
+    handleClick = props.handleClick;
+  }
+
+  console.log(props.handleClick);
+  console.log(handleClick);
+
   const classes = useStyles();
 
   const styleList = [

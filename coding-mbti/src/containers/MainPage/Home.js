@@ -10,14 +10,14 @@ import { withStyles } from '@material-ui/styles';
 import Container from '@material-ui/core/Container';
 
 /* Components */
-import codingGIF from '../components/HomeAsset/output.gif';
+import codingGIF from '../../components/HomeAsset/output.gif';
 
 /* REDUXs */
-import { readProblem } from '../feature/problem/problemSlice';
-import { readProblemInput } from '../feature/problem/problemInputSlice';
-import { readProblemOutput } from '../feature/problem/problemOutputSlice';
-import { createSolution } from '../feature/problem/solutionSlice';
-import StyleGridComponent from '../components/StyleGrid';
+import { readProblem } from '../../feature/problem/problemSlice';
+import { readProblemInput } from '../../feature/problem/problemInputSlice';
+import { readProblemOutput } from '../../feature/problem/problemOutputSlice';
+import { createSolution } from '../../feature/problem/solutionSlice';
+import StyleGridComponent from '../../components/AnalysisResult/StyleGrid';
 
 const styles = (theme) => ({
   ContentTop: {

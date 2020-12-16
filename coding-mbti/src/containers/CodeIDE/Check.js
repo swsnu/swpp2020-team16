@@ -9,17 +9,17 @@ import Container from '@material-ui/core/Container';
 import { withStyles } from '@material-ui/styles';
 
 /* Components */
-import Showprob from '../components/Showprob';
-import CodeIDE from '../components/CodeIDE';
+import Showprob from '../../components/CodeIDE/Showprob';
+import CodeIDE from '../../components/CodeIDE/CodeIDE';
 
 /* REDUXs */
-import { readProblemByObjective } from '../feature/problem/problemSlice';
-import { readProblemInput } from '../feature/problem/problemInputSlice';
-import { readProblemOutput } from '../feature/problem/problemOutputSlice';
-import { createSolution } from '../feature/problem/solutionSlice';
-import { createMyReport } from '../feature/report/reportSlice';
+import { readProblemByObjective } from '../../feature/problem/problemSlice';
+import { readProblemInput } from '../../feature/problem/problemInputSlice';
+import { readProblemOutput } from '../../feature/problem/problemOutputSlice';
+import { createSolution } from '../../feature/problem/solutionSlice';
+import { createMyReport } from '../../feature/report/reportSlice';
 
-import request from '../utils/request';
+import request from '../../utils/request';
 
 const styles = (theme) => ({
   Content: {

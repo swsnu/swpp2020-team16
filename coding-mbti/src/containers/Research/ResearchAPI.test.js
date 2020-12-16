@@ -3,7 +3,7 @@ import { createMount } from '@material-ui/core/test-utils';
 import { Provider } from 'react-redux';
 import ResearchAPI from './ResearchAPI';
 
-import configureStore from '../configureStore';
+import configureStore from '../../configureStore';
 
 const { store } = configureStore();
 

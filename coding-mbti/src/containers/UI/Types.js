@@ -5,8 +5,8 @@ import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/styles';
 import Paper from '@material-ui/core/Paper';
-import TypeInfo from '../components/TypeInfo';
-import StyleGridComponent from '../components/StyleGrid';
+import TypeInfo from '../../components/UI/TypeInfo';
+import StyleGridComponent from '../../components/AnalysisResult/StyleGrid';
 
 const styles = (theme) => ({
   Page: {

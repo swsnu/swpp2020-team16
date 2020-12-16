@@ -24,8 +24,8 @@ import AssessmentIcon from '@material-ui/icons/Assessment';
 
 /* REDUXs */
 import { connect } from 'react-redux';
-import { signOut } from '../feature/user/userSignSlice';
-import configureStore from '../configureStore';
+import { signOut } from '../../feature/user/userSignSlice';
+import configureStore from '../../configureStore';
 
 const { persistor } = configureStore();
 

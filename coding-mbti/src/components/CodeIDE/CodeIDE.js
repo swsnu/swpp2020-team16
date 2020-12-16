@@ -11,12 +11,12 @@ import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 
 /* ACE Editor */
 import AceEditor from 'react-ace';
-import { cloneObj } from '../utils/testingUtils';
+import { cloneObj } from '../../utils/testingUtils';
 import 'ace-builds/src-noconflict/mode-python';
 import 'ace-builds/src-noconflict/theme-monokai';
 
-import brFileSystem from './brython/fileSystem';
-import { initBrythonRunner, createTestFiles } from './brython/utils';
+import brFileSystem from '../brython/fileSystem';
+import { initBrythonRunner, createTestFiles } from '../brython/utils';
 
 import SignDialog from './SignDialog';
 import CodeIDEProceedDialog from './CodeIDEProceedDialog';

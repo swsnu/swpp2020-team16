@@ -7,14 +7,14 @@ import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/styles';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
-import FindCodersByStyle from '../components/FindCodersByStyle';
+import FindCodersByStyle from '../../components/AnalysisResult/FindCodersByStyle';
 import {
   readUsersByStyle,
   readOtherReport,
-} from '../feature/report/reportSlice';
-import TypeInfo from '../components/TypeInfo';
-import RadarDiagram from '../components/RadarDiagram';
-import BarSingleDiagram from '../components/BarSingleDiagram';
+} from '../../feature/report/reportSlice';
+import TypeInfo from '../../components/UI/TypeInfo';
+import RadarDiagram from '../../components/AnalysisResult/RadarDiagram';
+import BarSingleDiagram from '../../components/AnalysisResult/BarSingleDiagram';
 
 const styles = (theme) => ({
   Page: {

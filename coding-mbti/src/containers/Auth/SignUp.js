@@ -14,7 +14,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/styles';
-import { signUp } from '../feature/user/userSignSlice';
+import { signUp } from '../../feature/user/userSignSlice';
 
 const roles = [
   {

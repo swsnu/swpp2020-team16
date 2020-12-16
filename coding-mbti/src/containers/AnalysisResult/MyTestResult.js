@@ -11,13 +11,14 @@ import PeopleIcon from '@material-ui/icons/People';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/styles';
 import { Redirect } from 'react-router';
-import BarSingleDiagram from '../components/BarSingleDiagram';
-import RadarDiagram from '../components/RadarDiagram';
-import TypeInfo from '../components/TypeInfo';
 
-import Types from './Types';
+import BarSingleDiagram from '../../components/AnalysisResult/BarSingleDiagram';
+import RadarDiagram from '../../components/AnalysisResult/RadarDiagram';
+import TypeInfo from '../../components/UI/TypeInfo';
 
-import { readOtherReport } from '../feature/report/reportSlice';
+import Types from '../UI/Types';
+
+import { readMyReport } from '../../feature/report/reportSlice';
 
 const styles = (theme) => ({
   imageIcon: {
@@ -30,7 +31,10 @@ const styles = (theme) => ({
   root: {
     display: 'flex',
     flexWrap: 'wrap',
-    padding: '1vw',
+    paddingLeft: '1vw',
+    paddingRight: '1vw',
+    paddingBottom: '1vw',
+    paddingTop: '1vw',
     backgroundColor: '#3f51b5',
     color: 'white',
     fontSize: '1vw',
@@ -43,7 +47,7 @@ const styles = (theme) => ({
     cursor: 'default',
   },
   box: {
-    padding: '1vw',
+    padding: '2vw',
     color: 'black',
     fontSize: '2vw',
     height: '100%',
@@ -51,29 +55,45 @@ const styles = (theme) => ({
     margin: '1vw',
     cursor: 'default',
     align: 'center',
-    alignItems: 'center',
   },
   total: {
     marginBottom: '4vw',
   },
 });
 
-class OtherTestResult extends Component {
+class MyTestResult extends Component {
   async componentDidMount() {
-    const { userid } = this.props.match.params;
-    await this.props.readOtherReport(userid);
+    await this.props.readMyReport();
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  onClickShare(str) {
+    navigator.clipboard
+      .writeText(`https://codingmbti-dev.shop/types/${str}/`)
+      .then(
+        () => {
+          window.alert('URL has been copied to clipboard');
+        },
+        (err) => {
+          window.alert('URL has not been copied to clipboard');
+        }
+      );
   }
 
   render() {
     const { classes, report } = this.props;
 
-    const otherReport = report.otherReport.report;
-    const umPrediction = otherReport.UM_prediction;
-    const tiPrediction = otherReport.TI_prediction;
-    const rtPrediction = otherReport.RT_prediction;
-    const jcPrediction = otherReport.JC_prediction;
+    if (report.myReport.solutions.length === 0) {
+      window.location.replace('/');
+    }
+    const myReport = report.myReport.report;
 
-    const myStyleStr = otherReport.style_str;
+    const umPrediction = myReport.UM_prediction;
+    const tiPrediction = myReport.TI_prediction;
+    const rtPrediction = myReport.RT_prediction;
+    const jcPrediction = myReport.JC_prediction;
+
+    const myStyleStr = myReport.style_str;
 
     let uProb;
     let mProb;
@@ -84,52 +104,57 @@ class OtherTestResult extends Component {
     let jProb;
     let cProb;
     if (umPrediction === 1) {
-      uProb = otherReport.UM_probability;
+      uProb = myReport.UM_probability;
       mProb = 1 - uProb;
     } else {
-      mProb = otherReport.UM_probability;
-      uProb = 1 - uProb;
+      mProb = myReport.UM_probability;
+      uProb = 1 - mProb;
     }
 
     if (tiPrediction === 1) {
-      t1Prob = otherReport.TI_probability;
+      t1Prob = myReport.TI_probability;
       iProb = 1 - t1Prob;
     } else {
-      iProb = otherReport.TI_probability;
+      iProb = myReport.TI_probability;
       t1Prob = 1 - iProb;
     }
 
     if (rtPrediction === 1) {
-      rProb = otherReport.RT_probability;
+      rProb = myReport.RT_probability;
       t2Prob = 1 - rProb;
     } else {
-      t2Prob = otherReport.RT_probability;
+      t2Prob = myReport.RT_probability;
       rProb = 1 - t2Prob;
     }
 
     if (jcPrediction === 1) {
-      jProb = otherReport.JC_probability;
+      jProb = myReport.JC_probability;
       cProb = 1 - jProb;
     } else {
-      cProb = otherReport.JC_probability;
+      cProb = myReport.JC_probability;
       jProb = 1 - cProb;
     }
     return (
       <>
         <Grid container spacing={6} className={classes.total}>
           <Grid item xs={12}>
+            &nbsp;
+          </Grid>
+          <Grid item xs={12}>
             <Typography
               component="h1"
               variant="h1"
               align="center"
               color="textPrimary"
-              gutterBottom
             >
-              Analysis Result
+              <strong>Analysis Result</strong>
             </Typography>
           </Grid>
           <Types style={myStyleStr} />
           <Grid item xs={12}>
+            <Grid item xs={12}>
+              &nbsp;
+            </Grid>
             <Typography
               component="h2"
               variant="h3"
@@ -137,7 +162,7 @@ class OtherTestResult extends Component {
               color="textPrimary"
               gutterBottom
             >
-              Thorough Analysis Based On Each Measure
+              <strong>Thorough Analysis Based On Each Measure</strong>
             </Typography>
           </Grid>
           <Grid item xs={12}>
@@ -192,41 +217,6 @@ class OtherTestResult extends Component {
             </Paper>
           </Grid>
 
-          <Grid item xs={12}>
-            <Paper>
-              <Grid container>
-                <Grid item xs={12}>
-                  <Typography
-                    component="h2"
-                    variant="subtitle1"
-                    align="center"
-                    color="textSecondary"
-                    paragraph
-                    gutterBottom
-                  >
-                    Carefully Typed VS Just Typed
-                  </Typography>
-                </Grid>
-                <Grid container spacing={4} justify="center">
-                  <Grid item xl={12} md={5}>
-                    <BarSingleDiagram
-                      measures={{
-                        one: {
-                          name: 'Carefully Typed',
-                          data: [cProb * 100],
-                        },
-                        another: {
-                          name: 'Just Typed',
-                          data: [jProb * 100],
-                        },
-                      }}
-                      color={1}
-                    />
-                  </Grid>
-                </Grid>
-              </Grid>
-            </Paper>
-          </Grid>
           <Grid item xs={12}>
             <Paper>
               <Grid container>
@@ -298,6 +288,42 @@ class OtherTestResult extends Component {
             </Paper>
           </Grid>
 
+          <Grid item xs={12}>
+            <Paper>
+              <Grid container>
+                <Grid item xs={12}>
+                  <Typography
+                    component="h2"
+                    variant="subtitle1"
+                    align="center"
+                    color="textSecondary"
+                    paragraph
+                    gutterBottom
+                  >
+                    Carefully Typed VS Just Typed
+                  </Typography>
+                </Grid>
+                <Grid container spacing={4} justify="center">
+                  <Grid item xl={12} md={5}>
+                    <BarSingleDiagram
+                      measures={{
+                        one: {
+                          name: 'Carefully Typed',
+                          data: [cProb * 100],
+                        },
+                        another: {
+                          name: 'Just Typed',
+                          data: [jProb * 100],
+                        },
+                      }}
+                      color={1}
+                    />
+                  </Grid>
+                </Grid>
+              </Grid>
+            </Paper>
+          </Grid>
+
           <>
             <Grid container spacing={2} align="center">
               <Grid item xs={2} />
@@ -360,6 +386,22 @@ class OtherTestResult extends Component {
               </Grid>
               <Grid xs={2} className="check" />
             </Grid>
+            <Grid container spacing={2} justify="center">
+              <Grid item xs={12}>
+                &nbsp;
+              </Grid>
+              <Grid tiem xs={5} />
+              <Grid item xs={2} align="center">
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  onClick={() => this.onClickShare(myStyleStr)}
+                >
+                  Share It!
+                </Button>
+              </Grid>
+              <Grid tiem xs={5} />
+            </Grid>
           </>
         </Grid>
       </>
@@ -367,19 +409,18 @@ class OtherTestResult extends Component {
   }
 }
 
-OtherTestResult.propTypes = {
+MyTestResult.propTypes = {
   classes: PropTypes.object.isRequired,
   solution: PropTypes.object.isRequired,
   report: PropTypes.object.isRequired,
-  readOtherReport: PropTypes.func.isRequired,
+  readMyReport: PropTypes.func.isRequired,
   createMyReport: PropTypes.func.isRequired,
-  match: PropTypes.object.isRequired
 };
 
 const mapDispatchToProps = (state) => ({
   report: state.report.reportReducer,
 });
 
-export default connect(mapDispatchToProps, { readOtherReport })(
-  withStyles(styles)(OtherTestResult)
+export default connect(mapDispatchToProps, { readMyReport })(
+  withStyles(styles)(MyTestResult)
 );

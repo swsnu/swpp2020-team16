@@ -12,9 +12,9 @@ import Container from '@material-ui/core/Container';
 import Paper from '@material-ui/core/Paper';
 import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
 import DoneIcon from '@material-ui/icons/Done';
-import { readMyReport, createMyReport } from '../feature/report/reportSlice';
+import { readMyReport, createMyReport } from '../../feature/report/reportSlice';
 
-import request from '../utils/request';
+import request from '../../utils/request';
 
 const styles = (theme) => ({
   Content: {

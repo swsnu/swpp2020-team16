@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/styles';
-import { readUsersByStyle } from '../feature/report/reportSlice';
-import { readSolutionOfOthers } from '../feature/problem/solutionSlice';
-import OtherSolutionsTable from '../components/OtherSolutionsTable';
+import { readUsersByStyle } from '../../feature/report/reportSlice';
+import { readSolutionOfOthers } from '../../feature/problem/solutionSlice';
+import OtherSolutionsTable from '../../components/AnalysisResult/OtherSolutionsTable';
 
 const styleToIntDict = {
   UTRJ: 1,

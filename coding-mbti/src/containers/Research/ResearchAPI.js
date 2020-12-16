@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import ResearchAPIContent from '../components/ResearchAPIContent';
+import ResearchAPIContent from '../../components/Research/ResearchAPIContent';
 
 class ResearchAPI extends PureComponent {
   render() {

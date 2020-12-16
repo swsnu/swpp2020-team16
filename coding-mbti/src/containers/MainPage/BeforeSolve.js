@@ -8,7 +8,7 @@ import { withStyles } from '@material-ui/styles';
 
 import Paper from '@material-ui/core/Paper';
 
-import request from '../utils/request';
+import request from '../../utils/request';
 
 const styles = (theme) => ({
   Content: {

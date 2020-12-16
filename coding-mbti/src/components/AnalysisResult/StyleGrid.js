@@ -4,25 +4,25 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import Grid from '@material-ui/core/Grid';
 
-import { ReactComponent as UTRC } from './TypeIcons/UTRC.svg';
-import { ReactComponent as UTRJ } from './TypeIcons/UTRJ.svg';
-import { ReactComponent as MTRC } from './TypeIcons/MTRC.svg';
-import { ReactComponent as MTRJ } from './TypeIcons/MTRJ.svg';
+import { ReactComponent as UTRC } from '../UI/TypeIcons/UTRC.svg';
+import { ReactComponent as UTRJ } from '../UI/TypeIcons/UTRJ.svg';
+import { ReactComponent as MTRC } from '../UI/TypeIcons/MTRC.svg';
+import { ReactComponent as MTRJ } from '../UI/TypeIcons/MTRJ.svg';
 
-import { ReactComponent as MTTC } from './TypeIcons/MTTC.svg';
-import { ReactComponent as UTTC } from './TypeIcons/UTTC.svg';
-import { ReactComponent as UTTJ } from './TypeIcons/UTTJ.svg';
-import { ReactComponent as MTTJ } from './TypeIcons/MTTJ.svg';
+import { ReactComponent as MTTC } from '../UI/TypeIcons/MTTC.svg';
+import { ReactComponent as UTTC } from '../UI/TypeIcons/UTTC.svg';
+import { ReactComponent as UTTJ } from '../UI/TypeIcons/UTTJ.svg';
+import { ReactComponent as MTTJ } from '../UI/TypeIcons/MTTJ.svg';
 
-import { ReactComponent as MIRC } from './TypeIcons/MIRC.svg';
-import { ReactComponent as UIRC } from './TypeIcons/UIRC.svg';
-import { ReactComponent as MIRJ } from './TypeIcons/MIRJ.svg';
-import { ReactComponent as MITC } from './TypeIcons/MITC.svg';
+import { ReactComponent as MIRC } from '../UI/TypeIcons/MIRC.svg';
+import { ReactComponent as UIRC } from '../UI/TypeIcons/UIRC.svg';
+import { ReactComponent as MIRJ } from '../UI/TypeIcons/MIRJ.svg';
+import { ReactComponent as MITC } from '../UI/TypeIcons/MITC.svg';
 
-import { ReactComponent as MITJ } from './TypeIcons/MITJ.svg';
-import { ReactComponent as UIRJ } from './TypeIcons/UIRJ.svg';
-import { ReactComponent as UITC } from './TypeIcons/UITC.svg';
-import { ReactComponent as UITJ } from './TypeIcons/UITJ.svg';
+import { ReactComponent as MITJ } from '../UI/TypeIcons/MITJ.svg';
+import { ReactComponent as UIRJ } from '../UI/TypeIcons/UIRJ.svg';
+import { ReactComponent as UITC } from '../UI/TypeIcons/UITC.svg';
+import { ReactComponent as UITJ } from '../UI/TypeIcons/UITJ.svg';
 
 const useStyles = makeStyles(() => ({
   box: {

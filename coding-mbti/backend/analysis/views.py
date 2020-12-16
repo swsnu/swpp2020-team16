@@ -3,6 +3,7 @@ from rest_framework.decorators import permission_classes
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseNotAllowed, JsonResponse
 from django.core.exceptions import ObjectDoesNotExist
 import json
+import hashlib
 
 from user.models import Coder, Researcher, CodingStyle
 from problem.models import Solution
@@ -45,10 +46,10 @@ def my_report_view(request):
         try:
             user_report = UserReport.objects.filter(
                 author=request.user).last().to_dict()
-            coding_style = CodingStyle(style=user_report["style_int"], UM_value = user_report["UM_probability"],
-                TI_value = user_report["TI_probability"],
-                RT_value = user_report["RT_probability"],
-                JC_value = user_report["JC_probability"])
+            coding_style = CodingStyle(style=user_report["style_int"], UM_value=user_report["UM_probability"],
+                                       TI_value=user_report["TI_probability"],
+                                       RT_value=user_report["RT_probability"],
+                                       JC_value=user_report["JC_probability"])
             coding_style.save()
             coder = Coder.objects.filter(user=request.user).first()
             coder.style = coding_style
@@ -156,3 +157,25 @@ def global_report_view(request):
             return HttpResponseBadRequest(error)
     else:
         return HttpResponseNotAllowed(['GET', 'POST'])
+
+
+def global_report_api_view(request):
+    if request.method == 'POST':
+        try:
+            req_data = json.loads(request.body.decode())
+            username = req_data['username']
+            password = req_data['password']
+            password = hashlib.sha256(password.encode()).hexdigest()
+        except (KeyError, JSONDecodeError) as error:
+            return HttpResponseBadRequest(error)
+
+        user = authenciate(username=username, password=password)
+
+        if user is None:
+            return HttpResponse(status=401)
+
+        report = GlobalReport(author=request.user,
+                              title="API Request", content="Auto generated")
+        report.save()
+
+        return JsonResponse(report.to_dict(), safe=False)

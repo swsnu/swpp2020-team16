@@ -1,0 +1,33 @@
+n = list(input())
+sList = list(map(int, input().split()))
+sList = list(set(sList))
+sList.sort()
+
+q = list(input())
+tList = list(map(int, input().split()))
+
+tCount = 0
+
+
+def middle_idx(tmin, tmax):
+    return int((tmin + tmax) / 2)
+
+
+for tmp_t in tList:
+    tmp_min = 0
+    tmp_max = len(sList) - 1
+    if (tmp_t >= sList[tmp_min] and tmp_t <= sList[tmp_max]):
+        while ( tmp_max - tmp_min > 1 ):
+            tmp_mid = middle_idx(tmp_max, tmp_min)
+            if sList[tmp_mid] > tmp_t:
+                tmp_max = tmp_mid
+            elif sList[tmp_mid] < tmp_t:
+                tmp_min = tmp_mid
+            elif sList[tmp_mid] == tmp_t:
+                tmp_min = tmp_max
+        if(sList[tmp_max] == tmp_t or sList[tmp_min] == tmp_t or sList[tmp_mid] == tmp_t):
+            tCount += 1
+    else:
+        pass
+
+print(tCount)

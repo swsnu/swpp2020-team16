@@ -1,0 +1,21 @@
+def binSearch(l, x):
+	u = 0
+	d = len(l) - 1
+	while True:
+		if u > d:
+			break
+		m = int((u + d) / 2)
+		if l[m] == x:
+			return True
+		elif l[m] < x:
+			u = m + 1
+		else:
+			d = m - 1
+	return False
+
+n = int(input())
+ni = [int(x) for x in input().split()]
+q = int(input())
+qi = [int(x) for x in input().split()]
+
+print(sum([1 for x in qi if binSearch(ni, x) is True]))

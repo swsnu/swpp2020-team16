@@ -1,0 +1,30 @@
+n = int(input())
+S = [0] * 13
+H = [0] * 13
+C = [0] * 13
+D = [0] * 13
+
+for i in range(n):
+    mark, num = input().split()
+    num = int(num)
+    if mark == 'S':
+        S[num-1] = 1
+    elif mark == 'H':
+        H[num-1] = 1
+    elif mark == 'C':
+        C[num-1] = 1
+    elif mark == 'D':
+        D[num-1] = 1
+
+for i in range(13):
+    if S[i] == 0:
+        print('S {0}' .format(i+1))
+for i in range(13):
+    if H[i] == 0:
+        print('H {0}' .format(i+1))
+for i in range(13):
+    if C[i] == 0:
+        print('C {0}' .format(i+1))
+for i in range(13):
+    if D[i] == 0:
+        print('D {0}' .format(i+1))

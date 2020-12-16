@@ -1,0 +1,19 @@
+n = int(input())
+s = list(map(int, input().split()))
+q = int(input())
+t = list(map(int, input().split()))
+a = 0
+for ti in t:
+  # ti in s ?
+  low = 0
+  high = n - 1
+  while low <= high:
+    mid = (low + high) // 2
+    if s[mid] > ti:
+      high = mid - 1
+    elif s[mid] < ti:
+      low = mid + 1
+    else:
+      a += 1
+      break
+print(a)

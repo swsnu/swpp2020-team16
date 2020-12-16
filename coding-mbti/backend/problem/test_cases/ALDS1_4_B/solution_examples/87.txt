@@ -1,0 +1,16 @@
+n = int(input())
+s = list(map(int,input().split()))
+q = int(input())
+t = list(map(int,input().split()))
+ans = 0
+for i in range(q):
+    bot = -1
+    top = n
+    x = t[i]
+    while top - bot > 1:
+        mid = (top+bot)//2
+        if s[mid] >= x:top = mid
+        else:bot = mid
+    if top < n and s[top] == x:ans += 1
+print(ans)
+    

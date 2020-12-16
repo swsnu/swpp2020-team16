@@ -1,0 +1,23 @@
+# coding: utf-8
+# Your code here!
+#二分探索の実装
+
+N=int(input())
+S=[int(i) for i in input().split()]
+Q=int(input())
+T=[int(i) for i in input().split()] 
+C=0
+a=0;b=0
+for i in T:
+    b=len(S)-1
+    a=0
+    while(a+1<b):
+        c=((a+b)//2)
+        if(S[c]>=i):
+            b=c
+        elif(S[c]<i):
+            a=c
+    if(S[a]==i or S[b]==i):
+        C+=1
+print(C);
+

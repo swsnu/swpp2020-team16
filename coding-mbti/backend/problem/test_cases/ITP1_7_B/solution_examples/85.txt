@@ -1,0 +1,15 @@
+def f(n,k):
+    count = 0
+    for x in range(1,n+1):
+        for y in range(x,n+1):
+            for z in range(y,n+1):
+                if x + y + z == k:
+                    if x != y and y != z and z != x:
+                        count += 1
+    return count
+
+while True:
+    n,x = map(int,input().split())
+    if n == 0 and x == 0:
+        break
+    print(f(n,x))

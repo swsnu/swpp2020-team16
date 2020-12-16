@@ -1,0 +1,24 @@
+n=int(input())
+card=[[False for i in range(13)] for j in range(4)]
+for i in range(n):
+    mark,rank=input().split()
+    if mark=="S":
+        pattern=0
+    elif mark=='H':
+        pattern=1
+    elif mark=='C':
+        pattern=2
+    elif mark=='D':
+        pattern=3
+    card[pattern][int(rank)-1]=True
+for j in range(4):
+    for i in range(13):
+        if card[j][i]==False:
+            if j==0:
+                print('S',i+1)
+            elif j==1:
+                print('H',i+1)
+            elif j==2:
+                print('C',i+1)
+            elif j==3:
+                print('D',i+1)

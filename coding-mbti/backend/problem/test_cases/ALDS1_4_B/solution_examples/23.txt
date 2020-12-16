@@ -1,0 +1,26 @@
+def binaryArraySearch(ordered, t):
+  low = 0
+  high = len(ordered) - 1
+
+  while low <= high:
+    mid = (low + high) // 2
+    if t == ordered[mid]:
+      return True
+    elif t < ordered[mid]:
+      high = mid - 1
+    else:
+      low = mid + 1
+  return False
+
+
+n = int(input())
+S = [int(x) for x in input().split()] # 昇順に整列されている
+q = int(input())
+T = [int(x) for x in input().split()]
+
+count = 0
+for target in T:
+  if binaryArraySearch(S, target):
+    count += 1
+
+print(count)

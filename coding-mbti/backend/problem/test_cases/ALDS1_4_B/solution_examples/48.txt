@@ -1,0 +1,31 @@
+iipt=lambda:int(input())
+miipt=lambda:list(map(int,input().split(" ")))
+import bisect
+ 
+N=iipt()
+c=miipt()
+M=iipt()
+qu=miipt()
+ans=0
+for q in qu:
+    a=0
+    b=N-1
+    while b-a>1:
+        x=(a+b)//2
+        if c[a]==q or c[b]==q:
+            ans+=1
+            break
+        if c[x]<q:
+            a=x
+        else:
+            b=x
+    else:
+        if c[a]==q or c[b]==q:
+            ans+=1
+
+    """        
+    if a==-1 or b==N:
+        print(q,a,b)
+        ans-=1"""
+
+print(ans)

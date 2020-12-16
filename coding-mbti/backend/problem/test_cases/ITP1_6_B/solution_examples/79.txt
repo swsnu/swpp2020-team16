@@ -1,0 +1,29 @@
+n = int(input())
+
+card = [[], [], [], []]
+for x in range(n):
+    mark, num = map(str, input().split())
+    num = int(num) - 1
+    if mark == "S":
+        mark = 0
+    elif mark == "H":
+        mark = 1
+    elif mark == "C":
+        mark = 2
+    else:
+        mark = 3
+
+    card[mark].append(num)
+
+for x in range(4):
+    if x == 0:
+        mark= "S"
+    elif x == 1:
+        mark = "H"
+    elif x == 2:
+        mark = "C"
+    else:
+        mark = "D"
+    for y in range(13):
+        if y not in card[x]:
+            print(mark, y + 1)

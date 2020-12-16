@@ -1,0 +1,17 @@
+while True:
+    #標準入力、両方0だった場合終わる
+    a,b = map(int,input().split())
+    if a == 0 and b == 0:break
+    else:
+        kei = 0
+        #全パターンを試す
+        for num1 in range(1,a + 1):
+            for num2 in range(1,a + 1):
+                for num3 in range(1,a + 1):
+                    #文字がかぶっている場合を除く
+                    if num1 + num2 + num3 == b:
+                        if num1 == num2 or num1 == num3 or num2 == num3:pass
+                        else:kei += 1
+                    else:pass
+        #同じ組み合わせの組が6こできるから割る6して出力
+        print(int(kei / 6))

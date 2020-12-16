@@ -1,0 +1,12 @@
+import bisect
+n = int(input())
+S = sorted(map(int, input().split()))
+q = int(input())
+T = map(int, input().split())
+T = set(T)
+ans = 0
+for t in T:
+    i = bisect.bisect_left(S, t)
+    if 0 <= i < len(S) and S[i] == t:
+        ans += 1
+print(ans)

@@ -1,0 +1,44 @@
+s = []
+h = []
+c = []
+d = []
+num = int(input())
+for num1 in range(num):
+    a,b = input().split(" ")
+    b = int(b)
+    if a == "S":
+        s.append(b)
+    elif a == "H":
+        h.append(b)
+    elif a == "D":
+        d.append(b)
+    else:
+        c.append(b)
+s.sort()
+h.sort()
+c.sort()
+d.sort()
+for num2 in range(1,14):
+    if num2 in s:
+        continue
+    else:
+        print("S " + str(num2))
+        continue
+for num3 in range(1,14):
+    if num3 in h:
+        continue
+    else:
+        print("H " + str(num3))
+        continue
+for num4 in range(1,14):
+    if num4 in c:
+        continue
+    else:
+        print("C " + str(num4))
+        continue
+for num5 in range(1,14):
+    if num5 in d:
+        continue
+    else:
+        print("D " + str(num5))
+        continue

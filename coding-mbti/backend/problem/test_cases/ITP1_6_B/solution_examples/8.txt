@@ -1,0 +1,17 @@
+flag = [False] * 53
+n = int(input())
+for i in range(n):
+    c, n = map(str, input().split())
+    n = int(n)
+    if(c == "S"):
+        flag[n] = True
+    elif(c == "H"):
+        flag[13 + n] = True
+    elif(c == "C"):
+        flag[26 + n] = True
+    else:
+        flag[39 + n] = True
+suit = ["S", "H", "C", "D"]
+for i in range(1, len(flag)):
+    if(flag[i] == False):
+        print(suit[(i - 1) // 13], (i - 1) % 13 + 1)

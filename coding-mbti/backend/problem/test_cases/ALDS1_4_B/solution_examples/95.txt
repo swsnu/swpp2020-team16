@@ -1,0 +1,19 @@
+n = int(input())
+S = list(map(int, input().split()))
+q = int(input())
+T = list(map(int, input().split()))
+S = sorted(S)
+T = sorted(T)
+reg = 0
+count = 0
+for i in range(q):
+    for j in range(reg, n):
+        if T[i] > S[j]:
+            reg = j
+        elif T[i] == S[j]:
+            reg = j
+            count += 1
+            break
+        else:
+            break
+print(count)

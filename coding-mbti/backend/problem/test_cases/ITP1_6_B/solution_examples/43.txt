@@ -1,0 +1,25 @@
+n=int(input())
+list=[[0 for i in range(13)]for j in range(4)]
+for aa in range(n):
+	x,y=(input().split())
+	y=int(y)-1
+	if x=='S' :
+		list[0][y]=1
+	elif x=='H' :
+		list[1][y]=1
+	elif x=='C' :
+		list[2][y]=1
+	elif x=='D' :
+		list[3][y]=1
+for z in range(13):
+	if list[0][z]==0:
+		print('S '+str(z+1))		
+for z in range(13):
+	if list[1][z]==0:
+		print('H '+str(z+1))
+for z in range(13):
+	if list[2][z]==0:
+		print('C '+str(z+1))
+for z in range(13):
+	if list[3][z]==0:
+		print('D '+str(z+1))

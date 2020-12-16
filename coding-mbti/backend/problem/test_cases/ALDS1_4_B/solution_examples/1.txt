@@ -1,0 +1,8 @@
+# AOJ ALDS1_4_B Binary Search
+# Python3 2018.7.3 bal4u
+
+n = input()
+s = set(input().split())
+q = input()
+t = set(input().split())
+print(len(s & t))

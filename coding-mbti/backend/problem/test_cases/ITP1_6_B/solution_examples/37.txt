@@ -1,0 +1,11 @@
+d = {}
+m = int(input())
+for i in range(m):
+    [sp,nm] = input().split()
+    d[sp + nm] = True
+
+for sp in ['S','H','C','D']:
+    for nm in range(1,14):
+        key = sp + str(nm)
+        if not key in d :
+            print(sp,nm)

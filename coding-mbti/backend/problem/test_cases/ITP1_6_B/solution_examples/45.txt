@@ -1,0 +1,119 @@
+n = int(input())
+
+S = []
+H = []
+C = []
+D = []
+Slist = []
+Hlist = []
+Clist = []
+Dlist = []
+
+for i in range(n):
+    mark, number = map(str, input().split())
+    
+    if mark=='S':
+        S.append(int(number))
+    if mark=='H':
+        H.append(int(number))
+    if mark=='C':
+        C.append(int(number))
+    if mark=='D':
+        D.append(int(number))
+
+if S==[]:
+    Slist.append(1,2,3,4,5,6,7,8,9,10,11,12,13)
+if H==[]:
+    Hlist.append(1,2,3,4,5,6,7,8,9,10,11,12,13)
+if C==[]:
+    Clist.append(1,2,3,4,5,6,7,8,9,10,11,12,13)
+if D==[]:
+    Dlist.append(1,2,3,4,5,6,7,8,9,10,11,12,13)
+
+else:
+    
+    Slen = len(S)
+    Hlen = len(H)
+    Clen = len(C)
+    Dlen = len(D)
+
+    for i in range(Slen):
+        for j in range(Slen-1,0,-1):
+            if S[j-1]>S[j]:
+                S[j-1],S[j] = S[j],S[j-1]
+
+    for i in range(Hlen):
+        for j in range(Hlen-1,0,-1):
+            if H[j-1]>H[j]:
+                H[j-1],H[j] = H[j],H[j-1]
+
+    for i in range(Clen):
+        for j in range(Clen-1,0,-1):
+            if C[j-1]>C[j]:
+                C[j-1],C[j] = C[j],C[j-1]
+
+    for i in range(Dlen):
+        for j in range(Dlen-1,0,-1):
+            if D[j-1]>D[j]:
+                D[j-1],D[j] = D[j],D[j-1]
+    
+    if S[Slen-1]<13:
+        S.append(0)
+    if H[Hlen-1]<13:
+        H.append(0)
+    if C[Clen-1]<13:
+        C.append(0)
+    if D[Dlen-1]<13:
+        D.append(0)
+
+    for i in range(13):
+        if S[i]==i+1:
+            pass
+        else:
+            S.insert(i,0)
+            Slist.append(i+1)
+
+    for i in range(13):
+        if H[i]==i+1:
+            pass
+        else:
+            H.insert(i,0)
+            Hlist.append(i+1)
+
+    for i in range(13):
+        if C[i]==i+1:
+            pass
+        else:
+            C.insert(i,0)
+            Clist.append(i+1)
+
+    for i in range(13):
+        if D[i]==i+1:
+            pass
+        else:
+            D.insert(i,0)
+            Dlist.append(i+1)
+
+if Slist==[]:
+    print('',end='')
+if Hlist==[]:
+    print('',end='')
+if Clist==[]:
+    print('',end='')
+if Dlist==[]:
+    print('',end='')
+
+else:
+    Sll = len(Slist)
+    Hll = len(Hlist)
+    Cll = len(Clist)
+    Dll = len(Dlist)
+
+    for i in range(Sll):
+        print('S',Slist[i])
+    for i in range(Hll):
+        print('H',Hlist[i])
+    for i in range(Cll):
+        print('C',Clist[i])
+    for i in range(Dll):
+        print('D',Dlist[i])

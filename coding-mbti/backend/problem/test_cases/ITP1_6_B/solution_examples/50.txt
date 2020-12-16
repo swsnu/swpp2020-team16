@@ -1,0 +1,21 @@
+# coding: utf-8
+# Here your code !
+
+cards = {
+        'S': [0] * 13,
+        'H': [0] * 13,
+        'C': [0] * 13,
+        'D': [0] * 13
+}
+
+n = int(input())
+
+for i in range(n):
+    s,num = input().split()
+    num = int(num)
+    cards[s][num - 1] = 1
+
+for c in ["S","H","C","D"]:
+    for i in range(13):
+        if cards[c][i] == 0:
+            print(c, str(i + 1))

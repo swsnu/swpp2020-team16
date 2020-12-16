@@ -1,0 +1,25 @@
+n = int(input())
+S = input().split()
+input()
+T = input().split()
+
+cnt = 0
+
+for key in T:
+	left = 0
+	right = n
+	mid = 0
+	while left < right:
+		mid = (left + right) // 2
+
+		if int(S[mid]) == int(key):
+			cnt += 1
+			break
+
+		if int(key) < int(S[mid]):#左側にある
+			right = mid
+		elif int(key) > int(S[mid]):#右側にある
+			left = mid + 1
+
+print(cnt)
+

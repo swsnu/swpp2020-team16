@@ -1,0 +1,40 @@
+import heapq
+from collections import deque
+from enum import Enum
+import sys
+import math
+from _heapq import heappush, heappop
+import copy
+
+BIG_NUM = 2000000000
+HUGE_NUM = 99999999999999999
+MOD = 1000000007
+EPS = 0.000000001
+sys.setrecursionlimit(3**12)
+
+
+N = int(input())
+S = list(map(int,input().split()))
+
+num_query = int(input())
+T = list(map(int,input().split()))
+
+ans = 0
+for i in range(num_query):
+    tmp = T[i]
+    L = 0
+    R = len(S)-1
+    mid = (L+R)//2
+
+    while L <= R:
+        if S[mid] == tmp:
+            ans += 1
+            break
+        elif S[mid] > tmp:
+            R = mid-1
+        else:
+            L = mid+1
+
+        mid = (L+R)//2
+
+print("%d"%(ans))

@@ -1,0 +1,24 @@
+def binarysearch(S,x):
+    a=0
+    b=len(S)
+    while b>a+1:
+        m=(b+a)//2
+        if S[m]>x:
+            b=m
+        elif S[m]<=x:
+            a=m
+    if S[a]==x:
+        return True
+    return False
+            
+
+n=int(input())
+S=list(map(int,input().split()))
+q=int(input())
+T=list(map(int,input().split()))
+count = 0
+for i in range(q):
+    if binarysearch(S,T[i]):
+        count += 1
+print(count)
+

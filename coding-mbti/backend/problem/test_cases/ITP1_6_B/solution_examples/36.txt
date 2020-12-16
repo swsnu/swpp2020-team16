@@ -1,0 +1,9 @@
+n=int(input())
+cards=[input() for i in range(n)]
+ans=[]
+for i in "SHCD":
+    for j in range(1,14):
+        number=i+" "+str(j)
+        if number not in cards:ans.append(number)
+
+for i in range(len(ans)):print(ans[i])

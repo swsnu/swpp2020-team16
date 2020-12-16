@@ -1,0 +1,10 @@
+n=int(input())
+d={}
+for i in range(n):
+  card=input()
+  d[card]=True
+for c in ["S","H","C","D"]:
+  for n in range(1,14):
+    key=c+' '+str(n)
+    if not key in d:
+      print(key)

@@ -1,0 +1,14 @@
+import sys
+
+SUITS = ('S', 'H', 'C', 'D')
+cards = {suit:{i for i in range(1, 14)} for suit in SUITS}
+
+n = input() # 読み捨て
+
+for line in sys.stdin:
+    suit, number = line.split()
+    cards[suit].discard(int(number))
+
+for suit in SUITS:
+    for i in cards[suit]:
+        print(suit, i)

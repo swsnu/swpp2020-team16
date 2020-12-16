@@ -1,0 +1,23 @@
+def Search2(data, value):
+    left = 0
+    right = len(data) - 1
+    while left <= right:
+        mid = (left + right) // 2
+        if data[mid] == value:
+            return mid
+        elif data[mid] < value:
+            left = mid + 1
+        else:
+            right = mid - 1
+    return -1
+
+x = []
+n = int(input())
+S = list(map(int,input().split()))
+q = int(input())
+T = list(map(int,input().split()))
+
+for j in range(q):
+    if Search2(S, T[j])  > -1:
+        x.append(Search2(S, T[j]))
+print(len(x))

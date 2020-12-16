@@ -1,0 +1,20 @@
+# Aizu Problem ITP_1_6_B: Finding Missing Cards
+#
+import sys, math, os
+
+# read input:
+PYDEV = os.environ.get('PYDEV')
+if PYDEV=="True":
+    sys.stdin = open("sample-input.txt", "rt")
+
+
+cards = {s: set(range(1, 14)) for s in ['D', 'H', 'C', 'S']}
+N = int(input())
+for _ in range(N):
+    suit, face = input().split()
+    face = int(face)
+    cards[suit].remove(face)
+
+for suit in ['S', 'H', 'C', 'D']:
+    for face in cards[suit]:
+        print(suit, face)

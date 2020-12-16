@@ -1,0 +1,12 @@
+while True:
+    n, x = map(int, input().split())
+    if n == x == 0:
+        break
+    max_a = min(x - 3, n)
+    min_a = max(x // 3 + 1, 3)
+    cnt = 0
+    for i in range(min_a, max_a + 1):
+        max_b = min(i - 1, x - i - 1)
+        min_b = (x - i) // 2 + 1
+        cnt += (max_b - min_b + 1)
+    print(cnt)

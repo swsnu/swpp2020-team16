@@ -1,0 +1,22 @@
+n, s, q, t = input(), list(set(map(int, input().split()))), input(), set(map(int, input().split()))
+
+# print(sum(i in s for i in t))
+s.sort()
+
+
+def binary_search(i):
+    global s
+    l, r = 0, len(s)
+    while l < r:
+        m = (l + r) // 2
+        sm = s[m]
+        if sm == i:
+            return 1
+        elif i < sm:
+            r = m
+        else:
+            l = m + 1
+    return 0
+
+
+print(sum(binary_search(i) for i in t))

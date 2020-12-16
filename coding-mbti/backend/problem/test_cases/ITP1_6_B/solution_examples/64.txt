@@ -1,0 +1,12 @@
+n=int(input())
+t=dict()
+tramp=[[True]*13 for i in range(4)]
+pic={"S":0,"H":1,"C":2,"D":3}
+pic2={j:i for i,j in pic.items()}
+for i in range(n):
+    a,b=input().split()
+    tramp[pic[a]][int(b)-1]=False
+for i in range(4):
+    for j in range(13):
+        if tramp[i][j]:
+            print(pic2[i],j+1)

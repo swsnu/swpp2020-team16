@@ -1,0 +1,31 @@
+###
+num = int(input())
+s = [int(x) for x in input().split()]
+q = int(input())
+t = [int(x) for x in input().split()]
+
+
+def binsearch(list,q):
+    min = 0
+    max = len(list) -1
+    mid = (min + max)//2
+    while min <= max:
+        #print(f"D:{min:>6} {mid:>6} {max:>6}: {list[mid]:>6}")
+        if q < list[min]  or list[max] < q:
+            return False
+        if list[mid] == q:
+            return True
+        elif list[mid] > q:
+            max = mid - 1
+            mid = (min + max) // 2
+        else:
+            min = mid + 1
+            mid = (min + max) // 2
+    return False
+
+count = 0
+for k in t:
+    if binsearch(s, k):
+        count += 1
+print(count)
+

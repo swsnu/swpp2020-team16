@@ -1,0 +1,13 @@
+S,H,C,D = 0,1,2,3
+table = [[0 for _ in range(14)] for _ in range(4)]
+
+n = int(input())
+for _ in range(n):
+    a,b = input().split()
+    table[eval(a)][int(b)] = 1
+
+for i in ['S','H','C','D']:
+    for j in range(1,14):
+        if table[eval(i)][j] == 0:
+            print(i,j)
+

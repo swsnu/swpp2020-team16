@@ -1,0 +1,56 @@
+def binarySearch(N, S, T):
+	cnt = 0  # 一致した数
+	left = 0  # 左端
+	#	right = N - 1  # 右端
+	right = N # 右端
+	mid = (left + right) // 2
+	while left < right:
+#		print('{0} {1} {2} {3}'.format(T, left, right, mid))
+		if S[mid] == T:
+			cnt = cnt + 1
+			return cnt
+			# 両隣が一致するかのチェック
+			# まずは左
+#			temp = 1
+#			while mid - temp >= left:
+#				if S[mid - temp] == T:
+#					cnt = cnt + 1
+#				else:
+#					break
+#				temp = temp + 1
+#			# つぎは右
+#			temp = 1
+#			while mid + temp <= right - 1:
+#				if S[mid + temp] == T:
+#					cnt = cnt + 1
+#				else:
+#					break
+#				temp = temp + 1
+#			return cnt
+		elif S[mid] > T:
+			left = left
+			right = mid
+			mid =  (left + right) // 2
+		elif S[mid] < T:
+			left = mid + 1
+			right = right
+			mid =  (left + right) // 2
+	#		if left == right - 1:
+	#			break
+
+	return cnt
+
+
+n = int(input())  # 8
+s = list(map(int, input().split()))  # 1 2 3 4 5 6 7 8
+q = int(input())  # 5
+t = list(map(int, input().split()))  # 1 2 3 4 5
+sum = 0
+
+for i in t:
+	sum = sum + binarySearch(n, s, i)
+	#	print(n)
+	#	print(s)
+#	print(' {0} {1}'.format(i, binarySearch(n, s, i)))
+print(sum)
+

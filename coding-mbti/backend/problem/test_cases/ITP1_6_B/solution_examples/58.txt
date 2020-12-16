@@ -1,0 +1,12 @@
+pri = {'S':0,'H':13,'C':26,'D':39}
+total_cards = set()
+for pic in pri.keys():
+	for rank in range(1,14):
+		total_cards.add(pic + ' ' + str(rank))
+cards = set()
+for _ in range(eval(input())):
+	cards.add(input())
+no_cards = list(total_cards - cards)
+no_cards.sort(key = lambda c: pri[c[0]] + int(c[2:]))
+for i in range(len(no_cards)):
+	print(no_cards[i])

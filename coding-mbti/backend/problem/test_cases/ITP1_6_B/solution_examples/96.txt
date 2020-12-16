@@ -1,0 +1,32 @@
+s = [1 for i in range(13)]
+h = [1 for i in range(13)]
+c = [1 for i in range(13)]
+d = [1 for i in range(13)]
+
+#pattern = ["S", "H", "C", "D"]
+
+n = int(input())
+
+for i in range(n):
+    p, num = input().split()
+    if p == 'S':
+        s[int(num) - 1] = 0
+    elif p == 'H':
+        h[int(num) - 1] = 0
+    elif p == 'C':
+        c[int(num) - 1] = 0
+    elif p == 'D':
+        d[int(num) - 1] = 0
+
+for i in range(13):
+    if s[i] == 1:
+        print('S',i+1)
+for i in range(13):
+    if h[i] == 1:
+        print('H',i+1)
+for i in range(13):
+    if c[i] == 1:
+        print('C',i+1)
+for i in range(13):
+    if d[i] == 1:
+        print('D',i+1)

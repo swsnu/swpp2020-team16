@@ -1,0 +1,28 @@
+n=int(input())
+S=[]
+H=[]
+C=[]
+D=[]
+for i in range(n):
+    a,b=input().split()
+    if a=="S":
+        S.append(int(b))
+    if a=="H":
+        H.append(int(b))
+    if a=="C":
+        C.append(int(b))
+    if a=="D":
+        D.append(int(b))
+
+for j in range(1,14):
+    if j not in S:
+        print("S",j)
+for j in range(1,14):
+    if j not in H:
+        print("H",j)
+for j in range(1,14):        
+    if j not in C:
+        print("C",j)
+for j in range(1,14):
+    if j not in D:
+        print("D",j)

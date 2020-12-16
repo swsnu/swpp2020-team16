@@ -1,0 +1,26 @@
+n=int(input())
+a=list(map(int,input().split()))
+m=int(input())
+b=list(map(int,input().split()))
+ans=0
+for x in b:
+    l=-1
+    r=n
+    while r-l>1:
+        mid=(l+r)//2
+        if a[mid]>=x:
+            r=mid
+        else:
+            l=mid
+    lb=r
+    l=-1
+    r=n
+    while r-l>1:
+        mid=(l+r)//2
+        if a[mid]>x:
+            r=mid
+        else:
+            l=mid
+    ub=r
+    ans+=ub>lb
+print(ans)

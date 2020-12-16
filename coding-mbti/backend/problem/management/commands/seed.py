@@ -1,6 +1,6 @@
 import os
 import numpy as np
-
+from random import randrange, uniform
 
 from django.core.management.base import BaseCommand
 from django.conf import settings
@@ -8,6 +8,12 @@ from django.conf import settings
 from user.models import User, Coder, CodingStyle
 from problem.models import Problem, ProblemInput, ProblemOutput, Solution
 from analysis.models import SolutionReport, UserReport
+
+
+def read_solution_example(sid, pid):
+    with open(f"{settings.PROB_DIR}/test_cases/{pid}/solution_examples/{sid}.txt", "r") as f:
+        solution_example = f.read()
+    return solution_example
 
 
 def read_test_cases(option, pid):
@@ -108,12 +114,19 @@ def create_single_coder(num, style, problems):
 
     solutions = []
     for problem in problems:
+        # 여기서부터 변경했습니다.
+        code = read_solution_example(randrange(0, 100), problem.pid)
+        erase_cnt = randrange(200, 300)
+        elapsed_time = randrange(13, 100)
+        evalutaion = uniform(0, 1)
+
         solution = Solution(
-            problem=problem, code="def hi() : \n print('hi')", erase_cnt=20, elapsed_time=18, author_id=user.id)
+            problem=problem, code=code, erase_cnt=erase_cnt,
+            elapsed_time=elapsed_time, author_id=user.id, evalutaion=evalutaion)
         solution.save()
 
         SolutionReport(
-            solution=solution, author=user, title=f"{problem.pid}_report", code="def hi() : \n print('hi')"
+            solution=solution, author=user, title=f"{problem.pid}_report", code=code
         ).save()
 
         solutions.append(solution)

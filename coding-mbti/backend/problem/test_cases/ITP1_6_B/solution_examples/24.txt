@@ -1,0 +1,20 @@
+N = int(input())
+card = []
+for x in range(52):
+    card.append(0)
+for x in range(N):
+    a, b = map(str, input().split())
+    if a == 'S':
+        card[13 * 0 + int(b) - 1] = 1
+    elif a == 'H':
+        card[13 * 1 + int(b) - 1] = 1
+    elif a == 'C':
+        card[13 * 2 + int(b) - 1] = 1
+    elif a == 'D':
+        card[13 * 3 + int(b) - 1] = 1
+for x in range(52):
+    if card[x] == 0:
+        if x < 13: print("S " + str(x + 1))
+        elif x < 26: print("H " + str(( x + 1) - 13 ))
+        elif x < 39: print("C " + str(( x + 1) - 26 ))
+        else: print("D " + str(( x + 1) - 39))

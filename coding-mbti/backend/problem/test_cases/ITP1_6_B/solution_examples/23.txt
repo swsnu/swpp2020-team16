@@ -1,0 +1,34 @@
+# coding: utf-8
+# Your code here!
+
+n = int(input())
+cards = [0] * 74
+
+for i in range(1, n + 1):
+   marks ,num = map(str, input().split())
+   num = int(num)
+   
+
+   if marks == "S":
+      cards[num + 0] += 1
+   elif marks == "H":
+      cards[num + 20] += 1
+   elif marks == "C":
+      cards[num + 40] += 1
+   else:
+      cards[num + 60] += 1
+   
+for i in range(1, 14):
+   if cards[i] == 0:
+      print("S", i)
+for i in range(21, 34):
+   if cards[i] == 0:
+      print("H", i - 20)
+for i in range(41, 54):
+   if cards[i] == 0:
+      print("C", i - 40)   
+for i in range(61, 74):
+   if cards[i] == 0:
+      print("D", i - 60)   
+
+

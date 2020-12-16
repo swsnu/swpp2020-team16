@@ -1,0 +1,19 @@
+from collections import defaultdict
+import sys
+
+sys.setrecursionlimit(10 ** 6)
+int1 = lambda x: int(x) - 1
+p2D = lambda x: print(*x, sep="\n")
+
+def main():
+    n=int(input())
+    cards=defaultdict(set)
+    for _ in range(n):
+        m,a=input().split()
+        cards[m].add(int(a))
+    for m in ["S","H","C","D"]:
+        for a in range(1,14):
+            if a in cards[m]:continue
+            print(m,a)
+main()
+

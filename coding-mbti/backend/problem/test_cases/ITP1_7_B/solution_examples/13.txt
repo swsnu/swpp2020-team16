@@ -1,0 +1,10 @@
+n, x = map(int, input().split())
+while n != 0 or x != 0:
+	m = 0
+	for i in range(1, n + 1):
+		for j in range(i + 1, n + 1):
+			for k in range(j + 1, n + 1):
+				if i + j + k == x:
+					m += 1
+	print(m)
+	n, x = map(int, input().split())

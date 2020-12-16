@@ -1,0 +1,23 @@
+n = int(input())
+S = [i for i in range(1, 13+1)]
+H = [i for i in range(1, 13+1)]
+C = [i for i in range(1, 13+1)]
+D = [i for i in range(1, 13+1)]
+for i in range(n):
+    mark, num = input().split()
+    if mark=='S':
+        S.remove(int(num))
+    elif mark=='H':
+        H.remove(int(num))
+    elif mark=='C':
+        C.remove(int(num))
+    else:
+        D.remove(int(num))
+for num in S:
+    print("S {0}".format(num))
+for num in H:
+    print("H {0}".format(num))
+for num in C:
+    print("C {0}".format(num))
+for num in D:
+    print("D {0}".format(num))

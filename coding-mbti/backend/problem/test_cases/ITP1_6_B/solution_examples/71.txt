@@ -1,0 +1,7 @@
+n = int(input())
+n_cards = [input() for _ in range(n)]
+suits = ['S', 'H', 'C', 'D']
+for suit in suits:
+    for i in range(1, 14):
+        if suit + ' ' + str(i) not in n_cards:
+            print(suit + ' ' + str(i))

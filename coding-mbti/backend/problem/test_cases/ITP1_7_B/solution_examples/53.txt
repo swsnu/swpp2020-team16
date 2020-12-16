@@ -1,0 +1,16 @@
+# coding: utf-8
+while True:
+    n,x = map(int, input().split())
+    
+    if n == x == 0:
+        break
+
+    count = 0
+    
+    for i in range(1,int(x/3)+1):
+        for j in range(i+1,int((x-i)/2)+1):
+            k = x - (i + j)
+            if j < k <= n:
+                count += 1
+                
+    print(count)

@@ -1,0 +1,14 @@
+tbl = [[False for i in range(13)] for j in range(4)]
+pattern = ["S","H","C","D"]
+
+n = int(input())
+
+for k in range(n):
+    egara,suji = input().split()
+    rank = int(suji)
+    tbl [pattern.index(egara)][rank-1] = True
+
+for i in range(4):
+    for j in range(13):
+        if tbl[i][j] == False:
+            print(pattern[i],j+1)

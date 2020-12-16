@@ -1,0 +1,11 @@
+a = ['S','H','C','D']
+b =[]
+for i in range(4):
+    for j in range(1,14):
+        b.append(str(a[i])+' '+str(j))
+n = int(input())
+for i in range(n):
+    c = input()
+    b.remove(c)
+for i in range(len(b)):
+    print(b[i])

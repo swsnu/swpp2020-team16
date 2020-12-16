@@ -1,0 +1,82 @@
+###
+### atcorder test program
+###
+
+### math class
+class math:
+    ### pi
+    pi = 3.14159265358979323846264338
+
+    ### GCD
+    def gcd(self, a, b):
+        if b == 0:
+            return a
+        return self.gcd(b, a%b)
+
+math = math()
+
+### output class
+class output:
+    ### list
+    def list(self, l):
+        l = list(l)
+        for i, num in enumerate(l):
+            print(num, end="")
+            if i != len(l)-1:
+                print(" ", end="")
+        print()
+
+output = output()
+
+### input sample
+#i = input()
+#A, B, C = [x for x in input().split()]
+#templist = [int(w) for w in input().split()]
+#R = float(input())
+#A = [int(x) for x in input().split()]
+
+### output sample
+#print("{0} {1} {2:.5f}".format(A//B, A%B, A/B))
+#print("{0:.6f} {1:.6f}".format(R*R*math.pi,R*2*math.pi))
+#print(" {}".format(i), end="")
+
+S = []
+H = []
+C = []
+D = []
+
+ALL = list(range(1,14))
+
+N = int(input())
+for i in range(N):
+    p, n = [x for x in input().split()]
+    if p == "S":
+        S.append(int(n))
+    elif p == "H":
+        H.append(int(n))
+    elif p == "C":
+        C.append(int(n))
+    elif p == "D":
+        D.append(int(n))
+
+S = list(set(ALL)-set(S))
+H = list(set(ALL)-set(H))
+C = list(set(ALL)-set(C))
+D = list(set(ALL)-set(D))
+
+S.sort()
+H.sort()
+C.sort()
+D.sort()
+
+for i in S:
+    print("S {}".format(i))
+for i in H:
+    print("H {}".format(i))
+for i in C:
+    print("C {}".format(i))
+for i in D:
+    print("D {}".format(i))
+
+
+

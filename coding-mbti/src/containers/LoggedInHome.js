@@ -65,7 +65,7 @@ const SingleProblem = (props) => {
       <Paper className={props.classes.rootNoClick2} elevation={3}>
         <Grid item xs={11}>
           <Typography variant="h6" component="h6">
-            problem {props.solution.problem_id} completed [correctness: {props.solution.evaluation} %]
+            problem {props.solution.problem_id} completed
           </Typography>
         </Grid>
         <Grid item xs={1} align="end">

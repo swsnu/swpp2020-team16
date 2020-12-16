@@ -1,0 +1,11 @@
+while True:
+	p=0
+	x,y=map(int,input().split())
+	if x==0 and y==0:
+		break
+	for z in range(1,x):
+		for a in range(z+1,x+1):
+			for b in range(a+1,x+1):
+				if z+a+b==y:
+					p+=1
+	print(p)

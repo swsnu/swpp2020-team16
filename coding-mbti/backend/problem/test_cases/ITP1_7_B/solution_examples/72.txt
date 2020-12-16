@@ -1,0 +1,8 @@
+# http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=ITP1_7_B "How many ways?" ????§£??????
+# 
+import itertools
+while True:
+    n, x = map(int, input().split())
+    if not n:
+        break
+    print(list(map(sum, itertools.combinations(range(1, n + 1), 3))).count(x))

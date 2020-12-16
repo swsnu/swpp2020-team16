@@ -1,0 +1,14 @@
+# coding: utf-8
+# Your code here!
+
+n = int(input())
+c = "SHCD"
+
+card = [[0] * 13 for i in range(4)]
+for i in range(n):
+    a,b = input().split()
+    card[c.find(a)][int(b)-1] = 1
+for i in range(4):
+    for j in range(13):
+        if card[i][j] == 0:
+            print(c[i], j+1)

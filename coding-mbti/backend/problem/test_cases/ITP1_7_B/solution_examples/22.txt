@@ -1,0 +1,13 @@
+while True:
+    n, x = map(int, input().split())
+    if (n, x) == (0, 0): break
+    ans = []
+    for i in range(n, 1, -1):
+        for j in range(1, n):
+            tmp = x-(i+j)
+            if tmp > n: continue
+            if tmp > 0 and i > 0 and j > 0:
+                if tmp != j and tmp != i and i != j:
+                    pmt = sorted([i, j, tmp])
+                    if not pmt in ans: ans.append(pmt)
+    print(len(ans))

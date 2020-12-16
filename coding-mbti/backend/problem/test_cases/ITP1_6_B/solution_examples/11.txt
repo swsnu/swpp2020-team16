@@ -1,0 +1,27 @@
+n = int(input())
+s = [[0] * 13 for i in range(4)]
+for i in range(n):
+	t = input().split()
+	if t[0] == "S":
+		u = 0
+	elif t[0] == "H":
+		u = 1
+	elif t[0] == "C":
+		u = 2
+	elif t[0] == "D":
+		u = 3
+	s[u][int(t[1]) - 1] = 1
+for i in range(4):
+	for j in range(13):
+		if s[i][j] != 1:
+			if i == 0:
+				st = 'S'
+			elif i == 1:
+				st = 'H'
+			elif i == 2:
+				st = 'C'
+			elif i == 3:
+				st = 'D'
+			print(st, end=" ")
+			print(j + 1)
+

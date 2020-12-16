@@ -1,0 +1,28 @@
+n = int(input())
+slist = list(map(int, input().split()))
+q = int(input())
+tlist = list(map(int, input().split()))
+
+s_unique = list(set(slist))
+s_unique.sort()
+
+cnt = 0
+for t in tlist:
+    low = 0
+    high = len(s_unique)
+    s = (low + high) // 2
+
+    while low <= high:
+        if t == s_unique[s]:
+            break
+        elif t > s_unique[s]:
+            low = s + 1
+        elif t < s_unique[s]:
+            high = s - 1
+        s = (low + high) // 2
+
+    if t == s_unique[s]:
+        cnt += 1
+
+print(cnt)
+

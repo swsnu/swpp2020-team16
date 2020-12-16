@@ -1,0 +1,19 @@
+
+n = int(input())
+S = list(map(int,input().split()))
+q = int(input())
+T = list(map(int,input().split()))
+count = 0
+
+for i in range(q):
+    left = 0
+    right = n
+    while right - left > 1:
+        mid = (left + right) // 2
+        if S[mid] <= T[i]:
+            left = mid
+        else:
+            right = mid
+    count += (T[i] == S[left])
+
+print(count)

@@ -36,11 +36,13 @@ export default function GroupNotExist(props) {
             </Typography>
           </Grid>
         </Grid>
+        <div style={{ height: '25px' }} />
         <Grid container direction="row" justify="center" alignItems="center" textAlign="center">
           <Grid item>
             <GroupCreate createGroup={createGroup} error={error} isManager={isManager} />
           </Grid>
         </Grid>
+        <div style={{ height: '25px' }} />
       </Container>
     </>
   );

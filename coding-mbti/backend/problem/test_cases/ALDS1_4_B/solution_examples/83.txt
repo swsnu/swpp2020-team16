@@ -1,0 +1,18 @@
+n=int(input())
+s=[int(i) for i in input().split()]
+q=int(input())
+t=[int(i) for i in input().split()]
+
+ans=0
+for i in t:
+    l,r=0,n
+    while l<=r:
+        m=(l+r)//2
+        if s[m]==i:
+            ans+=1
+            break
+        elif s[m]>i:
+            r=m-1
+        else:
+            l=m+1
+print(ans)

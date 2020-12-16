@@ -1,0 +1,34 @@
+S=[False,False,False,False,False,False,False,False,False,False,False,False,False]
+H=[False,False,False,False,False,False,False,False,False,False,False,False,False]
+C=[False,False,False,False,False,False,False,False,False,False,False,False,False]
+D=[False,False,False,False,False,False,False,False,False,False,False,False,False]
+n=int(input())
+
+for i in range(n):
+    data=input().split()
+    num=int(data[1])
+    
+    if(data[0]=='S'):
+        S[num-1]=True
+    if(data[0]=='H'):
+        H[num-1]=True
+    if(data[0]=='C'):
+        C[num-1]=True
+    if(data[0]=='D'):
+        D[num-1]=True
+
+for i in range(13):
+    if not S[i]:
+        print('S',i+1)
+        
+for i in range(13):
+    if not H[i]:
+        print('H',i+1)
+
+for i in range(13):
+    if not C[i]:
+        print('C',i+1)
+
+for i in range(13):
+    if not D[i]:
+        print('D',i+1)

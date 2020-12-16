@@ -1,0 +1,15 @@
+n = int(input())
+s = list(map(int,input().split()))
+q = int(input())
+t = list(map(int,input().split()))
+ans = 0
+for x in t:
+	low,up = 0,n
+	while up - low > 1:
+		mid = (up + low) // 2
+		if s[mid] <= x:
+			low = mid
+		else:
+			up = mid
+	ans += (x == s[low])
+print(ans)

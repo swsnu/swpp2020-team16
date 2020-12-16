@@ -1,0 +1,12 @@
+import itertools
+
+RANK_NUM = 13
+n = int(input())
+data = [input() for _ in range(n)]
+data_list = [i.split() for i in data]
+data_tuple = [(i[0], i[1]) for i in data_list]
+
+card_all = itertools.product(['S', 'H', 'C', 'D'], [str(i) for i in range(1, RANK_NUM + 1)])
+lost_card = [card for card in card_all if not card in data_tuple]
+for output in lost_card:
+    print(' '.join(output))

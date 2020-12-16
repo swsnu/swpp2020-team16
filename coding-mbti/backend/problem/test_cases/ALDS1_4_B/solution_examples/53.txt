@@ -1,0 +1,25 @@
+n = int(input())
+S = list(map(int,input().split()))
+q = int(input())
+T = list(map(int,input().split()))
+
+sum = 0
+for c in T:
+    left = 0
+    right = n
+    mid = 0
+    if c == S[left] or c == S[right-1]:
+        sum += 1
+    else:
+        while left+1 < right:
+            mid = int(( left + right ) / 2)
+            if c == S[mid]:
+                sum += 1
+                break
+            if c > S[mid]:
+                left = mid
+                mid = 0
+            elif c < S[mid]:
+                right = mid
+                mid = 0
+print(sum)

@@ -1,0 +1,21 @@
+n = int(input())
+S = list(map(int, input().split()))
+q = int(input())
+T = list(map(int, input().split()))
+count = 0
+
+Sm, SM = S[0], S[n - 1]
+for x in T:
+    if x < Sm or SM < x:
+        continue
+    l, r = 0, n - 1
+    while l <= r:
+        m = (l + r) // 2
+        if S[m] == x:
+            count += 1
+            break
+        elif S[m] > x:
+            r = m - 1
+        else:
+            l = m + 1
+print(count)

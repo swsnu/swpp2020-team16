@@ -1,0 +1,25 @@
+maisu=int(input())
+mochihuda=[]
+hikaku=[]
+
+for i in range(maisu):
+    huda=list(map(str,input().split()))
+    huda[1]=int(huda[1])
+    mochihuda.append(huda)
+
+for i in range(1,5):
+    for j in range(1,14):
+        if i==1:
+            hikaku=['S',j]
+        elif i==2:
+            hikaku=['H',j]
+        elif i==3:
+            hikaku=['C',j]
+        elif i==4:
+            hikaku=['D',j]
+
+        if hikaku not in mochihuda:
+            print(str(hikaku[0])+" "+str(hikaku[1]))
+
+        hikaku=[]
+

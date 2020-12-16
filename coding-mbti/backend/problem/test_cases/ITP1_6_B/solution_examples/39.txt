@@ -1,0 +1,26 @@
+i2c_ = ['S','H','C','D']
+
+def i2c(i):
+	return i2c_[i]
+
+def c2i(c):
+	if c == 'S': return 0
+	if c == 'H': return 1
+	if c == 'C': return 2
+	if c == 'D': return 3
+	return -1
+
+n=int(input())
+
+have = [[False for j in range(14)] for i in range(4)]
+
+for i in range(n):
+	c, x = input().split()
+	have[c2i(c)][int(x)] = True
+
+for i in range(4):
+	for j in range(1,14):
+		if not have[i][j]:
+			print(f"{i2c(i)} {j}")
+	
+

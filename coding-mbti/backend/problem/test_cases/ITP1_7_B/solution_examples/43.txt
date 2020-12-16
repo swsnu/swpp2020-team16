@@ -1,0 +1,6 @@
+while True:
+    n,x = map(int,input().split())
+    if n == 0 and x == 0:
+        break
+    l = [i+j+k for i in range(n-2) for j in range(i+1,n-1) for k in range(j+1,n)]
+    print(l.count(x-3))

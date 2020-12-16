@@ -1,0 +1,24 @@
+def binarySearch(S, x, l, r):
+    if r-l<=1:
+        if S[l]==x:
+            return True
+        else:
+            return False
+    else:
+        m=(l+r)//2
+        if x<S[m]:
+            return binarySearch(S, x, l, m)
+        elif S[m]<x:
+            return binarySearch(S, x, m+1, r)
+        else:
+            return True
+
+n=int(input())
+S=list(map(int,input().split()))
+q=int(input())
+T=list(map(int,input().split()))
+ans=0
+for x in T:
+    if binarySearch(S, x, 0, n):
+        ans+=1
+print(ans)

@@ -1,0 +1,17 @@
+suits=['S','H','C', 'D']
+dic={'S':0,'H':1,'C':2, 'D':3}
+orig_cards = set()
+missing = set()
+
+for i in range(52):
+    orig_cards.add((i%4, i//4+1))
+
+n = int(input())
+for i in range(n):
+    suit, rank = input().split()
+    missing.add((dic[suit] , int(rank)))
+
+l = sorted(orig_cards-missing)
+
+for s,r in l:
+    print(suits[s],r)

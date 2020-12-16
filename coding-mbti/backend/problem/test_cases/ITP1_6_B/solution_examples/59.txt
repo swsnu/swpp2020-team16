@@ -1,0 +1,17 @@
+n=int(input())
+mark=["S","H","C","D"]
+tbl=[[0 for i in range(13)]for j in range(4)]
+
+def e(moji):
+    for j in range(4):
+        if moji==mark[j]:
+            return j
+
+for i in range(n):
+    a=input().split()
+    tbl[e(a[0])][int(a[1])-1]+=1
+    
+for i in range(4):
+    for j in range(13):
+        if tbl[i][j]==0:
+            print(mark[i],j+1)

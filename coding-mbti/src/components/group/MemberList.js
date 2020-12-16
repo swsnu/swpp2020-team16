@@ -121,12 +121,35 @@ export default function MemberList(props) {
             <TableRow>
               <StyledTableCell>Avatar</StyledTableCell>
               <StyledTableCell align="center">name</StyledTableCell>
+              <StyledTableCell align="center">role</StyledTableCell>
               <StyledTableCell align="center">style</StyledTableCell>
               <StyledTableCell align="center">detail</StyledTableCell>
               <StyledTableCell align="center">delete</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
+            {
+              <StyledTableRow key="me">
+                <StyledTableCell component="th" scope="row">
+                  <ListItemAvatar>
+                    <Avatar alt="me" src="../nosrc" />
+                  </ListItemAvatar>
+                </StyledTableCell>
+                <StyledTableCell align="center">me</StyledTableCell>
+                <StyledTableCell align="center">manager</StyledTableCell>
+                <StyledTableCell align="center">-</StyledTableCell>
+                <StyledTableCell align="center">
+                  <IconButton
+                    edge="end"
+                    aria-label="detail"
+                    onClick={() => detailMember('myself')}
+                  >
+                    <InfoIcon />
+                  </IconButton>
+                </StyledTableCell>
+                <StyledTableCell align="center">-</StyledTableCell>
+              </StyledTableRow>
+            }
             {Object.keys(members).map((member) => (
               <StyledTableRow key={member.username}>
                 <StyledTableCell component="th" scope="row">
@@ -135,6 +158,7 @@ export default function MemberList(props) {
                   </ListItemAvatar>
                 </StyledTableCell>
                 <StyledTableCell align="center">{members[member].username}</StyledTableCell>
+                <StyledTableCell align="center">coder</StyledTableCell>
                 <StyledTableCell align="center">{stylesDict[members[member].style.style] ? stylesDict[members[member].style.style] : '-'}</StyledTableCell>
                 <StyledTableCell align="center">
                   <IconButton
@@ -160,6 +184,9 @@ export default function MemberList(props) {
                   </StyledTableCell>
                   <StyledTableCell align="center" component="th" scope="row">
                     {coder.username}
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    -
                   </StyledTableCell>
                   <StyledTableCell align="center">
                     {coder.style}

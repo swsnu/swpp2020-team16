@@ -1,0 +1,11 @@
+n = int(input())
+mark = ['S','H','C','D']
+l = {'S':[],'H':[],'C':[],'D':[]}
+for i in range(n):
+    m, num = input().split()
+    num = int(num)
+    l[m].append(num)
+for m in mark:
+    for i in range(13):
+        if l[m].count(i + 1) == 0:
+            print(m,i + 1)

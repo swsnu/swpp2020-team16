@@ -9,12 +9,13 @@ from django.db.models import Count
 class CodingStyleManager(models.Manager):
     def calculate_distribution(self):
         res = self.all().values('style').annotate(total=Count('style'))
-        tot = res.count()
+        tot = 0
         UM = 0
         TI = 0
         EF = 0
         JC = 0
         for it in res:
+            tot += it['total']
             if it['style'] <= 8:
                 UM += it['total']
             if ((it['style'] - 1) // 4) % 2 == 0:

@@ -73,8 +73,7 @@ class OtherTestResult extends Component {
     const rtPrediction = otherReport.RT_prediction;
     const jcPrediction = otherReport.JC_prediction;
 
-    const myStyleStr = otherReport.style_str;
-
+    const myStyleStr = otherReport.style_str === undefined ? 'UJRC' : otherReport.style_str;
     let uProb;
     let mProb;
     let t1Prob;

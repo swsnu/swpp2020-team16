@@ -5,6 +5,7 @@ import { ThemeProvider, createMuiTheme } from '@material-ui/core';
 import { transitions, positions, Provider as AlertProvider } from 'react-alert';
 import AlertTemplate from 'react-alert-template-basic';
 import Container from '@material-ui/core/Container';
+import Button from '@material-ui/core/Button';
 import Home from './Home';
 import configureStore from '../../configureStore';
 import * as utils from '../../components/brython/utils';
@@ -47,11 +48,12 @@ describe('<Home/>', () => {
   });
 
   it('should be directed to test page when user click Gettest button', () => {
-    // delete window.location;
-    // window.location = { replace: jest.fn() };
-    // const component = mount(home);
-    // const wrapper = component.find('#getTested').first();
-    // wrapper.simulate('click');
-    // expect(window.location.replace).toHaveBeenCalledTimes(1);
+    delete window.location;
+    window.location = { href: 'currLocation' };
+    const component = mount(home);
+    const wrapper = component.find(Button);
+    expect(wrapper.length).toBe(6);
+    wrapper.at(2).simulate('click');
+    wrapper.at(3).simulate('click');
   });
 });

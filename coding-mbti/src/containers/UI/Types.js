@@ -299,7 +299,7 @@ class Types extends React.Component {
 Types.propTypes = {
   classes: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
-  style: PropTypes.object.isRequired,
+  style: PropTypes.string.isRequired,
 };
 
 Types.defaultProps = {};

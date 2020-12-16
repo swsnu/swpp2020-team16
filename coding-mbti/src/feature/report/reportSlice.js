@@ -85,13 +85,3 @@ export const readOtherReport = (userId) => async (dispatch) => {
 
   dispatch(otherReportRead(response));
 };
-
-export const readGlobalReport = () => async (dispatch) => {
-  const res = await request.get('analysis/global/report/');
-  dispatch(globalReportRead(res.data));
-};
-
-export const createGlobalReport = reportData => async dispatch => {
-  await request.post('analysis/global/report/', reportData);
-  dispatch(readGlobalReport());
-};

@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 /* eslint-disable array-callback-return */
 /* eslint-disable camelcase */
 import { createSlice } from '@reduxjs/toolkit';
@@ -78,5 +79,4 @@ export const readProblemByObjective = () => async dispatch => {
   } catch (error) {
     dispatch(problemReadFail(error.message));
   }
-  return null;
 };

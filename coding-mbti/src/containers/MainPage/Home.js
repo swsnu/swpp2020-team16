@@ -76,14 +76,6 @@ class Home extends Component {
     ]).then(this.setState({ ready: true }));
   }
 
-  onClickGetTested = () => {
-    window.location.replace('/beforesolve');
-  };
-
-  handleSubmit = async (pid, solution) => {
-    this.props.createSolution(pid, solution);
-  };
-
   render() {
     if (!this.state.ready) return null;
     const { user, classes } = this.props;

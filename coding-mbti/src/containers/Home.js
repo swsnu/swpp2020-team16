@@ -113,24 +113,28 @@ class Home extends Component {
               </Typography>
               <div className={classes.Buttons}>
                 <Grid container spacing={2} justify="center">
-                  {
-                    user.username !== null ?
-                      null :
-                      (
-                        <>
-                          <Grid item>
-                            <Button variant="contained" color="primary" href="/signin/">
-                              Sign in
-                            </Button>
-                          </Grid>
-                          <Grid item>
-                            <Button variant="outlined" color="primary" href="/signup/">
-                              Sign up
-                            </Button>
-                          </Grid>
-                        </>
-                      )
-                  }
+                  {user.username !== null ? null : (
+                    <>
+                      <Grid item>
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          href="/signin/"
+                        >
+                          Sign in
+                        </Button>
+                      </Grid>
+                      <Grid item>
+                        <Button
+                          variant="outlined"
+                          color="primary"
+                          href="/signup/"
+                        >
+                          Sign up
+                        </Button>
+                      </Grid>
+                    </>
+                  )}
                 </Grid>
               </div>
             </Container>
@@ -162,9 +166,11 @@ class Home extends Component {
                     <Button
                       variant="contained"
                       color="primary"
-                      onClick={() => this.setState(
-                        prevState => ({ toggleImage: !prevState.toggleImage })
-                      )}
+                      onClick={() =>
+                        this.setState((prevState) => ({
+                          toggleImage: !prevState.toggleImage,
+                        }))
+                      }
                     >
                       How can you solve problems?
                     </Button>
@@ -173,9 +179,9 @@ class Home extends Component {
               </div>
             </Container>
           </div>
-          {
-            this.state.toggleImage ? <img src={codingGIF} alt="loading..." /> : null
-          }
+          {this.state.toggleImage ? (
+            <img src={codingGIF} alt="loading..." />
+          ) : null}
           <div className={classes.ContentSecond}>
             <Container maxWidth="lg">
               <Typography
@@ -203,9 +209,11 @@ class Home extends Component {
                     <Button
                       variant="contained"
                       color="primary"
-                      onClick={() => this.setState(
-                        prevState => ({ toggleTypes: !prevState.toggleTypes })
-                      )}
+                      onClick={() =>
+                        this.setState((prevState) => ({
+                          toggleTypes: !prevState.toggleTypes,
+                        }))
+                      }
                     >
                       What are 16 types?
                     </Button>
@@ -214,101 +222,89 @@ class Home extends Component {
               </div>
             </Container>
           </div>
-          {
-            this.state.toggleTypes ?
-              (
-                <>
-                  <Container>
-                    <Typography
-                      component="h1"
-                      variant="h2"
-                      align="center"
-                      color="textPrimary"
-                      gutterBottom
-                    >
-                      <br />
-                      16 types
-                    </Typography>
-                    <Typography
-                      variant="h5"
-                      align="center"
-                      color="textSecondary"
-                      paragraph
-                      className="phrase"
-                    >
-                      <br />
-                      We classify your coding habit based on our 4 criteria.
-                    </Typography>
-                    <Typography
-                      variant="h5"
-                      align="left"
-                      color="textSecondary"
-                      paragraph
-                      className="phrase"
-                    >
-                      <br />
-                      1. machine friendly or user friendly.
-                      <br />
-                      <br />
-                      &nbsp;&nbsp; When your code is machine friendly, you earn M flag.
-                      M stands for machine friendliness.
-                      <br />
-                      &nbsp;&nbsp; When your code is user friendly, you earn U flag.
-                      U stands for user friendliness.
-                      <br />
-                      <br />
-                      2. caring about time complexity or not.
-                      <br />
-                      <br />
-                      &nbsp;&nbsp; When you care about time complexity, you earn T flag.
-                      T stands for time complexity.
-                      <br />
-                      &nbsp;&nbsp; When you don&apos;t much care about time complexity, you earn I flag.
-                      I stands for intuitive.
-                      <br />
-                      <br />
-                      3. solve like rabbit or turtle.
-                      <br />
-                      <br />
-                      &nbsp;&nbsp; When you solve problems in a clever way that might surprise other coders,
-                      you are a clever rabbit, and you earn R flag.
-                      R stands for rabbit.
-                      <br />
-                      &nbsp;&nbsp; When you solve problems in a very honest way that cares about the basic constraints of the problem,
-                      you are a turtle, and you earn T flag.
-                      T stands for turtle.
-                      <br />
-                      <br />
-                      4. Typing code carefully or not.
-                      <br />
-                      <br />
-                      &nbsp;&nbsp; When you spend your time more on thinking rather than typing, you earn C flag.
-                      C stands for carefully typed.
-                      <br />
-                      &nbsp;&nbsp; When you spend your time more on typing rather than thinking, you earn J flag.
-                      J stands for just typed.
-                      <br />
-                      <br />
-                    </Typography>
-                    <Typography
-                      variant="h5"
-                      align="center"
-                      color="textSecondary"
-                      paragraph
-                      className="phrase"
-                    >
-                      <br />
-                      please help yourself with detailed information on each type.
-                    </Typography>
-                  </Container>
-                  <StyleGridComponent handleClick={(style) => {
-                    window.location.replace(`types/${style}`);
-                  }}
+          {this.state.toggleTypes ? (
+            <>
+              <Container>
+                <Typography
+                  component="h1"
+                  variant="h2"
+                  align="center"
+                  color="textPrimary"
+                  gutterBottom
+                >
+                  <br />
+                  16 types
+                </Typography>
+                <Typography
+                  variant="h3"
+                  align="center"
+                  color="textSecondary"
+                  paragraph
+                  className="phrase"
+                >
+                  <br />
+                  We classify your coding habit based on our 4 criteria.
+                </Typography>
+                <Typography
+                  variant="h5"
+                  align="left"
+                  color="textSecondary"
+                  paragraph
+                  className="phrase"
+                >
+                  <h3>1. machine friendly or user friendly.</h3>
+                  &nbsp;&nbsp; When your code is machine friendly, you earn M
+                  flag. M stands for machine friendliness.
+                  <br />
+                  &nbsp;&nbsp; When your code is user friendly, you earn U flag.
+                  U stands for user friendliness.
+                  <h3>2. caring about time complexity or not.</h3>
+                  &nbsp;&nbsp; When you care about time complexity, you earn T
+                  flag. T stands for time complexity.
+                  <br />
+                  &nbsp;&nbsp; When you don&apos;t much care about time
+                  complexity, you earn I flag. I stands for intuitive.
+                  <h3>3. solve like rabbit or turtle.</h3>
+                  &nbsp;&nbsp; When you solve problems in a clever way that
+                  might surprise other coders, you are a clever rabbit, and you
+                  earn R flag. R stands for rabbit.
+                  <br />
+                  &nbsp;&nbsp; When you solve problems in a very honest way that
+                  cares about the basic constraints of the problem, you are a
+                  turtle, and you earn T flag. T stands for turtle.
+                  <h3>4. Typing code carefully or not.</h3>
+                  &nbsp;&nbsp; When you spend your time more on thinking rather
+                  than typing, you earn C flag. C stands for carefully typed.
+                  <br />
+                  &nbsp;&nbsp; When you spend your time more on typing rather
+                  than thinking, you earn J flag. J stands for just typed.
+                  <br />
+                  <br />
+                </Typography>
+                <Typography
+                  variant="h4"
+                  align="center"
+                  color="textSecondary"
+                  paragraph
+                  className="phrase"
+                >
+                  <br />
+                  please help yourself with detailed information on each type.
+                </Typography>
+              </Container>
+              <Grid container>
+                <Grid item xs={1}></Grid>
+                <Grid item container xs={10}>
+                  <StyleGridComponent
+                    handleClick={(style) => {
+                      window.location.href = `types/${style}`;
+                    }}
                   />
-                </>
-              )
-              : null
-          }
+                </Grid>
+                <Grid item xs={1}></Grid>
+              </Grid>
+            </>
+          ) : null}
           <div className={classes.ContentThird}>
             <Container maxWidth="lg">
               <Typography

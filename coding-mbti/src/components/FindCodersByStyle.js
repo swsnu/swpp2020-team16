@@ -62,13 +62,22 @@ export default function FindCodersByStyle(props) {
             <strong>Same Style Users</strong>
           </Typography>
         </Grid>
+        <Grid item xs={12}>
+          &nbsp;
+        </Grid>
         <Grid item container spacing={5} xs={12}>
           {sameStyleUsers}
+        </Grid>
+        <Grid item xs={12}>
+          &nbsp;
         </Grid>
         <Grid item xs={12}>
           <Typography variant="h2" align="center">
             <strong>Opposite Style Users</strong>
           </Typography>
+        </Grid>
+        <Grid item xs={12}>
+          &nbsp;
         </Grid>
         <Grid item container spacing={5} xs={12}>
           {oppositeStyleUsers}

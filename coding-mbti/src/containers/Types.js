@@ -6,6 +6,7 @@ import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/styles';
 import Paper from '@material-ui/core/Paper';
 import TypeInfo from '../components/TypeInfo';
+import StyleGridComponent from '../components/StyleGrid';
 
 const styles = (theme) => ({
   Page: {
@@ -280,6 +281,14 @@ class Types extends React.Component {
               </Grid>
             </Paper>
           </Grid>
+          <Grid item xs={1} />
+          <Grid item xs={1} />
+          <Grid item xs={10} />
+          <StyleGridComponent
+            handleClick={(style) => {
+              window.location.href = `../../../types/${style}`;
+            }}
+          />
           <Grid item xs={1} />
         </Grid>
       </>

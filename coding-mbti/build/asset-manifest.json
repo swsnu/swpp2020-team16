@@ -1,19 +1,19 @@
 {
   "files": {
     "main.css": "/static/css/main.8e18a254.chunk.css",
-    "main.js": "/static/js/main.92bddfd4.chunk.js",
-    "main.js.map": "/static/js/main.92bddfd4.chunk.js.map",
+    "main.js": "/static/js/main.37c46032.chunk.js",
+    "main.js.map": "/static/js/main.37c46032.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.6a82dce9.js",
     "runtime-main.js.map": "/static/js/runtime-main.6a82dce9.js.map",
     "static/css/2.c44f4bce.chunk.css": "/static/css/2.c44f4bce.chunk.css",
-    "static/js/2.4c7d668c.chunk.js": "/static/js/2.4c7d668c.chunk.js",
-    "static/js/2.4c7d668c.chunk.js.map": "/static/js/2.4c7d668c.chunk.js.map",
+    "static/js/2.7ab20fdd.chunk.js": "/static/js/2.7ab20fdd.chunk.js",
+    "static/js/2.7ab20fdd.chunk.js.map": "/static/js/2.7ab20fdd.chunk.js.map",
     "index.html": "/index.html",
-    "precache-manifest.375291ed0c551ebb7df0a4b40f8bd803.js": "/precache-manifest.375291ed0c551ebb7df0a4b40f8bd803.js",
+    "precache-manifest.80f268c7858f476b29f619ba0af6db73.js": "/precache-manifest.80f268c7858f476b29f619ba0af6db73.js",
     "service-worker.js": "/service-worker.js",
     "static/css/2.c44f4bce.chunk.css.map": "/static/css/2.c44f4bce.chunk.css.map",
     "static/css/main.8e18a254.chunk.css.map": "/static/css/main.8e18a254.chunk.css.map",
-    "static/js/2.4c7d668c.chunk.js.LICENSE.txt": "/static/js/2.4c7d668c.chunk.js.LICENSE.txt",
+    "static/js/2.7ab20fdd.chunk.js.LICENSE.txt": "/static/js/2.7ab20fdd.chunk.js.LICENSE.txt",
     "static/media/MIRC.098e58a0.svg": "/static/media/MIRC.098e58a0.svg",
     "static/media/MIRJ.4b1d1116.svg": "/static/media/MIRJ.4b1d1116.svg",
     "static/media/MITC.bfdb9483.svg": "/static/media/MITC.bfdb9483.svg",
@@ -30,14 +30,15 @@
     "static/media/UTRJ.46ee7053.svg": "/static/media/UTRJ.46ee7053.svg",
     "static/media/UTTC.35ffb1d9.svg": "/static/media/UTTC.35ffb1d9.svg",
     "static/media/UTTJ.1f07afb6.svg": "/static/media/UTTJ.1f07afb6.svg",
-    "static/media/swagger.yaml": "/static/media/swagger.083b94a9.yaml",
+    "static/media/output.gif": "/static/media/output.a3b58108.gif",
+    "static/media/swagger.yaml": "/static/media/swagger.bf4bf95e.yaml",
     "static/media/teamwork.d2605492.svg": "/static/media/teamwork.d2605492.svg"
   },
   "entrypoints": [
     "static/js/runtime-main.6a82dce9.js",
     "static/css/2.c44f4bce.chunk.css",
-    "static/js/2.4c7d668c.chunk.js",
+    "static/js/2.7ab20fdd.chunk.js",
     "static/css/main.8e18a254.chunk.css",
-    "static/js/main.92bddfd4.chunk.js"
+    "static/js/main.37c46032.chunk.js"
   ]
 }

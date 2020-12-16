@@ -23,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
     '&:hover': {
       backgroundColor: 'rgba(0, 0, 0, .05)',
     },
+    cursor: 'default',
   },
   paper: {
     position: 'absolute',
@@ -71,7 +72,7 @@ export default function OtherSolutionsTable(props) {
   const ModalBody = (
     <div className={classes.paper}>
       <h2 id="simple-modal-title">Source code</h2>
-      <p id="simple-modal-description">{code}</p>
+      <pre id="simple-modal-description">{code}</pre>
       <h3 id="simple-modal-title">Elapsed time</h3>
       <p>{time}</p>
       <h3 id="simple-modal-title">Erase count</h3>

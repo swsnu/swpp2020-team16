@@ -8,19 +8,17 @@ const initialCode = `#
 ##                                                   ##
 #######################################################
 
-example_input = [1,2,3]
 def main(array_of_input_strings):
-    # TODO ERASE : you better erase line below
     print("hello, world!")
+    
+    #
+    # code your answer
+    #
 
-    # TODO ERASE : you better erase line below
-    print(array_of_input_strings)
-
-    # TODO
     return(array_of_input_strings)
 
-# TODO ERASE : you better erase line below when you test or submit
-main(example_input)
+
+    
 `;
 
 export default initialCode;

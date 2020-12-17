@@ -1,19 +1,19 @@
 {
   "files": {
     "main.css": "/static/css/main.8e18a254.chunk.css",
-    "main.js": "/static/js/main.4343cef0.chunk.js",
-    "main.js.map": "/static/js/main.4343cef0.chunk.js.map",
+    "main.js": "/static/js/main.202fcd57.chunk.js",
+    "main.js.map": "/static/js/main.202fcd57.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.6a82dce9.js",
     "runtime-main.js.map": "/static/js/runtime-main.6a82dce9.js.map",
     "static/css/2.c44f4bce.chunk.css": "/static/css/2.c44f4bce.chunk.css",
-    "static/js/2.440fcad7.chunk.js": "/static/js/2.440fcad7.chunk.js",
-    "static/js/2.440fcad7.chunk.js.map": "/static/js/2.440fcad7.chunk.js.map",
+    "static/js/2.df1599e0.chunk.js": "/static/js/2.df1599e0.chunk.js",
+    "static/js/2.df1599e0.chunk.js.map": "/static/js/2.df1599e0.chunk.js.map",
     "index.html": "/index.html",
-    "precache-manifest.8bd68492f910e50ec6a3a85412cd192f.js": "/precache-manifest.8bd68492f910e50ec6a3a85412cd192f.js",
+    "precache-manifest.1d4503388496260c70f85a455972cf76.js": "/precache-manifest.1d4503388496260c70f85a455972cf76.js",
     "service-worker.js": "/service-worker.js",
     "static/css/2.c44f4bce.chunk.css.map": "/static/css/2.c44f4bce.chunk.css.map",
     "static/css/main.8e18a254.chunk.css.map": "/static/css/main.8e18a254.chunk.css.map",
-    "static/js/2.440fcad7.chunk.js.LICENSE.txt": "/static/js/2.440fcad7.chunk.js.LICENSE.txt",
+    "static/js/2.df1599e0.chunk.js.LICENSE.txt": "/static/js/2.df1599e0.chunk.js.LICENSE.txt",
     "static/media/MIRC.098e58a0.svg": "/static/media/MIRC.098e58a0.svg",
     "static/media/MIRJ.4b1d1116.svg": "/static/media/MIRJ.4b1d1116.svg",
     "static/media/MITC.bfdb9483.svg": "/static/media/MITC.bfdb9483.svg",
@@ -37,8 +37,8 @@
   "entrypoints": [
     "static/js/runtime-main.6a82dce9.js",
     "static/css/2.c44f4bce.chunk.css",
-    "static/js/2.440fcad7.chunk.js",
+    "static/js/2.df1599e0.chunk.js",
     "static/css/main.8e18a254.chunk.css",
-    "static/js/main.4343cef0.chunk.js"
+    "static/js/main.202fcd57.chunk.js"
   ]
 }

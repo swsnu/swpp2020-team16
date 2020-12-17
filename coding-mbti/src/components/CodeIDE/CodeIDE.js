@@ -135,7 +135,7 @@ export default function CodeIDE(props) {
             name="ace-editor"
             mode="python"
             theme="monokai"
-            height="800px"
+            height="550px"
             width="100%"
             onChange={(newCode) => handleUserWriteCode(newCode)}
             fontSize={14}
@@ -154,18 +154,17 @@ export default function CodeIDE(props) {
             style={{
               backgroundColor: '#272822',
               width: `${100}%`,
-              height: `${150}px`,
+              height: `${200}px`,
             }}
           >
             <TextareaAutosize
               id="output"
-              readOnly
               style={{
                 backgroundColor: '#272822',
                 outline: 'none',
                 color: 'white',
                 width: `${100}%`,
-                height: `${150}px`,
+                height: `${200}px`,
                 margin: '0px',
                 resize: 'none',
               }}

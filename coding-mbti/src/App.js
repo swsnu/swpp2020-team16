@@ -19,7 +19,7 @@ import ResearchAPI from './containers/Research/ResearchAPI';
 import GroupDetail from './containers/Group/GroupDetail';
 import LoggedInHome from './containers/MainPage/LoggedInHome';
 import Invitation from './containers/Invitation/Invitation';
-
+import StyleGrid from './containers/UI/StyleGrid';
 import BeforeSolve from './containers/MainPage/BeforeSolve';
 import Group from './containers/Group/Group';
 import Types from './containers/UI/Types';
@@ -50,6 +50,12 @@ function App(props) {
         <AuthRoute exact path="/my/tests/results" component={MyTestResult} />
         <AuthRoute exact path="/group" component={Group} />
         <AuthRoute exact path="/invitation" component={Invitation} />
+
+        <Route
+          exact
+          path="/check/result/:pid"
+          render={(props) => <StyleGrid {...props} />}
+        />
 
         <Route
           exact

@@ -6,7 +6,6 @@ import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
-import RecordVoiceOverIcon from '@material-ui/icons/RecordVoiceOver';
 import SupervisedUserCircleIcon from '@material-ui/icons/SupervisedUserCircle';
 import Grid from '@material-ui/core/Grid';
 
@@ -35,7 +34,6 @@ export default class GroupDetailNavbar extends Component {
         >
           <BottomNavigationAction label="Group Create" value="groupCreate" icon={<SupervisedUserCircleIcon />} />
           <BottomNavigationAction label="Group Delete" value="groupDelete" icon={<DeleteForeverIcon />} />
-          <BottomNavigationAction label="Group Relations" value="groupRelations" icon={<RecordVoiceOverIcon />} />
           <BottomNavigationAction label="Add User" value="inviteUser" icon={<PersonAddIcon />} />
         </BottomNavigation>
         <div style={{ height: '25px' }} />

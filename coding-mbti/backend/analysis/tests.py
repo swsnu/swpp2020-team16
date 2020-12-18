@@ -83,7 +83,7 @@ class AnalysisTestCase(TestCase):
 
         response = client.get("/api/analysis/my/report/")
 
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 400)
 
     def test_my_report_view_exception(self):
         client = Client()
@@ -227,13 +227,13 @@ class AnalysisTestCase(TestCase):
             username="test3", password="123", email="test3@test.com", salt="123", role=1)
 
         coding_style1 = CodingStyle(
-            style=CodingStyle.Style.UIFC, UM_value=0.0, TI_value=0.0, EF_value=0.0, JC_value=0.0)
+            style=CodingStyle.Style.UITC, UM_value=0.0, TI_value=0.0, RT_value=0.0, JC_value=0.0)
         coding_style1.save()
         coding_style2 = CodingStyle(
-            style=CodingStyle.Style.UIFC, UM_value=0.0, TI_value=0.0, EF_value=0.0, JC_value=0.0)
+            style=CodingStyle.Style.UITC, UM_value=0.0, TI_value=0.0, RT_value=0.0, JC_value=0.0)
         coding_style2.save()
         coding_style3 = CodingStyle(
-            style=CodingStyle.Style.UIFC, UM_value=0.0, TI_value=0.0, EF_value=0.0, JC_value=0.0)
+            style=CodingStyle.Style.UITC, UM_value=0.0, TI_value=0.0, RT_value=0.0, JC_value=0.0)
         coding_style3.save()
 
         coder1 = Coder(user=user1, style=coding_style1)
@@ -483,15 +483,15 @@ class AnalysisTestCase(TestCase):
         client.login(username="test", password="123")
 
         CodingStyle(style=1, UM_value=1.0, TI_value=1.0,
-                    EF_value=1.0, JC_value=1.0).save()
+                    RT_value=1.0, JC_value=1.0).save()
         CodingStyle(style=2, UM_value=1.0, TI_value=1.0,
-                    EF_value=1.0, JC_value=1.0).save()
+                    RT_value=1.0, JC_value=1.0).save()
         CodingStyle(style=3, UM_value=1.0, TI_value=1.0,
-                    EF_value=1.0, JC_value=1.0).save()
+                    RT_value=1.0, JC_value=1.0).save()
         CodingStyle(style=4, UM_value=1.0, TI_value=1.0,
-                    EF_value=1.0, JC_value=1.0).save()
+                    RT_value=1.0, JC_value=1.0).save()
         CodingStyle(style=5, UM_value=1.0, TI_value=1.0,
-                    EF_value=1.0, JC_value=1.0).save()
+                    RT_value=1.0, JC_value=1.0).save()
 
         response = client.post("/api/analysis/global/report/", json.dumps(
             {"title": "test", "content": "For test"}), content_type="application/json")

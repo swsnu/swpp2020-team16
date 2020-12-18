@@ -260,8 +260,8 @@ class GroupModelTest(TestCase):
             "test-receiver", "1234", email="", salt="", role=User.Role.Coder)
 
         style = CodingStyle(
-            style=CodingStyle.Style.MTEJ, UM_value=1.0,
-            TI_value=1.0, EF_value=1.0, JC_value=1.0)
+            style=CodingStyle.Style.MTRJ, UM_value=1.0,
+            TI_value=1.0, RT_value=1.0, JC_value=1.0)
 
         style.save()
         coder = Coder(user=user, style=style, group=group)

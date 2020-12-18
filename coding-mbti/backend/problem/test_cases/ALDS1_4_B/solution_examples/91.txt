@@ -1,0 +1,7 @@
+import sys
+
+input()
+s = set([x for x in sys.stdin.readline().split()])
+input()
+t = set([x for x in sys.stdin.readline().split()])
+print(len(s & t))

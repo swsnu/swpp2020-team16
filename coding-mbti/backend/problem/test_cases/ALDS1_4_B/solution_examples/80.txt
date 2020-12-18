@@ -1,0 +1,21 @@
+import bisect
+N = int(input())
+S = list(map(int,input().split()))
+Q = int(input())
+T = list(map(int,input().split()))
+
+def index(a, x):
+    'Locate the leftmost value exactly equal to x'
+    i = bisect.bisect_left(a, x)
+    if i != len(a) and a[i] == x:
+        return True
+    return False
+
+ans = 0
+for t in T:
+    if index(S,t):
+        ans+=1
+
+        
+print(ans)
+

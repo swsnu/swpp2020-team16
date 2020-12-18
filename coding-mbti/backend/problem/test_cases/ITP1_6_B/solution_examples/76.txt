@@ -1,0 +1,16 @@
+n = int(input())
+
+a = [[False] * 14 for i in range(4)]
+
+t = 'SHCD'
+dic = {t[i]: a[i] for i in range(4)}
+
+for i in range(n):
+    k, no = input().split()
+    no = int(no)
+    dic[k][no] = True
+
+for i in range(4):
+    for j in range(1, 14):
+        if not a[i][j]:
+            print(t[i], j)

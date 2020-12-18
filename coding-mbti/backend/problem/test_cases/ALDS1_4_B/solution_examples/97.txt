@@ -1,0 +1,12 @@
+import bisect
+N=int(input())
+S=list(map(int,input().split()))
+Q=int(input())
+T=list(map(int,input().split()))
+X=0
+P=0
+for i in range(Q):
+  X=bisect.bisect_left(S,T[i])
+  if S[X]==T[i]:
+    P=P+1
+print(P)

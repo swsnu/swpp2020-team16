@@ -1,0 +1,18 @@
+n=int(input())
+s=list(map(int,input().split()))
+q=int(input())
+cnt=0
+t=list(map(int,input().split()))
+for i in range(q):
+	l=0
+	r=n
+	while r>l:
+		mid=(l+r)//2
+		if s[mid]==t[i]:
+			cnt+=1
+			break
+		elif s[mid]>t[i]:
+			r=mid
+		else:
+			l=mid+1
+print(cnt)

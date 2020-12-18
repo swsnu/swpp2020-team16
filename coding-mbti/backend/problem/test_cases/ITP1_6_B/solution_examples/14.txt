@@ -1,0 +1,24 @@
+cards_num = int(input())
+
+cards = []
+
+missing_cards = []
+
+for i in range(cards_num):
+    cards.append(input())
+
+for i in range(1, 14):
+    if "S {0}".format(i) not in cards:
+        missing_cards.append("S {0}".format(i))
+for i in range(1, 14):
+    if "H {0}".format(i) not in cards:
+        missing_cards.append("H {0}".format(i))
+for i in range(1, 14):
+    if "C {0}".format(i) not in cards:
+        missing_cards.append("C {0}".format(i))
+for i in range(1, 14):
+    if "D {0}".format(i) not in cards:
+        missing_cards.append("D {0}".format(i))
+
+for i in missing_cards:
+    print(i)

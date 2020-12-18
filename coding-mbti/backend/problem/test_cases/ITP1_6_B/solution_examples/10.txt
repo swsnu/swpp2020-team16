@@ -1,0 +1,36 @@
+n = int(input())
+used = [[False for _ in range(13)] for _ in range(4)]
+
+def suit2Num(suit):
+  if suit == 'S':
+    return 0
+  elif suit == 'H':
+    return 1
+  elif suit == 'C':
+    return 2
+  elif suit == 'D':
+    return 3
+
+  return -1
+
+def num2Suit(num):
+  if num == 0:
+    return 'S'
+  elif num == 1:
+    return 'H'
+  elif num == 2:
+    return 'C'
+  elif num == 3:
+    return 'D'
+
+  return 'N'
+
+for _ in range(n):
+  suit, num = input().split()
+
+  used[suit2Num(suit)][int(num)-1] = True
+
+for i in range(4):
+  for j in range(13):
+    if not used[i][j]:
+      print( num2Suit(i),j+1, sep =' ' )

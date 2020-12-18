@@ -1,0 +1,6 @@
+i=lambda:set(input().split())
+i()
+s=i()
+i()
+t=i()
+print(len(s&t))

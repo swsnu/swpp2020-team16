@@ -1,0 +1,19 @@
+n = int(input())
+S = list(map(int, input().split()))
+q = int(input())
+T = list(map(int, input().split()))
+ 
+count = 0
+for key in T:
+    left = 0
+    right = n
+    while left < right:
+        mid = (right + left) // 2
+        if S[mid] == key:
+            count = count + 1
+            break
+        if key < S[mid]:
+            right = mid
+        else:
+            left = mid + 1
+print(count)

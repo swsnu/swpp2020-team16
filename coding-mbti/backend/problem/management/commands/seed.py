@@ -1,7 +1,6 @@
 import os
-import logging
 import numpy as np
-
+from random import randrange, uniform
 
 from django.core.management.base import BaseCommand
 from django.conf import settings
@@ -10,6 +9,11 @@ from user.models import User, Coder, CodingStyle
 from problem.models import Problem, ProblemInput, ProblemOutput, Solution
 from analysis.models import SolutionReport, UserReport
 
+
+def read_solution_example(sid, pid):
+    with open(f"{settings.PROB_DIR}/test_cases/{pid}/solution_examples/{sid}.txt", "r") as f:
+        solution_example = f.read()
+    return solution_example
 
 
 def read_test_cases(option, pid):
@@ -51,13 +55,6 @@ def parse_output(output_filename):
     return outputs
 
 
-logger = logging.getLogger(__name__)
-# python manage.py seed --mode=init
-
-MODE_INIT = "init"
-MODE_CLEAR = "clear"
-
-
 class Command(BaseCommand):
     help = "seed database for testing and development."
 
@@ -68,19 +65,6 @@ class Command(BaseCommand):
         self.stdout.write("seeding data...")
         run_seed(self, options["mode"])
         self.stdout.write("done.")
-
-
-def clear_data():
-    logger.info("Delete Problem instances")
-    Problem.objects.all().delete()
-    ProblemInput.objects.all().delete()
-    ProblemOutput.objects.all().delete()
-    User.objects.all().delete()
-    Coder.objects.all().delete()
-    CodingStyle.objects.all().delete()
-    Solution.objects.all().delete()
-    SolutionReport.objects.all().delete()
-    UserReport.objects.all().delete()
 
 
 def create_problem_input_output_to_database(problem_id):
@@ -101,6 +85,7 @@ def create_problem_input_output_to_database(problem_id):
     )
     problem.save()
 
+    assert(len(parsed_inputs) == len(parsed_outputs))
 
     for i in range(len(parsed_inputs)):
         problem_input = ProblemInput(
@@ -115,65 +100,94 @@ def create_problem_input_output_to_database(problem_id):
         problem_output.save()
 
 
-def sampling_without_replacement():
-    return np.random.choice(range(300), size=80, replace=False, p=None)
+def create_single_coder(num, style, problems):
+    user = User(
+        username=f"user{num}", password="pbkdf2_sha256$216000$dLAEQvY7dMNY$xwzmhoRJjxK91PNu3KnPE5b5MGPEAtSzDafu5qfJAJo=", email=f"user{num}@test.com", salt="123", role=1)
+    user.save()
 
-
-
-def create_single_coder(num, style, problem1, problem2):
-    user = User.objects.create_user(
-            username=f"user{num}", password="12345678", email=f"user{num}@test.com", salt="123", role=1)
-
-    coding_style = CodingStyle(style=style, UM_value=0, TI_value=0,EF_value=0,JC_value=0)
+    coding_style = CodingStyle(
+        style=style, UM_value=0.5, TI_value=0.5, RT_value=0.5, JC_value=0.5)
     coding_style.save()
 
     coder = Coder(user=user, style=coding_style)
     coder.save()
 
-    solution1 = Solution(
-            problem=problem1, code="test", erase_cnt=0, elapsed_time=0, author_id=user.id)
-    solution1.save()
+    solutions = []
+    for problem in problems:
+        # 여기서부터 변경했습니다.
+        code = read_solution_example(randrange(0, 100), problem.pid)
+        erase_cnt = randrange(200, 300)
+        elapsed_time = randrange(13, 100)
+        evalutaion = uniform(0, 1)
 
-    SolutionReport(
-            solution=solution1, author=user, title="ITP_1_6_B_report", code="test"
-    ).save()
+        solution = Solution(
+            problem=problem, code=code, erase_cnt=erase_cnt,
+            elapsed_time=elapsed_time, author_id=user.id, evalutaion=evalutaion)
+        solution.save()
 
-    solution2 = Solution(
-            problem=problem2, code="test", erase_cnt=0, elapsed_time=0, author_id=user.id)
-    solution2.save()
+        SolutionReport(
+            solution=solution, author=user, title=f"{problem.pid}_report", code=code
+        ).save()
 
-    SolutionReport(
-            solution=solution2, author=user, title="ITP_2_3_B_report", code="test"
-    ).save()
+        solutions.append(solution)
 
     user_report = UserReport(
-                author=user, solution1=solution1.code, solution2=solution2.code,
-                title=f"{user.username}'s report")
+        author=user, solution1=solutions[0].code, solution2=solutions[1].code, solution3=solutions[2].code,
+        title=f"{user.username}'s report")
     user_report.to_dict()
     user_report.save()
 
-def create_coder_by_style():
-    problem1 = Problem.objects.all().first()
-    problem2 = Problem.objects.all().last()
-    style=0
-    for idx, num in enumerate(sampling_without_replacement()):
-        if idx % 5 == 0 :
-            style +=1
-        create_single_coder(num,style, problem1, problem2)
 
-def create_data(_self):
-    _self.stdout.write("seeding data...")
+def seed_group_with_manager(_self):
+    user1 = User.objects.create_user(
+        username="manager_user1", password="123", email="test@test.com", salt="123", role=User.Role.Manager
+    )
+    user1.save()
+    manager1 = Manager(user=user1)
+    manager1.save()
 
+    user2 = User.objects.create_user(
+        username="manager_user2", password="123", email="test2@test.com", salt="123", role=User.Role.Manager
+    )
+    user2.save()
+    manager2 = Manager(user=user2)
+    manager2.save()
+
+    group = Group(name="group_1", manager=manager1)
+    group.save()
+
+
+def seed_coder_by_style(_self):
+    problems = list(map(lambda x: Problem.objects.get(
+        pid=x), list_problem_ids(_self)))
+
+    numStyles = 16
+    numUsersByStyle = 5
+    numUsers = numUsersByStyle * numStyles
+
+    _self.stdout.write(
+        f"{numUsersByStyle} coders for each of {numStyles} styles will be created!")
+    _self.stdout.write(f"total {numUsersByStyle * numStyles} coders!")
+
+    for idx, userId in enumerate(range(numUsers)):
+        create_single_coder(userId, idx % numStyles + 1, problems)
+        if idx % 10 == 0:
+            _self.stdout.write(f"[ {idx} / {numUsers} ] completed...")
+
+
+def seed_problem_input_output_all_at_once(_self):
     for problem_id in list_problem_ids(_self):
         _self.stdout.write(problem_id)
         create_problem_input_output_to_database(problem_id)
-    create_coder_by_style()
-    _self.stdout.write("problems, inputs, outputs are created.")
-
 
 
 def run_seed(_self, mode):
-    clear_data()
-    if mode == MODE_CLEAR:
-        return
-    create_data(_self)
+    _self.stdout.write("seeding data...")
+
+    seed_problem_input_output_all_at_once(_self)
+    _self.stdout.write(
+        "[Done] problems, inputs, outputs are created all at once.")
+
+    seed_coder_by_style(_self)
+    _self.stdout.write(
+        "[Done] 5 coders by each 16 style are created.")

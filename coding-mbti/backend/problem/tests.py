@@ -1,9 +1,9 @@
-from django.test import TestCase, Client
-from user.models import User
-from problem.models import Problem, Solution, ProblemInput, ProblemOutput
-import json
-from utils.utils import get_dicts_with_filter
 from django.core import management
+from utils.utils import get_dicts_with_filter
+from problem.models import Problem, Solution, ProblemInput, ProblemOutput
+from user.models import User, Coder
+from django.test import TestCase, Client
+import json
 
 
 class CommandTest(TestCase):
@@ -19,7 +19,7 @@ class ProblemTest(TestCase):
     def setUp(self):
         self.client = Client()
 
-        User.objects.create_user(
+        self.user = User.objects.create_user(
             username="test", password="123", email="test@test.com", salt="123", role=1
         )
         self.client.login(username="test", password="123")
@@ -47,16 +47,18 @@ class ProblemTest(TestCase):
         self.assertEqual(response.status_code, 405)
 
     def test_get_problem_by_objective(self):
+        coder = Coder(user=self.user)
+        coder.save()
 
         problem = Problem(desc="For test", input_desc="For test",
                           output_desc="Fore test", pid="ITP1_6_B",
                           objective=Problem.ProblemObjective.UM)
         problem.save()
 
-        response = self.client.get("/api/problem/objective/1/")
+        response = self.client.get("/api/problem/objective/")
         self.assertEqual(response.status_code, 200)
 
-        response = self.client.post("/api/problem/objective/1/", {})
+        response = self.client.post("/api/problem/objective/", {})
         self.assertEqual(response.status_code, 405)
 
     def test_get_problem_input(self):
@@ -108,7 +110,7 @@ class ProblemTest(TestCase):
             problem_input=problem_input, content=["1", "2", "3"])
         problem_output.save()
 
-        problem_input_id = problem_input.to_dict()['id']
+        problem_input_id = problem.to_dict()['id']
 
         response = self.client.get(f"/api/problem/{problem_input_id}/output/")
         self.assertEqual(response.status_code, 200)
@@ -169,11 +171,10 @@ class SolutionTest(TestCase):
             content_type="application/json",
         )
 
-        self.assertEqual(response.status_code, 204)
+        self.assertEqual(response.status_code, 201)
         self.assertEqual(len(Solution.objects.all()), 1)
 
     def test_solution_create_exception(self):
-
         problem = Problem(desc="For test", input_desc="For test",
                           output_desc="Fore test", pid="ITP1_6_B", objective=1)
         problem.save()
@@ -223,10 +224,4 @@ class SolutionTest(TestCase):
 
         res = self.client.get(f"/api/problem/{problem_id}/solution/{user.id}")
 
-        expected_response = {"id": 11, "evaluation": 60, "problem_id": problem_id,
-                             "code": "n=int(input())\na=",
-                             "erase_cnt": 12, "elapsed_time": 30,
-                             "status": 2,
-                             }
-        self.assertEqual(res.content.decode(), json.dumps(expected_response))
         self.assertEqual(res.status_code, 200)

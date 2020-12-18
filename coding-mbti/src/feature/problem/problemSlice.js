@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 /* eslint-disable array-callback-return */
 /* eslint-disable camelcase */
 import { createSlice } from '@reduxjs/toolkit';
@@ -14,6 +15,7 @@ const problemSlice = createSlice({
     title: '',
     objective: '',
     pid: '',
+    error: null,
   },
   reducers: {
     problemRead: {
@@ -21,12 +23,27 @@ const problemSlice = createSlice({
         Object.keys(action.payload).forEach(key => {
           state[key] = action.payload[key];
         });
+        state.error = null;
       },
     },
+    problemReadFail: {
+      reducer(state, action) {
+        return {
+          desc: '',
+          input_desc: '',
+          output_desc: '',
+          id: '',
+          title: '',
+          objective: '',
+          pid: '',
+          error: action.payload,
+        };
+      }
+    }
   },
 });
 
-export const { problemRead } = problemSlice.actions;
+export const { problemRead, problemReadFail } = problemSlice.actions;
 
 export default problemSlice.reducer;
 
@@ -52,4 +69,14 @@ export const readProblem = (problemId) => async (dispatch) => {
   });
 
   dispatch(problemRead(res.data));
+};
+
+export const readProblemByObjective = () => async dispatch => {
+  try {
+    const res = await request.get('problem/objective/');
+    dispatch(problemRead(res.data));
+    return res.data.id;
+  } catch (error) {
+    dispatch(problemReadFail(error.message));
+  }
 };

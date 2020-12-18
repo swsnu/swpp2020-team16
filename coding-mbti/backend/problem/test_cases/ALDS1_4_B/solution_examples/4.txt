@@ -1,0 +1,21 @@
+n = int(input())
+S = [int(x) for x in input().split()]
+
+q = int(input())
+T = [int(x) for x in input().split()]
+
+ans = 0
+for i in range(q):
+    L = 0
+    R = n
+    while L + 1 < R:
+        M = (L + R) // 2
+        if S[M] <= T[i]:
+            L = M
+        else:
+            R = M
+
+    find = S[L] == T[i]
+    ans = ans + find
+print(ans)
+

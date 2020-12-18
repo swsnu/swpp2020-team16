@@ -1,0 +1,18 @@
+from collections import deque
+import sys
+
+sys.setrecursionlimit(10 ** 6)
+int1 = lambda x: int(x) - 1
+p2D = lambda x: print(*x, sep="\n")
+
+def main():
+    input()
+    s=list(map(int,input().split()))
+    input()
+    t=list(map(int,input().split()))
+    s=set(s)
+    t=set(t)
+    print(len(s&t))
+
+main()
+

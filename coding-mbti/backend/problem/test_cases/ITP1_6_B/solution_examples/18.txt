@@ -1,0 +1,25 @@
+# -*- coding: utf-8 -*-
+
+import sys
+import os
+
+
+d = {}
+d['S'] = [None for i in range(13)]
+d['H'] = [None for i in range(13)]
+d['C'] = [None for i in range(13)]
+d['D'] = [None for i in range(13)]
+
+N = int(input())
+for i in range(N):
+    sep = input().split()
+    mark = sep[0]
+    number = int(sep[1])
+
+    d[mark][number - 1] = True
+
+for mark in ['S', 'H', 'C', 'D']:
+    lst = d[mark]
+    for i, val in enumerate(lst):
+        if val is None:
+            print(mark, i + 1)

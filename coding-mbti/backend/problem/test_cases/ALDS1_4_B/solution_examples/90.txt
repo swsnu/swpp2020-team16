@@ -1,0 +1,9 @@
+input()
+S = set(input().split())
+input()
+T = set(input().split())
+count = 0
+for t in T:
+    if t in S:
+        count += 1
+print(count)

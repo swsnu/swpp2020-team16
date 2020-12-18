@@ -1,0 +1,15 @@
+# Aizu Problem ALDS_1_4_B: Binary Search
+#
+import sys, math, os
+
+# read input:
+PYDEV = os.environ.get('PYDEV')
+if PYDEV=="True":
+    sys.stdin = open("sample-input2.txt", "rt")
+
+
+_ = input()
+S = set([int(_) for _ in input().split()])
+_ = input()
+T = set([int(_) for _ in input().split()])
+print(len(S.intersection(T)))

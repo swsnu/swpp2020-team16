@@ -11,6 +11,7 @@
   "private": true,
   "dependencies": {
     "@babel/runtime": "^7.12.5",
+    "@giphy/react-components": "^2.0.1",
     "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.9.1",
     "@reduxjs/toolkit": "^1.4.0",
@@ -40,6 +41,7 @@
     "react-alert": "^7.0.2",
     "react-alert-template-basic": "^1.0.0",
     "react-apexcharts": "^1.3.7",
+    "react-awesome-slider": "^4.1.0",
     "react-cookie": "^4.0.3",
     "react-cookies": "^0.1.1",
     "react-dom": "^16.13.1",
@@ -58,12 +60,15 @@
   },
   "scripts": {
     "start": "./node_modules/.bin/env-cmd -e local react-scripts start",
-    "start:prod": "serve -s build -l 3000",
+    "run:built:local": "./node_modules/.bin/env-cmd -e local serve -s build -l 3000",
+    "run:built:dev": "./node_modules/.bin/env-cmd -e dev serve -s build -l 3000",
+    "run:built:prd": "./node_modules/.bin/env-cmd -e prd serve -s build -l 3000",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "coverage": "react-scripts test --coverage",
     "coveralls": "cat ./coverage/lcov.info | node node_modules/.bin/coveralls",
+    "build:local": "./node_modules/.bin/env-cmd -e local react-scripts build",
     "build:dev": "./node_modules/.bin/env-cmd -e dev react-scripts build",
     "build:prd": "./node_modules/.bin/env-cmd -e prd react-scripts build"
   },

@@ -1,0 +1,5 @@
+input()
+s = set(n for n in input().split())
+input()
+t = set(n for n in input().split())
+print(len(s & t))

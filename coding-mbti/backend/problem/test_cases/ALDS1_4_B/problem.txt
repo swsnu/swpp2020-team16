@@ -1,0 +1,5 @@
+objective::3
+title::"Binary Search"
+input_desc::"In the first element, n is given. In the second element, n integers are given. In the third element q is given. Then, in the fourth element, q integers are given."
+output_desc::"Print C in a line."
+desc::"You are given a sequence of n integers S and a sequence of different q integers T. Write a program which outputs C, the number of integers in T which are also in the set S."

@@ -1,0 +1,20 @@
+cards = []
+for i in range(4):
+    if i == 0:
+        a = "S "
+    elif i == 1:
+        a = "H "
+    elif i == 2:
+        a = "C "
+    else:
+        a = "D "
+    for j in range(13):
+        cards.append(a+str(j+1))
+N = int(input())
+for z in range(N):
+    card = input()
+    cards.remove(card)
+for lose in cards:
+    print(lose)
+        
+    

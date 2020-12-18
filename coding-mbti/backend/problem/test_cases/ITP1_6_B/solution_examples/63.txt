@@ -1,0 +1,37 @@
+n = int(input())
+
+Slst = []
+Hlst = []
+Clst = []
+Dlst = []
+
+for i in range(n):
+    a, b = input().split()
+
+    if a == 'S':
+        k = Slst.append(int(b))
+
+    elif a == 'H':
+        k = Hlst.append(int(b))
+
+    elif a == 'C':
+        k = Clst.append(int(b))
+
+    else:
+        k = Dlst.append(int(b))
+
+for i in range(1, 14):
+    if i not in Slst:
+        print('S ' + str(i))
+
+for i in range(1, 14):
+    if i not in Hlst:
+        print('H ' + str(i))
+
+for i in range(1, 14):
+    if i not in Clst:
+        print('C ' + str(i))
+
+for i in range(1, 14):
+    if i not in Dlst:
+        print('D ' + str(i))

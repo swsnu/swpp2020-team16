@@ -1,0 +1,24 @@
+n = int(input())
+S = list(map(int,input().split()))
+q = int(input())
+T = list(map(int,input().split()))
+def bisearch(t):
+    L = -1
+    U = n
+    while U-L >1:
+        x = (L+U)//2
+        if S[x] > t:
+            U = x
+        elif S[x] < t:
+            L =x
+        else:
+            return True
+    return False
+ans = 0
+for t in T:
+    if bisearch(t):
+        ans += 1
+
+print(ans)
+    
+    

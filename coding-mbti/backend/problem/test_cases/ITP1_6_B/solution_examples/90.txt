@@ -1,0 +1,13 @@
+n = int(input())
+card = list()
+mark = ['S','H','C','D']
+for i in range(n):
+ a,b = input().split()
+ b = int(b)
+ if a == 'S': card.append(0+b)
+ elif a == 'H': card.append(13+b)
+ elif a == 'C': card.append(26+b)
+ else: card.append(39+b)
+for i in range(1,53):
+ if not (i in card): 
+     print(mark[(i-1)//13],(i-1)%13+1)

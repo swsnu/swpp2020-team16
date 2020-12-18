@@ -1,0 +1,26 @@
+n = int(input())
+s = sorted(list(set(list(map(int, input().split())))))
+q = int(input())
+t = list(map(int, input().split()))
+
+def bs(alist, num):
+  left = 0
+  right = len(alist)
+  while left < right:
+    mid = (left + right) // 2
+    if num == alist[mid]:
+      return 1
+    else:
+      if alist[mid] < num:
+        left = mid + 1
+      else:
+        right = mid
+
+  return 0
+
+ans = 0
+
+for num in t:
+  ans += bs(s, num)
+
+print(ans)

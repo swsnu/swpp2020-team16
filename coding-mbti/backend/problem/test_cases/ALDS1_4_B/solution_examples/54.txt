@@ -1,0 +1,23 @@
+n = int(input())
+s = [int(_) for _ in input().split()]
+q = int(input())
+t = [int(_) for _ in input().split()]
+ans = 0
+for i in t:
+    if s[0] == i or s[n-1] == i:
+        ans += 1
+        continue
+    l, r = 0, n-1
+    while r-l > 1:
+        m = (l+r)//2
+        if s[m] == i:
+            ans += 1
+            # print(i)
+            break
+        if s[m] < i:
+            l = m
+        else:
+            r = m
+
+print(ans)
+

@@ -1,0 +1,19 @@
+n = int(input())
+S = [int(i) for i in input().split()]
+q = int(input())
+T = [int(i) for i in input().split()]
+
+cnt = 0
+for t in T:
+    low = 0
+    high = len(S) - 1
+    while low <= high:
+        mid = (low + high) // 2
+        if t == S[mid]:
+            cnt += 1
+            break
+        elif t < S[mid]:
+            high = mid - 1
+        else:
+            low = mid + 1
+print(cnt)

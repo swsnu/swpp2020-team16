@@ -1,0 +1,15 @@
+a = []
+
+n = int(input())
+
+for i in ['S', 'H', 'C', 'D']:
+    for j in range(1, 14):
+        a.append([i, j])
+
+for i in range(1, n + 1):
+    ca, integer = input().split()
+    a.remove([ca, int(integer)])
+
+for i in range(len(a)):
+    print(a[i][0]+' %d' % (a[i][1]))
+

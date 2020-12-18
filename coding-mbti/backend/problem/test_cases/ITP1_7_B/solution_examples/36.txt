@@ -1,0 +1,7 @@
+from itertools import combinations
+
+while True:
+    n, x = map(int, input().split())
+    if not n:
+        break
+    print(sum(1 for cmb in combinations(range(1, n + 1), 3) if sum(cmb) == x))

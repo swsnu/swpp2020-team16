@@ -1,0 +1,23 @@
+c=[[False for i in range(13)]for j in range(4)]
+n=int(input())
+for i in range(n):
+    s=input()
+    mark=s.split(' ')[0]
+    rank=int(s.split(' ')[1])
+    if mark=='S':
+        c[0][rank-1]=True
+    elif mark=='H':
+        c[1][rank-1]=True
+    elif mark=='C':
+        c[2][rank-1]=True
+    else:
+        c[3][rank-1]=True
+for i in range(4):
+    for j in range(13):
+        if c[i][j]==False:
+            mark=''
+            if i==0:mark='S'
+            elif i==1:mark='H'
+            elif i==2:mark='C'
+            else:mark='D'
+            print(mark+' '+str(j+1))

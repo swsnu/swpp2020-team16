@@ -1,0 +1,26 @@
+num1 = int(input())
+a1 = list(map(int,input().split()))
+
+num2 = int(input())
+a2 = list(map(int,input().split()))
+
+count = 0
+
+for i in range(num2):
+    left = 0
+    right = num1
+    
+    while left < right:
+        mid = int((left + right) /2)
+        
+        if a1[mid] == a2[i]:
+            count +=1
+            break
+        
+        elif a2[i] < a1[mid]:
+            right = mid
+        else:
+            left = mid +1
+        
+
+print(count)

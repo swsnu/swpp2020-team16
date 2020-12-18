@@ -1,0 +1,21 @@
+import re
+
+question1 =int(input())
+question2 =input()
+question3 =int(input())
+question5 =input()
+
+
+S = re.split(r' ',question2)
+S=list(map(int, S))
+
+T = re.split(r' ',question5)
+T=list(map(int, T))
+
+if (question1==0) or (question3==0):
+    print(0)
+else:
+    S = set(S)
+    T = set(T)
+    matched_list = list(S & T)
+    print(len(matched_list))

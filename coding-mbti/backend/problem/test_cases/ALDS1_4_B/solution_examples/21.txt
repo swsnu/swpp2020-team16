@@ -1,0 +1,17 @@
+import bisect
+
+def main():
+	n = int(input())
+	s = list(map(int,input().split()))
+	q = int(input())
+	t = list(map(int,input().split()))
+	ans = 0
+	for i in t:
+		temp = bisect.bisect_left(s,i)
+		if temp == n:
+			continue
+		if s[temp] == i:
+			ans += 1
+	print(ans)
+
+main()

@@ -1,0 +1,12 @@
+n = int(input())
+
+cards = []
+for i in range(n):
+    a, b = input().split()
+    cards.append([a, int(b)])
+
+for c in ['S', 'H', 'C', 'D']:
+    for num in range(1, 14):
+        if not [c, num] in cards:
+            print(c + ' ' + str(num))
+

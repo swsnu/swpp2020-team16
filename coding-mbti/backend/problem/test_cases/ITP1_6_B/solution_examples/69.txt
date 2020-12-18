@@ -1,0 +1,10 @@
+n = int(input())
+my_cards = {input() for _ in range(n)}
+lost_cards = (
+  "{} {}".format(s, i)
+  for s in ('S', 'H', 'C', 'D')
+  for i in range(1, 13 + 1)
+  if "{} {}".format(s, i) not in my_cards
+)
+for card in lost_cards:
+  print (card)

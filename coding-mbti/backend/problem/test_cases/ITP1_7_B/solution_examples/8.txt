@@ -1,0 +1,16 @@
+# -*- coding: utf-8 -*-
+import sys
+'import math'
+while(1):
+    n,m=input().split()
+    if n=='0' and m=='0':
+        sys.exit()
+    n=int(n)+1
+    m=int(m)
+    cnt=0
+    for a in range(1,n):
+        for b in range(a+1,n):
+            for c in range (b+1,n):
+                if a+b+c==m:
+                    cnt+=1
+    print(cnt)

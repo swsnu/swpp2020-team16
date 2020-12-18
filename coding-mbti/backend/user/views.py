@@ -12,15 +12,18 @@ from rest_framework.decorators import permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authtoken.models import Token
 
-from user.models import User
+from user.models import User, Manager, Coder, Researcher
+from utils.utils import get_dicts_with_filter
 
 
+@ensure_csrf_cookie
 def signin(request):
     if request.method == 'POST':
         try:
             req_data = json.loads(request.body.decode())
             username = req_data['username']
             password = req_data['password']
+
         except (KeyError, JSONDecodeError) as error:
             return HttpResponseBadRequest(error)
 
@@ -32,14 +35,14 @@ def signin(request):
         if not created:
             token_auth.created = datetime.datetime.utcnow().replace(tzinfo=utc)
             token_auth.save()
-
         auth_login(request, user)
-        return JsonResponse({"token": token_auth.key})
+        return JsonResponse({"token": token_auth.key, "role": user.role})
 
     else:
         return HttpResponseNotAllowed(['POST'])
 
 
+@ensure_csrf_cookie
 def signup(request):
     if request.method == 'POST':
         try:
@@ -52,8 +55,18 @@ def signup(request):
             return HttpResponseBadRequest(error)
 
         try:
-            User.objects.create_user(
+            same_name = User.objects.filter(username=username).count()
+            same_email = User.objects.filter(email=email).count()
+            if same_name > 0 or same_email > 0:
+                raise IntegrityError()
+            user = User.objects.create_user(
                 username=username, email=email, salt="", role=role, password=password)
+            if role == User.Role.Coder:
+                Coder(user=user).save()
+            elif role == User.Role.Manager:
+                Manager(user=user).save()
+            elif role == User.Role.Researcher:
+                Researcher(user=user).save()
         except IntegrityError:
             return HttpResponse(status=409)
 
@@ -79,3 +92,14 @@ def token(request):
     if request.method == 'GET':
         return HttpResponse(status=204)
     return HttpResponseNotAllowed(['GET'])
+
+
+def qualified_view(request):
+    if request.method == 'GET':
+        if request.user.is_anonymous:
+            return JsonResponse(False, safe=False)
+        coder = Coder.objects.get(user=request.user)
+
+        return JsonResponse(coder.is_qualified(), safe=False)
+    else:
+        return HttpResponseNotAllowed(['GET'])

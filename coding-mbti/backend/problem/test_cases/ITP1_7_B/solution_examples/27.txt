@@ -1,0 +1,21 @@
+def add(n, sum, count, count2, k):
+    count += 1
+    if k >= sum: 1
+    elif count == 3:
+        if sum <= n:
+            count2 += 1
+        #print(sum, count2, count)
+    else:
+        for i in range(int(sum / 2 - k)):
+            j = i + k + 1
+            #print(j, count2, count)
+            count2 += add(n, sum - j, count, 0, j)
+    return count2
+
+while True:
+    n, m = map(int, input().split())
+    if n == 0 and m == 0:
+        break
+    print(add(n, m, 0, 0, 0))
+
+

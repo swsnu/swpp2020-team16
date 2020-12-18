@@ -1,0 +1,14 @@
+def main():
+    from itertools import combinations as c
+    while True:
+        n,x=map(int,input().split())
+        if n==0 and x==0:
+           break
+        else:
+            cnt=0
+            for s in c(range(1,n+1),3):
+                if sum(s)==x:
+                    cnt+=1
+            print(cnt)
+if __name__=='__main__':
+    main()

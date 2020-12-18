@@ -1,0 +1,13 @@
+from bisect import bisect_left
+
+n = int(input())
+S = [int(t) for t in input().split()]
+q = int(input())
+T = [int(t) for t in input().split()]
+assert n == len(S) and q == len(T)
+
+def isin(t, S):
+    i = bisect_left(S, t)
+    return i < len(S) and S[i] == t
+
+print(sum(1 for t in T if isin(t, S)))

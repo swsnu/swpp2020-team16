@@ -1,0 +1,18 @@
+n = int(input())
+S = list(map(int, input().split()))
+q = int(input())
+T = list(map(int, input().split()))
+c = 0
+for i in range(q):
+    l = 0
+    r = n
+    t = T[i]
+    while r-l > 1:
+        m = (r + l)//2
+        if (S[m] > t):
+            r = m
+        else:
+            l = m
+    if (S[l] == T[i]):
+        c += 1
+print(c)

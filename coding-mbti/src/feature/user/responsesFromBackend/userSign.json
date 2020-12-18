@@ -1,5 +1,6 @@
 {
     "data": {
-        "token": "token test"
+        "token": "token test",
+        "role": 1
     }
 }

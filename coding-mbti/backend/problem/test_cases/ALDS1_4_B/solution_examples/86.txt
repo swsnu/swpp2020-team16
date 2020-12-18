@@ -1,0 +1,29 @@
+#! python3
+# binary_search.py
+
+n = int(input())
+S = [int(x) for x in input().split(' ')]
+q = int(input())
+T = [int(x) for x in input().split(' ')]
+
+def binary_search(t):
+    global S
+    min_i, max_i = 0, len(S)-1
+    i = int((min_i + max_i)/2)
+    while min_i <= max_i:
+        if t == S[i]:
+            return i
+            break
+        elif t < S[i]:
+            max_i = i - 1
+        else:
+            min_i = i + 1
+        i = int((min_i + max_i)/2)
+    return None
+
+c = 0
+for t in T:
+    if binary_search(t) != None:
+        c += 1
+print(c)
+

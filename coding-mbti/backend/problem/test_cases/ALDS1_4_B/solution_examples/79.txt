@@ -1,0 +1,22 @@
+import sys
+import math
+import fractions
+import itertools
+from collections import deque
+import copy
+import bisect
+
+MOD = 10 ** 9 + 7
+INF = 10 ** 18 + 7
+input = lambda: sys.stdin.readline().strip()
+n = int(input())
+S = set(map(int,input().split()))
+q = int(input())
+T = list(map(int,input().split()))
+ans = 0
+for i in T:
+    if i in S:
+        ans += 1
+print(ans)
+
+

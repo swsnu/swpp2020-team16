@@ -1,0 +1,5 @@
+n = input()
+s = set(map(int, input().split()))
+q = input()
+t = set(map(int, input().split()))
+print(len(t & s))

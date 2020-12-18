@@ -1,0 +1,12 @@
+while True:
+    n,m = map(int, input().split())
+    if n==0 and m==0:
+        break
+    cnt = 0
+    for i in reversed(range(1,n+1)):
+        for j in reversed(range(1,i)):
+            for k in reversed(range(1,j)):
+                if i+j+k == m:
+                    cnt += 1
+                    break
+    print(cnt)

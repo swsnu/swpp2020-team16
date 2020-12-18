@@ -4,33 +4,59 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import './App.css';
 import PropTypes from 'prop-types';
 
-import Home from './containers/Home';
-import StyleGrid from './components/StyleGrid';
-import OtherSolution from './containers/OtherSolutions';
-import UserRelations from './containers/UserRelations';
-import SignIn from './containers/SignIn';
-import SignUp from './containers/SignUp';
-import Check from './containers/Check';
-import Result from './containers/Result';
-import MyTestResult from './containers/MyTestResult';
-import ResearchAPI from './containers/ResearchAPI';
+/* HOC */
 import AuthRoute from './HOC/AuthRoute';
+
+/* Containers */
+import OtherSolution from './containers/AnalysisResult/OtherSolutions';
+import UserRelations from './containers/AnalysisResult/UserRelations';
+import SignIn from './containers/Auth/SignIn';
+import SignUp from './containers/Auth/SignUp';
+import Check from './containers/CodeIDE/Check';
+import Home from './containers/MainPage/Home';
+import MyTestResult from './containers/AnalysisResult/MyTestResult';
+import ResearchAPI from './containers/Research/ResearchAPI';
+import GroupDetail from './containers/Group/GroupDetail';
+import LoggedInHome from './containers/MainPage/LoggedInHome';
+import Invitation from './containers/Invitation/Invitation';
+import StyleGrid from './containers/UI/StyleGrid';
+import BeforeSolve from './containers/MainPage/BeforeSolve';
+import Group from './containers/Group/Group';
+import Types from './containers/UI/Types';
+import OtherTestResult from './containers/AnalysisResult/OtherTestResult';
+
+/* Components */
+
+import Navbar from './components/UI/Navbar';
+import Footer from './components/UI/Footer';
+import NotFound from './components/UI/NotFound';
 
 function App(props) {
   const { history } = props;
   return (
     <Router history={history}>
+      <Navbar />
       <Switch>
         <Route exact path="/" component={Home} />
         <Route exact path="/signin/" component={SignIn} />
         <Route exact path="/signup/" component={SignUp} />
-        <Route exact path="/relation/" component={UserRelations} />
-        <Route exact path="/research/api" component={ResearchAPI} />
+        <Route exact path="/types/:style" render={(props) => <Types {...props} />} />
+
+        <AuthRoute exact path="/relation/" component={UserRelations} />
+        <AuthRoute exact path="/research/api/" component={ResearchAPI} />
+        <AuthRoute exact path="/home" component={LoggedInHome} />
+        <AuthRoute exact path="/beforesolve" component={BeforeSolve} />
+        <AuthRoute exact path="/solve" component={Check} />
+        <AuthRoute exact path="/my/tests/results" component={MyTestResult} />
+        <AuthRoute exact path="/group" component={Group} />
+        <AuthRoute exact path="/invitation" component={Invitation} />
+
         <Route
-          path="/check/:pid"
           exact
-          render={(props) => <Check {...props} />}
+          path="/check/result/:pid"
+          render={(props) => <StyleGrid {...props} />}
         />
+
         <Route
           exact
           path="/check/result/:pid/:style"
@@ -38,16 +64,25 @@ function App(props) {
         />
         <Route
           exact
-          path="/check/result/:pid"
-          render={(props) => <StyleGrid {...props} />}
+          path="/other/tests/results/:userid"
+          render={(props) => <OtherTestResult {...props} />}
         />
-        <AuthRoute exact path="/check/result">
-          <Result />
-        </AuthRoute>
-        <AuthRoute exact path="/my/tests/results">
-          <MyTestResult />
-        </AuthRoute>
+
+        <Route
+          exact
+          path="/types/:style"
+          render={(props) => <Types {...props} />}
+        />
+
+        <Route
+          exact
+          path="/group/detail/:groupId"
+          render={(props) => <GroupDetail {...props} />}
+        />
+
+        <Route path="*" exact component={NotFound} />
       </Switch>
+      <Footer />
     </Router>
   );
 }

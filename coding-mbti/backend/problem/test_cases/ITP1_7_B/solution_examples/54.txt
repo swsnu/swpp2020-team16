@@ -1,0 +1,19 @@
+ways_list=[]
+
+while True:
+    by_goal=[]
+    ways=0
+    by_goal=input().split()
+    by_goal[0]=int(by_goal[0])
+    by_goal[1]=int(by_goal[1])
+    if by_goal[0]==0 and by_goal[1]==0:
+        break
+    for i in range(1,by_goal[0]+1):
+        for j in range(1,by_goal[0]+1):
+            for k in range(1,by_goal[0]+1):
+                if i+j+k==by_goal[1]:
+                    if i != j and j!=k and k!=i:
+                            ways+=1
+    ways_list.append(ways//6)
+for i in range(0,len(ways_list)):
+    print(ways_list[i])

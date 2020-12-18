@@ -8,6 +8,7 @@ const reportSlice = createSlice({
   initialState: {
     otherReport: { solutions: [], report: {} },
     myReport: { solutions: [], report: {} },
+    globalReport: {},
     selectedUsers: [],
   },
   reducers: {
@@ -36,6 +37,13 @@ const reportSlice = createSlice({
         state.selectedUsers = newSelectedUsers;
       },
     },
+    globalReportRead: {
+      reducer(state, action) {
+        action.payload.forEach(report => {
+          state.globalReport[report.id] = report;
+        });
+      }
+    },
   },
 });
 
@@ -43,16 +51,21 @@ export const {
   myReportRead,
   otherReportRead,
   usersByStyleRead,
+  globalReportRead
 } = reportSlice.actions;
 export default reportSlice.reducer;
 
 export const readMyReport = () => async (dispatch) => {
-  const solutions = await request.get('analysis/my/solutions/');
-  const report = await request.get('analysis/my/report/');
+  try {
+    const solutions = await request.get('analysis/my/solutions/');
+    const report = await request.get('analysis/my/report/');
+    const response = { solutions: solutions.data, report: report.data };
 
-  const response = { solutions: solutions.data, report: report.data };
-
-  dispatch(myReportRead(response));
+    dispatch(myReportRead(response));
+    return true;
+  } catch {
+    return false;
+  }
 };
 
 export const createMyReport = () => async () => {
